@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 
 /**
  *
- * @author cmcki
+ * @author Cody McKinney
  */
 public class ImportDataAction implements ActionListener {
     

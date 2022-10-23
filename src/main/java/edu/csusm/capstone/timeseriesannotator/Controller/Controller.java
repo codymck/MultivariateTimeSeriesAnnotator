@@ -4,13 +4,9 @@
  */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
-import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
-import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
-import java.io.File;
-
 /**
  *
- * @author cmcki
+ * @author Cody McKinney
  */
 public class Controller {
     

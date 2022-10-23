@@ -4,10 +4,8 @@
  */
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import edu.csusm.capstone.timeseriesannotator.Model.*;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  *

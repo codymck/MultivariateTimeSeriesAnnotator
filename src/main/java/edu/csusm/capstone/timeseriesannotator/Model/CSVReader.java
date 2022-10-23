@@ -26,13 +26,14 @@ public class CSVReader implements DataReader {
     public void buildDataList(String fileName) {
             var dataRows = new ArrayList<float[]>();
             String[] columnNames;
+            String[] values;
             
             try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             int i = 0;
             while ((line = br.readLine()) != null) {
                 if (i != 0) {
-                    String[] values = line.split(",");
+                    values = line.split(",");
                     System.out.println(Arrays.toString(values));
                 } else {
                 columnNames = line.split(",");

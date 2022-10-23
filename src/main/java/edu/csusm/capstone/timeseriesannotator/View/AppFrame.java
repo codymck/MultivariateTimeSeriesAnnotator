@@ -13,12 +13,12 @@ import java.io.File;
  *
  * @author cmcki
  */
-public class Frame extends javax.swing.JFrame {
+public class AppFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form Frame
      */
-    public Frame() {
+    public AppFrame() {
         initComponents();
     }
 

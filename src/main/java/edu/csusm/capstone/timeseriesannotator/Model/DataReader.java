@@ -7,7 +7,7 @@ package edu.csusm.capstone.timeseriesannotator.Model;
 
 /**
  *
- * @author cmcki
+ * @author Cody McKinney
  */
 public interface DataReader {
 

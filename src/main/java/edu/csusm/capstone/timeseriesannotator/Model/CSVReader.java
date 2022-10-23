@@ -12,35 +12,70 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
- * @author cmcki
+ * @author Ben Theurich
+ * @author Cody McKinney
  */
 public class CSVReader implements DataReader {
+
+    ArrayList<String[]> dataRows;
     
+    private Map<String, Float[]> columns = new HashMap<>();
+
+    /**
+     * Class constructor.
+     */
     public CSVReader() {
-        
+
     }
-    
+
+    /**
+     *
+     * @param fileName - name of the file that has been imported
+     */
+    @Override
     public void buildDataList(String fileName) {
-            var dataRows = new ArrayList<float[]>();
-            String[] columnNames;
-            
-            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        dataRows = new ArrayList<String[]>();
+        
+        try ( BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             int i = 0;
             while ((line = br.readLine()) != null) {
                 if (i != 0) {
                     String[] values = line.split(",");
-                    System.out.println(Arrays.toString(values));
+                    dataRows.add(values);
                 } else {
-                columnNames = line.split(",");
-                System.out.println(Arrays.toString(columnNames));
+                    String[] columnNames = line.split(",");
+                    dataRows.add(columnNames);
                 }
                 i++;
-                if (i == 4) { break;}
+                //if (i == 4) { break;}
             }
+            
+            // iterates through every "column"
+            for (int j = 1; j < dataRows.get(0).length; j++){
+                Float[] tempArray = new Float[dataRows.size()];
+                // iterates through every "row"
+                for(int d = 1; d < dataRows.size(); d++){
+                    tempArray[d-1] = (Float.valueOf(dataRows.get(d)[j]));
+                }
+                // add keypair to hashmap
+                columns.put(dataRows.get(0)[j], tempArray);
+            }
+            
+            // printing out each keypair in the hashmap
+            for (var name: columns.keySet()){
+                String key = name;
+                String value = Arrays.toString(columns.get(name));
+                System.out.println(key + "" + value);
+            }
+            
+            // HOW TO PRINT ONE LINE OF THE dataRows ArrayList of String arrays
+            // System.out.println(Arrays.toString(dataRows.get(4321))); 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DataReader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -48,4 +83,12 @@ public class CSVReader implements DataReader {
         }
     }
     
+    /**
+     *
+     * @param s - key in hashmap (chosen by user)
+     * @return - return an array of float values corresponding to the key s
+     */
+    public Float[] getColumn(String s){
+        return columns.get(s);
+    }
 }

@@ -10,7 +10,7 @@ import javax.swing.UIManager;
 
 /**
  * 
- * @author cmcki
+ * @author Cody McKinney
  */
 public class TimeSeriesAnnotator {
 

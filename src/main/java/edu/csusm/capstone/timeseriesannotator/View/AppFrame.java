@@ -11,7 +11,7 @@ import java.io.File;
 
 /**
  *
- * @author cmcki
+ * @author Cody McKinney
  */
 public class AppFrame extends javax.swing.JFrame {
 
@@ -37,7 +37,7 @@ public class AppFrame extends javax.swing.JFrame {
         editMenuItem = new javax.swing.JMenu();
         toolsMenuItem = new javax.swing.JMenu();
 
-        importChooser.setCurrentDirectory(new java.io.File("C:\\Users\\cmcki\\Desktop\\TimeSeriesAnnotator\\dataFiles"));
+        importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Multivariate Time Series Annotator");

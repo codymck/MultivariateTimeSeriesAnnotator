@@ -9,7 +9,7 @@ import edu.csusm.capstone.timeseriesannotator.View.Frame;
 import javax.swing.UIManager;
 
 /**
- * Cody's Branch
+ * 
  * @author cmcki
  */
 public class TimeSeriesAnnotator {

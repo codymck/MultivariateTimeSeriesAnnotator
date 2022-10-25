@@ -22,8 +22,8 @@ import java.util.Map;
  */
 public class CSVReader implements DataReader {
 
-    ArrayList<String[]> dataRows;
-    
+    private ArrayList<String[]> dataRows;
+    private String[] headers;
     private Map<String, Float[]> columns = new HashMap<>();
 
     /**
@@ -41,23 +41,30 @@ public class CSVReader implements DataReader {
     public void buildDataList(String fileName) {
         dataRows = new ArrayList<String[]>();
         
+        
         try ( BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             int i = 0;
             while ((line = br.readLine()) != null) {
-                if (i != 0) {
+                if (i == 0) {
+                    String[] columnNames = line.split(",");
+                    for(int j = 0; j < columnNames.length; j++){
+                        if(columnNames[j].isBlank()){
+                            columnNames[j] = "null";
+                        }
+                    }
+                    headers = columnNames;
+                    dataRows.add(columnNames);
+                } else {
                     String[] values = line.split(",");
                     dataRows.add(values);
-                } else {
-                    String[] columnNames = line.split(",");
-                    dataRows.add(columnNames);
                 }
                 i++;
                 //if (i == 4) { break;}
             }
             
             // iterates through every "column"
-            for (int j = 1; j < dataRows.get(0).length; j++){
+            for (int j = 0; j < dataRows.get(0).length; j++){
                 Float[] tempArray = new Float[dataRows.size()];
                 // iterates through every "row"
                 for(int d = 1; d < dataRows.size(); d++){
@@ -73,7 +80,7 @@ public class CSVReader implements DataReader {
                 String value = Arrays.toString(columns.get(name));
                 System.out.println(key + "" + value);
             }
-            
+                        
             // HOW TO PRINT ONE LINE OF THE dataRows ArrayList of String arrays
             // System.out.println(Arrays.toString(dataRows.get(4321))); 
         } catch (FileNotFoundException ex) {
@@ -90,5 +97,13 @@ public class CSVReader implements DataReader {
      */
     public Float[] getColumn(String s){
         return columns.get(s);
+    }
+
+    /**
+     *
+     * @return - return the array of header strings
+     */
+    public String[] getHeaders(){
+        return headers;
     }
 }

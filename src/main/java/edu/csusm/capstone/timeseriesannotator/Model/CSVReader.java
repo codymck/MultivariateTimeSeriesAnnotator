@@ -57,6 +57,11 @@ public class CSVReader implements DataReader {
                     dataRows.add(columnNames);
                 } else {
                     String[] values = line.split(",");
+                    for(int j = 0; j < values.length; j++){
+                        if(values[j].isBlank()){
+                            values[j] = "null";
+                        }
+                    }
                     dataRows.add(values);
                 }
                 i++;

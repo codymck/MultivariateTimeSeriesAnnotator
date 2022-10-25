@@ -6,6 +6,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
+import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,6 +40,11 @@ public class ImportDataAction implements ActionListener {
            if ("csv".equals(fileType[1])) {
                System.out.println("CSV File Imported");
                dReader = new CSVReader();
+               dReader.buildDataList(fileName);
+           }
+           else if ("hdf5".equals(fileType[1]) || "h5".equals(fileType[1])) {
+               System.out.println("HDF5 File Imported");
+               dReader = new HDFReader();
                dReader.buildDataList(fileName);
            }
            else {

@@ -38,17 +38,17 @@ public class ImportDataAction implements ActionListener {
            String[] fileType = fileName.split("[.]");
            
            if ("csv".equals(fileType[1])) {
-               System.out.println("CSV File Imported");
+               System.out.println("ImportDataAction: CSV File Imported");
                dReader = new CSVReader();
                dReader.buildDataList(fileName);
            }
            else if ("hdf5".equals(fileType[1]) || "h5".equals(fileType[1])) {
-               System.out.println("HDF5 File Imported");
+               System.out.println("ImportDataAction: HDF5 File Imported");
                dReader = new HDFReader();
                dReader.buildDataList(fileName);
            }
            else {
-               System.out.println("Unsupported File Type");
+               System.out.println("ImportDataAction: Unsupported File Type");
                // TODO build popup window with error message for unsupported file type
            }
         }

@@ -24,6 +24,30 @@ public class ImportDataAction implements ActionListener {
         this.importChooser = importChooser;
         
     }
+    
+    /**
+     * 
+     * @param file - name of the file we are parsing
+     * @return - returns a string of the file type
+     */
+    public String findFileType(String file) {
+        int n = file.length();
+        String fileType = "";
+        char c;
+        
+        // loop through file name from the end
+        for (int i = file.length() - 1; i >= 0; i--) {
+            c = file.charAt(i);
+            // when we reach a '.' it is the end of file type
+            if (c == '.') {
+                break;
+            }
+            // append character to rever
+            fileType = c + fileType;
+        }
+        
+        return fileType;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -35,14 +59,14 @@ public class ImportDataAction implements ActionListener {
            String fileName = importFile.getAbsolutePath();
            System.out.println(fileName);
            
-           String[] fileType = fileName.split("[.]");
+           String fileType = findFileType(fileName);
            
-           if ("csv".equals(fileType[1])) {
+           if ("csv".equals(fileType)) {
                System.out.println("ImportDataAction: CSV File Imported");
                dReader = new CSVReader();
                dReader.buildDataList(fileName);
            }
-           else if ("hdf5".equals(fileType[1]) || "h5".equals(fileType[1])) {
+           else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
                System.out.println("ImportDataAction: HDF5 File Imported");
                dReader = new HDFReader();
                dReader.buildDataList(fileName);

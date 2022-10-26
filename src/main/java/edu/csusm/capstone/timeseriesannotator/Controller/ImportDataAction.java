@@ -31,7 +31,6 @@ public class ImportDataAction implements ActionListener {
      * @return - returns a string of the file type
      */
     public String findFileType(String file) {
-        int n = file.length();
         String fileType = "";
         char c;
         

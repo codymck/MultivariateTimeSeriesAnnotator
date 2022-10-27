@@ -1,20 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE!
-edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testGetColumn()  Time elapsed: 0 sec  <<< FAILURE!
-org.opentest4j.AssertionFailedError: The test case is a prototype.
-	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:39)
-	at org.junit.jupiter.api.Assertions.fail(Assertions.java:109)
-	at edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testGetColumn(CSVReaderTest.java:65)
-
-edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList()  Time elapsed: 0 sec  <<< FAILURE!
-java.lang.RuntimeException: Uncompilable code - illegal start of expression
-	at edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList(CSVReaderTest.java:1)
-
-edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testGetHeaders()  Time elapsed: 0 sec  <<< FAILURE!
-org.opentest4j.AssertionFailedError: The test case is a prototype.
-	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:39)
-	at org.junit.jupiter.api.Assertions.fail(Assertions.java:109)
-	at edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testGetHeaders(CSVReaderTest.java:79)
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 sec

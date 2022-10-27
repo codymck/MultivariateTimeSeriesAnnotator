@@ -6,7 +6,6 @@ package edu.csusm.capstone.timeseriesannotator.Model;
 
 import ch.systemsx.cisd.hdf5.HDF5Factory;
 import ch.systemsx.cisd.hdf5.IHDF5SimpleReader;
-import java.lang.reflect.Array;
 
 /**
  *

@@ -38,7 +38,7 @@ public class CSVReader implements DataReader {
      * @param fileName - name of the file that has been imported
      */
     @Override
-    public void buildDataList(String fileName) {
+        public void buildDataList(String fileName) {
         dataRows = new ArrayList<String[]>();
         
         
@@ -65,15 +65,14 @@ public class CSVReader implements DataReader {
                     dataRows.add(values);
                 }
                 i++;
-                //if (i == 4) { break;}
             }
             
             // iterates through every "column"
             for (int j = 0; j < dataRows.get(0).length; j++){
-                Float[] tempArray = new Float[dataRows.size()];
+                Float[] tempArray = new Float[dataRows.size()-1];
                 // iterates through every "row"
-                for(int d = 1; d < dataRows.size(); d++){
-                    tempArray[d-1] = (Float.valueOf(dataRows.get(d)[j]));
+                for(int d = 0; d < tempArray.length; d++){
+                    tempArray[d] = (Float.valueOf(dataRows.get(d+1)[j]));
                 }
                 // add keypair to hashmap
                 columns.put(dataRows.get(0)[j], tempArray);

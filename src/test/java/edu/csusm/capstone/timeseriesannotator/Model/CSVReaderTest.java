@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Cody McKinney
+ * @author Ramon Duran Rizo
  */
 public class CSVReaderTest {
     
@@ -42,11 +42,18 @@ public class CSVReaderTest {
     @Test
     public void testBuildDataList() {
         System.out.println("buildDataList");
-        String fileName = "";
+        String fileName = "/Users/ramonduran/NetBeansProjects/MultivariateTimeSeriesAnnotator/dataFiles/test.csv";
         CSVReader instance = new CSVReader();
         instance.buildDataList(fileName);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String s[] = instance.getHeaders();
+        /*
+        for(String n: s)
+        {
+            System.out.println(n);
+        }
+        */
+        assertEquals(s[0],"null");
     }
 
     /**

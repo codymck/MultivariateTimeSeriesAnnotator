@@ -51,10 +51,9 @@ public class AppFrame extends javax.swing.JFrame {
         );
         frameDisplayPanelLayout.setVerticalGroup(
             frameDisplayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
+            .addGap(0, 594, Short.MAX_VALUE)
         );
 
-        menuBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         menuBar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
 
         fileMenuItem.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));

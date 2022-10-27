@@ -1,6 +1,9 @@
-C:\Users\benth\MultivariateTimeSeriesAnnotator\src\main\java\edu\csusm\capstone\timeseriesannotator\TimeSeriesAnnotator.java
-C:\Users\benth\MultivariateTimeSeriesAnnotator\src\main\java\edu\csusm\capstone\timeseriesannotator\View\AppFrame.java
-C:\Users\benth\MultivariateTimeSeriesAnnotator\src\main\java\edu\csusm\capstone\timeseriesannotator\Controller\Controller.java
-C:\Users\benth\MultivariateTimeSeriesAnnotator\src\main\java\edu\csusm\capstone\timeseriesannotator\Controller\ImportDataAction.java
-C:\Users\benth\MultivariateTimeSeriesAnnotator\src\main\java\edu\csusm\capstone\timeseriesannotator\Model\CSVReader.java
-C:\Users\benth\MultivariateTimeSeriesAnnotator\src\main\java\edu\csusm\capstone\timeseriesannotator\Model\DataReader.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/View/HDF5dataSelectMenu.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/Controller/Controller.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/View/CSVdataSelectMenu.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/Model/DataReader.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/TimeSeriesAnnotator.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/Model/CSVReader.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/Model/HDFReader.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/View/AppFrame.java
+/Users/josef/NetBeansProjects/MultivariateTimeSeriesAnnotator/src/main/java/edu/csusm/capstone/timeseriesannotator/Controller/ImportDataAction.java

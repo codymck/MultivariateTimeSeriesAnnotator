@@ -73,9 +73,9 @@ public class CSVReader implements DataReader {
             
             // iterates through every "column"
             for (int j = 0; j < dataRows.get(0).length; j++){
-                Float[] tempArray = new Float[dataRows.size()];
+                Float[] tempArray = new Float[dataRows.size()-1];
                 // iterates through every "row"
-                for(int d = 1; d < dataRows.size(); d++){
+                for(int d = 0; d < tempArray.length; d++){
                     tempArray[d-1] = (Float.valueOf(dataRows.get(d)[j]));
                 }
                 // add keypair to hashmap

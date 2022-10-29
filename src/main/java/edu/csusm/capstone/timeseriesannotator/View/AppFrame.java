@@ -47,12 +47,12 @@ public class AppFrame extends javax.swing.JFrame {
         frameDisplayPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextArea1.setEditable(false);
-        jTextArea1.setBackground(new java.awt.Color(0, 0, 255));
+        jTextArea1.setBackground(new java.awt.Color(204, 204, 255));
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Apple Chancery", 0, 48)); // NOI18N
         jTextArea1.setForeground(new java.awt.Color(0, 255, 204));
         jTextArea1.setRows(5);
-        jTextArea1.setText("Fun Fun Fun");
+        jTextArea1.setText("Instructions / Legend?");
         jTextArea1.setToolTipText("");
         jTextArea1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTextArea1.setSelectionColor(new java.awt.Color(51, 51, 51));

@@ -25,6 +25,9 @@ public class CSVReader implements DataReader {
     private ArrayList<String[]> dataRows;
     private String[] headers;
     private Map<String, Float[]> columns = new HashMap<>();
+    
+    int xaxisColumn;
+    int yaxisColumn;
 
     /**
      * Class constructor.
@@ -108,7 +111,15 @@ public class CSVReader implements DataReader {
      *
      * @return - return the array of header strings
      */
+    @Override
     public String[] getHeaders(){
         return headers;
+    }
+    
+    //temp************
+    @Override
+    public void setPaths(String xaxis, String yaxis){
+        xaxisColumn = Integer.parseInt(xaxis);
+        yaxisColumn= Integer.parseInt(yaxis);    
     }
 }

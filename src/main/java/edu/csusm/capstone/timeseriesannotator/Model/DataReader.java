@@ -17,7 +17,5 @@ public interface DataReader {
      */
     public void buildDataList(String fileName);
     
-    public String[] getHeaders();
-    
     public void setPaths(String xaxis, String yaxis);
 }

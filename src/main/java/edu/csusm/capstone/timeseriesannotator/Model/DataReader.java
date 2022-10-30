@@ -16,4 +16,6 @@ public interface DataReader {
      * @param fileName - name of the file that has been selected
      */
     public void buildDataList(String fileName);
+    
+    public void setPaths(String xaxis, String yaxis);
 }

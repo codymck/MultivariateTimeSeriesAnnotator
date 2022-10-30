@@ -24,4 +24,9 @@ public class HDFReader implements DataReader {
         }
     }
 
+    @Override
+    public void setPaths(String x, String y){
+        String xaxis = x;
+        String yaxis = y;
+    }
 }

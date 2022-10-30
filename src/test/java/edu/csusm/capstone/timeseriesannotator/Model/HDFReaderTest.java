@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Cody McKinney
+ * @author Ramon Duran Rizo
  */
 public class HDFReaderTest {
     

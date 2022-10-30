@@ -16,18 +16,27 @@ import javax.swing.JOptionPane;
  * @author josef
  */
 public class CSVAction implements ActionListener {
-    JDialog dialog; 
+
+    JDialog dialog;
     int xaxis;
     int yaxis;
     private javax.swing.JList<String> XAxisList;
     private javax.swing.JList<String> YAxisList;
+
+    private static CSVAction instance;
     
-    public CSVAction(JDialog w, int x, int y, javax.swing.JList<String> XList, javax.swing.JList<String> YList) {
-        this.dialog = w;
-        this.xaxis = x;
-        this.yaxis = y;
-        this.XAxisList = XList;
-        this.YAxisList = YList;
+    public static CSVAction getInstance() {
+        if (instance == null) {
+            System.err.println("CSVAction has not been initialized");
+        }
+        return instance;
+    }
+
+    public CSVAction(JDialog w, javax.swing.JList<String> XList, javax.swing.JList<String> YList) {
+            this.dialog = w;
+            this.XAxisList = XList;
+            this.YAxisList = YList;
+            this.instance = this;
     }
 
     @Override
@@ -36,16 +45,24 @@ public class CSVAction implements ActionListener {
         yaxis = YAxisList.getSelectedIndex();
 
         System.out.println("Y-Axis: " + yaxis + " X-Axis: " + xaxis);
-        if(yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
+        if (yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
             badIndex();
         }
-        
+
         dialog.dispose();
     }
-    
-    public void badIndex(){
+
+    public void badIndex() {
         JFrame bFrame = new JFrame();
         JOptionPane.showMessageDialog(bFrame, "Select valid indexes", "Error", HEIGHT);
     }
-    
+
+    public String getXAxis() {
+        return String.valueOf(xaxis);
+    }
+
+    public String getYAxis() {
+        return String.valueOf(yaxis);
+    }
+
 }

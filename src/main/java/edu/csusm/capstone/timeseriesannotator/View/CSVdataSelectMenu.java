@@ -4,10 +4,9 @@
  */
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import static java.awt.image.ImageObserver.HEIGHT;
+import edu.csusm.capstone.timeseriesannotator.Controller.CSVAction;
+import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -40,9 +39,10 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         YAxisList = new javax.swing.JList<>();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        csvCoordinateButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("CSV Axis Selection");
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel1.setText("Select X-Axis ");
@@ -56,10 +56,10 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         YAxisList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(YAxisList);
 
-        jToggleButton1.setText("Select Coordinates");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        csvCoordinateButton.setText("Select Coordinates");
+        csvCoordinateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                csvCoordinateButtonActionPerformed(evt);
             }
         });
 
@@ -72,14 +72,14 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(12, 12, 12))
+                .addGap(20, 20, 20))
             .addGroup(layout.createSequentialGroup()
                 .addGap(120, 120, 120)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(csvCoordinateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -94,21 +94,17 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton1)
+                .addComponent(csvCoordinateButton)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-        xaxis = XAxisList.getSelectedIndex();
-        yaxis = YAxisList.getSelectedIndex();
-
-        System.out.println("Y-Axis: " + yaxis + " X-Axis: " + xaxis);
-        if(yaxis == -1 || xaxis == -1 || xaxis == yaxis)badIndex();
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
+          ActionListener csvAction = new CSVAction(this, xaxis, yaxis, XAxisList, YAxisList);
+          csvAction.actionPerformed(evt);
+    }//GEN-LAST:event_csvCoordinateButtonActionPerformed
 
     public String getXPath(){
         return String.valueOf(xaxis);
@@ -122,19 +118,14 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         XAxisList.setModel(new DefaultComboBoxModel<>(h));
         YAxisList.setModel(new DefaultComboBoxModel<>(h));
     }
-    
-    public void badIndex(){
-        JFrame bFrame = new JFrame();
-        JOptionPane.showMessageDialog(bFrame, "Select valid indexes", "Error", HEIGHT);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> XAxisList;
     private javax.swing.JList<String> YAxisList;
+    private javax.swing.JToggleButton csvCoordinateButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

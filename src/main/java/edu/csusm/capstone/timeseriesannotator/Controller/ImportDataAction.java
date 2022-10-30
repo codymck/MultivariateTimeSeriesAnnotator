@@ -41,7 +41,7 @@ public class ImportDataAction implements ActionListener {
             if (c == '.') {
                 break;
             }
-            // append character to rever
+            // append character to fileType
             fileType = c + fileType;
         }
         

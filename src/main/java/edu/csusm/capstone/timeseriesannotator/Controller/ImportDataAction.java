@@ -7,6 +7,8 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
+import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -64,11 +66,20 @@ public class ImportDataAction implements ActionListener {
                System.out.println("ImportDataAction: CSV File Imported");
                dReader = new CSVReader();
                dReader.buildDataList(fileName);
+               CSVReader c = (CSVReader)dReader;
+               String[] headers = c.getHeaders();
+               CSVdataSelectMenu select = new CSVdataSelectMenu(new javax.swing.JFrame(), true);
+               select.setModel(headers);
+               select.setVisible(true);
+               dReader.setPaths(select.getXPath(), select.getYPath());
            }
            else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
                System.out.println("ImportDataAction: HDF5 File Imported");
                dReader = new HDFReader();
                dReader.buildDataList(fileName);
+               HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
+               select.setVisible(true);
+               dReader.setPaths(select.getXPath(), select.getYPath());
            }
            else {
                System.out.println("ImportDataAction: Unsupported File Type");

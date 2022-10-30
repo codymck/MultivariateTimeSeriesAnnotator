@@ -13,6 +13,8 @@ import ch.systemsx.cisd.hdf5.IHDF5SimpleReader;
  */
 public class HDFReader implements DataReader {
     float[] mydata;
+    String xaxis;
+    String yaxis;
         
     @Override
     public void buildDataList(String fileName) {
@@ -26,7 +28,7 @@ public class HDFReader implements DataReader {
 
     @Override
     public void setPaths(String x, String y){
-        String xaxis = x;
-        String yaxis = y;
+        xaxis = x;
+        yaxis = y;
     }
 }

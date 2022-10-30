@@ -102,17 +102,9 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
-          ActionListener csvAction = new CSVAction(this, xaxis, yaxis, XAxisList, YAxisList);
+          ActionListener csvAction = new CSVAction(this, XAxisList, YAxisList);
           csvAction.actionPerformed(evt);
     }//GEN-LAST:event_csvCoordinateButtonActionPerformed
-
-    public String getXPath(){
-        return String.valueOf(xaxis);
-    }
-    
-    public String getYPath(){
-        return String.valueOf(yaxis);
-    }
     
     public void setModel(String[] h) {
         XAxisList.setModel(new DefaultComboBoxModel<>(h));

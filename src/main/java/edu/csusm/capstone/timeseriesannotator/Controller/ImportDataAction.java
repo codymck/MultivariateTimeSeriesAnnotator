@@ -71,7 +71,9 @@ public class ImportDataAction implements ActionListener {
                CSVdataSelectMenu select = new CSVdataSelectMenu(new javax.swing.JFrame(), true);
                select.setModel(headers);
                select.setVisible(true);
-               dReader.setPaths(select.getXPath(), select.getYPath());
+               
+               CSVAction cAction = CSVAction.getInstance();
+               dReader.setPaths(cAction.getXAxis(), cAction.getYAxis());
            }
            else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
                System.out.println("ImportDataAction: HDF5 File Imported");
@@ -79,7 +81,9 @@ public class ImportDataAction implements ActionListener {
                dReader.buildDataList(fileName);
                HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
                select.setVisible(true);
-               dReader.setPaths(select.getXPath(), select.getYPath());
+               
+               HDF5Action hAction = HDF5Action.getInstance();
+               dReader.setPaths(hAction.getXPath(), hAction.getYPath());
            }
            else {
                System.out.println("ImportDataAction: Unsupported File Type");

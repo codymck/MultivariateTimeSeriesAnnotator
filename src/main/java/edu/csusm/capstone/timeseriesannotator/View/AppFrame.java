@@ -56,7 +56,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         menuBar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
 
-        fileMenuItem.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         fileMenuItem.setText("File");
 
         importDataMenuItem.setText("Import Data");
@@ -69,11 +68,9 @@ public class AppFrame extends javax.swing.JFrame {
 
         menuBar.add(fileMenuItem);
 
-        editMenuItem.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         editMenuItem.setText("Edit");
         menuBar.add(editMenuItem);
 
-        toolsMenuItem.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         toolsMenuItem.setText("Tools");
         menuBar.add(toolsMenuItem);
 

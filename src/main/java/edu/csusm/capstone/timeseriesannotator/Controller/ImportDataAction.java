@@ -77,10 +77,12 @@ public class ImportDataAction implements ActionListener {
            }
            else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
                System.out.println("ImportDataAction: HDF5 File Imported");
-               dReader = new HDFReader();
-               dReader.buildDataList(fileName);
+        
                HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
                select.setVisible(true);
+               
+               dReader = new HDFReader();
+               dReader.buildDataList(fileName);
                
                HDF5Action hAction = HDF5Action.getInstance();
                dReader.setPaths(hAction.getXPath(), hAction.getYPath());

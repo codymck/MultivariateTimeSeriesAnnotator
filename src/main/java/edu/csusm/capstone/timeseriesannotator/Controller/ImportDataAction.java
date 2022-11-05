@@ -92,7 +92,7 @@ public class ImportDataAction implements ActionListener {
                dReader.setPaths(hAction.getXPath(), hAction.getYPath());
                
                DataFormatter df = new DataFormatter(dReader);
-               df.formatHDF5(hAction.getXPath(), hAction.getYPath());
+               df.formatHDF5(HDFReader.xP, HDFReader.yP);
            }
            else {
                System.out.println("ImportDataAction: Unsupported File Type");

@@ -43,12 +43,20 @@ public class DataFormatter {
         
         xData = ArrayUtils.toPrimitive(tempX);
         yData = ArrayUtils.toPrimitive(tempY);
+    }
+    
+    public void formatHDF5(String xPath, String yPath) {
+        System.out.println(xPath+ " " + yPath);
         
-        for (float f : xData) {
-            System.out.print(f + " ");
-        }
-        
-
-        
+        xData = ((HDFReader)dReader).getXData();
+        yData = ((HDFReader)dReader).getYData();
+    }
+    
+    public float[] getXDataset() {
+        return xData;
+    }
+    
+    public float[] getYDataset() {
+        return yData;
     }
 }

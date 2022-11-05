@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <testsuite tests="1" failures="0" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" time="0.019" errors="0" skipped="0">
 =======
@@ -9,6 +10,14 @@
     <property name="java.vm.version" value="17.0.2+8-86"/>
     <property name="sun.boot.library.path" value="/Users/ramonduran/Library/Java/JavaVirtualMachines/openjdk-17.0.2/Contents/Home/lib"/>
     <property name="maven.multiModuleProjectDirectory" value="/Users/ramonduran/NetBeansProjects/MultivariateTimeSeriesAnnotator"/>
+=======
+<testsuite tests="1" failures="1" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" time="0.006" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="java.vm.version" value="18+36-2087"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-18\bin"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\benth\MultivariateTimeSeriesAnnotator"/>
+>>>>>>> main
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -18,6 +27,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="test" value="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+<<<<<<< HEAD
     <property name="user.dir" value="/Users/ramonduran/NetBeansProjects/MultivariateTimeSeriesAnnotator"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="java.runtime.version" value="17.0.2+8-86"/>
@@ -62,15 +72,72 @@
     <property name="maven.home" value="/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven"/>
     <property name="file.separator" value="/"/>
     <property name="java.version.date" value="2022-01-18"/>
+=======
+    <property name="user.dir" value="C:\Users\benth\MultivariateTimeSeriesAnnotator"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.runtime.version" value="18+36-2087"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\benth\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-15\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="classworlds.conf" value="C:\Program Files\NetBeans-15\netbeans\java\maven\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-18\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Program Files\Go\bin;C:\Program Files\nodejs\;C:\Program Files\CMake\bin;C:\Program Files\SlikSvn\bin;C:\Users\benth\AppData\Local\Microsoft\WindowsApps;C:\Users\benth\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Java\jdk-18\bin;C:\Users\benth\go\bin;C:\Users\benth\AppData\Roaming\npm;."/>
+    <property name="maven.conf" value="C:\Program Files\NetBeans-15\netbeans\java\maven/conf"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="62.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.0"/>
+    <property name="library.jansi.path" value="C:\Program Files\NetBeans-15\netbeans\java\maven\lib\jansi-native"/>
+    <property name="user.home" value="C:\Users\benth"/>
+    <property name="user.timezone" value="America/Los_Angeles"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="18"/>
+    <property name="user.name" value="benth"/>
+    <property name="java.class.path" value="C:\Program Files\NetBeans-15\netbeans\java\maven\boot\plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="18"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=C:\Program Files\NetBeans-15\netbeans\java\maven-nblib\netbeans-eventspy.jar test"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-18"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.version" value="18"/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="C:\Program Files\NetBeans-15\netbeans\java\maven"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.version.date" value="2022-03-22"/>
+>>>>>>> main
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
   </properties>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   <testcase classname="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList" time="0.019"/>
 =======
   <testcase classname="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList" time="0.011"/>
 >>>>>>> Stashed changes
+=======
+  <testcase classname="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList" time="0.006">
+    <failure message="expected: &lt;&gt; but was: &lt;null&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;&gt; but was: &lt;null&gt;
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList(CSVReaderTest.java:42)
+</failure>
+    <system-out>buildDataList
+</system-out>
+  </testcase>
+>>>>>>> main
 </testsuite>

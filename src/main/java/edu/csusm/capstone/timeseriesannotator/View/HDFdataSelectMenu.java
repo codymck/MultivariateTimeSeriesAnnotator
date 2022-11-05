@@ -115,14 +115,6 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         HDF5Action.actionPerformed(evt);
     }// GEN-LAST:event_HDF5PathButtonActionPerformed
 
-    public String getXPath() {
-        return xaxis;
-    }
-
-    public String getYPath() {
-        return yaxis;
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton HDF5PathButton;
     private javax.swing.JTextField Xaxispath;

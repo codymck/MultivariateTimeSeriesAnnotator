@@ -1,15 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: edu.csusm.capstone.timeseriesannotator.Model.HDFReaderTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.316 sec <<< FAILURE!
-edu.csusm.capstone.timeseriesannotator.Model.HDFReaderTest.testBuildDataList()  Time elapsed: 0.315 sec  <<< FAILURE!
-ch.systemsx.cisd.hdf5.exceptions.HDF5FileNotFoundException: Path is not a file. (C:\Users\cmcki\Desktop\MTSA\MultivariateTimeSeriesAnnotator)
-	at ch.systemsx.cisd.hdf5.HDF5BaseReader.openFile(HDF5BaseReader.java:229)
-	at ch.systemsx.cisd.hdf5.HDF5BaseReader.<init>(HDF5BaseReader.java:177)
-	at ch.systemsx.cisd.hdf5.HDF5BaseReader.<init>(HDF5BaseReader.java:155)
-	at ch.systemsx.cisd.hdf5.HDF5ReaderConfigurator.reader(HDF5ReaderConfigurator.java:81)
-	at ch.systemsx.cisd.hdf5.HDF5FactoryProvider$HDF5Factory.openForReading(HDF5FactoryProvider.java:55)
-	at ch.systemsx.cisd.hdf5.HDF5Factory.openForReading(HDF5Factory.java:62)
-	at edu.csusm.capstone.timeseriesannotator.Model.HDFReader.buildDataList(HDFReader.java:19)
-	at edu.csusm.capstone.timeseriesannotator.Model.HDFReaderTest.testBuildDataList(HDFReaderTest.java:47)
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE!
+edu.csusm.capstone.timeseriesannotator.Model.HDFReaderTest.testBuildDataList()  Time elapsed: 0 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: The test case is a prototype.
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:39)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:109)
+	at edu.csusm.capstone.timeseriesannotator.Model.HDFReaderTest.testBuildDataList(HDFReaderTest.java:49)
 

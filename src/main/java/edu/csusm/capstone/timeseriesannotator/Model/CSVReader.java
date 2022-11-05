@@ -38,55 +38,53 @@ public class CSVReader implements DataReader {
      * @param fileName - name of the file that has been imported
      */
     @Override
-        public void buildDataList(String fileName) {
+    public void buildDataList(String fileName) {
         dataRows = new ArrayList<String[]>();
-        
-        
+
         try ( BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             int i = 0;
             while ((line = br.readLine()) != null) {
-                if (i == 0) { 
-                    String[] columnNames = line.split(",");
-                    for(int j = 0; j < columnNames.length; j++){
-                        if(columnNames[j].isBlank()){
+                if (i == 0) {
+                    String[] columnNames = line.split(",", -1);
+
+                    for (int j = 0; j < columnNames.length; j++) {
+                        if (columnNames[j].isBlank()) {
                             columnNames[j] = "null";
                         }
                     }
                     headers = columnNames;
                     dataRows.add(columnNames);
-                } else { //need to add flag to verify if beginning and end are blank
-                    String[] values = line.split(",");
-                    System.out.println(values.length);
-                    for(int j = 0; j < values.length; j++){
-                        //System.out.print("nullTest");
-                        if(values[j].isBlank()){
-                            values[j] = "null";
+                } else {
+                    String[] values = line.split(",", -1);
+                    for (int j = 0; j < values.length; j++) {//
+                        if (values[j].isBlank()) {
+                            values[j] = "0.0"; // Ask Ryan what value he would want here
                         }
                     }
                     dataRows.add(values);
                 }
                 i++;
             }
-            
+
             // iterates through every "column"
-            for (int j = 0; j < dataRows.get(0).length; j++){
-                Float[] tempArray = new Float[dataRows.size()-1];
+            for (int j = 0; j < dataRows.get(0).length; j++) {
+                Float[] tempArray = new Float[dataRows.size() - 1];
                 // iterates through every "row"
-                for(int d = 0; d < tempArray.length; d++){
-                    tempArray[d] = (Float.valueOf(dataRows.get(d+1)[j]));
+                for (int d = 0; d < tempArray.length; d++) {
+                    tempArray[d] = (Float.valueOf(dataRows.get(d + 1)[j]));
                 }
                 // add keypair to hashmap
                 columns.put(dataRows.get(0)[j], tempArray);
             }
-            
+
             // printing out each keypair in the hashmap
-            for (var name: columns.keySet()){
-                String key = name;
-                String value = Arrays.toString(columns.get(name));
-                System.out.println(key + "" + value);
-            }
-                        
+//            for (var name : columns.keySet()) {
+//                String key = name;
+//                String value = Arrays.toString(columns.get(name));
+//                System.out.println(key + "" + value);
+//            }
+   
             // HOW TO PRINT ONE LINE OF THE dataRows ArrayList of String arrays
             // System.out.println(Arrays.toString(dataRows.get(4321))); 
         } catch (FileNotFoundException ex) {
@@ -95,13 +93,13 @@ public class CSVReader implements DataReader {
             Logger.getLogger(DataReader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      *
      * @param s - key in hashmap (chosen by user)
      * @return - return an array of float values corresponding to the key s
      */
-    public Float[] getColumn(String s){
+    public Float[] getColumn(String s) {
         return columns.get(s);
     }
 
@@ -109,13 +107,13 @@ public class CSVReader implements DataReader {
      *
      * @return - return the array of header strings
      */
-    public String[] getHeaders(){
+    public String[] getHeaders() {
         return headers;
     }
-    
+
     @Override
-    public void setPaths(String xaxis, String yaxis){
+    public void setPaths(String xaxis, String yaxis) {
         int xaxisColumn = Integer.parseInt(xaxis);
-        int yaxisColumn= Integer.parseInt(yaxis);    
+        int yaxisColumn = Integer.parseInt(yaxis);
     }
 }

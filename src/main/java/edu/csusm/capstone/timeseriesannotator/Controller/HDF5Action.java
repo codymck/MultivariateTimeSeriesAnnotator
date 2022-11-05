@@ -39,11 +39,11 @@ public class HDF5Action implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("HDF5Action: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
-        if(yaxis.isBlank() || xaxis.isEmpty()) {
+        if(yaxis.isBlank() || xaxis.isBlank()) {
             badPath();
+        }else{
+            dialog.dispose();
         }
-        
-        dialog.dispose();
     }
     
     public void badPath(){

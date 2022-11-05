@@ -40,14 +40,12 @@ public class HDFReader implements DataReader {
 //        for (float r : myYdata) {
 //            System.out.print(r + " , ");
 //        }
-        
-        DataFormatter df = new DataFormatter(this);
     }
-    
+
     public float[] getXData() {
         return myXdata;
     }
-    
+
     public float[] getYData() {
         return myYdata;
     }

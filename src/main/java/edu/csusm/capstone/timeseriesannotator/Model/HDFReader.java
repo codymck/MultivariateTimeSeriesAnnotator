@@ -12,23 +12,42 @@ import ch.systemsx.cisd.hdf5.IHDF5SimpleReader;
  * @author Cody McKinney
  */
 public class HDFReader implements DataReader {
-    float[] mydata;
-    String xaxis;
-    String yaxis;
-        
+
+    float[] myXdata;
+    float[] myYdata;
+    String file;
+
     @Override
     public void buildDataList(String fileName) {
-        try (IHDF5SimpleReader reader = HDF5Factory.openForReading(fileName)) {
-            mydata = reader.readFloatArray("00000/000/t");
-        }
-        for (float d : mydata) {
-            System.out.println(d);
-        }
+        this.file = fileName;
     }
 
     @Override
-    public void setPaths(String x, String y){
-        xaxis = x;
-        yaxis = y;
+    public void setPaths(String x, String y) {
+        try ( IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
+            myXdata = reader.readFloatArray(x);
+            myYdata = reader.readFloatArray(y);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        System.out.print("X :   ");
+        for (float d : myXdata) {
+            System.out.print(d + " , ");
+        }
+        System.out.println();
+        System.out.print("Y :   ");
+        for (float r : myYdata) {
+            System.out.print(r + " , ");
+        }
+        
+        DataFormatter df = new DataFormatter(this);
+    }
+    
+    public float[] getXData() {
+        return myXdata;
+    }
+    
+    public float[] getYData() {
+        return myYdata;
     }
 }

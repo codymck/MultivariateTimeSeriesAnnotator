@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< Updated upstream
 <testsuite tests="1" failures="0" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" time="0.019" errors="0" skipped="0">
+=======
+<testsuite tests="1" failures="0" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" time="0.011" errors="0" skipped="0">
+>>>>>>> Stashed changes
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="java.vm.version" value="17.0.2+8-86"/>
@@ -32,7 +36,11 @@
     <property name="java.class.version" value="61.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+<<<<<<< Updated upstream
     <property name="os.version" value="12.5"/>
+=======
+    <property name="os.version" value="13.0"/>
+>>>>>>> Stashed changes
     <property name="library.jansi.path" value="/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven/lib/jansi-native"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="user.home" value="/Users/ramonduran"/>
@@ -60,5 +68,9 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
   </properties>
+<<<<<<< Updated upstream
   <testcase classname="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList" time="0.019"/>
+=======
+  <testcase classname="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList" time="0.011"/>
+>>>>>>> Stashed changes
 </testsuite>

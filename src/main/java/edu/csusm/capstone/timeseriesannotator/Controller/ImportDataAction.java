@@ -5,6 +5,7 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
+import edu.csusm.capstone.timeseriesannotator.Model.DataFormatter;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
@@ -74,6 +75,9 @@ public class ImportDataAction implements ActionListener {
                
                CSVAction cAction = CSVAction.getInstance();
                dReader.setPaths(cAction.getXAxis(), cAction.getYAxis());
+               
+               DataFormatter df = new DataFormatter(dReader);
+               df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
            }
            else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
                System.out.println("ImportDataAction: HDF5 File Imported");
@@ -86,6 +90,8 @@ public class ImportDataAction implements ActionListener {
                
                HDF5Action hAction = HDF5Action.getInstance();
                dReader.setPaths(hAction.getXPath(), hAction.getYPath());
+               
+               DataFormatter df = new DataFormatter(dReader);
            }
            else {
                System.out.println("ImportDataAction: Unsupported File Type");

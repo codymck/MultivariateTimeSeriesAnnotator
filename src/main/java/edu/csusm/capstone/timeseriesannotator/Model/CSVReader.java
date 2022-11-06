@@ -46,7 +46,8 @@ public class CSVReader implements DataReader {
             int i = 0;
             while ((line = br.readLine()) != null) {
                 if (i == 0) {
-                    String[] columnNames = line.split(",");
+                    String[] columnNames = line.split(",", -1);
+
                     for (int j = 0; j < columnNames.length; j++) {
                         if (columnNames[j].isBlank()) {
                             columnNames[j] = "null";
@@ -55,10 +56,10 @@ public class CSVReader implements DataReader {
                     headers = columnNames;
                     dataRows.add(columnNames);
                 } else {
-                    String[] values = line.split(",");
+                    String[] values = line.split(",", -1);
                     for (int j = 0; j < values.length; j++) {//
                         if (values[j].isBlank()) {
-                            values[j] = "null";
+                            values[j] = "0.0"; // Ask Ryan what value he would want here
                         }
                     }
                     dataRows.add(values);

@@ -29,21 +29,25 @@ public class HDF5Action implements ActionListener {
         return instance;
     }
     
+    public static void deleteInstance() {
+        instance = null;
+    }
+    
     public HDF5Action(JDialog w, javax.swing.JTextField Xaxispath, javax.swing.JTextField Yaxispath) {
         this.dialog = w;
         xaxis = Xaxispath.getText();
         yaxis = Yaxispath.getText();
-        this.instance = this;
+        instance = this;
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("HDF5Action: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
-        if(yaxis.isBlank() || xaxis.isEmpty()) {
+        if(yaxis.isBlank() || xaxis.isBlank()) {
             badPath();
+        }else{
+            dialog.dispose();
         }
-        
-        dialog.dispose();
     }
     
     public void badPath(){

@@ -47,9 +47,9 @@ public class CSVAction implements ActionListener {
         System.out.println("CSVAction: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
         if (yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
             badIndex();
+        }else{
+            dialog.dispose();
         }
-
-        dialog.dispose();
     }
 
     public void badIndex() {

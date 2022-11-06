@@ -14,8 +14,6 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class CSVdataSelectMenu extends javax.swing.JDialog {
 
-    int xaxis;
-    int yaxis;
     /**
      * Creates new form CSVdataSelectMenu
      */

@@ -27,7 +27,6 @@ public class HDFReader implements DataReader {
         this.file = fileName;
     }
 
-    @Override
     public void setPaths(String x, String y) {
         xP = x;
         yP = y;

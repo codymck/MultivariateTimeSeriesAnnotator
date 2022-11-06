@@ -110,10 +110,5 @@ public class CSVReader implements DataReader {
     public String[] getHeaders() {
         return headers;
     }
-
-    @Override
-    public void setPaths(String xaxis, String yaxis) {
-        int xaxisColumn = Integer.parseInt(xaxis);
-        int yaxisColumn = Integer.parseInt(yaxis);
-    }
+    
 }

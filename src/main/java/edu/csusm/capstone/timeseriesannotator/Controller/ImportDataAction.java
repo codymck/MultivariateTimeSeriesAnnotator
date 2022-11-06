@@ -67,14 +67,15 @@ public class ImportDataAction implements ActionListener {
                System.out.println("ImportDataAction: CSV File Imported");
                dReader = new CSVReader();
                dReader.buildDataList(fileName);
+               
                CSVReader c = (CSVReader)dReader;
                String[] headers = c.getHeaders();
+               
                CSVdataSelectMenu select = new CSVdataSelectMenu(new javax.swing.JFrame(), true);
                select.setModel(headers);
                select.setVisible(true);
                
                CSVAction cAction = CSVAction.getInstance();
-               dReader.setPaths(cAction.getXAxis(), cAction.getYAxis());
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
@@ -89,7 +90,8 @@ public class ImportDataAction implements ActionListener {
                dReader.buildDataList(fileName);
                
                HDF5Action hAction = HDF5Action.getInstance();
-               dReader.setPaths(hAction.getXPath(), hAction.getYPath());
+               HDFReader h = (HDFReader)dReader;
+               h.setPaths(hAction.getXPath(), hAction.getYPath());
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatHDF5(HDFReader.xP, HDFReader.yP);

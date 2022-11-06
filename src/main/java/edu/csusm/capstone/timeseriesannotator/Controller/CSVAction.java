@@ -57,12 +57,12 @@ public class CSVAction implements ActionListener {
         JOptionPane.showMessageDialog(bFrame, "Select valid indexes", "Error", HEIGHT);
     }
 
-    public String getXAxis() {
-        return String.valueOf(xaxis);
+    public int getXAxis() {
+        return xaxis;
     }
 
-    public String getYAxis() {
-        return String.valueOf(yaxis);
+    public int getYAxis() {
+        return yaxis;
     }
 
 }

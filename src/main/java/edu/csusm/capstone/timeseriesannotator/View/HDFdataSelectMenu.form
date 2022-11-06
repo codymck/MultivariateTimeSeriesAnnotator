@@ -87,6 +87,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="jLabel2"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="X-Axis File Path:"/>
       </Properties>
     </Component>
@@ -96,9 +99,6 @@
           <Color id="Text Cursor"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="XaxispathActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -111,9 +111,6 @@
           <Color id="Text Cursor"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="YaxispathActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="HDF5PathButton">
       <Properties>

@@ -30,16 +30,13 @@ public class DataFormatter {
         }
     }
     
-    public void formatCSV(String xIndex, String yIndex) {
+    public void formatCSV(int xIndex, int yIndex) {
         System.out.println(xIndex + " " + yIndex);
-        
-        int x = Integer.valueOf(xIndex);
-        int y = Integer.valueOf(yIndex);
         
         String[] keys = ((CSVReader)dReader).getHeaders();
         
-        Float[] tempX = ((CSVReader)dReader).getColumn(keys[x]);
-        Float[] tempY = ((CSVReader)dReader).getColumn(keys[y]);
+        Float[] tempX = ((CSVReader)dReader).getColumn(keys[xIndex]);
+        Float[] tempY = ((CSVReader)dReader).getColumn(keys[yIndex]);
         
         xData = ArrayUtils.toPrimitive(tempX);
         yData = ArrayUtils.toPrimitive(tempY);

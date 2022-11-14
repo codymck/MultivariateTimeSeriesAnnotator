@@ -3,3 +3,7 @@
 *.class
 *.class
 *.txt
+target/classes/.netbeans_automatic_build
+*.class
+target/test-classes/.netbeans_automatic_build
+*.class

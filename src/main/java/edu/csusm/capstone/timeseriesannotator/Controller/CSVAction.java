@@ -24,7 +24,7 @@ public class CSVAction implements ActionListener {
     private javax.swing.JList<String> YAxisList;
 
     private static CSVAction instance;
-    
+
     public static CSVAction getInstance() {
         if (instance == null) {
             System.err.println("CSVAction has not been initialized");
@@ -33,10 +33,10 @@ public class CSVAction implements ActionListener {
     }
 
     public CSVAction(JDialog w, javax.swing.JList<String> XList, javax.swing.JList<String> YList) {
-            this.dialog = w;
-            this.XAxisList = XList;
-            this.YAxisList = YList;
-            this.instance = this;
+        this.dialog = w;
+        this.XAxisList = XList;
+        this.YAxisList = YList;
+        CSVAction.instance = this;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CSVAction implements ActionListener {
         System.out.println("CSVAction: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
         if (yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
             badIndex();
-        }else{
+        } else {
             dialog.dispose();
         }
     }

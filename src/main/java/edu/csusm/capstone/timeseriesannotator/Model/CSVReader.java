@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.HashMap;
@@ -41,7 +40,7 @@ public class CSVReader implements DataReader {
     public void buildDataList(String fileName) {
         dataRows = new ArrayList<String[]>();
 
-        try ( BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             int i = 0;
             while ((line = br.readLine()) != null) {
@@ -79,14 +78,14 @@ public class CSVReader implements DataReader {
             }
 
             // printing out each keypair in the hashmap
-//            for (var name : columns.keySet()) {
-//                String key = name;
-//                String value = Arrays.toString(columns.get(name));
-//                System.out.println(key + "" + value);
-//            }
-   
+            // for (var name : columns.keySet()) {
+            // String key = name;
+            // String value = Arrays.toString(columns.get(name));
+            // System.out.println(key + "" + value);
+            // }
+
             // HOW TO PRINT ONE LINE OF THE dataRows ArrayList of String arrays
-            // System.out.println(Arrays.toString(dataRows.get(4321))); 
+            // System.out.println(Arrays.toString(dataRows.get(4321)));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DataReader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -110,5 +109,5 @@ public class CSVReader implements DataReader {
     public String[] getHeaders() {
         return headers;
     }
-    
+
 }

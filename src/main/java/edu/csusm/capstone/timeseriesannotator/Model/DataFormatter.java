@@ -13,6 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 public class DataFormatter {
     
     DataReader dReader;
+    public static DataFormatter dF;
     
     float[] xData;
     float[] yData;
@@ -28,6 +29,12 @@ public class DataFormatter {
             
             dReader = (HDFReader)dR;
         }
+        
+        dF = this;
+    }
+    
+    public static DataFormatter getInstance() {
+        return dF;
     }
     
     public void formatCSV(int xIndex, int yIndex) {
@@ -41,13 +48,15 @@ public class DataFormatter {
         xData = ArrayUtils.toPrimitive(tempX);
         yData = ArrayUtils.toPrimitive(tempY);
         
-        for(float f : xData){
-            System.out.print(f + " ");
-        }
-        System.out.println();
-        for(float f : yData){
-            System.out.print(f + " ");
-        }
+//        for(float f : xData){
+//            System.out.print(f + " ");
+//        }
+//        System.out.println();
+//        for(float f : yData){
+//            System.out.print(f + " ");
+//        }
+        
+        System.out.println("DataFormatted");
     }
     
     public void formatHDF5(String xPath, String yPath) {

@@ -6,6 +6,7 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.event.ActionListener;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -28,12 +29,13 @@ public class AppFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         importChooser = new javax.swing.JFileChooser();
-        frameDisplayPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenuItem = new javax.swing.JMenu();
         importDataMenuItem = new javax.swing.JMenuItem();
         editMenuItem = new javax.swing.JMenu();
         toolsMenuItem = new javax.swing.JMenu();
+        buildChartMenuItem = new javax.swing.JMenuItem();
 
         importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
 
@@ -41,18 +43,8 @@ public class AppFrame extends javax.swing.JFrame {
         setTitle("Multivariate Time Series Annotator");
         setBackground(new java.awt.Color(255, 255, 255));
 
-        frameDisplayPanel.setBackground(new java.awt.Color(153, 153, 153));
-
-        javax.swing.GroupLayout frameDisplayPanelLayout = new javax.swing.GroupLayout(frameDisplayPanel);
-        frameDisplayPanel.setLayout(frameDisplayPanelLayout);
-        frameDisplayPanelLayout.setHorizontalGroup(
-            frameDisplayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 834, Short.MAX_VALUE)
-        );
-        frameDisplayPanelLayout.setVerticalGroup(
-            frameDisplayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 594, Short.MAX_VALUE)
-        );
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         menuBar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
 
@@ -72,6 +64,15 @@ public class AppFrame extends javax.swing.JFrame {
         menuBar.add(editMenuItem);
 
         toolsMenuItem.setText("Tools");
+
+        buildChartMenuItem.setText("Build Chart");
+        buildChartMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildChartMenuItemActionPerformed(evt);
+            }
+        });
+        toolsMenuItem.add(buildChartMenuItem);
+
         menuBar.add(toolsMenuItem);
 
         setJMenuBar(menuBar);
@@ -80,11 +81,11 @@ public class AppFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(frameDisplayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(frameDisplayPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
         );
 
         pack();
@@ -95,13 +96,23 @@ public class AppFrame extends javax.swing.JFrame {
         importAction.actionPerformed(evt);
     }//GEN-LAST:event_importDataMenuItemActionPerformed
 
+    private void buildChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildChartMenuItemActionPerformed
+        ChartPanel cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.LineChart);
+        jPanel1.add(cP);
+        this.pack();
+        this.validate();
+        jPanel1.repaint();
+        jPanel1.revalidate();
+    }//GEN-LAST:event_buildChartMenuItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem buildChartMenuItem;
     private javax.swing.JMenu editMenuItem;
     private javax.swing.JMenu fileMenuItem;
-    private javax.swing.JPanel frameDisplayPanel;
     private javax.swing.JFileChooser importChooser;
     private javax.swing.JMenuItem importDataMenuItem;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu toolsMenuItem;
     // End of variables declaration//GEN-END:variables

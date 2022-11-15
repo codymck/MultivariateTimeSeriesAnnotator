@@ -55,7 +55,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         jToolBar2.setRollover(true);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/csusm/capstone/timeseriesannotator/View/zoomin.png"))); // NOI18N
+        jButton2.setText("ZoomIn");
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setMaximumSize(new java.awt.Dimension(60, 60));
@@ -63,7 +63,7 @@ public class AppFrame extends javax.swing.JFrame {
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar2.add(jButton2);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/csusm/capstone/timeseriesannotator/View/zoomout.png"))); // NOI18N
+        jButton3.setText("ZoomOut");
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setMaximumSize(new java.awt.Dimension(60, 60));
         jButton3.setMinimumSize(new java.awt.Dimension(60, 60));
@@ -75,7 +75,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
         jToolBar2.add(jButton3);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/csusm/capstone/timeseriesannotator/View/4dirs.png"))); // NOI18N
+        jButton4.setText("Arrows");
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setMaximumSize(new java.awt.Dimension(60, 60));
         jButton4.setMinimumSize(new java.awt.Dimension(60, 60));
@@ -87,15 +87,20 @@ public class AppFrame extends javax.swing.JFrame {
         });
         jToolBar2.add(jButton4);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/csusm/capstone/timeseriesannotator/View/select.png"))); // NOI18N
+        jButton1.setText("Highlight");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setMaximumSize(new java.awt.Dimension(60, 60));
         jButton1.setMinimumSize(new java.awt.Dimension(60, 60));
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar2.add(jButton1);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/csusm/capstone/timeseriesannotator/View/annotate.png"))); // NOI18N
+        jButton5.setText("Annotate");
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setMaximumSize(new java.awt.Dimension(60, 60));
@@ -103,7 +108,7 @@ public class AppFrame extends javax.swing.JFrame {
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar2.add(jButton5);
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/csusm/capstone/timeseriesannotator/View/shapes.jpeg"))); // NOI18N
+        jButton6.setText("Shapes");
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setMaximumSize(new java.awt.Dimension(60, 60));
@@ -181,6 +186,10 @@ public class AppFrame extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -8,12 +8,16 @@ import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
 import edu.csusm.capstone.timeseriesannotator.Model.DataFormatter;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
+import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -21,11 +25,14 @@ import javax.swing.JFileChooser;
  */
 public class ImportDataAction implements ActionListener {
     
-    JFileChooser importChooser;
+    ChartPanel cP;
     
-    public ImportDataAction(JFileChooser importChooser) {
+    JFileChooser importChooser;
+    AppFrame fun;
+    
+    public ImportDataAction(JFileChooser importChooser, AppFrame f) {
         this.importChooser = importChooser;
-        
+        this.fun = f;
     }
     
     /**
@@ -53,6 +60,7 @@ public class ImportDataAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         DataReader dReader;
         importChooser.showOpenDialog(null);
         File importFile = importChooser.getSelectedFile();
@@ -63,7 +71,14 @@ public class ImportDataAction implements ActionListener {
            
            String fileType = findFileType(fileName);
            
-           if ("csv".equals(fileType)) {
+           
+           ChartSelectMenu Cselect = new ChartSelectMenu(new javax.swing.JFrame(), true);
+           Cselect.setVisible(true);
+           ChartAction tAction = ChartAction.getInstance();
+           int chartType = tAction.getType();
+           //Select menu features
+           
+           if("csv".equals(fileType)) {
                System.out.println("ImportDataAction: CSV File Imported");
                dReader = new CSVReader();
                dReader.buildDataList(fileName);
@@ -100,6 +115,19 @@ public class ImportDataAction implements ActionListener {
                System.out.println("ImportDataAction: Unsupported File Type");
                // TODO build popup window with error message for unsupported file type
            }
+           switch(chartType) {
+                case 1:
+                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.LineChart);
+                    break;
+                case 2:
+                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.ScatterPlot);
+                    break;
+                case 3:
+                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.StepChart);
+                    break;
+                default:
+            }
+           fun.setChart(cP);
         }
     }
     

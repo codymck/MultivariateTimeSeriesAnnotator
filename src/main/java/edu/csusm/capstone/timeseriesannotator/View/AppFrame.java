@@ -6,14 +6,16 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.event.ActionListener;
-import org.jfree.chart.ChartPanel;
-
+import org.jfree.chart.ChartPanel; 
+import javax.swing.*;
 /**
  *
  * @author Cody McKinney
  */
 public class AppFrame extends javax.swing.JFrame {
-
+    //ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    //String path = classLoader.getResource("Images/zoomin.png").getPath();
+    ChartPanel cP;
     /**
      * Creates new form Frame
      */
@@ -29,14 +31,14 @@ public class AppFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         importChooser = new javax.swing.JFileChooser();
-        jPanel1 = new javax.swing.JPanel();
-        jToolBar2 = new javax.swing.JToolBar();
+        ToolBar = new javax.swing.JToolBar();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenuItem = new javax.swing.JMenu();
         importDataMenuItem = new javax.swing.JMenuItem();
@@ -50,20 +52,23 @@ public class AppFrame extends javax.swing.JFrame {
         setTitle("Multivariate Time Series Annotator");
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        ToolBar.setRollover(true);
 
-        jToolBar2.setRollover(true);
-
-        jButton2.setText("ZoomIn");
+        jButton2.setIcon(new ImageIcon("/Images/zoomin.png"));
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setMaximumSize(new java.awt.Dimension(60, 60));
         jButton2.setPreferredSize(new java.awt.Dimension(60, 60));
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(jButton2);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        ToolBar.add(jButton2);
 
-        jButton3.setText("ZoomOut");
+        jButton3.setIcon(new ImageIcon("/Images/zoomin.png"));
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setMaximumSize(new java.awt.Dimension(60, 60));
         jButton3.setMinimumSize(new java.awt.Dimension(60, 60));
@@ -73,9 +78,9 @@ public class AppFrame extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton3);
+        ToolBar.add(jButton3);
 
-        jButton4.setText("Arrows");
+        jButton4.setIcon(new ImageIcon("/Images/zoomin.png"));
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setMaximumSize(new java.awt.Dimension(60, 60));
         jButton4.setMinimumSize(new java.awt.Dimension(60, 60));
@@ -85,9 +90,9 @@ public class AppFrame extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton4);
+        ToolBar.add(jButton4);
 
-        jButton1.setText("Highlight");
+        jButton1.setIcon(new ImageIcon("/Images/zoomin.png"));
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setMaximumSize(new java.awt.Dimension(60, 60));
@@ -98,23 +103,36 @@ public class AppFrame extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton1);
+        ToolBar.add(jButton1);
 
-        jButton5.setText("Annotate");
+        jButton5.setIcon(new ImageIcon("/Images/zoomin.png"));
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setMaximumSize(new java.awt.Dimension(60, 60));
         jButton5.setMinimumSize(new java.awt.Dimension(60, 60));
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(jButton5);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        ToolBar.add(jButton5);
 
-        jButton6.setText("Shapes");
+        jButton6.setIcon(new ImageIcon("/Images/zoomin.png"));
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setMaximumSize(new java.awt.Dimension(60, 60));
         jButton6.setMinimumSize(new java.awt.Dimension(60, 60));
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(jButton6);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        ToolBar.add(jButton6);
+
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         menuBar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
 
@@ -151,14 +169,16 @@ public class AppFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(ToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -166,12 +186,11 @@ public class AppFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void importDataMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importDataMenuItemActionPerformed
-        ActionListener importAction = new ImportDataAction(importChooser);
+        ActionListener importAction = new ImportDataAction(importChooser, this);
         importAction.actionPerformed(evt);
     }//GEN-LAST:event_importDataMenuItemActionPerformed
 
     private void buildChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildChartMenuItemActionPerformed
-        ChartPanel cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.LineChart);
         jPanel1.add(cP);
         this.pack();
         this.validate();
@@ -187,12 +206,25 @@ public class AppFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToolBar ToolBar;
     private javax.swing.JMenuItem buildChartMenuItem;
     private javax.swing.JMenu editMenuItem;
     private javax.swing.JMenu fileMenuItem;
@@ -205,8 +237,12 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JToolBar jToolBar2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu toolsMenuItem;
     // End of variables declaration//GEN-END:variables
+
+    public void setChart(ChartPanel p){
+        cP = p;
+    }
+    
 }

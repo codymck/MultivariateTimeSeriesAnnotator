@@ -19,6 +19,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
     public ChartSelectMenu(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

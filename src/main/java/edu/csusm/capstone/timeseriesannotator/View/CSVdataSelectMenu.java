@@ -20,6 +20,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     public CSVdataSelectMenu(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

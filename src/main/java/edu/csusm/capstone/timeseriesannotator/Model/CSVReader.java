@@ -56,9 +56,9 @@ public class CSVReader implements DataReader {
                     dataRows.add(columnNames);
                 } else {
                     String[] values = line.split(",", -1);
-                    for (int j = 0; j < values.length; j++) {//
+                    for (int j = 0; j < values.length; j++) {
                         if (values[j].isBlank()) {
-                            values[j] = "0.0"; // Ask Ryan what value he would want here
+                            values[j] = "NaN";
                         }
                     }
                     dataRows.add(values);

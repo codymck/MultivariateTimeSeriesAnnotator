@@ -31,6 +31,7 @@ public class AppFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         importChooser = new javax.swing.JFileChooser();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jToggleButton2 = new javax.swing.JToggleButton();
@@ -62,6 +63,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
+        buttonGroup1.add(jToggleButton2);
         jToggleButton2.setIcon(new javax.swing.ImageIcon("icons/zoomin.png"));
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,6 +71,7 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jToggleButton1);
         jToggleButton1.setIcon(new javax.swing.ImageIcon("icons/zoomout.png"));
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,6 +79,7 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jToggleButton3);
         jToggleButton3.setIcon(new javax.swing.ImageIcon("icons/4dirs.png"));
         jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,6 +87,7 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jToggleButton4);
         jToggleButton4.setIcon(new javax.swing.ImageIcon("icons/shapes.jpeg"));
         jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,6 +95,7 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jToggleButton5);
         jToggleButton5.setIcon(new javax.swing.ImageIcon("icons/select.png"));
         jToggleButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,6 +103,7 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jToggleButton6);
         jToggleButton6.setIcon(new javax.swing.ImageIcon("icons/annotate.png"));
         jToggleButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,7 +127,7 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 343, Short.MAX_VALUE))
+                .addGap(0, 540, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,6 +215,7 @@ public class AppFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem buildChartMenuItem;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JMenu editMenuItem;
     private javax.swing.JMenu fileMenuItem;
     private javax.swing.JFileChooser importChooser;
@@ -225,7 +233,11 @@ public class AppFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void setChart(ChartPanel p){
-        cP = p;
+        jPanel1.add(p);
+        this.pack();
+        this.validate();
+        jPanel1.repaint();
+        jPanel1.revalidate();
     }
     
 }

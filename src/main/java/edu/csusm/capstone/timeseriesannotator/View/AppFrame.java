@@ -51,9 +51,12 @@ public class AppFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Multivariate Time Series Annotator");
         setBackground(new java.awt.Color(255, 255, 255));
+        setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
         jPanel1.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(51, 255, 51));
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
@@ -129,6 +132,8 @@ public class AppFrame extends javax.swing.JFrame {
             .addComponent(jToggleButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
         menuBar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
 
         fileMenuItem.setText("File");
@@ -159,22 +164,6 @@ public class AppFrame extends javax.swing.JFrame {
         menuBar.add(toolsMenuItem);
 
         setJMenuBar(menuBar);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
-                .addContainerGap())
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

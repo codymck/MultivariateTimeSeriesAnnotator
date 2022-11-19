@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: edu.csusm.capstone.timeseriesannotator.Controller.ImportDataActionTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec <<< FAILURE!
-edu.csusm.capstone.timeseriesannotator.Controller.ImportDataActionTest.testActionPerformed()  Time elapsed: 0.002 sec  <<< FAILURE!
-java.lang.NullPointerException: Cannot invoke "edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction.actionPerformed(java.awt.event.ActionEvent)" because "instance" is null
-	at edu.csusm.capstone.timeseriesannotator.Controller.ImportDataActionTest.testActionPerformed(ImportDataActionTest.java:63)
-
-edu.csusm.capstone.timeseriesannotator.Controller.ImportDataActionTest.testFindFileType()  Time elapsed: 0 sec  <<< FAILURE!
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec <<< FAILURE!
+edu.csusm.capstone.timeseriesannotator.Controller.ImportDataActionTest.testFindFileType()  Time elapsed: 0.005 sec  <<< FAILURE!
 java.lang.NullPointerException: Cannot invoke "edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction.findFileType(String)" because "instance" is null
 	at edu.csusm.capstone.timeseriesannotator.Controller.ImportDataActionTest.testFindFileType(ImportDataActionTest.java:49)
+
+edu.csusm.capstone.timeseriesannotator.Controller.ImportDataActionTest.testActionPerformed()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction.actionPerformed(java.awt.event.ActionEvent)" because "instance" is null
+	at edu.csusm.capstone.timeseriesannotator.Controller.ImportDataActionTest.testActionPerformed(ImportDataActionTest.java:63)
 

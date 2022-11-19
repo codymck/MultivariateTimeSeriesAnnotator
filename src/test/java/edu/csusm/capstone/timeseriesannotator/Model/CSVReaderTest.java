@@ -8,11 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -44,10 +40,10 @@ public class CSVReaderTest {
         String[] keys = {"A", "null", "C", "D"};
         
         assertArrayEquals(keys, instance.getHeaders() );
-        assertEquals("0.0", instance.getColumn(keys[0])[0].toString() );
+        assertEquals("NaN", instance.getColumn(keys[0])[0].toString() );
         assertEquals(data2, instance.getColumn(keys[1])[0].toString() );
-        assertEquals("0.0", instance.getColumn(keys[2])[0].toString() );
-        assertEquals("0.0", instance.getColumn(keys[3])[0].toString() );
+        assertEquals("NaN", instance.getColumn(keys[2])[0].toString() );
+        assertEquals("NaN", instance.getColumn(keys[3])[0].toString() );
     }
 
     public String buildTestData() {

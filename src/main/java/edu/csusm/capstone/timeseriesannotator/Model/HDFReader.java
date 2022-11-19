@@ -44,15 +44,15 @@ public class HDFReader implements DataReader {
             return;
         }
         // OUTPUT FOR DATA 
-        System.out.print("X :   ");
-        for (float d : myXdata) {
-            System.out.print(d + " , ");
-        }
-        System.out.println();
-        System.out.print("Y :   ");
-        for (float r : myYdata) {
-            System.out.print(r + " , ");
-        }
+//        System.out.print("X :   ");
+//        for (float d : myXdata) {
+//            System.out.print(d + " , ");
+//        }
+//        System.out.println();
+//        System.out.print("Y :   ");
+//        for (float r : myYdata) {
+//            System.out.print(r + " , ");
+//        }
     }
 
     public float[] getXData() {

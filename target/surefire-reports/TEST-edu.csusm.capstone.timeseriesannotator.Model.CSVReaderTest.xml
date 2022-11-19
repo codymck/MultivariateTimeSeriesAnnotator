@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" time="0.003" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" time="0.031" errors="0" skipped="0">
   <properties>
-    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
-    <property name="java.vm.version" value="17.0.2+8-86"/>
-    <property name="sun.boot.library.path" value="/Users/ramonduran/Library/Java/JavaVirtualMachines/openjdk-17.0.2/Contents/Home/lib"/>
-    <property name="maven.multiModuleProjectDirectory" value="/Users/ramonduran/NetBeansProjects/MultivariateTimeSeriesAnnotator"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="java.vm.version" value="16.0.1+9-24"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-16.0.1\bin"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\cmcki\Desktop\TimeSeriesAnnotator"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
-    <property name="path.separator" value=":"/>
-    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="path.separator" value=";"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="user.script" value=""/>
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="/Users/ramonduran/NetBeansProjects/MultivariateTimeSeriesAnnotator"/>
+    <property name="user.dir" value="C:\Users\cmcki\Desktop\TimeSeriesAnnotator"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
-    <property name="java.runtime.version" value="17.0.2+8-86"/>
-    <property name="os.arch" value="x86_64"/>
-    <property name="java.io.tmpdir" value="/var/folders/lm/xpg3xkdx4jn8n0bh0s_zpb6m0000gn/T/"/>
+    <property name="java.runtime.version" value="16.0.1+9-24"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\cmcki\AppData\Local\Temp\"/>
     <property name="line.separator" value="
 "/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="os.name" value="Mac OS X"/>
-    <property name="maven.ext.class.path" value="/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven-nblib/netbeans-eventspy.jar"/>
-    <property name="classworlds.conf" value="/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven/bin/m2.conf"/>
-    <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.library.path" value="/Users/ramonduran/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
-    <property name="maven.conf" value="/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven/conf"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-13\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="classworlds.conf" value="C:\Program Files\NetBeans-13\netbeans\java\maven\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-16.0.1\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Python310\Scripts\;C:\Python310\;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Python39\Scripts\;C:\Python39\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Program Files (x86)\dotnet\;C:\Program Files\CMake\bin;C:\Go\bin;C:\Program Files\nodejs\;C:\Program Files\GitHub CLI\;C:\Program Files\Calibre2\;C:\Program Files\SlikSvn\bin;C:\Users\cmcki\AppData\Local\Microsoft\WindowsApps;C:\Users\cmcki\AppData\Local\Microsoft\WindowsApps;C:\Users\cmcki\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin;C:\Users\cmcki\AppData\Local\GitHubDesktop\bin;C:\Users\cmcki\.dotnet\tools;C:\Program Files\Java\jdk-16.0.1\bin;C:\Users\cmcki\go\bin;C:\Users\cmcki\AppData\Roaming\npm;C:\apache-maven-3.8.6\bin;;."/>
+    <property name="maven.conf" value="C:\Program Files\NetBeans-13\netbeans\java\maven/conf"/>
     <property name="jdk.debug" value="release"/>
-    <property name="java.class.version" value="61.0"/>
+    <property name="java.class.version" value="60.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="os.version" value="13.0"/>
-    <property name="library.jansi.path" value="/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven/lib/jansi-native"/>
-    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
-    <property name="user.home" value="/Users/ramonduran"/>
+    <property name="os.version" value="10.0"/>
+    <property name="library.jansi.path" value="C:\Program Files\NetBeans-13\netbeans\java\maven\lib\jansi-native"/>
+    <property name="user.home" value="C:\Users\cmcki"/>
     <property name="user.timezone" value="America/Los_Angeles"/>
     <property name="file.encoding" value="UTF-8"/>
-    <property name="java.specification.version" value="17"/>
-    <property name="user.name" value="ramonduran"/>
-    <property name="java.class.path" value="/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven/boot/plexus-classworlds-2.6.0.jar"/>
-    <property name="java.vm.specification.version" value="17"/>
+    <property name="java.specification.version" value="16"/>
+    <property name="user.name" value="cmcki"/>
+    <property name="java.class.path" value="C:\Program Files\NetBeans-13\netbeans\java\maven\boot\plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="16"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven-nblib/netbeans-eventspy.jar install"/>
-    <property name="java.home" value="/Users/ramonduran/Library/Java/JavaVirtualMachines/openjdk-17.0.2/Contents/Home"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=C:\Program Files\NetBeans-13\netbeans\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 install"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-16.0.1"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="java.version" value="17.0.2"/>
-    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.version" value="16.0.1"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="/Applications/NetBeans/Apache NetBeans 15.app/Contents/Resources/NetBeans/netbeans/java/maven"/>
-    <property name="file.separator" value="/"/>
-    <property name="java.version.date" value="2022-01-18"/>
+    <property name="maven.home" value="C:\Program Files\NetBeans-13\netbeans\java\maven"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.version.date" value="2021-04-20"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
-    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
-    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" name="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest.testBuildDataList" time="0.003"/>
+  <testcase classname="edu.csusm.capstone.timeseriesannotator.Model.CSVReaderTest" name="testBuildDataList" time="0.031"/>
 </testsuite>

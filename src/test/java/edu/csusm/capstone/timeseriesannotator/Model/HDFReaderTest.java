@@ -47,4 +47,13 @@ public class HDFReaderTest {
         assertNotNull(instance.getYData());
     }
     
+    @Test
+    public void testPathException() {
+        System.out.println("buildDataList");
+        String fileName = "dataFiles/smallsampledata.hdf5";
+        HDFReader instance = new HDFReader();
+        instance.buildDataList(fileName);
+        instance.setPaths("user1/a", "user1/b");
+    }
+    
 }

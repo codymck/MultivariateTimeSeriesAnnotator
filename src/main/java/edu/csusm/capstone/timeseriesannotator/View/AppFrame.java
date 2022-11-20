@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.event.ActionListener;
 import org.jfree.chart.ChartPanel;
@@ -17,6 +18,7 @@ public class AppFrame extends javax.swing.JFrame {
      * Creates new form Frame
      */
     public AppFrame() {
+        FlatLightLaf.setup();
         initComponents();
     }
 

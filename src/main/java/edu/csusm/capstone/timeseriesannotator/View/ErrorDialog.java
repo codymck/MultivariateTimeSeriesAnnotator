@@ -9,10 +9,6 @@ import javax.swing.JOptionPane;
  */
 public class ErrorDialog {
     
-    public ErrorDialog() {
-        
-    }
-    
     public static void wrongData() {
         JOptionPane.showMessageDialog(new JFrame(), "Error: Dataset or Object does not exist.\n\n                Try Again.", "Error", JOptionPane.ERROR_MESSAGE);
     }

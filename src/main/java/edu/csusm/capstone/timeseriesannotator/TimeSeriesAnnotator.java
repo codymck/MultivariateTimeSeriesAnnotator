@@ -5,9 +5,8 @@
 
 package edu.csusm.capstone.timeseriesannotator;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
-import javax.swing.UIManager;
+//import javax.swing.UIManager;
 
 /**
  * 

@@ -251,5 +251,9 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel1.repaint();
         jPanel1.revalidate();
     }
+    
+    public javax.swing.JMenuItem getImportButton() {
+        return importDataMenuItem;
+    }
 
 }

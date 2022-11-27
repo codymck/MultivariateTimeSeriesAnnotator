@@ -3,16 +3,18 @@ package edu.csusm.capstone.timeseriesannotator.View;
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.event.ActionListener;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
  * @author Cody McKinney
  */
 public class AppFrame extends javax.swing.JFrame {
-    // ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-    // String path = classLoader.getResource("Images/zoomin.png").getPath();
-    ChartPanel cP;
+    ChartPanel emptyChart;
 
     /**
      * Creates new form Frame
@@ -20,7 +22,26 @@ public class AppFrame extends javax.swing.JFrame {
     public AppFrame() {
         FlatLightLaf.setup();
         initComponents();
+        startChart();
         this.setLocationRelativeTo(null);
+    }
+    
+    private void startChart() {
+        XYSeriesCollection emptyData = new XYSeriesCollection();
+        
+        String chartTitle = "Data";
+        String xAxisLabel = "X";
+        String yAxisLabel = "Y";
+
+        JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
+                xAxisLabel, yAxisLabel, emptyData);
+
+        emptyChart = new ChartPanel(chart);
+        
+        XYPlot plot = chart.getXYPlot();
+        plot.setRangePannable(true);
+        plot.setDomainPannable(true);
+        jPanel1.add(emptyChart);
     }
 
     /**
@@ -57,12 +78,13 @@ public class AppFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
         jPanel1.setLayout(new java.awt.BorderLayout());
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        jPanel2.setBackground(new java.awt.Color(51, 255, 51));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
@@ -130,7 +152,7 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 716, Short.MAX_VALUE))
+                .addGap(0, 712, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,6 +205,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel1.setLayout(new java.awt.BorderLayout());
         this.add(jPanel1);
+        jPanel1.add(emptyChart);
         this.revalidate();
         this.repaint();
     }//GEN-LAST:event_RemoveChartMenuItemActionPerformed
@@ -191,14 +214,6 @@ public class AppFrame extends javax.swing.JFrame {
         ActionListener importAction = new ImportDataAction(importChooser, this);
         importAction.actionPerformed(evt);
     }// GEN-LAST:event_importDataMenuItemActionPerformed
-
-    private void buildChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buildChartMenuItemActionPerformed
-        jPanel1.add(cP);
-        this.pack();
-        this.validate();
-        jPanel1.repaint();
-        jPanel1.revalidate();
-    }// GEN-LAST:event_buildChartMenuItemActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
@@ -244,6 +259,9 @@ public class AppFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void setChart(ChartPanel p) {
+        if(emptyChart.getParent() == jPanel1) {
+          jPanel1.remove(emptyChart);  
+        }
         jPanel1.add(p);
         this.pack();
         this.validate();

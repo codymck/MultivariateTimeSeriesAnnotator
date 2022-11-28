@@ -1,9 +1,8 @@
 /target/
 /nbproject/
 *.class
-*.class
+*.hdf5
 *.txt
+dataFiles/test.csv
 target/classes/.netbeans_automatic_build
-*.class
 target/test-classes/.netbeans_automatic_build
-*.class

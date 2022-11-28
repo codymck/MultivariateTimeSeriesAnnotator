@@ -3,16 +3,18 @@ package edu.csusm.capstone.timeseriesannotator.View;
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.event.ActionListener;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
  * @author Cody McKinney
  */
 public class AppFrame extends javax.swing.JFrame {
-    // ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-    // String path = classLoader.getResource("Images/zoomin.png").getPath();
-    ChartPanel cP;
+    ChartPanel emptyChart;
 
     /**
      * Creates new form Frame
@@ -20,6 +22,26 @@ public class AppFrame extends javax.swing.JFrame {
     public AppFrame() {
         FlatLightLaf.setup();
         initComponents();
+        startChart();
+        this.setLocationRelativeTo(null);
+    }
+    
+    private void startChart() {
+        XYSeriesCollection emptyData = new XYSeriesCollection();
+        
+        String chartTitle = "Data";
+        String xAxisLabel = "X";
+        String yAxisLabel = "Y";
+
+        JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
+                xAxisLabel, yAxisLabel, emptyData);
+
+        emptyChart = new ChartPanel(chart);
+        
+        XYPlot plot = chart.getXYPlot();
+        plot.setRangePannable(true);
+        plot.setDomainPannable(true);
+        jPanel1.add(emptyChart);
     }
 
     /**
@@ -29,7 +51,7 @@ public class AppFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         importChooser = new javax.swing.JFileChooser();
@@ -46,8 +68,8 @@ public class AppFrame extends javax.swing.JFrame {
         fileMenuItem = new javax.swing.JMenu();
         importDataMenuItem = new javax.swing.JMenuItem();
         editMenuItem = new javax.swing.JMenu();
-        toolsMenuItem = new javax.swing.JMenu();
-        buildChartMenuItem = new javax.swing.JMenuItem();
+        optionsMenuItem = new javax.swing.JMenu();
+        RemoveChartMenuItem = new javax.swing.JMenuItem();
 
         importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
 
@@ -56,12 +78,13 @@ public class AppFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
         jPanel1.setLayout(new java.awt.BorderLayout());
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        jPanel2.setBackground(new java.awt.Color(51, 255, 51));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
@@ -116,40 +139,30 @@ public class AppFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
-                                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 540, Short.MAX_VALUE)));
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 712, Short.MAX_VALUE))
+        );
         jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jToggleButton6, javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE));
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jToggleButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
@@ -170,36 +183,37 @@ public class AppFrame extends javax.swing.JFrame {
         editMenuItem.setText("Edit");
         menuBar.add(editMenuItem);
 
-        toolsMenuItem.setText("Tools");
+        optionsMenuItem.setText("Options");
 
-        buildChartMenuItem.setText("Build Chart");
-        buildChartMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        RemoveChartMenuItem.setText("Remove Chart");
+        RemoveChartMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buildChartMenuItemActionPerformed(evt);
+                RemoveChartMenuItemActionPerformed(evt);
             }
         });
-        toolsMenuItem.add(buildChartMenuItem);
+        optionsMenuItem.add(RemoveChartMenuItem);
 
-        menuBar.add(toolsMenuItem);
+        menuBar.add(optionsMenuItem);
 
         setJMenuBar(menuBar);
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void RemoveChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveChartMenuItemActionPerformed
+        this.remove(jPanel1);
+        jPanel1 = new javax.swing.JPanel();
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        this.add(jPanel1);
+        jPanel1.add(emptyChart);
+        this.revalidate();
+        this.repaint();
+    }//GEN-LAST:event_RemoveChartMenuItemActionPerformed
 
     private void importDataMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_importDataMenuItemActionPerformed
         ActionListener importAction = new ImportDataAction(importChooser, this);
         importAction.actionPerformed(evt);
     }// GEN-LAST:event_importDataMenuItemActionPerformed
-
-    private void buildChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buildChartMenuItemActionPerformed
-        jPanel1.add(cP);
-        this.pack();
-        this.validate();
-        jPanel1.repaint();
-        jPanel1.revalidate();
-    }// GEN-LAST:event_buildChartMenuItemActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
@@ -226,7 +240,7 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_jToggleButton6ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem buildChartMenuItem;
+    private javax.swing.JMenuItem RemoveChartMenuItem;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JMenu editMenuItem;
     private javax.swing.JMenu fileMenuItem;
@@ -241,10 +255,13 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton5;
     private javax.swing.JToggleButton jToggleButton6;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenu toolsMenuItem;
+    private javax.swing.JMenu optionsMenuItem;
     // End of variables declaration//GEN-END:variables
 
     public void setChart(ChartPanel p) {
+        if(emptyChart.getParent() == jPanel1) {
+          jPanel1.remove(emptyChart);  
+        }
         jPanel1.add(p);
         this.pack();
         this.validate();

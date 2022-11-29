@@ -26,6 +26,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="importDataMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Import Data"/>
+                <Property name="name" type="java.lang.String" value="ImportData" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="importDataMenuItemActionPerformed"/>
@@ -130,34 +131,34 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jToggleButton2" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="ZoomIn" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jToggleButton1" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="ZoomOut" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                  <Component id="jToggleButton3" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="Pan" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jToggleButton5" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="Highlight" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jToggleButton6" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="Comment" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jToggleButton4" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="ShapeMarker" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="712" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jToggleButton2" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
-              <Component id="jToggleButton1" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
-              <Component id="jToggleButton3" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
-              <Component id="jToggleButton4" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
-              <Component id="jToggleButton5" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
-              <Component id="jToggleButton6" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
+              <Component id="ZoomIn" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
+              <Component id="ZoomOut" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
+              <Component id="Pan" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
+              <Component id="ShapeMarker" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
+              <Component id="Highlight" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
+              <Component id="Comment" alignment="1" min="-2" pref="49" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton2">
+        <Component class="javax.swing.JToggleButton" name="ZoomIn">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
@@ -165,12 +166,13 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.ImageIcon(&quot;icons/zoomin.png&quot;)" type="code"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="ZoomIn" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ZoomInActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+        <Component class="javax.swing.JToggleButton" name="ZoomOut">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
@@ -178,12 +180,13 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.ImageIcon(&quot;icons/zoomout.png&quot;)" type="code"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="ZoomOut" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ZoomOutActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton3">
+        <Component class="javax.swing.JToggleButton" name="Pan">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
@@ -191,25 +194,13 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.ImageIcon(&quot;icons/4dirs.png&quot;)" type="code"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="Pan" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PanActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton4">
-          <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="buttonGroup1"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(&quot;icons/shapes.jpeg&quot;)" type="code"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton4ActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton5">
+        <Component class="javax.swing.JToggleButton" name="Highlight">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
@@ -217,12 +208,13 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.ImageIcon(&quot;icons/select.png&quot;)" type="code"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="Highlight" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HighlightActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton6">
+        <Component class="javax.swing.JToggleButton" name="Comment">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
@@ -230,9 +222,24 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.ImageIcon(&quot;icons/annotate.png&quot;)" type="code"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="Comment" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton6ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CommentActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="ShapeMarker">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="buttonGroup1"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new javax.swing.ImageIcon(&quot;icons/shapes.jpeg&quot;)" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="ShapeMarker" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ShapeMarkerActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

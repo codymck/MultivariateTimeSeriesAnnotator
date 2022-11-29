@@ -58,12 +58,12 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
-        jToggleButton5 = new javax.swing.JToggleButton();
-        jToggleButton6 = new javax.swing.JToggleButton();
+        ZoomIn = new javax.swing.JToggleButton();
+        ZoomOut = new javax.swing.JToggleButton();
+        Pan = new javax.swing.JToggleButton();
+        Highlight = new javax.swing.JToggleButton();
+        Comment = new javax.swing.JToggleButton();
+        ShapeMarker = new javax.swing.JToggleButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenuItem = new javax.swing.JMenu();
         importDataMenuItem = new javax.swing.JMenuItem();
@@ -88,51 +88,57 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
-        buttonGroup1.add(jToggleButton2);
-        jToggleButton2.setIcon(new javax.swing.ImageIcon("icons/zoomin.png"));
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(ZoomIn);
+        ZoomIn.setIcon(new javax.swing.ImageIcon("icons/zoomin.png"));
+        ZoomIn.setName("ZoomIn"); // NOI18N
+        ZoomIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+                ZoomInActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jToggleButton1);
-        jToggleButton1.setIcon(new javax.swing.ImageIcon("icons/zoomout.png"));
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(ZoomOut);
+        ZoomOut.setIcon(new javax.swing.ImageIcon("icons/zoomout.png"));
+        ZoomOut.setName("ZoomOut"); // NOI18N
+        ZoomOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                ZoomOutActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jToggleButton3);
-        jToggleButton3.setIcon(new javax.swing.ImageIcon("icons/4dirs.png"));
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(Pan);
+        Pan.setIcon(new javax.swing.ImageIcon("icons/4dirs.png"));
+        Pan.setName("Pan"); // NOI18N
+        Pan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton3ActionPerformed(evt);
+                PanActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jToggleButton4);
-        jToggleButton4.setIcon(new javax.swing.ImageIcon("icons/shapes.jpeg"));
-        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(Highlight);
+        Highlight.setIcon(new javax.swing.ImageIcon("icons/select.png"));
+        Highlight.setName("Highlight"); // NOI18N
+        Highlight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton4ActionPerformed(evt);
+                HighlightActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jToggleButton5);
-        jToggleButton5.setIcon(new javax.swing.ImageIcon("icons/select.png"));
-        jToggleButton5.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(Comment);
+        Comment.setIcon(new javax.swing.ImageIcon("icons/annotate.png"));
+        Comment.setName("Comment"); // NOI18N
+        Comment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton5ActionPerformed(evt);
+                CommentActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jToggleButton6);
-        jToggleButton6.setIcon(new javax.swing.ImageIcon("icons/annotate.png"));
-        jToggleButton6.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(ShapeMarker);
+        ShapeMarker.setIcon(new javax.swing.ImageIcon("icons/shapes.jpeg"));
+        ShapeMarker.setName("ShapeMarker"); // NOI18N
+        ShapeMarker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton6ActionPerformed(evt);
+                ShapeMarkerActionPerformed(evt);
             }
         });
 
@@ -141,27 +147,27 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ZoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Pan, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Highlight, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Comment, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ShapeMarker, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 712, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(ZoomIn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(ZoomOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(Pan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(ShapeMarker, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(Highlight, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(Comment, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
@@ -171,6 +177,7 @@ public class AppFrame extends javax.swing.JFrame {
         fileMenuItem.setText("File");
 
         importDataMenuItem.setText("Import Data");
+        importDataMenuItem.setName("ImportData"); // NOI18N
         importDataMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 importDataMenuItemActionPerformed(evt);
@@ -240,7 +247,13 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_jToggleButton6ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton Comment;
+    private javax.swing.JToggleButton Highlight;
+    private javax.swing.JToggleButton Pan;
     private javax.swing.JMenuItem RemoveChartMenuItem;
+    private javax.swing.JToggleButton ShapeMarker;
+    private javax.swing.JToggleButton ZoomIn;
+    private javax.swing.JToggleButton ZoomOut;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JMenu editMenuItem;
     private javax.swing.JMenu fileMenuItem;
@@ -248,12 +261,6 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem importDataMenuItem;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
-    private javax.swing.JToggleButton jToggleButton5;
-    private javax.swing.JToggleButton jToggleButton6;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu optionsMenuItem;
     // End of variables declaration//GEN-END:variables

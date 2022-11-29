@@ -5,6 +5,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -27,7 +28,7 @@ public class ScatterPlot implements ChartsIF {
         String yAxisLabel = "Y";
 
         XYDataset data = xyChart.getDataset();
-
+        
         JFreeChart chart = ChartFactory.createScatterPlot(chartTitle,
                 xAxisLabel, yAxisLabel, data);
 
@@ -37,7 +38,14 @@ public class ScatterPlot implements ChartsIF {
         cP.setRangeZoomable(false);
         cP.setMouseWheelEnabled(true);
         
-        XYPlot plot = chart.getXYPlot();
+        XYLineAndShapeRenderer r = new XYLineAndShapeRenderer();
+        r.setSeriesPaint(0, java.awt.Color.blue);
+        r.setSeriesShapesVisible(0,  false);
+        
+        
+        XYPlot plot = (XYPlot) chart.getXYPlot();
+        plot.setDataset(0, data);
+        plot.setRenderer(0, r);
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
         return cP;

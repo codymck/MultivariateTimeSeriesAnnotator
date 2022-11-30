@@ -5,6 +5,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYDotRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 
@@ -38,9 +39,10 @@ public class ScatterPlot implements ChartsIF {
         cP.setRangeZoomable(false);
         cP.setMouseWheelEnabled(true);
         
-        XYLineAndShapeRenderer r = new XYLineAndShapeRenderer();
+        XYDotRenderer r = new XYDotRenderer();
         r.setSeriesPaint(0, java.awt.Color.blue);
-        r.setSeriesShapesVisible(0,  false);
+        r.setDotWidth(5);
+        r.setDotHeight(5);
         
         
         XYPlot plot = (XYPlot) chart.getXYPlot();

@@ -5,7 +5,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.renderer.xy.XYStepRenderer;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -38,7 +38,7 @@ public class StepChart implements ChartsIF {
         cP.setRangeZoomable(false);
         cP.setMouseWheelEnabled(true);
         
-        XYLineAndShapeRenderer r = new XYLineAndShapeRenderer();
+        XYStepRenderer r = new XYStepRenderer();
         r.setSeriesPaint(0, new java.awt.Color(0, 100, 0));
         r.setSeriesShapesVisible(0,  false);
         

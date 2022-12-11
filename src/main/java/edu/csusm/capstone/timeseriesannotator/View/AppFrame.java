@@ -25,10 +25,10 @@ public class AppFrame extends javax.swing.JFrame {
         startChart();
         this.setLocationRelativeTo(null);
     }
-    
+
     private void startChart() {
         XYSeriesCollection emptyData = new XYSeriesCollection();
-        
+
         String chartTitle = "Data";
         String xAxisLabel = "X";
         String yAxisLabel = "Y";
@@ -37,7 +37,7 @@ public class AppFrame extends javax.swing.JFrame {
                 xAxisLabel, yAxisLabel, emptyData);
 
         emptyChart = new ChartPanel(chart);
-        
+
         XYPlot plot = chart.getXYPlot();
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
@@ -51,7 +51,8 @@ public class AppFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         importChooser = new javax.swing.JFileChooser();
@@ -89,7 +90,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
         buttonGroup1.add(jToggleButton2);
-        jToggleButton2.setIcon(new javax.swing.ImageIcon("icons/zoomin.png"));
+        jToggleButton2.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/zoomin.png"));
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton2ActionPerformed(evt);
@@ -97,7 +98,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jToggleButton1);
-        jToggleButton1.setIcon(new javax.swing.ImageIcon("icons/zoomout.png"));
+        jToggleButton1.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/zoomout.png"));
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -105,7 +106,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jToggleButton3);
-        jToggleButton3.setIcon(new javax.swing.ImageIcon("icons/4dirs.png"));
+        jToggleButton3.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/4dirs.png"));
         jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton3ActionPerformed(evt);
@@ -113,7 +114,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jToggleButton4);
-        jToggleButton4.setIcon(new javax.swing.ImageIcon("icons/shapes.jpeg"));
+        jToggleButton4.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/shapes.jpeg"));
         jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton4ActionPerformed(evt);
@@ -121,7 +122,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jToggleButton5);
-        jToggleButton5.setIcon(new javax.swing.ImageIcon("icons/select.png"));
+        jToggleButton5.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/select.png"));
         jToggleButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton5ActionPerformed(evt);
@@ -129,7 +130,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jToggleButton6);
-        jToggleButton6.setIcon(new javax.swing.ImageIcon("icons/annotate.png"));
+        jToggleButton6.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/annotate.png"));
         jToggleButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton6ActionPerformed(evt);
@@ -139,30 +140,40 @@ public class AppFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
-                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 712, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 712, Short.MAX_VALUE)));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToggleButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToggleButton6, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE));
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
@@ -200,7 +211,7 @@ public class AppFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RemoveChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveChartMenuItemActionPerformed
+    private void RemoveChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_RemoveChartMenuItemActionPerformed
         this.remove(jPanel1);
         jPanel1 = new javax.swing.JPanel();
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -208,7 +219,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel1.add(emptyChart);
         this.revalidate();
         this.repaint();
-    }//GEN-LAST:event_RemoveChartMenuItemActionPerformed
+    }// GEN-LAST:event_RemoveChartMenuItemActionPerformed
 
     private void importDataMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_importDataMenuItemActionPerformed
         ActionListener importAction = new ImportDataAction(importChooser, this);
@@ -259,8 +270,8 @@ public class AppFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void setChart(ChartPanel p) {
-        if(emptyChart.getParent() == jPanel1) {
-          jPanel1.remove(emptyChart);  
+        if (emptyChart.getParent() == jPanel1) {
+            jPanel1.remove(emptyChart);
         }
         jPanel1.add(p);
         this.pack();
@@ -268,7 +279,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel1.repaint();
         jPanel1.revalidate();
     }
-    
+
     public javax.swing.JMenuItem getImportButton() {
         return importDataMenuItem;
     }

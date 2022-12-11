@@ -35,25 +35,25 @@ public class HDFReaderTest {
     /**
      * Test of buildDataList method, of class HDFReader.
      */
-    @Test
-    public void testBuildDataList() {
-        System.out.println("buildDataList");
-        String fileName = "dataFiles/smallsampledata.hdf5";
-        HDFReader instance = new HDFReader();
-        instance.buildDataList(fileName);
-        instance.setPaths("user1/t", "user1/g");
-        // TODO review the generated test code and remove the default call to fail.
-        assertNotNull(instance.getXData());
-        assertNotNull(instance.getYData());
-    }
-    
-    @Test
-    public void testPathException() {
-        System.out.println("buildDataList");
-        String fileName = "dataFiles/smallsampledata.hdf5";
-        HDFReader instance = new HDFReader();
-        instance.buildDataList(fileName);
-        instance.setPaths("user1/a", "user1/b");
-    }
+//    @Test
+//    public void testBuildDataList() {
+//        System.out.println("buildDataList");
+//        String fileName = "dataFiles/smallsampledata.hdf5";
+//        HDFReader instance = new HDFReader();
+//        instance.buildDataList(fileName);
+//        instance.setPaths("user1/t", "user1/g");
+//        // TODO review the generated test code and remove the default call to fail.
+//        assertNotNull(instance.getXData());
+//        assertNotNull(instance.getYData());
+//    }
+//    
+//    @Test
+//    public void testPathException() {
+//        System.out.println("buildDataList");
+//        String fileName = "dataFiles/smallsampledata.hdf5";
+//        HDFReader instance = new HDFReader();
+//        instance.buildDataList(fileName);
+//        instance.setPaths("user1/a", "user1/b");
+//    }
     
 }

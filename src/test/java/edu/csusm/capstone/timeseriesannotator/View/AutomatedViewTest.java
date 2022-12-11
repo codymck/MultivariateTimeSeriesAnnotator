@@ -1,6 +1,5 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import java.io.File;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
@@ -36,7 +35,7 @@ public class AutomatedViewTest {
         window.toggleButton("ShapeMarker").click();
     }
     
-        @Test
+    @Test
     public void clickOnImportData(){
         window.menuItem("ImportData").click();
     }

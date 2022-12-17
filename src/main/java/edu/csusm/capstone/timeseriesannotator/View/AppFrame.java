@@ -3,6 +3,7 @@ package edu.csusm.capstone.timeseriesannotator.View;
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -15,6 +16,7 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class AppFrame extends javax.swing.JFrame {
     ChartPanel emptyChart;
+    ChartDisplay chartDisplay;
 
     /**
      * Creates new form Frame
@@ -22,27 +24,37 @@ public class AppFrame extends javax.swing.JFrame {
     public AppFrame() {
         FlatLightLaf.setup();
         initComponents();
-        startChart();
+        addChart();
+
         this.setLocationRelativeTo(null);
     }
-
-    private void startChart() {
-        XYSeriesCollection emptyData = new XYSeriesCollection();
-
-        String chartTitle = "Data";
-        String xAxisLabel = "X";
-        String yAxisLabel = "Y";
-
-        JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
-                xAxisLabel, yAxisLabel, emptyData);
-
-        emptyChart = new ChartPanel(chart);
-
-        XYPlot plot = chart.getXYPlot();
-        plot.setRangePannable(true);
-        plot.setDomainPannable(true);
-        jPanel1.add(emptyChart);
+    
+    public void addChart(){
+        chartDisplay = new ChartDisplay(this);
+        jPanel1.removeAll();
+        jPanel1.add(chartDisplay);
+        validate();
+        repaint();
     }
+
+//    private void startChart() {
+//        XYSeriesCollection emptyData = new XYSeriesCollection();
+//
+//        String chartTitle = "Data";
+//        String xAxisLabel = "X";
+//        String yAxisLabel = "Y";
+//
+//        JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
+//                xAxisLabel, yAxisLabel, emptyData);
+//
+//        emptyChart = new ChartPanel(chart);
+//
+//        XYPlot plot = chart.getXYPlot();
+//        plot.setRangePannable(true);
+//        plot.setDomainPannable(true);
+//        
+//        jPanel1.add(emptyChart);
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -222,7 +234,7 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_RemoveChartMenuItemActionPerformed
 
     private void importDataMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_importDataMenuItemActionPerformed
-        ActionListener importAction = new ImportDataAction(importChooser, this);
+        ActionListener importAction = new ImportDataAction(importChooser, chartDisplay);
         importAction.actionPerformed(evt);
     }// GEN-LAST:event_importDataMenuItemActionPerformed
 

@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import java.awt.event.ActionEvent;
@@ -11,38 +15,33 @@ import javax.swing.JOptionPane;
  *
  * @author josef
  */
-public class CSVAction implements ActionListener {
-
+public class CSVAddAction implements ActionListener {
     JDialog dialog;
-    int xaxis;
     int yaxis;
-    private javax.swing.JList<String> XAxisList;
     private javax.swing.JList<String> YAxisList;
 
-    private static CSVAction instance;
+    private static CSVAddAction instance;
 
-    public static CSVAction getInstance() {
+    public static CSVAddAction getInstance() {
         if (instance == null) {
             System.err.println("CSVAction has not been initialized");
         }
         return instance;
     }
 
-    public CSVAction(JDialog w, javax.swing.JList<String> XList, javax.swing.JList<String> YList) {
+    public CSVAddAction(JDialog w, javax.swing.JList<String> YList) {
         this.dialog = w;
-        this.XAxisList = XList;
         this.YAxisList = YList;
-        CSVAction.instance = this;
+        CSVAddAction.instance = this;
     }
     
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        xaxis = XAxisList.getSelectedIndex();
         yaxis = YAxisList.getSelectedIndex();
 
-        System.out.println("CSVAction: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
-        if (yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
+        System.out.println("CSVAction: Selected Axis --- Y-Axis: " + yaxis);
+        if (yaxis == -1 ) {
             badIndex();
         } else {
             dialog.dispose();
@@ -54,12 +53,8 @@ public class CSVAction implements ActionListener {
         JOptionPane.showMessageDialog(bFrame, "Select valid indexes", "Error", HEIGHT);
     }
 
-    public int getXAxis() {
-        return xaxis;
-    }
-
     public int getYAxis() {
         return yaxis;
     }
-
+    
 }

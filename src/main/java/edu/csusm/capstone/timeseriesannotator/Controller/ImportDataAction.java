@@ -10,6 +10,7 @@ import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.awt.event.ActionEvent;
@@ -27,11 +28,12 @@ public class ImportDataAction implements ActionListener {
     ChartPanel cP;
     
     JFileChooser importChooser;
-    AppFrame fun;
+    //AppFrame fun;
+    ChartDisplay dis;
     
-    public ImportDataAction(JFileChooser importChooser, AppFrame f) {
+    public ImportDataAction(JFileChooser importChooser, ChartDisplay f) {
         this.importChooser = importChooser;
-        this.fun = f;
+        this.dis = f;
     }
     
     /**
@@ -126,7 +128,7 @@ public class ImportDataAction implements ActionListener {
                     break;
                 default:
             }
-           fun.setChart(cP);
+           dis.setChart(cP);
         }
     }
     

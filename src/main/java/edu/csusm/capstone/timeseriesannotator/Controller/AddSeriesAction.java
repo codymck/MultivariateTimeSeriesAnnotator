@@ -24,13 +24,13 @@ public class AddSeriesAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        DataReader dReader;
-        CSVReader c = (CSVReader)dReader;
-        String[] headers = c.getHeaders();
-        
-        CSVaddSeries series = new CSVaddSeries(new javax.swing.JFrame(), true);
-        series.setModel(headers);
-        series.setVisible(true);
+//        DataReader dReader;
+//        CSVReader c = (CSVReader)dReader;
+//        String[] headers = c.getHeaders();
+//        
+//        CSVaddSeries series = new CSVaddSeries(new javax.swing.JFrame(), true);
+//        series.setModel(headers);
+//        series.setVisible(true);
         
         
     }

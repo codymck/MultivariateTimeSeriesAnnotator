@@ -20,7 +20,7 @@ public class LineChart implements ChartsIF {
     @Override
     public ChartPanel createChartPanel() {
         XYLineChartDataset xyChart = new XYLineChartDataset();
-        xyChart.createDataset();
+        xyChart.createDataset();//move to add another series?
         
         String chartTitle = "Data";
         String xAxisLabel = "X";

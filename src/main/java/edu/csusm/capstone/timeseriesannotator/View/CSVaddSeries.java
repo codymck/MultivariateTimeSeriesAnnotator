@@ -23,7 +23,7 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
         this.setLocationRelativeTo(null);
     }
     
-        public void setModel(String[] h) {
+    public void setModel(String[] h) {
         YAxisList.setModel(new DefaultComboBoxModel<>(h));
     }
 

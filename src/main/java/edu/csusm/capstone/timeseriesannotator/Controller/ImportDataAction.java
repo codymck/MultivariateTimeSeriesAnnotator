@@ -28,7 +28,6 @@ public class ImportDataAction implements ActionListener {
     ChartPanel cP;
     
     JFileChooser importChooser;
-    //AppFrame fun;
     ChartDisplay dis;
     Chart chartStruct;
     
@@ -137,19 +136,6 @@ public class ImportDataAction implements ActionListener {
            }
            
            this.dis.setChartData(chartStruct);
-           
-//           switch(chartType) {
-//                case 1:
-//                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.LineChart);
-//                    break;
-//                case 2:
-//                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.ScatterPlot);
-//                    break;
-//                case 3:
-//                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.StepChart);
-//                    break;
-//                default:
-//            }
 
            cP = ChartBuilder.buildCharts(chartStruct.getChartType());
            

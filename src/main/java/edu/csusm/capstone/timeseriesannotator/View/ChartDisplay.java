@@ -59,6 +59,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         repaint();
         setVisible(true);
     }
+    
 //    public void addSeries(XYDataset s){
 //        emptyChart.add(s);
 //    }

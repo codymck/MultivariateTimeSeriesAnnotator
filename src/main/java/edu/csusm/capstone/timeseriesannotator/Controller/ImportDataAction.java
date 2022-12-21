@@ -4,6 +4,7 @@
  */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
+import edu.csusm.capstone.timeseriesannotator.Controller.ChartBuilder.ChartTypes;
 import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
 import edu.csusm.capstone.timeseriesannotator.Model.DataFormatter;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
@@ -29,6 +30,7 @@ public class ImportDataAction implements ActionListener {
     JFileChooser importChooser;
     //AppFrame fun;
     ChartDisplay dis;
+    Chart chartStruct;
     
     public ImportDataAction(JFileChooser importChooser, ChartDisplay f) {
         this.importChooser = importChooser;
@@ -76,8 +78,25 @@ public class ImportDataAction implements ActionListener {
            Cselect.setVisible(true);
            ChartAction tAction = ChartAction.getInstance();
            int chartType = tAction.getType();
-           //Select menu features
+           ChartTypes t = ChartTypes.LineChart;
            
+           switch(chartType) {
+                case 1:
+                    t = ChartTypes.LineChart;
+                    break;
+                case 2:
+                    t = ChartTypes.ScatterPlot;
+                    break;
+                case 3:
+                    t = ChartTypes.StepChart;
+                    break;
+                default:
+            }
+           
+           chartStruct = new Chart(fileName, fileType, t);
+           
+           
+           //Select menu features
            if("csv".equals(fileType)) {
                System.out.println("ImportDataAction: CSV File Imported");
                dReader = new CSVReader();
@@ -91,6 +110,7 @@ public class ImportDataAction implements ActionListener {
                select.setVisible(true);
                
                CSVAction cAction = CSVAction.getInstance();
+               chartStruct.setXaxis(cAction.getXAxis());
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
@@ -115,18 +135,24 @@ public class ImportDataAction implements ActionListener {
                System.out.println("ImportDataAction: Unsupported File Type");
                // TODO build popup window with error message for unsupported file type
            }
-           switch(chartType) {
-                case 1:
-                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.LineChart);
-                    break;
-                case 2:
-                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.ScatterPlot);
-                    break;
-                case 3:
-                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.StepChart);
-                    break;
-                default:
-            }
+           
+           this.dis.setChartData(chartStruct);
+           
+//           switch(chartType) {
+//                case 1:
+//                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.LineChart);
+//                    break;
+//                case 2:
+//                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.ScatterPlot);
+//                    break;
+//                case 3:
+//                    cP = ChartBuilder.buildCharts(ChartBuilder.ChartTypes.StepChart);
+//                    break;
+//                default:
+//            }
+
+           cP = ChartBuilder.buildCharts(chartStruct.getChartType());
+           
            dis.setChart(cP);
         }
     }

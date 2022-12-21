@@ -20,6 +20,7 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
     public CSVaddSeries(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
         public void setModel(String[] h) {

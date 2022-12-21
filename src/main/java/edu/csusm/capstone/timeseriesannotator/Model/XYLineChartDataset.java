@@ -17,7 +17,7 @@ public class XYLineChartDataset implements ChartData {
     public void createDataset() {
         dFormat = DataFormatter.getInstance();
         
-        dataset = new XYSeriesCollection();
+        this.dataset = new XYSeriesCollection();//need to reference for new series
 
         XYSeries series1 = new XYSeries("test");
 
@@ -34,7 +34,32 @@ public class XYLineChartDataset implements ChartData {
             }
         }
 
-        dataset.addSeries(series1);
+        this.dataset.addSeries(series1);
+
+    }
+    
+    @Override
+    public void addDataset() {
+        dFormat = DataFormatter.getInstance();
+        
+        //dataset = new XYSeriesCollection();//need to reference for new series
+
+        XYSeries series2 = new XYSeries("test");
+
+        float[] x = dFormat.getXDataset();
+        float[] y = dFormat.getYDataset();
+
+        for (int i = 0; i < x.length; i++) {
+            try {
+                series2.add(x[i], y[i]);
+            } catch (SeriesException e) {
+                System.err.println("Error adding to series");
+                e.printStackTrace();
+                break;
+            }
+        }
+
+        this.dataset.addSeries(series2);
 
     }
     

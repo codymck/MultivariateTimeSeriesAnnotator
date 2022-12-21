@@ -5,11 +5,13 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
+import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
 import java.awt.event.ActionListener;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
@@ -19,6 +21,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     ChartPanel emptyChart;
     AppFrame frame;
+    Chart chartStruct;
     /**
      * Creates new form ChartPanel
      */
@@ -55,6 +58,13 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         validate();
         repaint();
         setVisible(true);
+    }
+//    public void addSeries(XYDataset s){
+//        emptyChart.add(s);
+//    }
+    
+    public void setChartData(Chart c){
+        this.chartStruct = c;
     }
 
     /**
@@ -141,7 +151,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       ActionListener addAction = new AddSeriesAction();
+       ActionListener addAction = new AddSeriesAction(this.chartStruct, this);
        addAction.actionPerformed(evt);
     }//GEN-LAST:event_jButton2ActionPerformed
 

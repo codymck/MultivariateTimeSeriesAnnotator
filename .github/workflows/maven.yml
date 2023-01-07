@@ -13,7 +13,11 @@ on: [push]
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+            matrix:
+                os: [macos-11, windows-latest]
 
     steps:
     - uses: actions/checkout@v3

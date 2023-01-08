@@ -5,8 +5,6 @@ import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -115,7 +113,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
-        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
+        jPanel1.setLayout(new java.awt.BorderLayout());
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -241,7 +239,7 @@ public class AppFrame extends javax.swing.JFrame {
             chartDisplay = new ChartDisplay(this);
             charts.add(chartDisplay);
             split.addComponent(chartDisplay);
-            split.setAlignment(JSplitPane.VERTICAL_SPLIT);
+            //split.setAlignment(JSplitPane.HORIZONTAL_SPLIT);
 
             this.validate();
             this.repaint();

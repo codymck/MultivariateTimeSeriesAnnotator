@@ -4,8 +4,8 @@
  */
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import java.awt.Component;
 import java.util.ArrayList;
+import javax.swing.JPanel;
 
 import javax.swing.JSplitPane;
 
@@ -13,141 +13,170 @@ import javax.swing.JSplitPane;
  *
  * @author Cody McKinney
  */
-public class MultiSplitPane extends JSplitPane {
-    
-    private ArrayList<JSplitPane> panelList = new ArrayList<JSplitPane>();
-    private int numberOfPanels = 1;
+public class MultiSplitPane extends JPanel {
+
+    private ArrayList<ChartDisplay> chartList = new ArrayList<ChartDisplay>();
     private final int division = 6;
-    
+
     /**
      * Builds MultiSplitPane
      */
     public MultiSplitPane() {
         super();
-        this.setLeftComponent(null);
-        this.setRightComponent(null);
         this.setBorder(null);
-        panelList.add(this);
-        setAllBorders(division);
+        this.setLayout(new java.awt.BorderLayout());
     }
-    
+
     /**
-     * @param c
+     * @param c - component to add
      */
-    public void addComponent(Component c) {
-        JSplitPane container = new JSplitPane();
-        container.setRightComponent(null);
-        container.setLeftComponent(c);
-        container.setDividerSize(division);
-        container.setBorder(null);
-        
-        panelList.get(numberOfPanels - 1).setRightComponent(container);
-        panelList.add(container);
-        
-        numberOfPanels++;
-        this.fixWeights();
+    public void addComponent(ChartDisplay c) {
+
+        chartList.add(c);
+        formatSplitPane();
     }
-    
-    /**
-     * 
-     * @param orientation 
-     *          JSplitPane.HORIZONTAL_SPLIT - sets orientation of components to horizontal alignment
-     *          JSPlitPane.VERTICAL_SPLIT - sets orientation of components to vertical alignment
-     */
-    public void setAlignment(int orientation) {
-        for (int i = 0; i < numberOfPanels; i++) {
-            panelList.get(i).setOrientation(orientation);
+
+    private void formatSplitPane() {
+        this.removeAll();
+        switch (chartList.size()) {
+            case 1 ->
+                this.add(chartList.get(0));
+            case 2 -> {
+                JSplitPane container = new JSplitPane();
+                container.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                container.setTopComponent(chartList.get(0));
+                container.setBottomComponent(chartList.get(1));
+                container.setDividerSize(division);
+                container.setBorder(null);
+                container.setResizeWeight(0.5);
+                this.add(container);
+            }
+            case 3 -> {
+                JSplitPane container2 = new JSplitPane();
+                container2.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                container2.setTopComponent(chartList.get(1));
+                container2.setBottomComponent(chartList.get(2));
+                container2.setDividerSize(division);
+                container2.setBorder(null);
+                container2.setResizeWeight(0.5);
+                JSplitPane container1 = new JSplitPane();
+                container1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                container1.setTopComponent(chartList.get(0));
+                container1.setBottomComponent(container2);
+                container1.setDividerSize(division);
+                container1.setBorder(null);
+                container1.setResizeWeight(0.3);
+                this.add(container1);
+            }
+            case 4 -> {
+                JSplitPane containerRight = new JSplitPane();
+                containerRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                containerRight.setTopComponent(chartList.get(1));
+                containerRight.setBottomComponent(chartList.get(3));
+                containerRight.setDividerSize(division);
+                containerRight.setBorder(null);
+                containerRight.setResizeWeight(0.5);
+                JSplitPane containerLeft = new JSplitPane();
+                containerLeft.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                containerLeft.setTopComponent(chartList.get(0));
+                containerLeft.setBottomComponent(chartList.get(2));
+                containerLeft.setDividerSize(division);
+                containerLeft.setBorder(null);
+                containerLeft.setResizeWeight(0.5);
+                JSplitPane container1 = new JSplitPane();
+                container1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+                container1.setLeftComponent(containerLeft);
+                container1.setRightComponent(containerRight);
+                container1.setDividerSize(division);
+                container1.setBorder(null);
+                container1.setResizeWeight(0.5);
+                this.add(container1);
+            }
+            case 5 -> {
+                JSplitPane containerRight = new JSplitPane();
+                containerRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                containerRight.setTopComponent(chartList.get(1));
+                containerRight.setBottomComponent(chartList.get(3));
+                containerRight.setDividerSize(division);
+                containerRight.setBorder(null);
+                containerRight.setResizeWeight(0.5);
+                JSplitPane containerLeft = new JSplitPane();
+                containerLeft.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                containerLeft.setTopComponent(chartList.get(0));
+                containerLeft.setBottomComponent(chartList.get(2));
+                containerLeft.setDividerSize(division);
+                containerLeft.setBorder(null);
+                containerLeft.setResizeWeight(0.5);
+                JSplitPane container1 = new JSplitPane();
+                container1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+                container1.setLeftComponent(containerLeft);
+                container1.setRightComponent(containerRight);
+                container1.setDividerSize(division);
+                container1.setBorder(null);
+                container1.setResizeWeight(0.5);
+                this.add(container1);
+                JSplitPane container0 = new JSplitPane();
+                container0.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                container0.setTopComponent(container1);
+                container0.setBottomComponent(chartList.get(4));
+                container0.setDividerSize(division);
+                container0.setBorder(null);
+                container0.setResizeWeight(0.75);
+                this.add(container0);
+            }
+            case 6 -> {
+                JSplitPane containerRightNest = new JSplitPane();
+                containerRightNest.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                containerRightNest.setTopComponent(chartList.get(3));
+                containerRightNest.setBottomComponent(chartList.get(5));
+                containerRightNest.setDividerSize(division);
+                containerRightNest.setBorder(null);
+                containerRightNest.setResizeWeight(0.5);
+                JSplitPane containerRight = new JSplitPane();
+                containerRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                containerRight.setTopComponent(chartList.get(1));
+                containerRight.setBottomComponent(containerRightNest);
+                containerRight.setDividerSize(division);
+                containerRight.setBorder(null);
+                containerRight.setResizeWeight(0.3);
+                JSplitPane containerLeftNest = new JSplitPane();
+                containerLeftNest.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                containerLeftNest.setTopComponent(chartList.get(2));
+                containerLeftNest.setBottomComponent(chartList.get(4));
+                containerLeftNest.setDividerSize(division);
+                containerLeftNest.setBorder(null);
+                containerLeftNest.setResizeWeight(0.5);
+                JSplitPane containerLeft = new JSplitPane();
+                containerLeft.setOrientation(JSplitPane.VERTICAL_SPLIT);
+                containerLeft.setTopComponent(chartList.get(0));
+                containerLeft.setBottomComponent(containerLeftNest);
+                containerLeft.setDividerSize(division);
+                containerLeft.setBorder(null);
+                containerLeft.setResizeWeight(0.3);
+                JSplitPane container1 = new JSplitPane();
+                container1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+                container1.setLeftComponent(containerLeft);
+                container1.setRightComponent(containerRight);
+                container1.setDividerSize(division);
+                container1.setBorder(null);
+                container1.setResizeWeight(0.5);
+                this.add(container1);
+            }
+            default -> {
+            }
         }
     }
 
     /**
-     * 
-     * @param size - resizes the borders of all components
-     */
-    private void setAllBorders(int size) {
-        this.setDividerSize(size);
-        
-        for(int i = 0; i < numberOfPanels; i++) {
-            panelList.get(i).setDividerSize(size);
-        }
-    }
-
-    private void fixWeights() {
-        panelList.get(0).setResizeWeight(1.0);
-        
-        for (int i = 1; i < numberOfPanels; i++) {
-            double resize = (double) 1 / (double) (i + 1);
-            panelList.get(numberOfPanels - i - 1).setResizeWeight(resize);
-        }
-        
-        panelList.get(numberOfPanels - 1).setResizeWeight(0.0);
-    }
-    
-    /**
-     * 
+     *
      * @param c - component to be removed
      */
-    public void removeComponent(Component c) {
-        for (int i = 0; i < numberOfPanels; i++) {
-            if (numberOfPanels == 2) {
-                if (c == panelList.get(i).getLeftComponent()) {
-                    panelList.remove(i);
-                    numberOfPanels--;
-                    panelList.get(0).setRightComponent(null);
-                }
-            } else if (numberOfPanels > 2 && i != (numberOfPanels - 1)) {
-                if (c == panelList.get(i).getLeftComponent()) {
-                    panelList.get(i - 1).setRightComponent(panelList.get(i + 1));
-                    panelList.remove(i);
-                    numberOfPanels--;
-                }
-            } else if (i == (numberOfPanels - 1)) {
-                if (c == panelList.get(i).getLeftComponent()) {
-                    panelList.get(i - 1).setRightComponent(null);
-                    panelList.remove(i);
-                    numberOfPanels--;
-                }
+    public void removeComponent(ChartDisplay c) {
+        for (int i = 0; i < chartList.size(); i++) {
+            if(chartList.get(i) == c){
+                chartList.remove(i);
             }
-            this.fixWeights();        
         }
+        formatSplitPane();
     }
-    
-    /**
-     * 
-     * @param index - index to remove the items
-     */
-    public void removeComponent(int index) {
-        index = index + 1;
-        for (int i = 1; i < numberOfPanels; i++) {
-            // treats when there are just 2 elements
-            if (numberOfPanels == 2) {
-                if (index == i) {
-                    panelList.remove(i);
-                    numberOfPanels--;
-                    panelList.get(0).setRightComponent(null);
-                }
-
-            } else if (numberOfPanels > 2 && i != (numberOfPanels - 1)) {
-                if (index == i) {
-                    panelList.get(i - 1).setRightComponent(panelList.get(i + 1));
-                    panelList.remove(i);
-                    numberOfPanels--;
-                }
-
-            } else if (i == (numberOfPanels - 1)) {
-                if (index == i) {
-                    panelList.get(i - 1).setRightComponent(null);
-                    panelList.remove(i);
-                    numberOfPanels--;
-                }
-            }
-            this.fixWeights();
-        }
-
-    }
-
-    public int getNumberOfComponents() {
-        return numberOfPanels;
-    }
-    
 }

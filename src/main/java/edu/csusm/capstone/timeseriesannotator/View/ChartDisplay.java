@@ -5,6 +5,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -51,7 +52,13 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         if (emptyChart.getParent() == jPanel2) {
             jPanel2.remove(emptyChart);
         }
-        jPanel2.add(p);
+        emptyChart = p;
+        
+        emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
+        emptyChart.setFillZoomRectangle(false);
+        emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
+        
+        jPanel2.add(emptyChart);
         validate();
         repaint();
         setVisible(true);

@@ -5,6 +5,7 @@ import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -121,7 +122,6 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
-        buttonGroup1.add(jToggleButton2);
         jToggleButton2.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/zoomin.png"));
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,7 +252,24 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_importDataMenuItemActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton2ActionPerformed
-        // TODO add your handling code here:
+        AbstractButton aB = (AbstractButton) evt.getSource();
+        boolean selected = aB.getModel().isSelected();
+        System.out.println("Action - selected = " + selected);
+        
+        if (selected) {
+            for (int i = 0; i < charts.size(); i++) {
+                charts.get(i).emptyChart.setZoomTriggerDistance(ChartPanel.DEFAULT_ZOOM_TRIGGER_DISTANCE);
+                charts.get(i).emptyChart.setFillZoomRectangle(true);
+                charts.get(i).emptyChart.setZoomOutlinePaint(new Color(14, 139, 98));
+            }
+        } else if (!selected) {
+            for (int i = 0; i < charts.size(); i++) {
+                charts.get(i).emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
+                charts.get(i).emptyChart.setFillZoomRectangle(false);
+                charts.get(i).emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
+            }
+        }
+
     }// GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton1ActionPerformed

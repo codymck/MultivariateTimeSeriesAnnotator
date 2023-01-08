@@ -46,6 +46,7 @@ public class MultiSplitPane extends JSplitPane {
         
         numberOfPanels++;
         this.fixWeights();
+        this.setAllBorders(division);
     }
     
     /**
@@ -69,6 +70,10 @@ public class MultiSplitPane extends JSplitPane {
         
         for(int i = 0; i < numberOfPanels; i++) {
             panelList.get(i).setDividerSize(size);
+            
+            if ((i+1) == numberOfPanels) {
+                panelList.get(i).setDividerSize(0);
+            }
         }
     }
 

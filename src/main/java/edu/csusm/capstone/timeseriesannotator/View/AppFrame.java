@@ -254,7 +254,23 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_importDataMenuItemActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton2ActionPerformed
-        // TODO add your handling code here:
+        
+        
+        // WORK HERE      -- IN PROGRESS
+        if (jToggleButton2.isSelected()) {
+            for (int i = 0; i < charts.size(); i++) {
+                charts.get(i).emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
+                charts.get(i).emptyChart.setFillZoomRectangle(false);
+                charts.get(i).emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
+            }
+        } else if (!jToggleButton2.isSelected()) {
+            for (int i = 0; i < charts.size(); i++) {
+                charts.get(i).emptyChart.setZoomTriggerDistance(ChartPanel.DEFAULT_ZOOM_TRIGGER_DISTANCE);
+                charts.get(i).emptyChart.setFillZoomRectangle(true);
+                charts.get(i).emptyChart.setZoomOutlinePaint(new Color(14f, 139f, 98f, 1f));
+            }
+        }
+        
     }// GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton1ActionPerformed

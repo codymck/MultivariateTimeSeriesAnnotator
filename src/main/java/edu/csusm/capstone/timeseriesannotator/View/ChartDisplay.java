@@ -51,7 +51,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         if (emptyChart.getParent() == jPanel2) {
             jPanel2.remove(emptyChart);
         }
-        jPanel2.add(p);
+        emptyChart = p;
+        jPanel2.add(emptyChart);
         validate();
         repaint();
         setVisible(true);

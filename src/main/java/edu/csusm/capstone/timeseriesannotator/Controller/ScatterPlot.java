@@ -15,14 +15,17 @@ import org.jfree.data.xy.XYDataset;
  */
 public class ScatterPlot implements ChartsIF {
     
+    XYLineChartDataset xyChart;
+    Chart chartStruct = Chart.getInstance();
+    
     ScatterPlot() {
         
     }
 
     @Override
     public ChartPanel createChartPanel() {
-        XYLineChartDataset xyChart = new XYLineChartDataset();
-        xyChart.createDataset();
+        
+        dataSetter();
         
         String chartTitle = "Data";
         String xAxisLabel = "X";
@@ -51,6 +54,17 @@ public class ScatterPlot implements ChartsIF {
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
         return cP;
+    }
+    
+    public void dataSetter(){
+        xyChart = chartStruct.getSeries();
+        if(chartStruct.getFlag() == 1){
+            xyChart.createDataset();
+            chartStruct.setFlag(2);
+        }
+        else if (chartStruct.getFlag() == 2){
+            xyChart.addDataset();
+        }
     }
     
 }

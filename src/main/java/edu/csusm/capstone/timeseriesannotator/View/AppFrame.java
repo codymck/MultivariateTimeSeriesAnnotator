@@ -7,11 +7,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.UIManager;
-import org.jfree.chart.ChartFactory;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -19,11 +16,11 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class AppFrame extends javax.swing.JFrame {
 
-    ChartPanel emptyChart;
     ChartDisplay chartDisplay;
     ArrayList<ChartDisplay> charts;
-
+    
     MultiSplitPane split = new MultiSplitPane();
+
 
     /**
      * Creates new form Frame
@@ -32,50 +29,43 @@ public class AppFrame extends javax.swing.JFrame {
         this.charts = new ArrayList<>(6);
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             System.err.println("Failed to initialize LaF");
         }
         initComponents();
+        initialChart();
+        
+        //jPanel1.add(split);
+        
 
-        jPanel1.add(split);
         this.setLocationRelativeTo(null);
     }
 
-    public void addChart() {
+    //Creates an empty chart on instantiation of program
+    private void initialChart() {
         chartDisplay = new ChartDisplay(this);
         charts.add(chartDisplay);
+        split.addComponent(chartDisplay);
         jPanel1.removeAll();
-        for (int i = 0; i < charts.size(); i++) {
-            jPanel1.add(charts.get(i));
-        }
+        jPanel1.add(split);
         validate();
         repaint();
     }
+    
+    //Adds additional charts to the panel
+    public void addChart(ArrayList<ChartDisplay> c) {
+        this.charts = c;
+        //jPanel1.removeAll();
+        chartDisplay = charts.get(charts.size() - 1);
+    }
 
+    //Removes the ChartDisplay from the panel
     public void removeChart(ChartDisplay c) {
         split.removeComponent(c);
         charts.remove(c);
+        //jPanel1.remove(c);
         validate();
         repaint();
-    }
-
-    private void startChart() {
-        XYSeriesCollection emptyData = new XYSeriesCollection();
-
-        String chartTitle = "Data";
-        String xAxisLabel = "X";
-        String yAxisLabel = "Y";
-
-        JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
-                xAxisLabel, yAxisLabel, emptyData);
-
-        emptyChart = new ChartPanel(chart);
-
-        XYPlot plot = chart.getXYPlot();
-        plot.setRangePannable(true);
-        plot.setDomainPannable(true);
-
-        jPanel1.add(emptyChart);
     }
 
     /**
@@ -114,7 +104,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -122,6 +112,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
+        buttonGroup1.add(jToggleButton2);
         jToggleButton2.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/zoomin.png"));
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,16 +225,8 @@ public class AppFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_RemoveChartMenuItemActionPerformed
-        System.out.println("add");
-        if (charts.size() < 6) {
-            chartDisplay = new ChartDisplay(this);
-            charts.add(chartDisplay);
-            split.addComponent(chartDisplay);
-            //split.setAlignment(JSplitPane.HORIZONTAL_SPLIT);
-
-            this.validate();
-            this.repaint();
-        }
+        ActionListener addChart = new AddChartAction(split, charts, this);
+        addChart.actionPerformed(evt);
     }// GEN-LAST:event_RemoveChartMenuItemActionPerformed
 
     private void importDataMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_importDataMenuItemActionPerformed
@@ -268,9 +251,7 @@ public class AppFrame extends javax.swing.JFrame {
                 charts.get(i).emptyChart.setFillZoomRectangle(false);
                 charts.get(i).emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
             }
-        }
-
-    }// GEN-LAST:event_jToggleButton2ActionPerformed
+        }    }// GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
@@ -311,16 +292,6 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JMenu optionsMenuItem;
     // End of variables declaration//GEN-END:variables
 
-    public void setChart(ChartPanel p) {
-        if (emptyChart.getParent() == jPanel1) {
-            jPanel1.remove(emptyChart);
-        }
-        jPanel1.add(p);
-        this.pack();
-        this.validate();
-        jPanel1.repaint();
-        jPanel1.revalidate();
-    }
 
     public javax.swing.JMenuItem getImportButton() {
         return importDataMenuItem;

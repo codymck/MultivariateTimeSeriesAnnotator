@@ -26,7 +26,7 @@ import org.jfree.data.xy.XYDataset;
 public class AddSeriesAction implements ActionListener {
     
     ChartPanel cP;
-    Chart chartStruct;
+    Chart chartStruct = Chart.getInstance();
     ChartDisplay dis;
     XYDataset series;
     
@@ -56,7 +56,7 @@ public class AddSeriesAction implements ActionListener {
             series.setModel(headers);
             series.setVisible(true);
                
-            CSVAddAction cAction = CSVAddAction.getInstance();
+            CSVaddAction cAction = CSVaddAction.getInstance();
                
             DataFormatter df = new DataFormatter(dReader);
             df.formatCSV(chartStruct.getXaxis(), cAction.getYAxis());
@@ -81,9 +81,6 @@ public class AddSeriesAction implements ActionListener {
             System.out.println("ImportDataAction: Unsupported File Type");
             // TODO build popup window with error message for unsupported file type
         }
-//        XYLineChartDataset xyChart = new XYLineChartDataset();
-//        xyChart.createDataset();
-//        series = xyChart.getDataset();
 
         cP = ChartBuilder.buildCharts(chartStruct.getChartType());
         dis.setChart(cP);

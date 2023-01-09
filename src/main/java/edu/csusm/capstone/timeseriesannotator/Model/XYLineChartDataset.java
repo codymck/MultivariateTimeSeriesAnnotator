@@ -12,6 +12,7 @@ public class XYLineChartDataset implements ChartData {
     public XYLineChartDataset() {
         System.out.println("Chart being created");
     }
+    
 
     @Override
     public void createDataset() {
@@ -41,10 +42,8 @@ public class XYLineChartDataset implements ChartData {
     @Override
     public void addDataset() {
         dFormat = DataFormatter.getInstance();
-        
-        //dataset = new XYSeriesCollection();//need to reference for new series
 
-        XYSeries series2 = new XYSeries("test");
+        XYSeries series2 = new XYSeries("test2");
 
         float[] x = dFormat.getXDataset();
         float[] y = dFormat.getYDataset();

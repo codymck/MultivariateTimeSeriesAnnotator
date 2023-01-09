@@ -9,6 +9,7 @@ import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
 import edu.csusm.capstone.timeseriesannotator.Model.DataFormatter;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
+import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
@@ -29,7 +30,7 @@ public class ImportDataAction implements ActionListener {
     
     JFileChooser importChooser;
     ChartDisplay dis;
-    Chart chartStruct;
+    Chart chartStruct;// = Chart.getInstance();
     
     public ImportDataAction(JFileChooser importChooser, ChartDisplay f) {
         this.importChooser = importChooser;
@@ -92,7 +93,9 @@ public class ImportDataAction implements ActionListener {
                 default:
             }
            
-           chartStruct = new Chart(fileName, fileType, t);
+           XYLineChartDataset xyChart = new XYLineChartDataset();
+           
+           chartStruct = new Chart(fileName, fileType, t, xyChart);
            
            
            //Select menu features
@@ -134,6 +137,7 @@ public class ImportDataAction implements ActionListener {
                System.out.println("ImportDataAction: Unsupported File Type");
                // TODO build popup window with error message for unsupported file type
            }
+           
            
            dis.setChartData(chartStruct);
 

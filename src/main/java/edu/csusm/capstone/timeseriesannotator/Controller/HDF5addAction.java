@@ -15,45 +15,43 @@ import javax.swing.JOptionPane;
  *
  * @author josef
  */
-public class CSVaddAction implements ActionListener {
+public class HDF5addAction implements ActionListener {
     JDialog dialog;
-    int yaxis;
-    private javax.swing.JList<String> YAxisList;
+    String yaxis;
 
-    private static CSVaddAction instance;
+    private static HDF5addAction instance;
 
-    public static CSVaddAction getInstance() {
+    public static HDF5addAction getInstance() {
         if (instance == null) {
             System.err.println("CSVAction has not been initialized");
         }
         return instance;
     }
 
-    public CSVaddAction(JDialog w, javax.swing.JList<String> YList) {
+    public HDF5addAction(JDialog w, javax.swing.JTextField Yaxispath) {
         this.dialog = w;
-        this.YAxisList = YList;
-        CSVaddAction.instance = this;
+        yaxis = Yaxispath.getText();
+        HDF5addAction.instance = this;
     }
     
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        yaxis = YAxisList.getSelectedIndex();
-
-        System.out.println("CSVAction: Selected Axis --- Y-Axis: " + yaxis);
-        if (yaxis == -1 ) {
-            badIndex();
-        } else {
+        System.out.println("HDF5Action: Selected Axis --- Y-Axis: " + yaxis);
+        if(yaxis.isBlank()) {
+            badPath();
+        }else{
             dialog.dispose();
         }
     }
 
-    public void badIndex() {
+    public void badPath(){
         JFrame bFrame = new JFrame();
-        JOptionPane.showMessageDialog(bFrame, "Select valid indexes", "Error", HEIGHT);
+        JOptionPane.showMessageDialog(bFrame, "Enter Valid Path", "Error", HEIGHT);
     }
+   
 
-    public int getYAxis() {
+    public String getYPath() {
         return yaxis;
     }
     

@@ -52,16 +52,12 @@ public class AppFrame extends javax.swing.JFrame {
         repaint();
     }
     
-//    //Adds additional charts to the panel
-//    public void addChart(ArrayList<ChartDisplay> c) {
-//        this.charts = c;
-//        jPanel1.removeAll();
-//        for (int i = 0; i < charts.size(); i++) {
-//            jPanel1.add(charts.get(i));
-//        }
-//        validate();
-//        repaint();
-//    }
+    //Adds additional charts to the panel
+    public void addChart(ArrayList<ChartDisplay> c) {
+        this.charts = c;
+        //jPanel1.removeAll();
+        chartDisplay = charts.get(charts.size() - 1);
+    }
 
     //Removes the ChartDisplay from the panel
     public void removeChart(ChartDisplay c) {
@@ -229,7 +225,7 @@ public class AppFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_RemoveChartMenuItemActionPerformed
-        ActionListener addChart = new AddChartAction(split, charts);
+        ActionListener addChart = new AddChartAction(split, charts, this);
         addChart.actionPerformed(evt);
     }// GEN-LAST:event_RemoveChartMenuItemActionPerformed
 

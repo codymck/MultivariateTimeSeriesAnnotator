@@ -5,6 +5,7 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartBuilder.ChartTypes;
+import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 
 /**
  *
@@ -15,12 +16,23 @@ public class Chart {
     private String fileType;
     private ChartTypes chartType;
     private int Xaxis; 
+    private XYLineChartDataset series;
+    private int flag;
+    
+    public static Chart Ct;
     
     
-    public Chart(String f, String t, ChartTypes c){
+    public Chart(String f, String t, ChartTypes c, XYLineChartDataset d){
         fileName = f;
         fileType = t;
         chartType = c;
+        series = d;
+        flag = 1;
+        Ct = this;
+    }
+    
+    public static Chart getInstance() {
+        return Ct;
     }
     
 //    public void setFileName(String f){
@@ -53,6 +65,17 @@ public class Chart {
         
     public ChartTypes getChartType(){
         return chartType;
+    }
+    
+    public XYLineChartDataset getSeries(){
+        return series;
+    }
+    
+    public int getFlag(){
+        return flag;
+    }
+    public void setFlag(int f){
+        flag = f;
     }
     
 }

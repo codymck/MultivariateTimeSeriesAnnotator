@@ -22,9 +22,10 @@ public class AddChartAction implements ActionListener {
     AppFrame frame;
     MultiSplitPane split;
     
-    public AddChartAction(MultiSplitPane s, ArrayList<ChartDisplay> c){
+    public AddChartAction(MultiSplitPane s, ArrayList<ChartDisplay> c, AppFrame f){
         this.split = s;
         this.charts = c;
+        this.frame = f;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class AddChartAction implements ActionListener {
             chartDisplay = new ChartDisplay(frame);
             charts.add(chartDisplay);
             split.addComponent(chartDisplay);
-            //frame.addChart(charts);
+            frame.addChart(charts);
         }
         else{
             //add too many charts error message

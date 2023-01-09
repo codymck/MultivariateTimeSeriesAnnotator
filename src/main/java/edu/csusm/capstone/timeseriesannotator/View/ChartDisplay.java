@@ -8,6 +8,8 @@ import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.plot.XYPlot;
@@ -57,6 +59,19 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
         emptyChart.setFillZoomRectangle(false);
         emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
+        
+        emptyChart.addChartMouseListener(new ChartMouseListener() {
+            @Override
+            public void chartMouseClicked(ChartMouseEvent event) {
+                if (event.getTrigger().getClickCount() == 2) {
+                    emptyChart.restoreAutoBounds();
+                }
+            }
+
+            @Override
+            public void chartMouseMoved(ChartMouseEvent event) {
+            }
+        });
         
         jPanel2.add(emptyChart);
         validate();

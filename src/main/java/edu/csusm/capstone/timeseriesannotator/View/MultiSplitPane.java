@@ -34,6 +34,8 @@ public class MultiSplitPane extends JPanel {
 
         chartList.add(c);
         formatSplitPane();
+        validate();
+        repaint();
     }
 
     private void formatSplitPane() {

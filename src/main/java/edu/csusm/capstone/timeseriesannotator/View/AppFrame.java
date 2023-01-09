@@ -2,10 +2,13 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -15,6 +18,9 @@ public class AppFrame extends javax.swing.JFrame {
 
     ChartDisplay chartDisplay;
     ArrayList<ChartDisplay> charts;
+    
+    MultiSplitPane split = new MultiSplitPane();
+
 
     /**
      * Creates new form Frame
@@ -28,6 +34,9 @@ public class AppFrame extends javax.swing.JFrame {
         }
         initComponents();
         initialChart();
+        
+        //jPanel1.add(split);
+        
 
         this.setLocationRelativeTo(null);
     }
@@ -36,27 +45,29 @@ public class AppFrame extends javax.swing.JFrame {
     private void initialChart() {
         chartDisplay = new ChartDisplay(this);
         charts.add(chartDisplay);
+        split.addComponent(chartDisplay);
         jPanel1.removeAll();
-        jPanel1.add(charts.get(0));
+        jPanel1.add(split);
         validate();
         repaint();
     }
     
-    //Adds additional charts to the panel
-    public void addChart(ArrayList<ChartDisplay> c) {
-        this.charts = c;
-        jPanel1.removeAll();
-        for (int i = 0; i < charts.size(); i++) {
-            jPanel1.add(charts.get(i));
-        }
-        validate();
-        repaint();
-    }
+//    //Adds additional charts to the panel
+//    public void addChart(ArrayList<ChartDisplay> c) {
+//        this.charts = c;
+//        jPanel1.removeAll();
+//        for (int i = 0; i < charts.size(); i++) {
+//            jPanel1.add(charts.get(i));
+//        }
+//        validate();
+//        repaint();
+//    }
 
     //Removes the ChartDisplay from the panel
     public void removeChart(ChartDisplay c) {
+        split.removeComponent(c);
         charts.remove(c);
-        jPanel1.remove(c);
+        //jPanel1.remove(c);
         validate();
         repaint();
     }
@@ -218,7 +229,7 @@ public class AppFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_RemoveChartMenuItemActionPerformed
-        ActionListener addChart = new AddChartAction(this, charts);
+        ActionListener addChart = new AddChartAction(split, charts);
         addChart.actionPerformed(evt);
     }// GEN-LAST:event_RemoveChartMenuItemActionPerformed
 
@@ -228,8 +239,23 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_importDataMenuItemActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton2ActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jToggleButton2ActionPerformed
+        AbstractButton aB = (AbstractButton) evt.getSource();
+        boolean selected = aB.getModel().isSelected();
+        System.out.println("Action - selected = " + selected);
+        
+        if (selected) {
+            for (int i = 0; i < charts.size(); i++) {
+                charts.get(i).emptyChart.setZoomTriggerDistance(ChartPanel.DEFAULT_ZOOM_TRIGGER_DISTANCE);
+                charts.get(i).emptyChart.setFillZoomRectangle(true);
+                charts.get(i).emptyChart.setZoomOutlinePaint(new Color(14, 139, 98));
+            }
+        } else if (!selected) {
+            for (int i = 0; i < charts.size(); i++) {
+                charts.get(i).emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
+                charts.get(i).emptyChart.setFillZoomRectangle(false);
+                charts.get(i).emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
+            }
+        }    }// GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:

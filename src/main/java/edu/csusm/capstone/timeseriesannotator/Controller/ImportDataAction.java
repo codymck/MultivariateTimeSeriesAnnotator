@@ -135,7 +135,7 @@ public class ImportDataAction implements ActionListener {
                // TODO build popup window with error message for unsupported file type
            }
            
-           this.dis.setChartData(chartStruct);
+           dis.setChartData(chartStruct);
 
            cP = ChartBuilder.buildCharts(chartStruct.getChartType());
            

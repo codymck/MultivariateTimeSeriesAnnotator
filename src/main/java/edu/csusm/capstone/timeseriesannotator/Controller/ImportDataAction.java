@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartBuilder.ChartTypes;
@@ -13,6 +9,7 @@ import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,11 +60,14 @@ public class ImportDataAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         
+        File importFile = null;
         DataReader dReader;
-        importChooser.showOpenDialog(null);
-        File importFile = importChooser.getSelectedFile();
         
-        if (importFile != null) {
+        if(importChooser.showSaveDialog(importChooser) != JFileChooser.CANCEL_OPTION){
+            importFile = importChooser.getSelectedFile();
+        }
+        if (importFile != null ) {
+            
            String fileName = importFile.getAbsolutePath();
            System.out.println(fileName);
            
@@ -128,17 +128,15 @@ public class ImportDataAction implements ActionListener {
                
                HDF5Action hAction = HDF5Action.getInstance();
                HDFReader h = (HDFReader)dReader;
-               h.setPaths(hAction.getXPath(), hAction.getYPath());
+               h.setPaths(hAction.getXPath(), hAction.getYPath(), 0);
                chartStruct.setXpath(hAction.getXPath());
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatHDF5(HDFReader.xP, HDFReader.yP);
            }
            else {
-               System.out.println("ImportDataAction: Unsupported File Type");
-               // TODO build popup window with error message for unsupported file type
+               ErrorDialog.UnsupportedFile();
            }
-           
            
            dis.setChartData(chartStruct);
 
@@ -146,6 +144,7 @@ public class ImportDataAction implements ActionListener {
            
            dis.setChart(cP);
         }
+        
     }
     
 }

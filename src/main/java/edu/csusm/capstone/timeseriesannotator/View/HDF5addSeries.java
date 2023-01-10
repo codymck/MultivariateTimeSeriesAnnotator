@@ -4,6 +4,7 @@
  */
 package edu.csusm.capstone.timeseriesannotator.View;
 
+import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
 import java.awt.event.ActionListener;
 
@@ -13,12 +14,18 @@ import java.awt.event.ActionListener;
  */
 public class HDF5addSeries extends javax.swing.JDialog implements ActionListener {
 
+    
+    Chart chartStruct = Chart.getInstance();
+    String Xaxis;
     /**
      * Creates new form HDF5addSeries
      */
     public HDF5addSeries(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        Xaxis = chartStruct.getXpath().split("/")[0];
+        System.out.print(Xaxis);
     }
 
     /**
@@ -43,6 +50,7 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         jLabel3.setText("Y-Axis File Path:");
 
         Yaxispath.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        Yaxispath.addActionListener(this);
 
         HDF5PathButton.setText("Select File Path");
         HDF5PathButton.addActionListener(this);
@@ -90,12 +98,19 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         if (evt.getSource() == HDF5PathButton) {
             HDF5addSeries.this.HDF5PathButtonActionPerformed(evt);
         }
+        else if (evt.getSource() == Yaxispath) {
+            HDF5addSeries.this.YaxispathActionPerformed(evt);
+        }
     }// </editor-fold>//GEN-END:initComponents
 
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HDF5PathButtonActionPerformed
         ActionListener HDF5addAction = new HDF5addAction(this, Yaxispath);
         HDF5addAction.actionPerformed(evt);
     }//GEN-LAST:event_HDF5PathButtonActionPerformed
+
+    private void YaxispathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YaxispathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_YaxispathActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

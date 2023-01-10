@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartBuilder.ChartTypes;
@@ -9,17 +5,15 @@ import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
 import edu.csusm.capstone.timeseriesannotator.Model.DataFormatter;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
-import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.CSVaddSeries;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
-import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.jfree.chart.ChartPanel;
-import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -37,6 +31,8 @@ public class AddSeriesAction implements ActionListener {
         this.chartStruct = c;
         this.dis = d;
     }
+    
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -63,7 +59,7 @@ public class AddSeriesAction implements ActionListener {
 //        }
 //        
 //        chartStruct.setChartType(t);
-        
+//        
         if("csv".equals(chartStruct.getFileType())) {
             System.out.println("ImportDataAction: CSV File Imported");
             dReader = new CSVReader();
@@ -71,10 +67,7 @@ public class AddSeriesAction implements ActionListener {
                
             CSVReader c = (CSVReader)dReader;
             String[] headers = c.getHeaders();
-               
-//               CSVdataSelectMenu select = new CSVdataSelectMenu(new javax.swing.JFrame(), true);
-//               select.setModel(headers);
-//               select.setVisible(true);
+              
                
             CSVaddSeries series = new CSVaddSeries(new javax.swing.JFrame(), true);
             series.setModel(headers);
@@ -96,21 +89,18 @@ public class AddSeriesAction implements ActionListener {
                
             HDF5addAction hAction = HDF5addAction.getInstance();
             HDFReader h = (HDFReader)dReader;
-            h.setPaths(chartStruct.getXpath(), hAction.getYPath());
+            h.setPaths(chartStruct.getXpath(), hAction.getYPath(), 1);
             
             DataFormatter df = new DataFormatter(dReader);
             df.formatHDF5(HDFReader.xP, HDFReader.yP);
         }
         else {
-            System.out.println("ImportDataAction: Unsupported File Type");
-            // TODO build popup window with error message for unsupported file type
+            ErrorDialog.UnsupportedFile();
         }
 
         cP = ChartBuilder.buildCharts(chartStruct.getChartType());
         dis.setChart(cP);
         
     }
-    
-    
-    
+      
 }

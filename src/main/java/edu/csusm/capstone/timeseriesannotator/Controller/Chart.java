@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartBuilder.ChartTypes;
@@ -35,18 +31,6 @@ public class Chart {
     public static Chart getInstance() {
         return Ct;
     }
-    
-//    public void setFileName(String f){
-//        fileName = f;
-//    }
-//    
-//    public void setFileType(String t){
-//        fileType = t;
-//    }
-//        
-//    public void setChartType(ChartTypes c){
-//        chartType = c;
-//    }
     
     public void setXaxis(int x){
         Xaxis = x;

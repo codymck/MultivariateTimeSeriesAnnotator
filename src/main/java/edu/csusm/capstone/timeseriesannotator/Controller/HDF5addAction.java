@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import java.awt.event.ActionEvent;
@@ -26,6 +22,10 @@ public class HDF5addAction implements ActionListener {
             System.err.println("CSVAction has not been initialized");
         }
         return instance;
+    }
+    
+    public static void deleteInstance() {
+        instance = null;
     }
 
     public HDF5addAction(JDialog w, javax.swing.JTextField Yaxispath) {

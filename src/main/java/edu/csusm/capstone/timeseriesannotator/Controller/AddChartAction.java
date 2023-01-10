@@ -6,6 +6,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
+import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.MultiSplitPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,10 +38,8 @@ public class AddChartAction implements ActionListener {
             frame.addChart(charts);
         }
         else{
-            //add too many charts error message
+            ErrorDialog.TooManyCharts();
         }
     }
-    
-    
     
 }

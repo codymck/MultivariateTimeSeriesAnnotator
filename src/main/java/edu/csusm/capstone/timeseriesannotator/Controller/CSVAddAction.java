@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
+import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.awt.image.ImageObserver.HEIGHT;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,15 +36,10 @@ public class CSVaddAction implements ActionListener {
 
         System.out.println("CSVAction: Selected Axis --- Y-Axis: " + yaxis);
         if (yaxis == -1 ) {
-            badIndex();
+            ErrorDialog.badIndex();
         } else {
             dialog.dispose();
         }
-    }
-
-    public void badIndex() {
-        JFrame bFrame = new JFrame();
-        JOptionPane.showMessageDialog(bFrame, "Select valid indexes", "Error", HEIGHT);
     }
 
     public int getYAxis() {

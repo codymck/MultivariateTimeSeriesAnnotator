@@ -129,6 +129,7 @@ public class ImportDataAction implements ActionListener {
                HDF5Action hAction = HDF5Action.getInstance();
                HDFReader h = (HDFReader)dReader;
                h.setPaths(hAction.getXPath(), hAction.getYPath());
+               chartStruct.setXpath(hAction.getXPath());
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatHDF5(HDFReader.xP, HDFReader.yP);

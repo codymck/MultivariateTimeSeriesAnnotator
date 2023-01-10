@@ -44,6 +44,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                 xAxisLabel, yAxisLabel, emptyData);
 
         emptyChart = new ChartPanel(chart);
+        
+        emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
+        emptyChart.setFillZoomRectangle(false);
+        emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
 
         XYPlot plot = chart.getXYPlot();
         plot.setRangePannable(true);

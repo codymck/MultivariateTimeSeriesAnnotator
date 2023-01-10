@@ -18,7 +18,7 @@ public class XYLineChartDataset implements ChartData {
     public void createDataset() {
         dFormat = DataFormatter.getInstance();
         
-        this.dataset = new XYSeriesCollection();//need to reference for new series
+        this.dataset = new XYSeriesCollection();
 
         XYSeries series1 = new XYSeries("test");
 

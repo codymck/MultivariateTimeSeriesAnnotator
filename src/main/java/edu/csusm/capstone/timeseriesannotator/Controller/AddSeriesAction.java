@@ -4,6 +4,7 @@
  */
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
+import edu.csusm.capstone.timeseriesannotator.Controller.ChartBuilder.ChartTypes;
 import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
 import edu.csusm.capstone.timeseriesannotator.Model.DataFormatter;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
@@ -12,6 +13,8 @@ import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.CSVaddSeries;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
+import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +43,27 @@ public class AddSeriesAction implements ActionListener {
         
         DataReader dReader;
         
+//        ChartSelectMenu Cselect = new ChartSelectMenu(new javax.swing.JFrame(), true);
+//        Cselect.setVisible(true);
+//        ChartAction tAction = ChartAction.getInstance();
+//        int chartType = tAction.getType();
+//        ChartTypes t = ChartTypes.LineChart;
+//        
+//        switch (chartType) {
+//            case 1:
+//                t = ChartBuilder.ChartTypes.LineChart;
+//                break;
+//            case 2:
+//                t = ChartBuilder.ChartTypes.ScatterPlot;
+//                break;
+//            case 3:
+//                t = ChartBuilder.ChartTypes.StepChart;
+//                break;
+//            default:
+//        }
+//        
+//        chartStruct.setChartType(t);
+        
         if("csv".equals(chartStruct.getFileType())) {
             System.out.println("ImportDataAction: CSV File Imported");
             dReader = new CSVReader();
@@ -64,15 +88,15 @@ public class AddSeriesAction implements ActionListener {
         else if ("hdf5".equals(chartStruct.getFileType()) || "h5".equals(chartStruct.getFileType())) {
             System.out.println("ImportDataAction: HDF5 File Imported");
       
-            HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
+            HDF5addSeries select = new HDF5addSeries(new javax.swing.JFrame(), true);
             select.setVisible(true);
                
             dReader = new HDFReader();
             dReader.buildDataList(chartStruct.getFileName());
                
-            HDF5Action hAction = HDF5Action.getInstance();
+            HDF5addAction hAction = HDF5addAction.getInstance();
             HDFReader h = (HDFReader)dReader;
-            h.setPaths(hAction.getXPath(), hAction.getYPath());
+            h.setPaths(chartStruct.getXpath(), hAction.getYPath());
             
             DataFormatter df = new DataFormatter(dReader);
             df.formatHDF5(HDFReader.xP, HDFReader.yP);

@@ -16,6 +16,7 @@ public class Chart {
     private String fileType;
     private ChartTypes chartType;
     private int Xaxis; 
+    private String Xpath;
     private XYLineChartDataset series;
     private int flag;
     
@@ -55,6 +56,14 @@ public class Chart {
         return Xaxis;
     }
     
+    public void setXpath(String x){
+        Xpath = x;
+    }
+    
+    public String getXpath(){
+        return Xpath;
+    }
+    
     public String getFileName(){
         return fileName;
     }
@@ -65,6 +74,10 @@ public class Chart {
         
     public ChartTypes getChartType(){
         return chartType;
+    }
+    
+    public void setChartType(ChartTypes cT){
+        chartType = cT;
     }
     
     public XYLineChartDataset getSeries(){

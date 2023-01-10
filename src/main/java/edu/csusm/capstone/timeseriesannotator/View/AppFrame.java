@@ -105,7 +105,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
-        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
+        jPanel1.setLayout(new java.awt.BorderLayout());
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -114,6 +114,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
         jToggleButton2.setIcon(new javax.swing.ImageIcon("src/main/resources/icons/zoomin.png"));
+        jToggleButton2.setToolTipText("");
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton2ActionPerformed(evt);

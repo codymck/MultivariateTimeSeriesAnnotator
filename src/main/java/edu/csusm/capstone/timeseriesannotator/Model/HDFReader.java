@@ -31,13 +31,13 @@ public class HDFReader implements DataReader {
             myYdata = reader.readFloatArray(y);
         } catch (Exception e) {
             System.err.println(e);
-            ErrorDialog.wrongData();
-            HDF5Action.deleteInstance();
-            HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
-            select.setVisible(true);
-            HDF5Action hAction = HDF5Action.getInstance();
-            this.setPaths(hAction.getXPath(), hAction.getYPath());
-            return;
+//            ErrorDialog.wrongData();
+//            HDF5Action.deleteInstance();
+//            HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
+//            select.setVisible(true);
+//            HDF5Action hAction = HDF5Action.getInstance();
+//            this.setPaths(hAction.getXPath(), hAction.getYPath());
+//            return;
         }
         // OUTPUT FOR DATA 
 //        System.out.print("X :   ");

@@ -9,9 +9,6 @@ import java.awt.event.ActionListener;
  */
 public class HDFdataSelectMenu extends javax.swing.JDialog {
 
-    String xaxis;
-    String yaxis;
-
     /**
      * Creates new form HDFdataSelectMenu
      */

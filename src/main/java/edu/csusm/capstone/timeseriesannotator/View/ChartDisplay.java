@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
+import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import org.jfree.chart.ChartFactory;
@@ -156,25 +153,23 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(2 > 1){
+        if(frame.charts.size() > 1){
             frame.removeChart(this);
-            //frame.addChart();
         }
-//        else{
-//            jPanel1.remove(jPanel2);
-//            jPanel2 = new javax.swing.JPanel();
-//            jPanel2.setLayout(new java.awt.BorderLayout());
-//            jPanel1.add(jPanel2);
-//            jPanel2.add(emptyChart);
-//            jPanel1.revalidate();
-//            jPanel1.repaint();
-//        }
-        
+        else{
+              frame.removeChart(this);
+              frame.initialChart();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       ActionListener addAction = new AddSeriesAction(this.chartStruct, this);
-       addAction.actionPerformed(evt);
+        if (chartStruct != null) {
+            ActionListener addAction = new AddSeriesAction(this.chartStruct, this);
+            addAction.actionPerformed(evt);
+        } else {
+            ActionListener importAction = new ImportDataAction(frame.getImportChooser(), this);
+            importAction.actionPerformed(evt);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

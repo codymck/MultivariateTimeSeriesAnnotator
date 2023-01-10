@@ -1,11 +1,9 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
+import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.awt.image.ImageObserver.HEIGHT;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,16 +41,13 @@ public class CSVAction implements ActionListener {
 
         System.out.println("CSVAction: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
         if (yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
-            badIndex();
+            ErrorDialog.badIndex();
         } else {
             dialog.dispose();
+            
         }
     }
 
-    public void badIndex() {
-        JFrame bFrame = new JFrame();
-        JOptionPane.showMessageDialog(bFrame, "Select valid indexes", "Error", HEIGHT);
-    }
 
     public int getXAxis() {
         return xaxis;

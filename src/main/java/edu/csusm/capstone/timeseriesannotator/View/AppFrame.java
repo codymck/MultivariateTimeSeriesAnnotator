@@ -34,13 +34,11 @@ public class AppFrame extends javax.swing.JFrame {
         initComponents();
         initialChart();
 
-        // jPanel1.add(split);
-
         this.setLocationRelativeTo(null);
     }
 
     // Creates an empty chart on instantiation of program
-    private void initialChart() {
+    public void initialChart() {
         chartDisplay = new ChartDisplay(this);
         charts.add(chartDisplay);
         split.addComponent(chartDisplay);
@@ -53,7 +51,6 @@ public class AppFrame extends javax.swing.JFrame {
     // Adds additional charts to the panel
     public void addChart(ArrayList<ChartDisplay> c) {
         this.charts = c;
-        // jPanel1.removeAll();
         chartDisplay = charts.get(charts.size() - 1);
     }
 
@@ -306,6 +303,10 @@ public class AppFrame extends javax.swing.JFrame {
 
     public javax.swing.JMenuItem getImportButton() {
         return importDataMenuItem;
+    }
+    
+    public javax.swing.JFileChooser getImportChooser(){
+        return importChooser;
     }
 
 }

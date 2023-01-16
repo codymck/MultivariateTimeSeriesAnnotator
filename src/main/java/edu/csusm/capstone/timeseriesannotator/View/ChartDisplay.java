@@ -3,13 +3,17 @@ package edu.csusm.capstone.timeseriesannotator.View;
 import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.annotations.XYBoxAnnotation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -40,17 +44,23 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
                 xAxisLabel, yAxisLabel, emptyData);
 
-        emptyChart = new ChartPanel(chart);
+        emptyChart = new AnnotateChartPanel(chart);
         
-        emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
-        emptyChart.setFillZoomRectangle(false);
-        emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
+        //emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
+        //emptyChart.setFillZoomRectangle(false);
+        //emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
+        emptyChart.setMouseWheelEnabled(true);
 
         XYPlot plot = chart.getXYPlot();
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
         
         jPanel2.add(emptyChart);
+    }
+    
+    public XYPlot returnPlot() {
+        JFreeChart chart = emptyChart.getChart();
+        return chart.getXYPlot();
     }
     
     public void setChart(ChartPanel p) {
@@ -69,11 +79,18 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                 if (event.getTrigger().getClickCount() == 2) {
                     emptyChart.restoreAutoBounds();
                 }
+                
+                int x = event.getTrigger().getX();
+                int y = event.getTrigger().getY();
+                System.out.println("X: " + x + " Y: " + y);
+                
             }
 
             @Override
             public void chartMouseMoved(ChartMouseEvent event) {
+
             }
+            
         });
         
         jPanel2.add(emptyChart);

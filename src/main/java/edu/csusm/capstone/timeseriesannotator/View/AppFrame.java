@@ -9,6 +9,7 @@ import javax.swing.AbstractButton;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.plot.XYPlot;
 
 /**
  *
@@ -250,7 +251,11 @@ import org.jfree.chart.ChartPanel;
     }
 
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        
+        //charts.get(0).emptyChart.chartMouseListener
+        
+        XYPlot plot = charts.get(0).returnPlot();
+        
     }
 
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {

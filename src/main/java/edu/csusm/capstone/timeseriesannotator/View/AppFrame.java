@@ -110,6 +110,7 @@ import org.jfree.chart.plot.XYPlot;
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
+        buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
         ZoomButton.setMnemonic('Q');
         ZoomButton.setToolTipText("Zoom (Alt+Q)");
@@ -119,6 +120,7 @@ import org.jfree.chart.plot.XYPlot;
             }
         });
 
+        buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
         PanButton.setMnemonic('W');
         PanButton.setToolTipText("Move Tool (Alt+W)");
@@ -128,6 +130,7 @@ import org.jfree.chart.plot.XYPlot;
             }
         });
 
+        buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
         SelectButton.setMnemonic('E');
         SelectButton.setToolTipText("Select Tool (Alt+E)");
@@ -137,6 +140,7 @@ import org.jfree.chart.plot.XYPlot;
             }
         });
 
+        buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/annotate.png"))); // NOI18N
         CommentButton.setMnemonic('R');
         CommentButton.setToolTipText("Comment Tool (Alt+R)");
@@ -146,6 +150,7 @@ import org.jfree.chart.plot.XYPlot;
             }
         });
 
+        buttonGroup1.add(MarkerButton);
         MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/shapes.jpeg"))); // NOI18N
         MarkerButton.setMnemonic('T');
         MarkerButton.setToolTipText("Marker Tool (Alt+T)");
@@ -236,6 +241,7 @@ import org.jfree.chart.plot.XYPlot;
                 charts.get(i).emptyChart.setZoomTriggerDistance(ChartPanel.DEFAULT_ZOOM_TRIGGER_DISTANCE);
                 charts.get(i).emptyChart.setFillZoomRectangle(true);
                 charts.get(i).emptyChart.setZoomOutlinePaint(new Color(14, 139, 98));
+                charts.get(i).emptyChart.setTool("zoom");
             }
         } else if (!selected) {
             for (int i = 0; i < charts.size(); i++) {
@@ -247,23 +253,27 @@ import org.jfree.chart.plot.XYPlot;
     }
 
     private void PanButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setTool("pan");
+        }
     }
 
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        
-        //charts.get(0).emptyChart.chartMouseListener
-        
-        XYPlot plot = charts.get(0).returnPlot();
-        
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setTool("select");
+        }
     }
 
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setTool("comment");
+        }
     }
 
     private void MarkerButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setTool("marker");
+        }
     }
 
 

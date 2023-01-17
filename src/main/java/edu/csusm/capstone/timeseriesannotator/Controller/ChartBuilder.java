@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import org.jfree.chart.ChartPanel;
 
 /**
@@ -15,19 +16,19 @@ public class ChartBuilder {
     }
     
     
-    public static ChartPanel buildCharts(ChartTypes c) {
+    public static AnnotateChartPanel buildCharts(ChartTypes c) {
         switch (c) {
             case LineChart -> {
                 LineChart l = new LineChart();
-                return l.createChartPanel();
+                return (AnnotateChartPanel) l.createChartPanel();
             }
             case StepChart -> {
                 StepChart s = new StepChart();
-                return s.createChartPanel();
+                return (AnnotateChartPanel) s.createChartPanel();
             }
             case ScatterPlot -> {
                 ScatterPlot sP = new ScatterPlot();
-                return sP.createChartPanel();
+                return (AnnotateChartPanel) sP.createChartPanel();
             }
             default -> throw new IllegalArgumentException("Invalid Chart");
         }

@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,7 +22,7 @@ public class LineChart implements ChartsIF {
     }
 
     @Override
-    public ChartPanel createChartPanel() {
+    public AnnotateChartPanel createChartPanel() {
         
         dataSetter();
         
@@ -34,7 +35,7 @@ public class LineChart implements ChartsIF {
         JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
                 xAxisLabel, yAxisLabel, data);
 
-        ChartPanel cP = new ChartPanel(chart);
+        AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(false);

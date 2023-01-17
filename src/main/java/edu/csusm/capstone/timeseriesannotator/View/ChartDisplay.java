@@ -22,7 +22,7 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author josef
  */
 public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
-    ChartPanel emptyChart;
+    AnnotateChartPanel emptyChart;
     AppFrame frame;
     Chart chartStruct;
     /**
@@ -63,7 +63,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         return chart.getXYPlot();
     }
     
-    public void setChart(ChartPanel p) {
+    public void setChart(AnnotateChartPanel p) {
         if (emptyChart.getParent() == jPanel2) {
             jPanel2.remove(emptyChart);
         }
@@ -79,18 +79,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                 if (event.getTrigger().getClickCount() == 2) {
                     emptyChart.restoreAutoBounds();
                 }
-                
-                int x = event.getTrigger().getX();
-                int y = event.getTrigger().getY();
-                System.out.println("X: " + x + " Y: " + y);
-                
             }
-
             @Override
             public void chartMouseMoved(ChartMouseEvent event) {
 
             }
-            
         });
         
         jPanel2.add(emptyChart);

@@ -1,6 +1,8 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import java.awt.Color;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -22,7 +24,7 @@ public class StepChart implements ChartsIF {
     }
 
     @Override
-    public ChartPanel createChartPanel() {
+    public AnnotateChartPanel createChartPanel() {
         
         dataSetter();
         
@@ -35,10 +37,10 @@ public class StepChart implements ChartsIF {
         JFreeChart chart = ChartFactory.createXYStepChart(chartTitle,
                 xAxisLabel, yAxisLabel, data);
 
-        ChartPanel cP = new ChartPanel(chart);
+        AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
-        cP.setRangeZoomable(false);
+        cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
         
         XYStepRenderer r = new XYStepRenderer();

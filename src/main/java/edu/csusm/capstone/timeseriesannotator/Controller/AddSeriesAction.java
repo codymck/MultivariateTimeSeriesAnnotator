@@ -5,6 +5,7 @@ import edu.csusm.capstone.timeseriesannotator.Model.CSVReader;
 import edu.csusm.capstone.timeseriesannotator.Model.DataFormatter;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.CSVaddSeries;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
@@ -22,7 +23,7 @@ import org.jfree.data.xy.XYDataset;
  */
 public class AddSeriesAction implements ActionListener {
     
-    ChartPanel cP;
+    AnnotateChartPanel cP;
     Chart chartStruct = Chart.getInstance();
     ChartDisplay dis;
     XYDataset series;

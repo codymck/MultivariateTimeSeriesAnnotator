@@ -6,6 +6,7 @@ import edu.csusm.capstone.timeseriesannotator.Model.DataFormatter;
 import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
@@ -15,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
-import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -23,7 +23,7 @@ import org.jfree.chart.ChartPanel;
  */
 public class ImportDataAction implements ActionListener {
     
-    ChartPanel cP;
+    AnnotateChartPanel cP;
     
     JFileChooser importChooser;
     ChartDisplay dis;

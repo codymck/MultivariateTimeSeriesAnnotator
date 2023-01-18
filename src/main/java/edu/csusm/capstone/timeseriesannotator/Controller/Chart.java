@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartBuilder.ChartTypes;
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
+import org.jfree.chart.plot.XYPlot;
 
 /**
  *
@@ -15,6 +16,7 @@ public class Chart {
     private String Xpath;
     private XYLineChartDataset series;
     private int flag;
+    XYPlot plot;
     
     public static Chart Ct;
     
@@ -75,4 +77,10 @@ public class Chart {
         flag = f;
     }
     
+    public XYPlot getPlot(){
+        return plot;
+    }
+    public void setPlot(XYPlot p){
+        plot = p;
+    }
 }

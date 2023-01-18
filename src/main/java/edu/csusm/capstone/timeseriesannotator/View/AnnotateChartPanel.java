@@ -68,7 +68,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mousePressed(e);
                     break;
                 case PAN:
-                    setMouseZoomable(false, false);
                     super.mousePressed(e);
                     break;
                 default:

@@ -70,12 +70,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     break;
                 case PAN:
                     setMouseZoomable(false, false);
-                    try {
-                        Robot robot = new Robot();
-                        robot.keyPress(KeyEvent.VK_CONTROL);
-                    } catch (AWTException e2) {
-                        e2.printStackTrace();
-                    }
                     super.mousePressed(e);
                     break;
                 default:
@@ -112,7 +106,20 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
     }
-
+    
+    public void pressCtrl(boolean pressed){
+        try {
+            Robot robot = new Robot();
+            if(pressed){
+                robot.keyPress(KeyEvent.VK_CONTROL);
+            }else{
+                robot.keyRelease(KeyEvent.VK_CONTROL);
+            }
+        } catch (AWTException e2) {
+            e2.printStackTrace();
+        }
+    }
+    
     public void addRegionAnnotation() {
         XYBoxAnnotation region = new XYBoxAnnotation(
                 coordinates[0][0],

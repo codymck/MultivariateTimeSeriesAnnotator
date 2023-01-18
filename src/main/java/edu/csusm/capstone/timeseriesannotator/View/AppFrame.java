@@ -237,9 +237,8 @@ import javax.swing.UnsupportedLookAndFeelException;
         Color color = JColorChooser.showDialog(this,
                     "Select a color", new Color(0, 100, 255, 60));
         for (int i = 0; i < charts.size(); i++) {
-                charts.get(i).emptyChart.setColor(color);
-            }
-        
+            charts.get(i).emptyChart.setColor(color);
+        }        
     }//GEN-LAST:event_HighlightColorActionPerformed
 
     private void AddChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_RemoveChartMenuItemActionPerformed
@@ -258,7 +257,6 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         setAppState(ToolState.ZOOM);
         AppFrame.zoomToggle(zSelected);
-        
     }
     
     public static void zoomToggle(boolean z) {
@@ -266,6 +264,7 @@ import javax.swing.UnsupportedLookAndFeelException;
             for (int i = 0; i < charts.size(); i++) {
                 charts.get(i).emptyChart.setZoomOutlinePaint(Color.BLACK);
                 charts.get(i).emptyChart.setChartState(ToolState.ZOOM);
+                charts.get(i).emptyChart.pressCtrl(false);
             }
         }
     }
@@ -275,6 +274,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
+            charts.get(i).emptyChart.pressCtrl(true);
         }
     }
 
@@ -283,6 +283,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.HIGHLIGHT);
+            charts.get(i).emptyChart.pressCtrl(false);
         }
     }
 
@@ -291,6 +292,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.COMMENT);
+            charts.get(i).emptyChart.pressCtrl(false);
         }
     }
 
@@ -299,6 +301,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.MARK);
+            charts.get(i).emptyChart.pressCtrl(false);
         }
     }
     

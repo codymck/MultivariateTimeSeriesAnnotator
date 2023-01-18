@@ -2,14 +2,14 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
+import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
+import javax.swing.JColorChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.plot.XYPlot;
 
 /**
  *
@@ -17,8 +17,9 @@ import org.jfree.chart.plot.XYPlot;
  */
     public class AppFrame extends javax.swing.JFrame {
 
+    public static ToolState appState;
     ChartDisplay chartDisplay;
-    ArrayList<ChartDisplay> charts;
+    public static ArrayList<ChartDisplay> charts;
 
     MultiSplitPane split = new MultiSplitPane();
 
@@ -34,6 +35,7 @@ import org.jfree.chart.plot.XYPlot;
         }
         initComponents();
         initialChart();
+        setAppState(ToolState.ZOOM);
 
         this.setLocationRelativeTo(null);
     }
@@ -92,6 +94,7 @@ import org.jfree.chart.plot.XYPlot;
         editMenuItem = new javax.swing.JMenu();
         optionsMenuItem = new javax.swing.JMenu();
         AddChartMenuItem = new javax.swing.JMenuItem();
+        HighlightColor = new javax.swing.JMenuItem();
 
         importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
 
@@ -113,6 +116,7 @@ import org.jfree.chart.plot.XYPlot;
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
         ZoomButton.setMnemonic('Q');
+        ZoomButton.setSelected(true);
         ZoomButton.setToolTipText("Zoom (Alt+Q)");
         ZoomButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,12 +218,29 @@ import org.jfree.chart.plot.XYPlot;
         });
         optionsMenuItem.add(AddChartMenuItem);
 
+        HighlightColor.setText("Change Highlight Color");
+        HighlightColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HighlightColorActionPerformed(evt);
+            }
+        });
+        optionsMenuItem.add(HighlightColor);
+
         menuBar.add(optionsMenuItem);
 
         setJMenuBar(menuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HighlightColorActionPerformed
+        Color color = JColorChooser.showDialog(this,
+                    "Select a color", new Color(0, 100, 255, 60));
+        for (int i = 0; i < charts.size(); i++) {
+                charts.get(i).emptyChart.setColor(color);
+            }
+        
+    }//GEN-LAST:event_HighlightColorActionPerformed
 
     private void AddChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_RemoveChartMenuItemActionPerformed
         ActionListener addChart = new AddChartAction(split, charts, this);
@@ -233,47 +254,60 @@ import org.jfree.chart.plot.XYPlot;
 
     private void ZoomButtonActionPerformed(java.awt.event.ActionEvent evt) {
         AbstractButton aB = (AbstractButton) evt.getSource();
-        boolean selected = aB.getModel().isSelected();
-        System.out.println("Action - selected = " + selected);
-
-        if (selected) {
+        boolean zSelected = aB.getModel().isSelected();
+        
+        setAppState(ToolState.ZOOM);
+        AppFrame.zoomToggle(zSelected);
+        
+    }
+    
+    public static void zoomToggle(boolean z) {
+        if (z) {
             for (int i = 0; i < charts.size(); i++) {
-                charts.get(i).emptyChart.setZoomTriggerDistance(ChartPanel.DEFAULT_ZOOM_TRIGGER_DISTANCE);
-                charts.get(i).emptyChart.setFillZoomRectangle(true);
-                charts.get(i).emptyChart.setZoomOutlinePaint(new Color(14, 139, 98));
-                charts.get(i).emptyChart.setTool("zoom");
-            }
-        } else if (!selected) {
-            for (int i = 0; i < charts.size(); i++) {
-                charts.get(i).emptyChart.setZoomTriggerDistance(Integer.MAX_VALUE);
-                charts.get(i).emptyChart.setFillZoomRectangle(false);
-                charts.get(i).emptyChart.setZoomOutlinePaint(new Color(0f, 0f, 0f, 0f));
+                charts.get(i).emptyChart.setZoomOutlinePaint(Color.BLACK);
+                charts.get(i).emptyChart.setChartState(ToolState.ZOOM);
             }
         }
     }
 
     private void PanButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        setAppState(ToolState.PAN);
+        
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setTool("pan");
+            charts.get(i).emptyChart.setChartState(ToolState.PAN);
         }
     }
 
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        setAppState(ToolState.HIGHLIGHT);
+        
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setTool("select");
+            charts.get(i).emptyChart.setChartState(ToolState.HIGHLIGHT);
         }
     }
 
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        setAppState(ToolState.COMMENT);
+        
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setTool("comment");
+            charts.get(i).emptyChart.setChartState(ToolState.COMMENT);
         }
     }
 
     private void MarkerButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        setAppState(ToolState.MARK);
+        
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setTool("marker");
+            charts.get(i).emptyChart.setChartState(ToolState.MARK);
         }
+    }
+    
+    private void setAppState(ToolState s) {
+        appState = s;
+    }
+    
+    public static ToolState getAppState() {
+        return appState;
     }
 
 
@@ -281,6 +315,7 @@ import org.jfree.chart.plot.XYPlot;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AddChartMenuItem;
     private javax.swing.JToggleButton CommentButton;
+    private javax.swing.JMenuItem HighlightColor;
     private javax.swing.JToggleButton MarkerButton;
     private javax.swing.JToggleButton PanButton;
     private javax.swing.JToggleButton SelectButton;

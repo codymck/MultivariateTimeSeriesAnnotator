@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartRenderingInfo;
@@ -68,6 +69,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mousePressed(e);
                     break;
                 case PAN:
+                    int panMask = MouseEvent.BUTTON1_MASK;
+
+                    try {
+                        Field mask = ChartPanel.class.getDeclaredField("panMask");
+                        mask.setAccessible(true);
+                        mask.set(this, panMask);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                     super.mousePressed(e);
                     break;
                 default:
@@ -97,6 +108,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mouseReleased(e);
                     break;
                 case PAN:
+                    int panMask = MouseEvent.CTRL_MASK;
+
+                    try {
+                        Field mask = ChartPanel.class.getDeclaredField("panMask");
+                        mask.setAccessible(true);
+                        mask.set(this, panMask);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                     super.mouseReleased(e);
                     break;
                 default:

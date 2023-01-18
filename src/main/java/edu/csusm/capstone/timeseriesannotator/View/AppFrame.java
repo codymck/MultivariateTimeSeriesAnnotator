@@ -272,7 +272,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
-            charts.get(i).emptyChart.pressCtrl(true);
+            //charts.get(i).emptyChart.pressCtrl(true);
         }
     }
 

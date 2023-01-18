@@ -29,7 +29,6 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         this.frame = f;
         initComponents();
         startChart();
-        AppFrame.zoomToggle(true);
     }
 
     private void startChart() {

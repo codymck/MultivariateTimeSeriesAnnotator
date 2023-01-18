@@ -257,12 +257,8 @@ import javax.swing.UnsupportedLookAndFeelException;
         boolean zSelected = aB.getModel().isSelected();
         
         setAppState(ToolState.ZOOM);
-        AppFrame.zoomToggle(zSelected);
         
-    }
-    
-    public static void zoomToggle(boolean z) {
-        if (z) {
+        if (zSelected) {
             for (int i = 0; i < charts.size(); i++) {
                 charts.get(i).emptyChart.setZoomOutlinePaint(Color.BLACK);
                 charts.get(i).emptyChart.setChartState(ToolState.ZOOM);

@@ -1,9 +1,12 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
@@ -103,6 +106,19 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
     }
 
+    public void pressCtrl(boolean pressed) {
+        try {
+            Robot robot = new Robot();
+            if (pressed) {
+                robot.keyPress(KeyEvent.VK_CONTROL);
+            } else {
+                robot.keyRelease(KeyEvent.VK_CONTROL);
+            }
+        } catch (AWTException e2) {
+            e2.printStackTrace();
+        }
+    }
+
     public void addRegionAnnotation() {
         XYBoxAnnotation region = new XYBoxAnnotation(
                 coordinates[0][0],
@@ -150,12 +166,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         double[] r = {chartX, chartY};
         return r;
     }
-    
+
     public void setColor(Color c) {
         int r = c.getRed();
         int g = c.getGreen();
         int b = c.getBlue();
-        
+
         color = new Color(r, g, b, 60);
     }
 }

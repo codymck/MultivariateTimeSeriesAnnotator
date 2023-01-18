@@ -262,6 +262,7 @@ import javax.swing.UnsupportedLookAndFeelException;
             for (int i = 0; i < charts.size(); i++) {
                 charts.get(i).emptyChart.setZoomOutlinePaint(Color.BLACK);
                 charts.get(i).emptyChart.setChartState(ToolState.ZOOM);
+                charts.get(i).emptyChart.pressCtrl(false);
             }
         }
     }
@@ -271,6 +272,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
+            charts.get(i).emptyChart.pressCtrl(true);
         }
     }
 
@@ -279,6 +281,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.HIGHLIGHT);
+            charts.get(i).emptyChart.pressCtrl(false);
         }
     }
 
@@ -287,6 +290,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.COMMENT);
+            charts.get(i).emptyChart.pressCtrl(false);
         }
     }
 
@@ -295,6 +299,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.MARK);
+            charts.get(i).emptyChart.pressCtrl(false);
         }
     }
     

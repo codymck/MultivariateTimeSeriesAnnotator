@@ -1,9 +1,13 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
@@ -66,6 +70,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     break;
                 case PAN:
                     setMouseZoomable(false, false);
+                    try {
+                        Robot robot = new Robot();
+                        robot.keyPress(KeyEvent.VK_CONTROL);
+                    } catch (AWTException e2) {
+                        e2.printStackTrace();
+                    }
                     super.mousePressed(e);
                     break;
                 default:

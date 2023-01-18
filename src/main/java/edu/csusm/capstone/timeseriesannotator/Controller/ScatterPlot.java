@@ -43,6 +43,9 @@ public class ScatterPlot implements ChartsIF {
         chartStruct.setPlot(plot);
         
         plot.setDataset(1, data);
+        plot.setBackgroundPaint(new java.awt.Color(204, 204, 204));
+        plot.setDomainGridlinePaint(Color.WHITE);
+        plot.setRangeGridlinePaint(Color.WHITE);
         
         JFreeChart chart = new JFreeChart(chartTitle, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 

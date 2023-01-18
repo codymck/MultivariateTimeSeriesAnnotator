@@ -32,4 +32,23 @@ public class ChartBuilder {
             default -> throw new IllegalArgumentException("Invalid Chart");
         }
     }
+    
+        public static AnnotateChartPanel addSeries(ChartTypes c) {
+        switch (c) {
+            case LineChart -> {
+                LineChart l = new LineChart();
+                return l.addSeries();
+            }
+            case StepChart -> {
+                StepChart s = new StepChart();
+                return s.addSeries();
+            }
+            case ScatterPlot -> {
+                ScatterPlot sP = new ScatterPlot();
+                return sP.addSeries();
+                
+            }
+            default -> throw new IllegalArgumentException("Invalid Chart");
+        }
+    }
 }

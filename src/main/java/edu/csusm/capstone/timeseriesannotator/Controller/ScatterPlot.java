@@ -6,6 +6,8 @@ import java.awt.Color;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYDotRenderer;
 import org.jfree.data.xy.XYDataset;
@@ -18,6 +20,7 @@ public class ScatterPlot implements ChartsIF {
     
     XYLineChartDataset xyChart;
     Chart chartStruct = Chart.getInstance();
+    XYDotRenderer dotRenderer = new XYDotRenderer();
     
     ScatterPlot() {
         
@@ -25,17 +28,25 @@ public class ScatterPlot implements ChartsIF {
 
     @Override
     public AnnotateChartPanel createChartPanel() {
-        
+               
         dataSetter();
         
+        NumberAxis xAxis = new NumberAxis("Type");
+        NumberAxis yAxis = new NumberAxis("Value");   
         String chartTitle = "Data";
-        String xAxisLabel = "X";
-        String yAxisLabel = "Y";
+        
+        dotRenderer.setSeriesPaint(0, java.awt.Color.blue);
+        dotRenderer.setDotWidth(5);
+        dotRenderer.setDotHeight(5);
 
         XYDataset data = xyChart.getDataset();
         
-        JFreeChart chart = ChartFactory.createScatterPlot(chartTitle,
-                xAxisLabel, yAxisLabel, data);
+        XYPlot plot = new XYPlot(data, xAxis, yAxis, dotRenderer);
+        chartStruct.setPlot(plot);
+        
+        plot.setDataset(1, data);
+        
+        JFreeChart chart = new JFreeChart(chartTitle, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
@@ -43,17 +54,40 @@ public class ScatterPlot implements ChartsIF {
         cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
         
-        XYDotRenderer r = new XYDotRenderer();
-        r.setSeriesPaint(0, java.awt.Color.blue);
-        r.setDotWidth(5);
-        r.setDotHeight(5);
-        
-        
-        XYPlot plot = (XYPlot) chart.getXYPlot();
-        plot.setDataset(0, data);
-        plot.setRenderer(0, r);
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
+        return cP;
+    }
+    
+    @Override
+    public AnnotateChartPanel addSeries(){
+        
+        dataSetter();
+        
+        XYPlot plotter = chartStruct.getPlot();
+        XYDataset data = xyChart.getDataset2();
+        
+        dotRenderer.setSeriesPaint(0, java.awt.Color.blue);
+        dotRenderer.setDotWidth(5);
+        dotRenderer.setDotHeight(5);
+        
+        plotter.setDataset(1, data);
+        plotter.setBackgroundPaint(new java.awt.Color(204, 204, 204));
+        plotter.setDomainGridlinePaint(Color.WHITE);
+        plotter.setRangeGridlinePaint(Color.WHITE);
+        
+        plotter.setRenderer(1,dotRenderer);
+        plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+        
+        JFreeChart chart = new JFreeChart("Test", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
+        AnnotateChartPanel cP = new AnnotateChartPanel(chart);
+        cP.setMouseZoomable(true);
+        cP.setDomainZoomable(true);
+        cP.setRangeZoomable(true);
+        cP.setMouseWheelEnabled(true);
+        
+        plotter.setRangePannable(true);
+        plotter.setDomainPannable(true);
         return cP;
     }
     

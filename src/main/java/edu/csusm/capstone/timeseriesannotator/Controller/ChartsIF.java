@@ -1,11 +1,14 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
-import org.jfree.chart.ChartPanel;
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+
 
 /**
  *
  * @author Cody McKinney
  */
 public interface ChartsIF {
-    public ChartPanel createChartPanel();
+    public AnnotateChartPanel createChartPanel();
+    
+    public AnnotateChartPanel addSeries();
 }

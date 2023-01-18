@@ -1,6 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
-import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
+//import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import org.junit.Test;

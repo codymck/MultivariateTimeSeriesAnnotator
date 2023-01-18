@@ -7,6 +7,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class XYLineChartDataset implements ChartData {
 
     public XYSeriesCollection dataset;
+    public XYSeriesCollection dataset2;
     DataFormatter dFormat;
     
     public XYLineChartDataset() {
@@ -42,6 +43,8 @@ public class XYLineChartDataset implements ChartData {
     @Override
     public void addDataset() {
         dFormat = DataFormatter.getInstance();
+        
+        this.dataset2 = new XYSeriesCollection();
 
         XYSeries series2 = new XYSeries("test2");
 
@@ -58,12 +61,16 @@ public class XYLineChartDataset implements ChartData {
             }
         }
 
-        this.dataset.addSeries(series2);
+        this.dataset2.addSeries(series2);
 
     }
     
     public XYSeriesCollection getDataset() {
         return dataset;
+    }
+    
+    public XYSeriesCollection getDataset2() {
+        return dataset2;
     }
 
 }

@@ -27,6 +27,7 @@ public class AddSeriesAction implements ActionListener {
     Chart chartStruct = Chart.getInstance();
     ChartDisplay dis;
     XYDataset series;
+    ChartTypes t = ChartTypes.LineChart;
     
     public AddSeriesAction(Chart c, ChartDisplay d){
         this.chartStruct = c;
@@ -40,25 +41,25 @@ public class AddSeriesAction implements ActionListener {
         
         DataReader dReader;
         
-//        ChartSelectMenu Cselect = new ChartSelectMenu(new javax.swing.JFrame(), true);
-//        Cselect.setVisible(true);
-//        ChartAction tAction = ChartAction.getInstance();
-//        int chartType = tAction.getType();
-//        ChartTypes t = ChartTypes.LineChart;
-//        
-//        switch (chartType) {
-//            case 1:
-//                t = ChartBuilder.ChartTypes.LineChart;
-//                break;
-//            case 2:
-//                t = ChartBuilder.ChartTypes.ScatterPlot;
-//                break;
-//            case 3:
-//                t = ChartBuilder.ChartTypes.StepChart;
-//                break;
-//            default:
-//        }
-//        
+        ChartSelectMenu Cselect = new ChartSelectMenu(new javax.swing.JFrame(), true);
+        Cselect.setVisible(true);
+        ChartAction tAction = ChartAction.getInstance();
+        int chartType = tAction.getType();
+        
+        
+        switch (chartType) {
+            case 1:
+                t = ChartBuilder.ChartTypes.LineChart;
+                break;
+            case 2:
+                t = ChartBuilder.ChartTypes.ScatterPlot;
+                break;
+            case 3:
+                t = ChartBuilder.ChartTypes.StepChart;
+                break;
+            default:
+        }
+        
 //        chartStruct.setChartType(t);
 //        
         if("csv".equals(chartStruct.getFileType())) {
@@ -68,7 +69,6 @@ public class AddSeriesAction implements ActionListener {
                
             CSVReader c = (CSVReader)dReader;
             String[] headers = c.getHeaders();
-              
                
             CSVaddSeries series = new CSVaddSeries(new javax.swing.JFrame(), true);
             series.setModel(headers);
@@ -99,7 +99,7 @@ public class AddSeriesAction implements ActionListener {
             ErrorDialog.UnsupportedFile();
         }
 
-        cP = ChartBuilder.buildCharts(chartStruct.getChartType());
+        cP = ChartBuilder.addSeries(t);
         dis.setChart(cP);
         
     }

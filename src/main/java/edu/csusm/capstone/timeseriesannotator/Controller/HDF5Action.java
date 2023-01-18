@@ -1,24 +1,11 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
-import ch.systemsx.cisd.hdf5.HDF5Factory;
-import ch.systemsx.cisd.hdf5.IHDF5SimpleReader;
-import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
-import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
-import hdf.hdf5lib.H5;
-import hdf.hdf5lib.HDF5Constants;
-import hdf.hdf5lib.structs.H5G_info_t;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.awt.image.ImageObserver.HEIGHT;
-import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
-import ncsa.hdf.object.FileFormat;
-import ncsa.hdf.object.h5.H5File;
 
 /**
  *

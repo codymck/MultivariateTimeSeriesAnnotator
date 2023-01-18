@@ -3,17 +3,12 @@ package edu.csusm.capstone.timeseriesannotator.View;
 import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.annotations.XYBoxAnnotation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeriesCollection;
 

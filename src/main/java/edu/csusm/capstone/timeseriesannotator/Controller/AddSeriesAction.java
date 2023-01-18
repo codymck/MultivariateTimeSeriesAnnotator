@@ -7,14 +7,12 @@ import edu.csusm.capstone.timeseriesannotator.Model.DataReader;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.CSVaddSeries;
-import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.jfree.chart.ChartPanel;
 import org.jfree.data.xy.XYDataset;
 
 /**

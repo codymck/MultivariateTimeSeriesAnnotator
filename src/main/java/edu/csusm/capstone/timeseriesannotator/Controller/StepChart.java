@@ -26,7 +26,7 @@ public class StepChart implements ChartsIF {
     }
 
     @Override
-    public ChartPanel createChartPanel() {
+    public AnnotateChartPanel createChartPanel() {
                
         dataSetter();
         
@@ -49,7 +49,7 @@ public class StepChart implements ChartsIF {
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
-        cP.setRangeZoomable(false);
+        cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
         
         plot.setRangePannable(true);

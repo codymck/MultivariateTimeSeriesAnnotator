@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import java.awt.Color;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -71,11 +72,22 @@ public class ScatterPlot implements ChartsIF {
         dotRenderer.setDotHeight(5);
         
         plotter.setDataset(1, data);
+        plotter.setBackgroundPaint(new java.awt.Color(204, 204, 204));
+        plotter.setDomainGridlinePaint(Color.WHITE);
+        plotter.setRangeGridlinePaint(Color.WHITE);
+        
         plotter.setRenderer(1,dotRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         JFreeChart chart = new JFreeChart("Test", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
+        cP.setMouseZoomable(true);
+        cP.setDomainZoomable(true);
+        cP.setRangeZoomable(true);
+        cP.setMouseWheelEnabled(true);
+        
+        plotter.setRangePannable(true);
+        plotter.setDomainPannable(true);
         return cP;
     }
     

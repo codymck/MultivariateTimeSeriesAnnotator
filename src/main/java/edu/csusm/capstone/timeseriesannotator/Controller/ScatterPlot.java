@@ -42,7 +42,7 @@ public class ScatterPlot implements ChartsIF {
         XYPlot plot = new XYPlot(data, xAxis, yAxis, dotRenderer);
         chartStruct.setPlot(plot);
         
-        plot.setDataset(1, data);
+        plot.setDataset(0, data);
         plot.setBackgroundPaint(new java.awt.Color(204, 204, 204));
         plot.setDomainGridlinePaint(Color.WHITE);
         plot.setRangeGridlinePaint(Color.WHITE);

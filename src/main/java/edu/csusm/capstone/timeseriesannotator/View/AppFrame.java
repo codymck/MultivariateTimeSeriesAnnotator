@@ -4,10 +4,18 @@ import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.*;
 import java.util.ArrayList;
+
+import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
+import javax.swing.Action;
 import javax.swing.JColorChooser;
+import java.awt.KeyboardFocusManager;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -15,7 +23,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author Cody McKinney
  */
-    public class AppFrame extends javax.swing.JFrame {
+public class AppFrame extends javax.swing.JFrame {
 
     public static ToolState appState;
     ChartDisplay chartDisplay;
@@ -36,6 +44,33 @@ import javax.swing.UnsupportedLookAndFeelException;
         initComponents();
         initialChart();
         setAppState(ToolState.ZOOM);
+
+        KeyEventDispatcher toggleKeyDispatcher = new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if (e.getID() == KeyEvent.KEY_PRESSED) {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_1:
+                            ZoomButton.doClick();
+                            break;
+                        case KeyEvent.VK_2:
+                            PanButton.doClick();
+                            break;
+                        case KeyEvent.VK_3:
+                            SelectButton.doClick();
+                            break;
+                        case KeyEvent.VK_4:
+                            CommentButton.doClick();
+                            break;
+                        case KeyEvent.VK_5:
+                            MarkerButton.doClick();
+                            break;
+                    }
+                }
+                return false;
+            }
+        };
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(toggleKeyDispatcher);
 
         this.setLocationRelativeTo(null);
     }
@@ -76,7 +111,9 @@ import javax.swing.UnsupportedLookAndFeelException;
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         importChooser = new javax.swing.JFileChooser();
@@ -115,9 +152,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
-        ZoomButton.setMnemonic('Q');
         ZoomButton.setSelected(true);
-        ZoomButton.setToolTipText("Zoom (Alt+Q)");
+        ZoomButton.setToolTipText("Zoom (Press 1)");
+        ZoomButton.setRolloverEnabled(false);
         ZoomButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ZoomButtonActionPerformed(evt);
@@ -126,8 +163,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
-        PanButton.setMnemonic('W');
-        PanButton.setToolTipText("Move Tool (Alt+W)");
+        PanButton.setToolTipText("Move (Press 2)");
         PanButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PanButtonActionPerformed(evt);
@@ -136,8 +172,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
-        SelectButton.setMnemonic('E');
-        SelectButton.setToolTipText("Select Tool (Alt+E)");
+        SelectButton.setToolTipText("Select (Press 3)");
         SelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SelectButtonActionPerformed(evt);
@@ -146,8 +181,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/annotate.png"))); // NOI18N
-        CommentButton.setMnemonic('R');
-        CommentButton.setToolTipText("Comment Tool (Alt+R)");
+        CommentButton.setToolTipText("Comment (Press 4)");
         CommentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CommentButtonActionPerformed(evt);
@@ -156,8 +190,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
         buttonGroup1.add(MarkerButton);
         MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/shapes.jpeg"))); // NOI18N
-        MarkerButton.setMnemonic('T');
-        MarkerButton.setToolTipText("Marker Tool (Alt+T)");
+        MarkerButton.setToolTipText("Marker (Press 5)");
         MarkerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MarkerButtonActionPerformed(evt);
@@ -167,27 +200,35 @@ import javax.swing.UnsupportedLookAndFeelException;
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(ZoomButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CommentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MarkerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 767, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(ZoomButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(PanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(SelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CommentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(MarkerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 767, Short.MAX_VALUE)));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ZoomButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(PanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(MarkerButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(SelectButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(CommentButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ZoomButton, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PanButton, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(MarkerButton, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SelectButton, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CommentButton, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE));
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
@@ -233,14 +274,14 @@ import javax.swing.UnsupportedLookAndFeelException;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HighlightColorActionPerformed
+    private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
         Color color = JColorChooser.showDialog(this,
-                    "Select a color", new Color(0, 100, 255, 60));
+                "Select a color", new Color(0, 100, 255, 60));
         for (int i = 0; i < charts.size(); i++) {
-                charts.get(i).emptyChart.setColor(color);
-            }
-        
-    }//GEN-LAST:event_HighlightColorActionPerformed
+            charts.get(i).emptyChart.setColor(color);
+        }
+
+    }// GEN-LAST:event_HighlightColorActionPerformed
 
     private void AddChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_RemoveChartMenuItemActionPerformed
         ActionListener addChart = new AddChartAction(split, charts, this);
@@ -255,9 +296,9 @@ import javax.swing.UnsupportedLookAndFeelException;
     private void ZoomButtonActionPerformed(java.awt.event.ActionEvent evt) {
         AbstractButton aB = (AbstractButton) evt.getSource();
         boolean zSelected = aB.getModel().isSelected();
-        
+
         setAppState(ToolState.ZOOM);
-        
+
         if (zSelected) {
             for (int i = 0; i < charts.size(); i++) {
                 charts.get(i).emptyChart.setZoomOutlinePaint(Color.BLACK);
@@ -268,7 +309,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
     private void PanButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setAppState(ToolState.PAN);
-        
+
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
         }
@@ -276,7 +317,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setAppState(ToolState.HIGHLIGHT);
-        
+
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.HIGHLIGHT);
         }
@@ -284,7 +325,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setAppState(ToolState.COMMENT);
-        
+
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.COMMENT);
         }
@@ -292,21 +333,19 @@ import javax.swing.UnsupportedLookAndFeelException;
 
     private void MarkerButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setAppState(ToolState.MARK);
-        
+
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.MARK);
         }
     }
-    
+
     private void setAppState(ToolState s) {
         appState = s;
     }
-    
+
     public static ToolState getAppState() {
         return appState;
     }
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AddChartMenuItem;
@@ -330,8 +369,8 @@ import javax.swing.UnsupportedLookAndFeelException;
     public javax.swing.JMenuItem getImportButton() {
         return importDataMenuItem;
     }
-    
-    public javax.swing.JFileChooser getImportChooser(){
+
+    public javax.swing.JFileChooser getImportChooser() {
         return importChooser;
     }
 

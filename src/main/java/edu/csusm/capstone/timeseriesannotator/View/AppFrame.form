@@ -172,9 +172,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icons/zoomin.png"/>
             </Property>
-            <Property name="mnemonic" type="int" value="81"/>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="toolTipText" type="java.lang.String" value="Zoom (Alt+Q)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Zoom (Press 1)"/>
+            <Property name="rolloverEnabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ZoomButtonActionPerformed"/>
@@ -189,7 +189,7 @@
               <Image iconType="3" name="/icons/4dirs.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="87"/>
-            <Property name="toolTipText" type="java.lang.String" value="Move Tool (Alt+W)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Move Tool (Press 2)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PanButtonActionPerformed"/>
@@ -204,7 +204,7 @@
               <Image iconType="3" name="/icons/select.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="69"/>
-            <Property name="toolTipText" type="java.lang.String" value="Select Tool (Alt+E)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Select Tool (Press 3)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SelectButtonActionPerformed"/>
@@ -219,7 +219,7 @@
               <Image iconType="3" name="/icons/annotate.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="82"/>
-            <Property name="toolTipText" type="java.lang.String" value="Comment Tool (Alt+R)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Comment Tool (Press 4)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CommentButtonActionPerformed"/>
@@ -234,7 +234,7 @@
               <Image iconType="3" name="/icons/shapes.jpeg"/>
             </Property>
             <Property name="mnemonic" type="int" value="84"/>
-            <Property name="toolTipText" type="java.lang.String" value="Marker Tool (Alt+T)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Marker Tool (Press 5)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MarkerButtonActionPerformed"/>

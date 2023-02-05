@@ -87,7 +87,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mousePressed(e);
                     break;
                 case COMMENT:
-                    if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (e.getButton() == MouseEvent.BUTTON1 && AppFrame.getCtrlPress() == false) {
                         CommentMenu cMenu = new CommentMenu(new javax.swing.JFrame(), true);
                         cMenu.setVisible(true);
                         if (cMenu.isSubmitted() == false) {
@@ -99,6 +99,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         at.setTextAnchor(TextAnchor.TOP_LEFT);
                         plot.addAnnotation(at);
                     }
+                    super.mousePressed(e);
                     break;
                 default:
                     break;
@@ -231,4 +232,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
         color = new Color(r, g, b, 60);
     }
+
+    
 }

@@ -145,6 +145,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mouseReleased(e);
                     break;
                 case COMMENT:
+                    super.mouseReleased(e);
                     break;
                 default:
                     break;

@@ -3,6 +3,8 @@ package edu.csusm.capstone.timeseriesannotator.View;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -38,9 +40,13 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     Color color = new Color(0, 100, 255, 60);
     private XYPlot plot;
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}};
+    private ArrayList<RegionStruct> regionList = new ArrayList<>();
 
-    ArrayList<RegionStruct> regionList = new ArrayList<>();
-
+    private double x, y, width, height;
+    
+    private Rectangle2D.Double rect = null;
+    private Point2D startPoint = null;
+    
     public void setChartState(ToolState s) {
         this.state = s;
     }
@@ -63,11 +69,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             switch (state) {
                 case HIGHLIGHT:
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        setMouseZoomable(false, true);
-                        super.mousePressed(e);
+                        startPoint = e.getPoint();
                         coordinates[0][0] = point[0];
                         coordinates[0][1] = point[1];
-                        setMouseZoomable(true, true);
+                        rect = new Rectangle2D.Double(startPoint.getX(), startPoint.getY(), 0, 0);
                     }
                     break;
                 case ZOOM:
@@ -110,6 +115,46 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
     }
+    
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (null != state) {
+            switch (state) {
+                case HIGHLIGHT:
+                    if(this.startPoint != null){
+                        Point2D endPoint = e.getPoint();
+                        x = Math.min(startPoint.getX(), endPoint.getX());
+                        y = Math.min(startPoint.getY(), endPoint.getY());
+                        width = Math.abs(startPoint.getX() - endPoint.getX());
+                        height = Math.abs(startPoint.getY() - endPoint.getY());
+
+                        // make sure it doesn't overflow the bounds of the chart
+                        Rectangle2D screenDataArea = getScreenDataArea();
+                        if (x < screenDataArea.getMinX()) {
+                          width -= screenDataArea.getMinX() - x;
+                          x = (int) screenDataArea.getMinX();
+                        }
+                        if (y < screenDataArea.getMinY()) {
+                          height -= screenDataArea.getMinY() - y;
+                          y = (int) screenDataArea.getMinY();
+                        }
+                        if (x + width > screenDataArea.getMaxX()) {
+                          width = (int) (screenDataArea.getMaxX() - x);
+                        }
+                        if (y + height > screenDataArea.getMaxY()) {
+                          height = (int) (screenDataArea.getMaxY() - y);
+                        }
+
+                        rect.setRect(x, y, width, height);
+                        repaint();
+                    }
+                    break;
+                default:
+                    super.mouseDragged(e);
+                    break;
+            }
+        }
+    }
 
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -118,11 +163,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             switch (state) {
                 case HIGHLIGHT:
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        setMouseZoomable(false, true);
                         super.mouseReleased(e);
                         coordinates[1][0] = point[0];
                         coordinates[1][1] = point[1];
-                        setMouseZoomable(true, false);
+                        rect = null;
+                        repaint();
                         addRegionAnnotation();
                     } else if (e.getButton() == MouseEvent.BUTTON3) {
                         removeRegionAnnotation(point[0], point[1]);
@@ -150,6 +195,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 default:
                     break;
             }
+        }
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (rect != null) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(color);
+            g2.fill(rect);
         }
     }
 
@@ -189,17 +244,24 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     }
 
     public void addRegionAnnotation() {
+        
+        double upperLeftX = Math.min(coordinates[0][0], coordinates[1][0]);
+        double upperLeftY = Math.min(coordinates[0][1], coordinates[1][1]);
+        
+        double lowerRightX = Math.max(coordinates[0][0], coordinates[1][0]);
+        double lowerRightY = Math.max(coordinates[0][1], coordinates[1][1]);
+        
         XYBoxAnnotation region = new XYBoxAnnotation(
-                coordinates[0][0],
-                coordinates[1][1],
-                coordinates[1][0],
-                coordinates[0][1],
+                upperLeftX,
+                upperLeftY,
+                lowerRightX,
+                lowerRightY,
                 null,
                 null,
                 color
         );
         plot.addAnnotation(region);
-        regionList.add(new RegionStruct(coordinates, region));
+        regionList.add(new RegionStruct(upperLeftX, upperLeftY, lowerRightX, lowerRightY, region));
     }
 
     public void removeRegionAnnotation(double mouseX, double mouseY) {

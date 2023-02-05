@@ -57,12 +57,13 @@ public class AppFrame extends javax.swing.JFrame {
                         case KeyEvent.VK_4 -> CommentButton.doClick();
                         case KeyEvent.VK_5 -> MarkerButton.doClick();
                     }
-                    if(KeyEvent.CTRL_MASK == e.getModifiers()){
+                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
+                        System.out.println("Love you");
                         setCtrlPress(true);
                     }
                 }
                 if (e.getID() == KeyEvent.KEY_RELEASED) {
-                    if(KeyEvent.CTRL_MASK == e.getModifiers()){
+                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
                         setCtrlPress(false);
                     }
                 }

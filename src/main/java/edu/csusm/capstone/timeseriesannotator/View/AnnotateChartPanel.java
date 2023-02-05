@@ -18,6 +18,7 @@ import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.annotations.XYBoxAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
@@ -99,6 +100,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         at.setTextAnchor(TextAnchor.TOP_LEFT);
                         plot.addAnnotation(at);
                     }
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        removeTextAnnotation();
+                    }
                     super.mousePressed(e);
                     break;
                 default:
@@ -141,9 +145,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mouseReleased(e);
                     break;
                 case COMMENT:
-                    if (e.getButton() == MouseEvent.BUTTON3) {
-                        removeTextAnnotation();
-                    }
                     break;
                 default:
                     break;
@@ -153,13 +154,19 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     public void removeTextAnnotation() {
         List<XYTextAnnotation> annotations = new ArrayList<>(plot.getAnnotations());
+        List<XYTextAnnotation> textAnnotations = new ArrayList<>();
+        for (XYAnnotation annotation : annotations) {
+            if (annotation instanceof XYTextAnnotation) {
+                textAnnotations.add((XYTextAnnotation) annotation);
+            }
+        }
 
         this.addChartMouseListener(new ChartMouseListener() {
             @Override
             public void chartMouseClicked(ChartMouseEvent event) {
                 int x = event.getTrigger().getX();
                 int y = event.getTrigger().getY();
-                for (XYTextAnnotation annotation : annotations) {
+                for (XYTextAnnotation annotation : textAnnotations) {
                     ChartRenderingInfo info = getChartRenderingInfo();
                     Rectangle2D bounds = info.getPlotInfo().getDataArea();
                     double x1 = plot.getDomainAxis().valueToJava2D(annotation.getX(), bounds, plot.getDomainAxisEdge());
@@ -169,6 +176,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         break;
                     }
                 }
+
+                annotations.clear();
+                textAnnotations.clear();
             }
 
             @Override
@@ -233,5 +243,4 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         color = new Color(r, g, b, 60);
     }
 
-    
 }

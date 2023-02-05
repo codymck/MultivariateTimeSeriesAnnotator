@@ -108,11 +108,13 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("X");
+        jButton1.setToolTipText("");
         jButton1.addActionListener(this);
 
         jButton2.setBackground(new java.awt.Color(153, 255, 153));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setText("Add Series");
+        jButton2.setToolTipText("");
         jButton2.addActionListener(this);
 
         jPanel2.setLayout(new java.awt.BorderLayout());

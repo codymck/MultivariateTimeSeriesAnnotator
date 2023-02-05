@@ -28,6 +28,7 @@ public class AppFrame extends javax.swing.JFrame {
     public static ToolState appState;
     ChartDisplay chartDisplay;
     public static ArrayList<ChartDisplay> charts;
+    public static boolean ctrlpress;
 
     MultiSplitPane split = new MultiSplitPane();
 
@@ -55,6 +56,14 @@ public class AppFrame extends javax.swing.JFrame {
                         case KeyEvent.VK_3 -> SelectButton.doClick();
                         case KeyEvent.VK_4 -> CommentButton.doClick();
                         case KeyEvent.VK_5 -> MarkerButton.doClick();
+                    }
+                    if(KeyEvent.CTRL_MASK == e.getModifiers()){
+                        setCtrlPress(true);
+                    }
+                }
+                if (e.getID() == KeyEvent.KEY_RELEASED) {
+                    if(KeyEvent.CTRL_MASK == e.getModifiers()){
+                        setCtrlPress(false);
                     }
                 }
                 return false;
@@ -333,6 +342,14 @@ public class AppFrame extends javax.swing.JFrame {
     public static ToolState getAppState() {
         return appState;
     }
+    
+    public void setCtrlPress(boolean c){
+        ctrlpress = c;
+    }
+    
+    public static boolean getCtrlPress(){
+        return ctrlpress;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AddChartMenuItem;
@@ -360,5 +377,6 @@ public class AppFrame extends javax.swing.JFrame {
     public javax.swing.JFileChooser getImportChooser() {
         return importChooser;
     }
+    
 
 }

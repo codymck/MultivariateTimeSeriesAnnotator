@@ -28,7 +28,7 @@ public class AppFrame extends javax.swing.JFrame {
     public static ToolState appState;
     ChartDisplay chartDisplay;
     public static ArrayList<ChartDisplay> charts;
-    public static boolean ctrlpress;
+    public static boolean ctrlpress = false;
 
     MultiSplitPane split = new MultiSplitPane();
 
@@ -57,16 +57,16 @@ public class AppFrame extends javax.swing.JFrame {
                         case KeyEvent.VK_4 -> CommentButton.doClick();
                         case KeyEvent.VK_5 -> MarkerButton.doClick();
                     }
-                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
-                        System.out.println("Love you");
-                        setCtrlPress(true);
-                    }
+//                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
+//                        System.out.println("Love you");
+//                        setCtrlPress(true);
+//                    }
                 }
-                if (e.getID() == KeyEvent.KEY_RELEASED) {
-                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
-                        setCtrlPress(false);
-                    }
-                }
+//                if (e.getID() == KeyEvent.KEY_RELEASED) {
+//                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
+//                        setCtrlPress(false);
+//                    }
+//                }
                 return false;
             }
         };
@@ -118,6 +118,8 @@ public class AppFrame extends javax.swing.JFrame {
 
         importChooser = new javax.swing.JFileChooser();
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         ZoomButton = new javax.swing.JToggleButton();
@@ -125,6 +127,20 @@ public class AppFrame extends javax.swing.JFrame {
         SelectButton = new javax.swing.JToggleButton();
         CommentButton = new javax.swing.JToggleButton();
         MarkerButton = new javax.swing.JToggleButton();
+        panel1 = new java.awt.Panel();
+        RedButton = new javax.swing.JToggleButton();
+        OrangeButton = new javax.swing.JToggleButton();
+        YellowButton = new javax.swing.JToggleButton();
+        GreenButton = new javax.swing.JToggleButton();
+        BlueButton = new javax.swing.JToggleButton();
+        PurpleButton = new javax.swing.JToggleButton();
+        panel2 = new java.awt.Panel();
+        jRadioButton15 = new javax.swing.JRadioButton();
+        jRadioButton16 = new javax.swing.JRadioButton();
+        jRadioButton17 = new javax.swing.JRadioButton();
+        jRadioButton18 = new javax.swing.JRadioButton();
+        jRadioButton19 = new javax.swing.JRadioButton();
+        jRadioButton20 = new javax.swing.JRadioButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenuItem = new javax.swing.JMenu();
         importDataMenuItem = new javax.swing.JMenuItem();
@@ -150,6 +166,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
+        jPanel2.setLayout(new java.awt.GridLayout());
 
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
@@ -161,6 +178,7 @@ public class AppFrame extends javax.swing.JFrame {
                 ZoomButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(ZoomButton);
 
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
@@ -171,6 +189,7 @@ public class AppFrame extends javax.swing.JFrame {
                 PanButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(PanButton);
 
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
@@ -181,6 +200,7 @@ public class AppFrame extends javax.swing.JFrame {
                 SelectButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(SelectButton);
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/annotate.png"))); // NOI18N
@@ -191,6 +211,7 @@ public class AppFrame extends javax.swing.JFrame {
                 CommentButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(CommentButton);
 
         buttonGroup1.add(MarkerButton);
         MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/shapes.jpeg"))); // NOI18N
@@ -201,31 +222,167 @@ public class AppFrame extends javax.swing.JFrame {
                 MarkerButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(MarkerButton);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(ZoomButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+        panel1.setLayout(new java.awt.GridLayout());
+
+        RedButton.setBackground(new java.awt.Color(255, 51, 51));
+        buttonGroup2.add(RedButton);
+        RedButton.setDoubleBuffered(true);
+        RedButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        RedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RedButtonActionPerformed(evt);
+            }
+        });
+        panel1.add(RedButton);
+        RedButton.getAccessibleContext().setAccessibleName("RedButton");
+
+        OrangeButton.setBackground(new java.awt.Color(255, 153, 0));
+        buttonGroup2.add(OrangeButton);
+        OrangeButton.setDoubleBuffered(true);
+        OrangeButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        OrangeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OrangeButtonActionPerformed(evt);
+            }
+        });
+        panel1.add(OrangeButton);
+
+        YellowButton.setBackground(new java.awt.Color(255, 255, 51));
+        buttonGroup2.add(YellowButton);
+        YellowButton.setDoubleBuffered(true);
+        YellowButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        YellowButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                YellowButtonActionPerformed(evt);
+            }
+        });
+        panel1.add(YellowButton);
+
+        GreenButton.setBackground(new java.awt.Color(0, 255, 0));
+        buttonGroup2.add(GreenButton);
+        GreenButton.setDoubleBuffered(true);
+        GreenButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        GreenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GreenButtonActionPerformed(evt);
+            }
+        });
+        panel1.add(GreenButton);
+
+        BlueButton.setBackground(new java.awt.Color(0, 102, 255));
+        buttonGroup2.add(BlueButton);
+        BlueButton.setDoubleBuffered(true);
+        BlueButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        BlueButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BlueButtonActionPerformed(evt);
+            }
+        });
+        panel1.add(BlueButton);
+
+        PurpleButton.setBackground(new java.awt.Color(153, 0, 255));
+        buttonGroup2.add(PurpleButton);
+        PurpleButton.setDoubleBuffered(true);
+        PurpleButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        PurpleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PurpleButtonActionPerformed(evt);
+            }
+        });
+        panel1.add(PurpleButton);
+
+        jPanel2.add(panel1);
+
+        panel2.setBackground(new java.awt.Color(255, 102, 153));
+
+        buttonGroup3.add(jRadioButton15);
+        jRadioButton15.setText("2");
+        jRadioButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton15ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup3.add(jRadioButton16);
+        jRadioButton16.setText("1");
+        jRadioButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton16ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup3.add(jRadioButton17);
+        jRadioButton17.setText("3");
+        jRadioButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton17ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup3.add(jRadioButton18);
+        jRadioButton18.setText("5");
+        jRadioButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton18ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup3.add(jRadioButton19);
+        jRadioButton19.setText("4");
+        jRadioButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton19ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup3.add(jRadioButton20);
+        jRadioButton20.setText("6");
+        jRadioButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton20ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton19)
+                    .addComponent(jRadioButton16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CommentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MarkerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 767, Short.MAX_VALUE))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel2Layout.createSequentialGroup()
+                        .addComponent(jRadioButton18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButton20)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panel2Layout.createSequentialGroup()
+                        .addComponent(jRadioButton15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButton17)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ZoomButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(PanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(MarkerButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(SelectButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(CommentButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton16)
+                    .addComponent(jRadioButton15)
+                    .addComponent(jRadioButton17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton18)
+                    .addComponent(jRadioButton20)
+                    .addComponent(jRadioButton19))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel2.add(panel2);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
@@ -271,6 +428,72 @@ public class AppFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jRadioButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton15ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton15ActionPerformed
+
+    private void jRadioButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton16ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton16ActionPerformed
+
+    private void jRadioButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton17ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton17ActionPerformed
+
+    private void jRadioButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton18ActionPerformed
+
+    private void jRadioButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton19ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton19ActionPerformed
+
+    private void jRadioButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton20ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton20ActionPerformed
+
+    private void RedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedButtonActionPerformed
+        Color color = Color.RED;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setColor(color);
+        }
+    }//GEN-LAST:event_RedButtonActionPerformed
+
+    private void OrangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrangeButtonActionPerformed
+        Color color = Color.ORANGE;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setColor(color);
+        }
+    }//GEN-LAST:event_OrangeButtonActionPerformed
+
+    private void YellowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YellowButtonActionPerformed
+        Color color = Color.YELLOW;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setColor(color);
+        }
+    }//GEN-LAST:event_YellowButtonActionPerformed
+
+    private void GreenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GreenButtonActionPerformed
+        Color color = Color.GREEN;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setColor(color);
+        }
+    }//GEN-LAST:event_GreenButtonActionPerformed
+
+    private void BlueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlueButtonActionPerformed
+        Color color = Color.BLUE;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setColor(color);
+        }
+    }//GEN-LAST:event_BlueButtonActionPerformed
+
+    private void PurpleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurpleButtonActionPerformed
+        Color color = Color.MAGENTA;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setColor(color);
+        }
+    }//GEN-LAST:event_PurpleButtonActionPerformed
+
     private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
         Color color = JColorChooser.showDialog(this,
                 "Select a color", new Color(0, 100, 255, 60));
@@ -295,6 +518,8 @@ public class AppFrame extends javax.swing.JFrame {
         boolean zSelected = aB.getModel().isSelected();
 
         setAppState(ToolState.ZOOM);
+        panel1.setVisible(false);
+        panel2.setVisible(false);
 
         if (zSelected) {
             for (int i = 0; i < charts.size(); i++) {
@@ -306,6 +531,8 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void PanButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setAppState(ToolState.PAN);
+        panel1.setVisible(false);
+        panel2.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
@@ -314,6 +541,8 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setAppState(ToolState.HIGHLIGHT);
+        panel1.setVisible(true);
+        panel2.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.HIGHLIGHT);
@@ -322,6 +551,8 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setAppState(ToolState.COMMENT);
+        panel1.setVisible(false);
+        panel2.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.COMMENT);
@@ -330,6 +561,8 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void MarkerButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setAppState(ToolState.MARK);
+        panel1.setVisible(true);
+        panel2.setVisible(true);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.MARK);
@@ -354,21 +587,37 @@ public class AppFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AddChartMenuItem;
+    private javax.swing.JToggleButton BlueButton;
     private javax.swing.JToggleButton CommentButton;
+    private javax.swing.JToggleButton GreenButton;
     private javax.swing.JMenuItem HighlightColor;
     private javax.swing.JToggleButton MarkerButton;
+    private javax.swing.JToggleButton OrangeButton;
     private javax.swing.JToggleButton PanButton;
+    private javax.swing.JToggleButton PurpleButton;
+    private javax.swing.JToggleButton RedButton;
     private javax.swing.JToggleButton SelectButton;
+    private javax.swing.JToggleButton YellowButton;
     private javax.swing.JToggleButton ZoomButton;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JMenu editMenuItem;
     private javax.swing.JMenu fileMenuItem;
     private javax.swing.JFileChooser importChooser;
     private javax.swing.JMenuItem importDataMenuItem;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton jRadioButton15;
+    private javax.swing.JRadioButton jRadioButton16;
+    private javax.swing.JRadioButton jRadioButton17;
+    private javax.swing.JRadioButton jRadioButton18;
+    private javax.swing.JRadioButton jRadioButton19;
+    private javax.swing.JRadioButton jRadioButton20;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu optionsMenuItem;
+    private java.awt.Panel panel1;
+    private java.awt.Panel panel2;
     // End of variables declaration//GEN-END:variables
 
     public javax.swing.JMenuItem getImportButton() {

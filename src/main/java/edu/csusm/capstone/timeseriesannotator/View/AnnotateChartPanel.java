@@ -103,7 +103,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     if (e.getButton() == MouseEvent.BUTTON3) {
                         removeTextAnnotation();
                     }
-                    super.mousePressed(e);
+                    //super.mousePressed(e);
                     break;
                 default:
                     break;
@@ -145,7 +145,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mouseReleased(e);
                     break;
                 case COMMENT:
-                    super.mouseReleased(e);
+                    //super.mouseReleased(e);
                     break;
                 default:
                     break;

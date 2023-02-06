@@ -67,7 +67,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         double point[] = getPointInChart(e);
-        if (null != state) {
+        Point2D pointObj = e.getPoint();
+        Rectangle2D chartArea = getScreenDataArea();
+        if (null != state && chartArea.contains(pointObj)) {
             switch (state) {
                 case HIGHLIGHT:
                     if (e.getButton() == MouseEvent.BUTTON1) {
@@ -193,7 +195,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         if (null != state) {
             switch (state) {
                 case HIGHLIGHT:
-                    if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (e.getButton() == MouseEvent.BUTTON1 && this.rect != null) {
                         super.mouseReleased(e);
                         coordinates[1][0] = point[0];
                         coordinates[1][1] = point[1];
@@ -224,7 +226,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     //super.mouseReleased(e);
                     break;
                 case MARK:
-                    if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (e.getButton() == MouseEvent.BUTTON1 && this.rect != null) {
                         super.mouseReleased(e);
                         coordinates[1][0] = point[0];
                         coordinates[1][1] = point[1];

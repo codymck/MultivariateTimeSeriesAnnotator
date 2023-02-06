@@ -137,7 +137,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         x = Math.min(startPoint.getX(), endPoint.getX());
                         y = screenDataArea.getMinY();
                         width = Math.abs(startPoint.getX() - endPoint.getX());
-                        height = screenDataArea.getMaxY();
+                        height = screenDataArea.getMaxY() - y;
 
                         // make sure it doesn't overflow the bounds of the chart
                         if (x < screenDataArea.getMinX()) {

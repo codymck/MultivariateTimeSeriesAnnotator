@@ -21,10 +21,8 @@ public class RegionStruct {
     }
     
     public boolean isClickedOn(double mouseX, double mouseY){
-        System.out.println("mouseX: " + mouseX + ", mouseY: " + mouseY);
         if(mouseX >= x0 && mouseX <= x1 && 
                 mouseY >= y0 && mouseY <= y1){
-            System.out.println("inside");
             return true;
         }
         return false;

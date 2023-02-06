@@ -159,7 +159,6 @@
             </Property>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="toolTipText" type="java.lang.String" value="Zoom (Press 1)"/>
-            <Property name="rolloverEnabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ZoomButtonActionPerformed"/>
@@ -201,7 +200,7 @@
               <ComponentRef name="buttonGroup1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/annotate.png"/>
+              <Image iconType="3" name="/icons/icons8-comment-medical-32.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="82"/>
             <Property name="toolTipText" type="java.lang.String" value="Comment Tool (Press 4)"/>
@@ -216,7 +215,7 @@
               <ComponentRef name="buttonGroup1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/shapes.jpeg"/>
+              <Image iconType="3" name="/icons/icons8-diversity-50.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="84"/>
             <Property name="toolTipText" type="java.lang.String" value="Marker Tool (Press 5)"/>

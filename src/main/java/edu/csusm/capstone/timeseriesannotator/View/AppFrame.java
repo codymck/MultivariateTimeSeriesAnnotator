@@ -172,7 +172,6 @@ public class AppFrame extends javax.swing.JFrame {
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
         ZoomButton.setSelected(true);
         ZoomButton.setToolTipText("Zoom (Press 1)");
-        ZoomButton.setRolloverEnabled(false);
         ZoomButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ZoomButtonActionPerformed(evt);
@@ -203,7 +202,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.add(SelectButton);
 
         buttonGroup1.add(CommentButton);
-        CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/annotate.png"))); // NOI18N
+        CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
         CommentButton.setMnemonic('R');
         CommentButton.setToolTipText("Comment Tool (Press 4)");
         CommentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -214,7 +213,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.add(CommentButton);
 
         buttonGroup1.add(MarkerButton);
-        MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/shapes.jpeg"))); // NOI18N
+        MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
         MarkerButton.setMnemonic('T');
         MarkerButton.setToolTipText("Marker Tool (Press 5)");
         MarkerButton.addActionListener(new java.awt.event.ActionListener() {

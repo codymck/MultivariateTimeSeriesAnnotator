@@ -27,6 +27,7 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
+import org.jfree.data.Range;
 
 /**
  *
@@ -41,6 +42,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private XYPlot plot;
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}};
     private ArrayList<RegionStruct> regionList = new ArrayList<>();
+    private ArrayList<RegionStruct> rectList = new ArrayList<>();
 
     private double x, y, width, height;
     
@@ -110,6 +112,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     }
                     //super.mousePressed(e);
                     break;
+                case MARK:
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        startPoint = e.getPoint();
+                        coordinates[0][0] = point[0];
+                        coordinates[0][1] = point[1];
+                        rect = new Rectangle2D.Double(startPoint.getX(), startPoint.getY(), 0, 0);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -121,7 +131,28 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         if (null != state) {
             switch (state) {
                 case HIGHLIGHT:
-                    if(this.startPoint != null){
+                    if(this.startPoint != null && this.rect != null){
+                        Rectangle2D screenDataArea = getScreenDataArea();
+                        Point2D endPoint = e.getPoint();
+                        x = Math.min(startPoint.getX(), endPoint.getX());
+                        y = screenDataArea.getMinY();
+                        width = Math.abs(startPoint.getX() - endPoint.getX());
+                        height = screenDataArea.getMaxY();
+
+                        // make sure it doesn't overflow the bounds of the chart
+                        if (x < screenDataArea.getMinX()) {
+                          width -= screenDataArea.getMinX() - x;
+                          x = (int) screenDataArea.getMinX();
+                        }
+                        if (x + width > screenDataArea.getMaxX()) {
+                          width = (int) (screenDataArea.getMaxX() - x);
+                        }
+                        rect.setRect(x, y, width, height);
+                        repaint();
+                    }
+                    break;
+                case MARK:
+                    if(this.startPoint != null && this.rect != null){
                         Point2D endPoint = e.getPoint();
                         x = Math.min(startPoint.getX(), endPoint.getX());
                         y = Math.min(startPoint.getY(), endPoint.getY());
@@ -168,9 +199,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         coordinates[1][1] = point[1];
                         rect = null;
                         repaint();
-                        addRegionAnnotation();
+                        addAnnotation("region");
                     } else if (e.getButton() == MouseEvent.BUTTON3) {
-                        removeRegionAnnotation(point[0], point[1]);
+                        removeAnnotation("region", point[0], point[1]);
                     }
                     break;
                 case ZOOM:
@@ -191,6 +222,18 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     break;
                 case COMMENT:
                     //super.mouseReleased(e);
+                    break;
+                case MARK:
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        super.mouseReleased(e);
+                        coordinates[1][0] = point[0];
+                        coordinates[1][1] = point[1];
+                        rect = null;
+                        repaint();
+                        addAnnotation("rect");
+                    } else if (e.getButton() == MouseEvent.BUTTON3) {
+                        removeAnnotation("rect", point[0], point[1]);
+                    }
                     break;
                 default:
                     break;
@@ -243,35 +286,68 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         });
     }
 
-    public void addRegionAnnotation() {
-        
-        double upperLeftX = Math.min(coordinates[0][0], coordinates[1][0]);
-        double upperLeftY = Math.min(coordinates[0][1], coordinates[1][1]);
-        
-        double lowerRightX = Math.max(coordinates[0][0], coordinates[1][0]);
-        double lowerRightY = Math.max(coordinates[0][1], coordinates[1][1]);
-        
-        XYBoxAnnotation region = new XYBoxAnnotation(
-                upperLeftX,
-                upperLeftY,
-                lowerRightX,
-                lowerRightY,
-                null,
-                null,
-                color
-        );
-        plot.addAnnotation(region);
-        regionList.add(new RegionStruct(upperLeftX, upperLeftY, lowerRightX, lowerRightY, region));
+    public void addAnnotation(String type) {
+        if(type.equals("region")){
+            ValueAxis yAxis = plot.getRangeAxis();
+            Range yRange = yAxis.getRange();
+            double yMin = yRange.getLowerBound();
+            double yMax = yRange.getUpperBound();
+            double upperLeftX = Math.min(coordinates[0][0], coordinates[1][0]);
+            double upperLeftY = yMin;
+
+            double lowerRightX = Math.max(coordinates[0][0], coordinates[1][0]);
+            double lowerRightY = yMax;
+
+            XYBoxAnnotation region = new XYBoxAnnotation(
+                    upperLeftX,
+                    upperLeftY,
+                    lowerRightX,
+                    lowerRightY,
+                    null,
+                    null,
+                    color
+            );
+            plot.addAnnotation(region);
+            regionList.add(new RegionStruct(upperLeftX, upperLeftY, lowerRightX, lowerRightY, region));
+        }else if(type.equals("rect")){
+            double upperLeftX = Math.min(coordinates[0][0], coordinates[1][0]);
+            double upperLeftY = Math.min(coordinates[0][1], coordinates[1][1]);
+
+            double lowerRightX = Math.max(coordinates[0][0], coordinates[1][0]);
+            double lowerRightY = Math.max(coordinates[0][1], coordinates[1][1]);
+
+            XYBoxAnnotation region = new XYBoxAnnotation(
+                    upperLeftX,
+                    upperLeftY,
+                    lowerRightX,
+                    lowerRightY,
+                    null,
+                    null,
+                    color
+            );
+            plot.addAnnotation(region);
+            rectList.add(new RegionStruct(upperLeftX, upperLeftY, lowerRightX, lowerRightY, region));
+        }
     }
 
-    public void removeRegionAnnotation(double mouseX, double mouseY) {
-        for (int i = regionList.size() - 1; i >= 0; i--) {
-            RegionStruct r = regionList.get(i);
-            if (r.isClickedOn(mouseX, mouseY)) {
-//                System.out.println("deleting");
-                plot.removeAnnotation(r.getRegion());
-                regionList.remove(i);
-                break;
+    public void removeAnnotation(String type, double mouseX, double mouseY) {
+        if(type.equals("region")){
+            for (int i = regionList.size() - 1; i >= 0; i--) {
+                RegionStruct r = regionList.get(i);
+                if (r.isClickedOn(mouseX, mouseY)) {
+                    plot.removeAnnotation(r.getRegion());
+                    regionList.remove(i);
+                    break;
+                }
+            }
+        }else if(type.equals("rect")){
+            for (int i = rectList.size() - 1; i >= 0; i--) {
+                RegionStruct r = rectList.get(i);
+                if (r.isClickedOn(mouseX, mouseY)) {
+                    plot.removeAnnotation(r.getRegion());
+                    rectList.remove(i);
+                    break;
+                }
             }
         }
     }

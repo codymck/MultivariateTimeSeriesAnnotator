@@ -45,22 +45,40 @@ public class AppFrame extends javax.swing.JFrame {
         initComponents();
         initialChart();
         setAppState(ToolState.ZOOM);
-
         KeyEventDispatcher toggleKeyDispatcher = new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_PRESSED) {
                     switch (e.getKeyCode()) {
-                        case KeyEvent.VK_1 -> ZoomButton.doClick();
-                        case KeyEvent.VK_2 -> PanButton.doClick();
-                        case KeyEvent.VK_3 -> SelectButton.doClick();
-                        case KeyEvent.VK_4 -> CommentButton.doClick();
-                        case KeyEvent.VK_5 -> MarkerButton.doClick();
+                        case KeyEvent.VK_1:
+                            ZoomButton.doClick();
+                            break;
+                        case KeyEvent.VK_2:
+                            PanButton.doClick();
+                            break;
+                        case KeyEvent.VK_3:
+                                SelectButton.doClick();
+                                break;
+                        case KeyEvent.VK_4:
+                            CommentButton.doClick();
+                            break;
+                        case KeyEvent.VK_5:
+                            MarkerButton.doClick();
+                            break;
+                        case KeyEvent.VK_CONTROL:
+                            if(!PanButton.isSelected())
+                                PanButton.doClick();
+                            break;
                     }
 //                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
 //                        System.out.println("Love you");
 //                        setCtrlPress(true);
 //                    }
+                }
+                if(e.getID() == KeyEvent.KEY_RELEASED) {
+                    if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+                        selectedButton.doClick();
+                    }
                 }
 //                if (e.getID() == KeyEvent.KEY_RELEASED) {
 //                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
@@ -459,6 +477,7 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_importDataMenuItemActionPerformed
 
     private void ZoomButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = ZoomButton;
         AbstractButton aB = (AbstractButton) evt.getSource();
         boolean zSelected = aB.getModel().isSelected();
 
@@ -478,13 +497,14 @@ public class AppFrame extends javax.swing.JFrame {
         setAppState(ToolState.PAN);
         panel1.setVisible(false);
         panel2.setVisible(false);
-
+        
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
         }
     }
 
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = SelectButton;
         RedButtonActionPerformed(evt);
         setAppState(ToolState.HIGHLIGHT);
         panel1.setVisible(true);
@@ -496,6 +516,7 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = CommentButton;
         setAppState(ToolState.COMMENT);
         panel1.setVisible(false);
         panel2.setVisible(false);
@@ -506,6 +527,7 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
     private void MarkerButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = MarkerButton;
         RedButtonActionPerformed(evt);
         setAppState(ToolState.MARK);
         panel1.setVisible(true);
@@ -566,7 +588,7 @@ public class AppFrame extends javax.swing.JFrame {
     private java.awt.Panel panel1;
     private java.awt.Panel panel2;
     // End of variables declaration//GEN-END:variables
-
+    private javax.swing.JToggleButton selectedButton = ZoomButton;
     public javax.swing.JMenuItem getImportButton() {
         return importDataMenuItem;
     }

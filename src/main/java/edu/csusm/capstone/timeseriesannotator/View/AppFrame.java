@@ -139,6 +139,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup3 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        AddChartButton = new javax.swing.JButton();
         ZoomButton = new javax.swing.JToggleButton();
         PanButton = new javax.swing.JToggleButton();
         SelectButton = new javax.swing.JToggleButton();
@@ -185,10 +186,17 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
+        AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
+        AddChartButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        AddChartButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel2.add(AddChartButton);
+
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
         ZoomButton.setSelected(true);
+        ZoomButton.setText("1");
         ZoomButton.setToolTipText("Zoom (1)");
+        ZoomButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         ZoomButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ZoomButtonActionPerformed(evt);
@@ -198,7 +206,9 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
+        PanButton.setText(" 2");
         PanButton.setToolTipText("Move (2)");
+        PanButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         PanButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PanButtonActionPerformed(evt);
@@ -208,7 +218,9 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
+        SelectButton.setText("3");
         SelectButton.setToolTipText("Select (3)");
+        SelectButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         SelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SelectButtonActionPerformed(evt);
@@ -218,7 +230,9 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
+        CommentButton.setText("4");
         CommentButton.setToolTipText("Comment (4)");
+        CommentButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         CommentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CommentButtonActionPerformed(evt);
@@ -228,7 +242,10 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(MarkerButton);
         MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
+        MarkerButton.setText("5");
         MarkerButton.setToolTipText("Marker (5)");
+        MarkerButton.setActionCommand("(5)");
+        MarkerButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         MarkerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MarkerButtonActionPerformed(evt);
@@ -553,6 +570,7 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddChartButton;
     private javax.swing.JMenuItem AddChartMenuItem;
     private javax.swing.JToggleButton BlueButton;
     private javax.swing.JToggleButton CircleButton;

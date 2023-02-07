@@ -162,9 +162,9 @@ public class AppFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenuItem = new javax.swing.JMenu();
         importDataMenuItem = new javax.swing.JMenuItem();
+        AddChartMenuItem = new javax.swing.JMenuItem();
         editMenuItem = new javax.swing.JMenu();
         optionsMenuItem = new javax.swing.JMenu();
-        AddChartMenuItem = new javax.swing.JMenuItem();
         HighlightColor = new javax.swing.JMenuItem();
 
         importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
@@ -187,8 +187,14 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
+        AddChartButton.setToolTipText("Add new chart to the frame");
         AddChartButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         AddChartButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        AddChartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddChartButtonActionPerformed(evt);
+            }
+        });
         jPanel2.add(AddChartButton);
 
         buttonGroup1.add(ZoomButton);
@@ -385,20 +391,20 @@ public class AppFrame extends javax.swing.JFrame {
         });
         fileMenuItem.add(importDataMenuItem);
 
-        menuBar.add(fileMenuItem);
-
-        editMenuItem.setText("Edit");
-        menuBar.add(editMenuItem);
-
-        optionsMenuItem.setText("Options");
-
         AddChartMenuItem.setText("Add Chart");
         AddChartMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddChartMenuItemActionPerformed(evt);
             }
         });
-        optionsMenuItem.add(AddChartMenuItem);
+        fileMenuItem.add(AddChartMenuItem);
+
+        menuBar.add(fileMenuItem);
+
+        editMenuItem.setText("Edit");
+        menuBar.add(editMenuItem);
+
+        optionsMenuItem.setText("Options");
 
         HighlightColor.setText("Change Highlight Color");
         HighlightColor.addActionListener(new java.awt.event.ActionListener() {
@@ -469,6 +475,10 @@ public class AppFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_StarButtonActionPerformed
 
+    private void AddChartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddChartButtonActionPerformed
+        AddChartAction addChart = new AddChartAction(split, charts, this);
+    }//GEN-LAST:event_AddChartButtonActionPerformed
+
     private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
         Color color = JColorChooser.showDialog(this,
                 "Select a color", new Color(0, 100, 255, 60));
@@ -479,8 +489,7 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_HighlightColorActionPerformed
 
     private void AddChartMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_RemoveChartMenuItemActionPerformed
-        ActionListener addChart = new AddChartAction(split, charts, this);
-        addChart.actionPerformed(evt);
+        AddChartAction addChart = new AddChartAction(split, charts, this);
     }// GEN-LAST:event_RemoveChartMenuItemActionPerformed
 
     private void importDataMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_importDataMenuItemActionPerformed

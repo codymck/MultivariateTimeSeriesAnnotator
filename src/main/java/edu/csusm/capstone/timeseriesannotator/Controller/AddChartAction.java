@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author josef
  */
-public class AddChartAction implements ActionListener {
+public class AddChartAction {
     
     ChartDisplay chartDisplay;
     ArrayList<ChartDisplay> charts;
@@ -23,10 +23,7 @@ public class AddChartAction implements ActionListener {
         this.split = s;
         this.charts = c;
         this.frame = f;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
+        
         if (charts.size() < 6) {
             chartDisplay = new ChartDisplay(frame);
             charts.add(chartDisplay);

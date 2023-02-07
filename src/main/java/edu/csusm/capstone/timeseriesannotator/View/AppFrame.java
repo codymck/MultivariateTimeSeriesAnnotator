@@ -198,7 +198,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
-        PanButton.setMnemonic('W');
         PanButton.setToolTipText("Move Tool (Press 2)");
         PanButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,7 +208,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
-        SelectButton.setMnemonic('E');
         SelectButton.setToolTipText("Select Tool (Press 3)");
         SelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,7 +218,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
-        CommentButton.setMnemonic('R');
         CommentButton.setToolTipText("Comment Tool (Press 4)");
         CommentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,7 +228,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(MarkerButton);
         MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
-        MarkerButton.setMnemonic('T');
         MarkerButton.setToolTipText("Marker Tool (Press 5)");
         MarkerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -398,7 +394,7 @@ public class AppFrame extends javax.swing.JFrame {
         menuBar.add(optionsMenuItem);
 
         setJMenuBar(menuBar);
-
+        ZoomButton.doClick();
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

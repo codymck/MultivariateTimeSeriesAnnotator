@@ -26,7 +26,7 @@ public class AppFrame extends javax.swing.JFrame {
     ChartDisplay chartDisplay;
     public static ArrayList<ChartDisplay> charts;
     public static boolean ctrlpress = false;
-
+    private boolean ctrlPressed = false;
     MultiSplitPane split = new MultiSplitPane();
 
     /**
@@ -63,6 +63,7 @@ public class AppFrame extends javax.swing.JFrame {
                             MarkerButton.doClick();
                             break;
                         case KeyEvent.VK_CONTROL:
+                            ctrlPressed = true;
                             if (!PanButton.isSelected() && (e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == 0)
                                 PanButton.doClick();
                             break;
@@ -73,6 +74,7 @@ public class AppFrame extends javax.swing.JFrame {
 //                    }
                 }
                 if(e.getID() == KeyEvent.KEY_RELEASED) {
+                    ctrlPressed = false;
                     if(e.getKeyCode() == KeyEvent.VK_CONTROL){
                         selectedButton.doClick();
                     }
@@ -491,6 +493,9 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
     private void PanButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        if(!ctrlPressed){
+            selectedButton = PanButton;
+        }
         setAppState(ToolState.PAN);
         panel1.setVisible(false);
         panel2.setVisible(false);

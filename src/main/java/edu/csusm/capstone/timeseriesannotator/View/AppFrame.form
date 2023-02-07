@@ -158,7 +158,7 @@
               <Image iconType="3" name="/icons/zoomin.png"/>
             </Property>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="toolTipText" type="java.lang.String" value="Zoom (Press 1)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Zoom (1)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ZoomButtonActionPerformed"/>
@@ -172,7 +172,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icons/4dirs.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Move Tool (Press 2)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Move (2)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PanButtonActionPerformed"/>
@@ -186,7 +186,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icons/select.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Select Tool (Press 3)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Select (3)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SelectButtonActionPerformed"/>
@@ -200,7 +200,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icons/icons8-comment-medical-32.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Comment Tool (Press 4)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Comment (4)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CommentButtonActionPerformed"/>
@@ -214,7 +214,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icons/icons8-diversity-50.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Marker Tool (Press 5)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Marker (5)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MarkerButtonActionPerformed"/>

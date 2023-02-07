@@ -4,18 +4,15 @@ import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
-import javax.swing.Action;
 import javax.swing.JColorChooser;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.InputEvent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -29,7 +26,7 @@ public class AppFrame extends javax.swing.JFrame {
     ChartDisplay chartDisplay;
     public static ArrayList<ChartDisplay> charts;
     public static boolean ctrlpress = false;
-
+    private boolean ctrlPressed = false;
     MultiSplitPane split = new MultiSplitPane();
 
     /**
@@ -45,22 +42,42 @@ public class AppFrame extends javax.swing.JFrame {
         initComponents();
         initialChart();
         setAppState(ToolState.ZOOM);
-
         KeyEventDispatcher toggleKeyDispatcher = new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_PRESSED) {
                     switch (e.getKeyCode()) {
-                        case KeyEvent.VK_1 -> ZoomButton.doClick();
-                        case KeyEvent.VK_2 -> PanButton.doClick();
-                        case KeyEvent.VK_3 -> SelectButton.doClick();
-                        case KeyEvent.VK_4 -> CommentButton.doClick();
-                        case KeyEvent.VK_5 -> MarkerButton.doClick();
+                        case KeyEvent.VK_1:
+                            ZoomButton.doClick();
+                            break;
+                        case KeyEvent.VK_2:
+                            PanButton.doClick();
+                            break;
+                        case KeyEvent.VK_3:
+                                SelectButton.doClick();
+                                break;
+                        case KeyEvent.VK_4:
+                            CommentButton.doClick();
+                            break;
+                        case KeyEvent.VK_5:
+                            MarkerButton.doClick();
+                            break;
+                        case KeyEvent.VK_CONTROL:
+                            ctrlPressed = true;
+                            if (!PanButton.isSelected() && (e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == 0)
+                                PanButton.doClick();
+                            break;
                     }
 //                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
 //                        System.out.println("Love you");
 //                        setCtrlPress(true);
 //                    }
+                }
+                if(e.getID() == KeyEvent.KEY_RELEASED) {
+                    ctrlPressed = false;
+                    if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+                        selectedButton.doClick();
+                    }
                 }
 //                if (e.getID() == KeyEvent.KEY_RELEASED) {
 //                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
@@ -181,7 +198,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
-        PanButton.setMnemonic('W');
         PanButton.setToolTipText("Move Tool (Press 2)");
         PanButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,7 +208,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
-        SelectButton.setMnemonic('E');
         SelectButton.setToolTipText("Select Tool (Press 3)");
         SelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,7 +218,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
-        CommentButton.setMnemonic('R');
         CommentButton.setToolTipText("Comment Tool (Press 4)");
         CommentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,7 +228,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(MarkerButton);
         MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
-        MarkerButton.setMnemonic('T');
         MarkerButton.setToolTipText("Marker Tool (Press 5)");
         MarkerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -381,7 +394,7 @@ public class AppFrame extends javax.swing.JFrame {
         menuBar.add(optionsMenuItem);
 
         setJMenuBar(menuBar);
-
+        ZoomButton.doClick();
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -459,6 +472,7 @@ public class AppFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_importDataMenuItemActionPerformed
 
     private void ZoomButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = ZoomButton;
         AbstractButton aB = (AbstractButton) evt.getSource();
         boolean zSelected = aB.getModel().isSelected();
 
@@ -475,16 +489,20 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
     private void PanButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        if(!ctrlPressed){
+            selectedButton = PanButton;
+        }
         setAppState(ToolState.PAN);
         panel1.setVisible(false);
         panel2.setVisible(false);
-
+        
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
         }
     }
 
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = SelectButton;
         RedButtonActionPerformed(evt);
         setAppState(ToolState.HIGHLIGHT);
         panel1.setVisible(true);
@@ -496,6 +514,7 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = CommentButton;
         setAppState(ToolState.COMMENT);
         panel1.setVisible(false);
         panel2.setVisible(false);
@@ -506,6 +525,7 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
     private void MarkerButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = MarkerButton;
         RedButtonActionPerformed(evt);
         setAppState(ToolState.MARK);
         panel1.setVisible(true);
@@ -566,7 +586,7 @@ public class AppFrame extends javax.swing.JFrame {
     private java.awt.Panel panel1;
     private java.awt.Panel panel2;
     // End of variables declaration//GEN-END:variables
-
+    private javax.swing.JToggleButton selectedButton = ZoomButton;
     public javax.swing.JMenuItem getImportButton() {
         return importDataMenuItem;
     }

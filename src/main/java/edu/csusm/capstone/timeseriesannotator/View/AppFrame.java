@@ -45,7 +45,7 @@ public class AppFrame extends javax.swing.JFrame {
         KeyEventDispatcher toggleKeyDispatcher = new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
-                if (e.getID() == KeyEvent.KEY_PRESSED) {
+                if (e.getID() == KeyEvent.KEY_PRESSED & !(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() instanceof javax.swing.JTextField)) {
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_1:
                             ZoomButton.doClick();

@@ -4,18 +4,15 @@ import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
-import javax.swing.Action;
 import javax.swing.JColorChooser;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.InputEvent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -66,7 +63,7 @@ public class AppFrame extends javax.swing.JFrame {
                             MarkerButton.doClick();
                             break;
                         case KeyEvent.VK_CONTROL:
-                            if(!PanButton.isSelected())
+                            if (!PanButton.isSelected() && (e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == 0)
                                 PanButton.doClick();
                             break;
                     }

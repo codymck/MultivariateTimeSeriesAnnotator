@@ -49,7 +49,7 @@ public class CommentMenu extends javax.swing.JDialog {
         setTitle("Text Annotations");
         setAlwaysOnTop(true);
 
-        FontComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arial", "Berlin Sans FB", "SansSerif", "Times New Roman" }));
+        FontComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arial", "Calibri", "Rockwell", "SansSerif", "Times New Roman", "Comic Sans MS" }));
         FontComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FontComboBoxActionPerformed(evt);
@@ -60,7 +60,9 @@ public class CommentMenu extends javax.swing.JDialog {
 
         FontSizeLabel.setText("Font Size:");
 
-        FontSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "11", "12", "13", "14", "15", "18", "20", "25", "30" }));
+        FontSizeComboBox.setEditable(true);
+        FontSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8", "9", "10", "11", "12", "14", "16", "18", "20", "24", "26", "28", "30" }));
+        FontSizeComboBox.setSelectedIndex(4);
 
         SubmitButton.setText("OK");
         SubmitButton.setToolTipText("Submit entry and selections (Press Enter)");

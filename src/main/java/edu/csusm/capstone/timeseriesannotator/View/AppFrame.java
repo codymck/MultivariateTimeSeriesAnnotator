@@ -88,7 +88,7 @@ public class AppFrame extends javax.swing.JFrame {
             }
         };
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(toggleKeyDispatcher);
-
+        ZoomButton.doClick();
         this.setLocationRelativeTo(null);
     }
 

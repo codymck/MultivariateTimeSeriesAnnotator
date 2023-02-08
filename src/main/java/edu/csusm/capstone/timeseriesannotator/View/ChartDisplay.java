@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
+import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -21,6 +22,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     AnnotateChartPanel emptyChart;
     AppFrame frame;
     Chart chartStruct;
+    Controller control;
+    XYPlot plot;
 
     /**
      * Creates new form ChartPanel
@@ -29,6 +32,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         this.frame = f;
         initComponents();
         startChart();
+        
     }
 
     private void startChart() {
@@ -87,6 +91,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     public void setChartData(Chart c) {
         this.chartStruct = c;
+        this.plot = chartStruct.getPlot();
+        chartStruct.setDomainAxis(this.plot.getDomainAxis());
+        control = new Controller(emptyChart);
     }
 
     /**
@@ -100,6 +107,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        SyncButton = new javax.swing.JRadioButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         setLayout(new java.awt.BorderLayout());
@@ -119,14 +127,19 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
+        SyncButton.setText("Sync Chart");
+        SyncButton.addActionListener(this);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addContainerGap()
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                .addComponent(SyncButton)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(15, 15, 15))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -136,7 +149,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(SyncButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -152,6 +166,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
         else if (evt.getSource() == jButton2) {
             ChartDisplay.this.jButton2ActionPerformed(evt);
+        }
+        else if (evt.getSource() == SyncButton) {
+            ChartDisplay.this.SyncButtonActionPerformed(evt);
         }
     }// </editor-fold>//GEN-END:initComponents
 
@@ -174,8 +191,19 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
+        if(SyncButton.isSelected()){
+            control.addSync(chartStruct.getPlot());
+        }
+        else{
+            control.removeSync(plot);
+            plot.setDomainAxis(chartStruct.getDomainAxis());
+        }
+    }//GEN-LAST:event_SyncButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton SyncButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;

@@ -25,7 +25,6 @@ public class AppFrame extends javax.swing.JFrame {
     public static ToolState appState;
     ChartDisplay chartDisplay;
     public static ArrayList<ChartDisplay> charts;
-    public static boolean ctrlpress = false;
     private boolean ctrlPressed = false;
     MultiSplitPane split = new MultiSplitPane();
 
@@ -68,10 +67,6 @@ public class AppFrame extends javax.swing.JFrame {
                                 PanButton.doClick();
                             break;
                     }
-//                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
-//                        System.out.println("Love you");
-//                        setCtrlPress(true);
-//                    }
                 }
                 if(e.getID() == KeyEvent.KEY_RELEASED) {
                     ctrlPressed = false;
@@ -79,16 +74,11 @@ public class AppFrame extends javax.swing.JFrame {
                         selectedButton.doClick();
                     }
                 }
-//                if (e.getID() == KeyEvent.KEY_RELEASED) {
-//                    if(KeyEvent.CTRL_DOWN_MASK == e.getModifiersEx()){
-//                        setCtrlPress(false);
-//                    }
-//                }
                 return false;
             }
         };
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(toggleKeyDispatcher);
-
+        ZoomButton.doClick();
         this.setLocationRelativeTo(null);
     }
 
@@ -570,13 +560,6 @@ public class AppFrame extends javax.swing.JFrame {
         return appState;
     }
     
-    public void setCtrlPress(boolean c){
-        ctrlpress = c;
-    }
-    
-    public static boolean getCtrlPress(){
-        return ctrlpress;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddChartButton;

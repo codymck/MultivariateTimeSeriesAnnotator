@@ -5,8 +5,10 @@ import org.assertj.swing.edt.GuiActionRunner;
 import static org.assertj.swing.launcher.ApplicationLauncher.application;
 import static org.assertj.swing.finder.WindowFinder.findFrame;
 import org.assertj.swing.fixture.FrameFixture;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Order;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,25 +21,37 @@ import org.junit.Test;
  */
 public class FrameAutomateTest {
     private FrameFixture window;
-
+    private AppFrame frame;
     @Before
     public void setUp() {
-      AppFrame frame = GuiActionRunner.execute(() -> new AppFrame());
+      frame = GuiActionRunner.execute(() -> new AppFrame());
       window = new FrameFixture(frame);
       window.show(); // shows the frame to test
     }
-    
-    @Test
-    public void shouldSeeFileButton(){
-        window.toggleButton("").click();
-        //window.toggleButton("ZoomButton").click();
-        //window.toggleButton("Move").click();
-//        window.toggleButton("Select").click();
-//        window.toggleButton("Comment").click();
-//        window.toggleButton("Marker").click();
-//
-//        window.menuItem("ImportData").click();
-
+    @After
+    public void tearDown(){
+        //frame.dispose();
+        //frame = null;
+        window.cleanUp();
     }
     
+    @Test
+    public void testButtons(){
+        window.toggleButton("ZoomButton").click();
+        window.toggleButton("PanButton").click();
+        window.toggleButton("SelectButton").click();
+        window.toggleButton("CommentButton").click();
+        window.toggleButton("MarkerButton").click();
+    }
+    
+    @Test
+    public void testImport(){
+        window.menuItem("ImportData").click();
+        window.fileChooser().fileNameTextBox().enterText("data.csv");
+        window.fileChooser().approveButton().click();
+        window.menuItem("AddChartMenuItem").click();
+          for(int i = 0;i < 5;i++){
+              window.button("AddChartButton").click();
+          }
+    }
 }

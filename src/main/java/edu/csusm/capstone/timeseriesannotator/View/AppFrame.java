@@ -158,6 +158,7 @@ public class AppFrame extends javax.swing.JFrame {
         HighlightColor = new javax.swing.JMenuItem();
 
         importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
+        importChooser.setName("importChooser"); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Multivariate Time Series Annotator");
@@ -178,6 +179,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
         AddChartButton.setToolTipText("Add new chart to the frame");
+        AddChartButton.setName("AddChartButton");
         AddChartButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         AddChartButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         AddChartButton.addActionListener(new java.awt.event.ActionListener() {
@@ -191,6 +193,7 @@ public class AppFrame extends javax.swing.JFrame {
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
         ZoomButton.setSelected(true);
         ZoomButton.setText("1");
+        ZoomButton.setName("ZoomButton");
         ZoomButton.setToolTipText("Zoom (1)");
         ZoomButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         ZoomButton.addActionListener(new java.awt.event.ActionListener() {
@@ -203,6 +206,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
         PanButton.setText(" 2");
+        PanButton.setName("PanButton");
         PanButton.setToolTipText("Move (2)");
         PanButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         PanButton.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +219,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
         SelectButton.setText("3");
+        SelectButton.setName("SelectButton");
         SelectButton.setToolTipText("Select (3)");
         SelectButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         SelectButton.addActionListener(new java.awt.event.ActionListener() {
@@ -227,6 +232,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
         CommentButton.setText("4");
+        CommentButton.setName("CommentButton");
         CommentButton.setToolTipText("Comment (4)");
         CommentButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         CommentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -239,6 +245,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup1.add(MarkerButton);
         MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
         MarkerButton.setText("5");
+        MarkerButton.setName("MarkerButton");
         MarkerButton.setToolTipText("Marker (5)");
         MarkerButton.setActionCommand("(5)");
         MarkerButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -374,6 +381,7 @@ public class AppFrame extends javax.swing.JFrame {
         fileMenuItem.setText("File");
 
         importDataMenuItem.setText("Import Data");
+        importDataMenuItem.setName("ImportData");
         importDataMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 importDataMenuItemActionPerformed(evt);
@@ -382,6 +390,7 @@ public class AppFrame extends javax.swing.JFrame {
         fileMenuItem.add(importDataMenuItem);
 
         AddChartMenuItem.setText("Add Chart");
+        AddChartMenuItem.setName("AddChartMenuItem");
         AddChartMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddChartMenuItemActionPerformed(evt);
@@ -581,7 +590,7 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton StarButton;
     private javax.swing.JToggleButton Vertical;
     private javax.swing.JToggleButton YellowButton;
-    private javax.swing.JToggleButton ZoomButton;
+    public javax.swing.JToggleButton ZoomButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;

@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -25,6 +26,7 @@ public class Controller {
         //System.out.println("x1: " + x1 + " x2: " + x2);
         commonXAxis.setRange(x1,x2);
         
+        
         if (synced != null){
             for(XYPlot x : synced){
                 if(!chartPanel.isFocusOwner() && synced.size() <= 1){
@@ -38,6 +40,8 @@ public class Controller {
     
     public void addSync(XYPlot p){
         this.synced.add(p);
+        //Rectangle2D screenDataArea = chartPanel.getScreenDataArea();
+        //commonXAxis.setRange(screenDataArea.getMinX(),screenDataArea.getMaxX());
     }
     
     public void removeSync(XYPlot p){

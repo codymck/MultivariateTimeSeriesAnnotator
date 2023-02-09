@@ -219,6 +219,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     break;
                 case PAN:
                     int panMask = MouseEvent.CTRL_MASK;
+                    
 
                     try {
                         Field mask = ChartPanel.class.getDeclaredField("panMask");
@@ -229,6 +230,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         ex.printStackTrace();
                     }
                     super.mouseReleased(e);
+                    ValueAxis xAxis = getChart().getXYPlot().getDomainAxis();
+                    double x1 = xAxis.getRange().getLowerBound();
+                    double x2 = xAxis.getRange().getUpperBound();
+                    //System.out.println("x1: " + x1 + " x2: " + x2);
+                    Controller.sync(x1,x2);
                     break;
                 case COMMENT:
                     //super.mouseReleased(e);

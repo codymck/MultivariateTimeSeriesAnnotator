@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.Model;
 
 import ch.systemsx.cisd.hdf5.HDF5Factory;
+import ch.systemsx.cisd.hdf5.IHDF5Reader;
 import ch.systemsx.cisd.hdf5.IHDF5SimpleReader;
 import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5Action;
@@ -8,6 +9,7 @@ import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
 import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
+import java.util.List;
 
 /**
  *
@@ -30,7 +32,10 @@ public class HDFReader implements DataReader {
     public void setPaths(String x, String y, int flag) {
         xP = x;
         yP = y;
+        IHDF5Reader reader2 = HDF5Factory.openForReading(file);
         try ( IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
+            List<String> headers = reader2.getGroupMembers("00000/");
+            System.out.println("Headers: " + headers);
             myXdata = reader.readFloatArray(x);
             myYdata = reader.readFloatArray(y);
         } catch (Exception e) {

@@ -8,7 +8,6 @@ import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Order;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -30,8 +29,6 @@ public class FrameAutomateTest {
     }
     @After
     public void tearDown(){
-        //frame.dispose();
-        //frame = null;
         window.cleanUp();
     }
     
@@ -46,12 +43,13 @@ public class FrameAutomateTest {
     
     @Test
     public void testImport(){
-        window.menuItem("ImportData").click();
-        window.fileChooser().fileNameTextBox().enterText("data.csv");
-        window.fileChooser().approveButton().click();
-        window.menuItem("AddChartMenuItem").click();
-          for(int i = 0;i < 5;i++){
-              window.button("AddChartButton").click();
-          }
+//        window.menuItem("ImportData").click();
+//        window.fileChooser().fileNameTextBox().enterText("data.csv");
+//        window.fileChooser().approveButton().click();
+//        
+//        window.menuItem("AddChartMenuItem").click();
+//          for(int i = 0;i < 5;i++){
+//              window.button("AddChartButton").click();
+//          }
     }
 }

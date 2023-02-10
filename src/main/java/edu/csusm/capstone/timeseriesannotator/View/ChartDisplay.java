@@ -93,6 +93,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         this.chartStruct = c;
         this.plot = chartStruct.getPlot();
         chartStruct.setDomainAxis(this.plot.getDomainAxis());
+        chartStruct.setRangeAxis(this.plot.getRangeAxis());
         control = new Controller(emptyChart);
     }
 
@@ -194,11 +195,12 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
         if(SyncButton.isSelected()){
-            control.addSync(chartStruct.getPlot());
+            control.addSync(chartStruct.getPlot(), chartStruct);
         }
         else{
             control.removeSync(plot);
             plot.setDomainAxis(chartStruct.getDomainAxis());
+            plot.setRangeAxis(chartStruct.getRangeAxis());
         }
     }//GEN-LAST:event_SyncButtonActionPerformed
 

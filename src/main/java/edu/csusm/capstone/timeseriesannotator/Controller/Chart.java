@@ -19,6 +19,7 @@ public class Chart {
     private int flag;
     XYPlot plot;
     private ValueAxis dAxis;
+    private ValueAxis rAxis;
     
     public static Chart Ct;
     
@@ -91,5 +92,12 @@ public class Chart {
     }
     public void setDomainAxis(ValueAxis a){
         dAxis = a;
+    }
+    
+    public ValueAxis getRangeAxis(){
+        return rAxis;
+    }
+    public void setRangeAxis(ValueAxis r){
+        rAxis = r;
     }
 }

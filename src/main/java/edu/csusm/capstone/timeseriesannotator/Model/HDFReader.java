@@ -32,10 +32,10 @@ public class HDFReader implements DataReader {
     public void setPaths(String x, String y, int flag) {
         xP = x;
         yP = y;
-        IHDF5Reader reader2 = HDF5Factory.openForReading(file);
+        //IHDF5Reader reader2 = HDF5Factory.openForReading(file);
         try ( IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
-            List<String> headers = reader2.getGroupMembers("00000/");
-            System.out.println("Headers: " + headers);
+            //List<String> headers = reader2.getGroupMembers("00000/");
+            //System.out.println("Headers: " + headers);
             myXdata = reader.readFloatArray(x);
             myYdata = reader.readFloatArray(y);
         } catch (Exception e) {

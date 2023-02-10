@@ -80,6 +80,8 @@ public class ChartSelectMenu extends javax.swing.JDialog {
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
+        getAccessibleContext().setAccessibleDescription("");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

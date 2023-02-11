@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
+import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
 import java.awt.Font;
@@ -43,6 +44,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}};
     private ArrayList<RegionStruct> regionList = new ArrayList<>();
     private ArrayList<RegionStruct> rectList = new ArrayList<>();
+    
+    double leftBound, rightBound, bottomBound, topBound;
 
     private double x, y, width, height;
     
@@ -81,6 +84,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     break;
                 case ZOOM:
                     setMouseZoomable(true, false);
+                    leftBound = point[0];
+                    topBound = point[1];
                     super.mousePressed(e);
                     break;
                 case PAN:
@@ -97,7 +102,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mousePressed(e);
                     break;
                 case COMMENT:
-                    if (e.getButton() == MouseEvent.BUTTON1 && AppFrame.getCtrlPress() == false) {
+                    if (e.getButton() == MouseEvent.BUTTON1) {
                         CommentMenu cMenu = new CommentMenu(new javax.swing.JFrame(), true);
                         cMenu.setVisible(true);
                         if (cMenu.isSubmitted() == false) {
@@ -192,6 +197,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        Point2D pointObj = e.getPoint();
         double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
@@ -209,9 +215,20 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     break;
                 case ZOOM:
                     super.mouseReleased(e);
+                    rightBound = point[0];
+                    double tempY = point[1];
+                    if (tempY > topBound){
+                        bottomBound = topBound;
+                        topBound = tempY;
+                    }
+                    else{
+                        bottomBound = tempY;
+                    }
+                    checkSync(leftBound,rightBound,bottomBound,topBound);
                     break;
                 case PAN:
                     int panMask = MouseEvent.CTRL_MASK;
+                    
 
                     try {
                         Field mask = ChartPanel.class.getDeclaredField("panMask");
@@ -222,6 +239,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         ex.printStackTrace();
                     }
                     super.mouseReleased(e);
+                    ValueAxis xAxis = getChart().getXYPlot().getDomainAxis();
+                    ValueAxis yAxis = getChart().getXYPlot().getRangeAxis();
+                    
+                    double x1 = xAxis.getRange().getLowerBound();
+                    double x2 = xAxis.getRange().getUpperBound();
+                    
+                    double y1 = yAxis.getRange().getLowerBound();
+                    double y2 = yAxis.getRange().getUpperBound();
+                    //System.out.println("x1: " + x1 + " x2: " + x2);
+                    Controller.sync(x1,x2,y1,y2); 
                     break;
                 case COMMENT:
                     //super.mouseReleased(e);
@@ -273,7 +300,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     Rectangle2D bounds = info.getPlotInfo().getDataArea();
                     double x1 = plot.getDomainAxis().valueToJava2D(annotation.getX(), bounds, plot.getDomainAxisEdge());
                     double y1 = plot.getRangeAxis().valueToJava2D(annotation.getY(), bounds, plot.getRangeAxisEdge());
-                    if (x >= x1 && x <= x1 + annotation.getText().length() * 7 && y >= y1 && y <= y1 + 20) {
+                    if (x >= x1 && x <= x1 + annotation.getText().length() * 7 && y >= y1 && y <= y1 + 20) {//maybe make variable
                         plot.removeAnnotation(annotation);
                         break;
                     }
@@ -383,6 +410,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         int b = c.getBlue();
 
         color = new Color(r, g, b, 60);
+    }
+    
+    public void checkSync(double x1, double x2, double y1, double y2){
+        if(x1 < x2){
+            Controller.sync(x1,x2,y1,y2);
+        }
     }
 
 }

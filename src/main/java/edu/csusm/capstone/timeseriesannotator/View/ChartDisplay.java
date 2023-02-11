@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
+import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -21,6 +22,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     AnnotateChartPanel emptyChart;
     AppFrame frame;
     Chart chartStruct;
+    Controller control;
+    XYPlot plot;
 
     /**
      * Creates new form ChartPanel
@@ -29,6 +32,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         this.frame = f;
         initComponents();
         startChart();
+        
     }
 
     private void startChart() {
@@ -87,6 +91,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     public void setChartData(Chart c) {
         this.chartStruct = c;
+        this.plot = chartStruct.getPlot();
+        chartStruct.setDomainAxis(this.plot.getDomainAxis());
+        chartStruct.setRangeAxis(this.plot.getRangeAxis());
+        control = new Controller(emptyChart);
     }
 
     /**
@@ -97,19 +105,21 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        removeChartButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        SyncButton = new javax.swing.JRadioButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         setLayout(new java.awt.BorderLayout());
 
-        jButton1.setBackground(new java.awt.Color(204, 0, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("X");
-        jButton1.setToolTipText("");
-        jButton1.addActionListener(this);
+        removeChartButton.setBackground(new java.awt.Color(204, 0, 0));
+        removeChartButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        removeChartButton.setForeground(new java.awt.Color(255, 255, 255));
+        removeChartButton.setText("X");
+        removeChartButton.setName("removeChartButton");
+        removeChartButton.setToolTipText("");
+        removeChartButton.addActionListener(this);
 
         jButton2.setBackground(new java.awt.Color(153, 255, 153));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -119,15 +129,20 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
+        SyncButton.setText("Sync Chart");
+        SyncButton.addActionListener(this);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addContainerGap()
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                .addComponent(SyncButton)
+                .addGap(18, 18, 18)
+                .addComponent(removeChartButton)
                 .addGap(15, 15, 15))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -135,8 +150,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(removeChartButton)
+                    .addComponent(jButton2)
+                    .addComponent(SyncButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -147,22 +163,25 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     // Code for dispatching events from components to event handlers.
 
     public void actionPerformed(java.awt.event.ActionEvent evt) {
-        if (evt.getSource() == jButton1) {
-            ChartDisplay.this.jButton1ActionPerformed(evt);
+        if (evt.getSource() == removeChartButton) {
+            ChartDisplay.this.removeChartButtonActionPerformed(evt);
         }
         else if (evt.getSource() == jButton2) {
             ChartDisplay.this.jButton2ActionPerformed(evt);
         }
+        else if (evt.getSource() == SyncButton) {
+            ChartDisplay.this.SyncButtonActionPerformed(evt);
+        }
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void removeChartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeChartButtonActionPerformed
         if (frame.charts.size() > 1) {
             frame.removeChart(this);
         } else {
             frame.removeChart(this);
             frame.initialChart();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_removeChartButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (chartStruct != null) {
@@ -174,11 +193,23 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
+        if(SyncButton.isSelected()){
+            control.addSync(chartStruct.getPlot(), chartStruct);
+        }
+        else{
+            control.removeSync(plot);
+            plot.setDomainAxis(chartStruct.getDomainAxis());
+            plot.setRangeAxis(chartStruct.getRangeAxis());
+        }
+    }//GEN-LAST:event_SyncButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JRadioButton SyncButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton removeChartButton;
     // End of variables declaration//GEN-END:variables
 }

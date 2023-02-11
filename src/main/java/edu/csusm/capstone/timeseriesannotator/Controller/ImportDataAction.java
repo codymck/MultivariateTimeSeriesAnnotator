@@ -138,9 +138,11 @@ public class ImportDataAction implements ActionListener {
                ErrorDialog.UnsupportedFile();
            }
            
-           dis.setChartData(chartStruct);
+           
 
            cP = ChartBuilder.buildCharts(chartStruct.getChartType());
+           
+           dis.setChartData(chartStruct);
            
            dis.setChart(cP);
         }

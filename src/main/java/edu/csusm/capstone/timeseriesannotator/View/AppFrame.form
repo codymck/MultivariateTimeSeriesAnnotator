@@ -431,6 +431,9 @@
                   <Image iconType="3" name="/icons/icons8-line-24.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DiagonalButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JToggleButton" name="HorizontalButton">
               <Properties>
@@ -441,6 +444,9 @@
                   <Image iconType="3" name="/icons/icons8-horizontal-line-24.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HorizontalButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JToggleButton" name="Vertical">
               <Properties>
@@ -451,6 +457,9 @@
                   <Image iconType="3" name="/icons/icons8-vertical-line-24.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VerticalActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

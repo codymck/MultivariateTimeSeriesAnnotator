@@ -9,11 +9,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Field;
@@ -29,7 +26,6 @@ import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.annotations.XYBoxAnnotation;
 import org.jfree.chart.annotations.XYLineAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
@@ -38,6 +34,7 @@ import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.Range;
+import org.jfree.data.xy.XYSeries;
 
 /**
  *
@@ -59,13 +56,15 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private double x, y, width, height;
 
     private Rectangle2D.Double rect = null;
-    private Point2D startPoint = null;
+    private double[] startPoint;
 
-    private Point sPoint;
-    private Point ePoint;
+
     private ValueMarker startMarker;
     private ValueMarker endMarker;
-    private XYLineAnnotation line;
+    private ValueMarker hMarker;
+    private ValueMarker vMarker;
+    private XYLineAnnotation lineAnnotation;
+    private Point sPoint, ePoint;
 
     public void setChartState(ToolState s) {
         this.state = s;
@@ -91,10 +90,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             switch (state) {
                 case HIGHLIGHT:
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        startPoint = e.getPoint();
+                        sPoint = e.getPoint();
                         coordinates[0][0] = point[0];
                         coordinates[0][1] = point[1];
-                        rect = new Rectangle2D.Double(startPoint.getX(), startPoint.getY(), 0, 0);
+                        rect = new Rectangle2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
                     }
                     break;
                 case ZOOM:
@@ -139,10 +138,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case SQUARE:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                startPoint = e.getPoint();
+                                sPoint = e.getPoint();
                                 coordinates[0][0] = point[0];
                                 coordinates[0][1] = point[1];
-                                rect = new Rectangle2D.Double(startPoint.getX(), startPoint.getY(), 0, 0);
+                                rect = new Rectangle2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
                             }
                             break;
                         case HORIZONTAL:
@@ -187,10 +186,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case DIAGONAL:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                sPoint = e.getPoint();
+                                startPoint = point;
+                                lineAnnotation = new XYLineAnnotation(
+                                        point[0], 
+                                        point[1], 
+                                        point[0], 
+                                        point[1], 
+                                        new BasicStroke(2.0f), Color.BLACK);
+                                plot.addAnnotation(lineAnnotation);
                             }
                     }
-
                     break;
                 default:
                     break;
@@ -200,15 +205,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
                 case HIGHLIGHT:
-                    if (this.startPoint != null && this.rect != null) {
+                    if (this.sPoint != null && this.rect != null) {
                         Rectangle2D screenDataArea = getScreenDataArea();
                         Point2D endPoint = e.getPoint();
-                        x = Math.min(startPoint.getX(), endPoint.getX());
+                        x = Math.min(sPoint.getX(), endPoint.getX());
                         y = screenDataArea.getMinY();
-                        width = Math.abs(startPoint.getX() - endPoint.getX());
+                        width = Math.abs(sPoint.getX() - endPoint.getX());
                         height = screenDataArea.getMaxY() - y;
 
                         // make sure it doesn't overflow the bounds of the chart
@@ -226,12 +232,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 case MARK:
                     switch (AppFrame.getMarkerType()) {
                         case SQUARE:
-                            if (this.startPoint != null && this.rect != null) {
+                            if (this.sPoint != null && this.rect != null) {
                                 Point2D endPoint = e.getPoint();
-                                x = Math.min(startPoint.getX(), endPoint.getX());
-                                y = Math.min(startPoint.getY(), endPoint.getY());
-                                width = Math.abs(startPoint.getX() - endPoint.getX());
-                                height = Math.abs(startPoint.getY() - endPoint.getY());
+                                x = Math.min(sPoint.getX(), endPoint.getX());
+                                y = Math.min(sPoint.getY(), endPoint.getY());
+                                width = Math.abs(sPoint.getX() - endPoint.getX());
+                                height = Math.abs(sPoint.getY() - endPoint.getY());
 
                                 // make sure it doesn't overflow the bounds of the chart
                                 Rectangle2D screenDataArea = getScreenDataArea();
@@ -255,11 +261,17 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             }
                             break;
                         case DIAGONAL:
-                            ePoint = e.getPoint();
-                            drawLine(plot, sPoint.getX(), sPoint.getY(), ePoint.getX(), ePoint.getY());
+                            plot.removeAnnotation(lineAnnotation);
+                            lineAnnotation = new XYLineAnnotation(
+                                    startPoint[0], 
+                                    startPoint[1], 
+                                    point[0], 
+                                    point[1], 
+                                    new BasicStroke(2.0f), Color.BLACK);
+                            plot.addAnnotation(lineAnnotation);
+                            repaint();
                             break;
                     }
-
                 default:
                     super.mouseDragged(e);
                     break;
@@ -338,10 +350,71 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             }
                             break;
                         case DIAGONAL:
-                            ePoint = e.getPoint();
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                plot.removeAnnotation(lineAnnotation);
+                                XYLineAnnotation lineAnnotationP = new XYLineAnnotation(
+                                        startPoint[0], 
+                                        startPoint[1], 
+                                        point[0], 
+                                        point[1], 
+                                        new BasicStroke(2.0f), Color.BLACK);
+                                if(startPoint[0] != point[0] && startPoint[1] != point[1]){
+                                    plot.addAnnotation(lineAnnotationP);
+                                }
+                            }
+                            break;
                     }
-
                 default:
+                    break;
+            }
+        }
+    }
+    
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        double point[] = getPointInChart(e);
+        if (null != state) {
+            switch (state) {
+                case MARK:
+                    switch (AppFrame.getMarkerType()) {
+                        case HORIZONTAL:
+                            if (getScreenDataArea().contains(e.getX(), e.getY())) {
+                                if (hMarker == null) {
+                                    hMarker = new ValueMarker(point[1]);
+                                    hMarker.setLabelAnchor(RectangleAnchor.CENTER);
+                                    hMarker.setPaint(new Color(0, 0, 0, 200));
+                                    hMarker.setStroke(new BasicStroke(2.0f));
+                                    plot.addRangeMarker(hMarker);
+                                } else {
+                                    hMarker.setValue(point[1]);
+                                }
+                            }else{
+                                if (hMarker != null) {
+                                    plot.removeRangeMarker(hMarker);
+                                    hMarker = null;
+                                }
+                            }
+                            break;
+                        case VERTICAL:
+                            if (getScreenDataArea().contains(e.getX(), e.getY())) {
+                                if (vMarker == null) {
+                                    vMarker = new ValueMarker(point[0]);
+                                    vMarker.setLabelAnchor(RectangleAnchor.CENTER);
+                                    vMarker.setPaint(new Color(0, 0, 0, 200));
+                                    vMarker.setStroke(new BasicStroke(2.0f));
+                                    plot.addDomainMarker(vMarker);
+
+                                } else {
+                                    vMarker.setValue(point[0]);
+                                }
+                            }else{
+                                if (vMarker != null) {
+                                    plot.removeDomainMarker(vMarker);
+                                    vMarker = null;
+                                }
+                            }
+                            break;
+                    }
                     break;
             }
         }
@@ -355,12 +428,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             g2.setColor(color);
             g2.fill(rect);
         }
-    }
-
-    private void drawLine(XYPlot plot, double x1, double y1, double x2, double y2) {
-        line = new XYLineAnnotation(x1, y1, x2, y2, new BasicStroke(1.0f), Color.BLACK);
-        plot.addAnnotation(line);
-        repaint();
     }
 
     public void removeTextAnnotation() {

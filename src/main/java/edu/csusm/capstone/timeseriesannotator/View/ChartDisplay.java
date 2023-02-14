@@ -194,8 +194,12 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
-        if(SyncButton.isSelected()){
+        if(SyncButton.isSelected() && plot != null ){
             control.addSync(chartStruct.getPlot(), chartStruct);
+        }
+        else if(SyncButton.isSelected()){
+            //Throw error "Can't Sync a empty chart!"
+            SyncButton.setSelected(false);
         }
         else{
             control.removeSync(plot);

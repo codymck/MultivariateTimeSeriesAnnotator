@@ -2,8 +2,8 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import org.assertj.swing.edt.GuiActionRunner;
-import static org.assertj.swing.launcher.ApplicationLauncher.application;
-import static org.assertj.swing.finder.WindowFinder.findFrame;
+//import static org.assertj.swing.launcher.ApplicationLauncher.application;
+//import static org.assertj.swing.finder.WindowFinder.findFrame;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Ben Theurich
+ * @author Ramon Duran
  */
 public class FrameAutomateTest {
     private FrameFixture window;
@@ -37,12 +37,34 @@ public class FrameAutomateTest {
         window.toggleButton("ZoomButton").click();
         window.toggleButton("PanButton").click();
         window.toggleButton("SelectButton").click();
+        //buttons triggered when on select tool
+        window.toggleButton("RedButton").click();
+        window.toggleButton("OrangeButton").click();
+        window.toggleButton("YellowButton").click();
+        window.toggleButton("GreenButton").click();
+        window.toggleButton("BlueButton").click();
+        window.toggleButton("PurpleButton").click();
+        //end of color buttons
         window.toggleButton("CommentButton").click();
         window.toggleButton("MarkerButton").click();
+        //buttons triggered when on mark tool
+        window.toggleButton("SquareButton").click();
+        window.toggleButton("CircleButton").click();
+        window.toggleButton("StarButton").click();
+        window.toggleButton("DiagonalButton").click();
+        window.toggleButton("HorizontalButton").click();
+        window.toggleButton("VerticalButton").click();
+        //adding more charts
+        window.menuItem("AddChartMenuItem").click();
+          for(int i = 0;i < 5;i++){
+              window.button("AddChartButton").click();
+          }
+        
     }
     
     @Test
     public void testImport(){
+<<<<<<< Updated upstream
 //        window.menuItem("ImportData").click();
 //        window.fileChooser().fileNameTextBox().enterText("data.csv");
 //        window.fileChooser().approveButton().click();
@@ -51,5 +73,10 @@ public class FrameAutomateTest {
 //          for(int i = 0;i < 5;i++){
 //              window.button("AddChartButton").click();
 //          }
+=======
+        window.menuItem("ImportData").click();
+        window.fileChooser().fileNameTextBox().enterText("data.csv");
+        window.fileChooser().approveButton().click();
+>>>>>>> Stashed changes
     }
 }

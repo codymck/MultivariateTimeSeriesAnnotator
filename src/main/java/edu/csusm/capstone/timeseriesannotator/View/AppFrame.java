@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.csusm.capstone.timeseriesannotator.Controller.*;
+import edu.csusm.capstone.timeseriesannotator.Model.MarkerType;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -23,6 +24,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class AppFrame extends javax.swing.JFrame {
 
     public static ToolState appState;
+    public static MarkerType markerType;
     ChartDisplay chartDisplay;
     public static ArrayList<ChartDisplay> charts;
     private boolean ctrlPressed = false;
@@ -41,6 +43,7 @@ public class AppFrame extends javax.swing.JFrame {
         initComponents();
         initialChart();
         setAppState(ToolState.ZOOM);
+        setMarkerType(MarkerType.SQUARE);
         KeyEventDispatcher toggleKeyDispatcher = new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
@@ -362,14 +365,29 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup3.add(DiagonalButton);
         DiagonalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
+        DiagonalButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DiagonalButtonActionPerformed(evt);
+            }
+        });
         panel2.add(DiagonalButton);
 
         buttonGroup3.add(HorizontalButton);
         HorizontalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-horizontal-line-24.png"))); // NOI18N
+        HorizontalButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HorizontalButtonActionPerformed(evt);
+            }
+        });
         panel2.add(HorizontalButton);
 
         buttonGroup3.add(Vertical);
         Vertical.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-vertical-line-24.png"))); // NOI18N
+        Vertical.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerticalActionPerformed(evt);
+            }
+        });
         panel2.add(Vertical);
 
         jPanel2.add(panel2);
@@ -463,7 +481,7 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_PurpleButtonActionPerformed
 
     private void SquareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SquareButtonActionPerformed
-        // TODO add your handling code here:
+        setMarkerType(MarkerType.SQUARE);
     }//GEN-LAST:event_SquareButtonActionPerformed
 
     private void CircleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CircleButtonActionPerformed
@@ -477,6 +495,18 @@ public class AppFrame extends javax.swing.JFrame {
     private void AddChartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddChartButtonActionPerformed
         AddChartAction addChart = new AddChartAction(split, charts, this);
     }//GEN-LAST:event_AddChartButtonActionPerformed
+
+    private void VerticalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerticalActionPerformed
+        setMarkerType(MarkerType.VERTICAL);
+    }//GEN-LAST:event_VerticalActionPerformed
+
+    private void HorizontalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HorizontalButtonActionPerformed
+        setMarkerType(MarkerType.HORIZONTAL);
+    }//GEN-LAST:event_HorizontalButtonActionPerformed
+
+    private void DiagonalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiagonalButtonActionPerformed
+        setMarkerType(MarkerType.DIAGONAL);
+    }//GEN-LAST:event_DiagonalButtonActionPerformed
 
     private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
         Color color = JColorChooser.showDialog(this,
@@ -569,6 +599,14 @@ public class AppFrame extends javax.swing.JFrame {
         return appState;
     }
     
+    private void setMarkerType(MarkerType m) {
+        markerType = m;
+    }
+    
+    public static MarkerType getMarkerType() {
+        return markerType;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddChartButton;
@@ -606,6 +644,7 @@ public class AppFrame extends javax.swing.JFrame {
     private java.awt.Panel panel2;
     // End of variables declaration//GEN-END:variables
     private javax.swing.JToggleButton selectedButton = ZoomButton;
+    
     public javax.swing.JMenuItem getImportButton() {
         return importDataMenuItem;
     }

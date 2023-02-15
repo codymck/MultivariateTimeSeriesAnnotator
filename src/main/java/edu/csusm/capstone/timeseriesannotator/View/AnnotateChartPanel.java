@@ -330,7 +330,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     double y1 = yAxis.getRange().getLowerBound();
                     double y2 = yAxis.getRange().getUpperBound();
                     //System.out.println("x1: " + x1 + " x2: " + x2);
-                    Controller.sync(x1, x2, y1, y2);
+                    //Controller.sync(x1, x2, y1, y2);
+                    Controller.syncX(x1, x2, plot);
                     break;
                 case COMMENT:
                     //super.mouseReleased(e);
@@ -563,7 +564,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     public void checkSync(double x1, double x2, double y1, double y2) {
         if (x1 < x2) {
-            Controller.sync(x1, x2, y1, y2);
+            Controller.syncX(x1, x2, plot);
+            //Controller.sync(x1, x2, y1, y2);
         }
     }
 

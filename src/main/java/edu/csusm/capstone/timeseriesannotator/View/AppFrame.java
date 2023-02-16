@@ -49,6 +49,9 @@ public class AppFrame extends javax.swing.JFrame {
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_PRESSED & !(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() instanceof javax.swing.JTextField)) {
                     switch (e.getKeyCode()) {
+                        case KeyEvent.VK_0:
+                            AddChartButton.doClick();
+                            break;
                         case KeyEvent.VK_1:
                             ZoomButton.doClick();
                             break;
@@ -173,19 +176,20 @@ public class AppFrame extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 800));
         jPanel1.setLayout(new java.awt.BorderLayout());
-        getContentPane().add(jPanel1, java.awt.BorderLayout.EAST);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
-        jPanel2.setLayout(new java.awt.GridLayout(2, 0));
+        jPanel2.setLayout(new java.awt.GridLayout(1, 2));
 
-        panel3.setLayout(new java.awt.GridLayout());
+        panel3.setLayout(new java.awt.GridLayout(2, 0));
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
+        AddChartButton.setText("0");
         AddChartButton.setToolTipText("Add new chart to the frame");
         AddChartButton.setName("AddChartButton");
         AddChartButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -269,7 +273,7 @@ public class AppFrame extends javax.swing.JFrame {
         jLayeredPane1.setLayout(new javax.swing.OverlayLayout(jLayeredPane1));
 
         panel2.setVisible(false);
-        panel2.setLayout(new java.awt.GridLayout());
+        panel2.setLayout(new java.awt.GridLayout(2, 0));
 
         buttonGroup3.add(SquareButton);
         SquareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-square-spinner-24.png"))); // NOI18N
@@ -328,12 +332,14 @@ public class AppFrame extends javax.swing.JFrame {
 
         jLayeredPane1.add(panel2);
 
-        panel1.setLayout(new java.awt.GridLayout());
+        panel1.setVisible(false);
+        panel1.setLayout(new java.awt.GridLayout(2, 0));
 
         RedButton.setBackground(new java.awt.Color(255, 51, 51));
         buttonGroup2.add(RedButton);
         RedButton.setSelected(true);
         RedButton.setDoubleBuffered(true);
+        RedButton.setName(""); // NOI18N
         RedButton.setPreferredSize(new java.awt.Dimension(20, 20));
         RedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

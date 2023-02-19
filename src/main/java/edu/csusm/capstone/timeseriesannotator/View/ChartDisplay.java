@@ -195,16 +195,20 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
         if(SyncButton.isSelected() && plot != null ){
-            control.addSync(chartStruct.getPlot(), chartStruct);
+            emptyChart.setSync(true);
+            control.addSync2(emptyChart.getChart());
+            //control.addSync(chartStruct.getPlot(), chartStruct);
         }
         else if(SyncButton.isSelected()){
             //Throw error "Can't Sync a empty chart!"
             SyncButton.setSelected(false);
         }
         else{
-            control.removeSync(plot);
+            emptyChart.setSync(false);
+            control.removeSync2(emptyChart.getChart());
+//            control.removeSync(plot);
             plot.setDomainAxis(chartStruct.getDomainAxis());
-            plot.setRangeAxis(chartStruct.getRangeAxis());
+//            plot.setRangeAxis(chartStruct.getRangeAxis());
         }
     }//GEN-LAST:event_SyncButtonActionPerformed
 

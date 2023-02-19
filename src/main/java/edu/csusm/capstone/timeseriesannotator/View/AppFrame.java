@@ -49,6 +49,9 @@ public class AppFrame extends javax.swing.JFrame {
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_PRESSED & !(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() instanceof javax.swing.JTextField)) {
                     switch (e.getKeyCode()) {
+                        case KeyEvent.VK_0:
+                            AddChartButton.doClick();
+                            break;
                         case KeyEvent.VK_1:
                             ZoomButton.doClick();
                             break;
@@ -181,7 +184,8 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
-        AddChartButton.setToolTipText("Add new chart to the frame");
+        AddChartButton.setText("0");
+        AddChartButton.setToolTipText("Add new chart (0)");
         AddChartButton.setName("AddChartButton");
         AddChartButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         AddChartButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);

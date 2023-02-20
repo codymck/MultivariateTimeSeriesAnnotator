@@ -64,19 +64,14 @@ public class FrameAutomateTest {
     
     @Test
     public void testImport(){
-<<<<<<< Updated upstream
+
 //        window.menuItem("ImportData").click();
 //        window.fileChooser().fileNameTextBox().enterText("data.csv");
 //        window.fileChooser().approveButton().click();
 //        
-//        window.menuItem("AddChartMenuItem").click();
-//          for(int i = 0;i < 5;i++){
-//              window.button("AddChartButton").click();
-//          }
-=======
         window.menuItem("ImportData").click();
         window.fileChooser().fileNameTextBox().enterText("data.csv");
         window.fileChooser().approveButton().click();
->>>>>>> Stashed changes
+
     }
 }

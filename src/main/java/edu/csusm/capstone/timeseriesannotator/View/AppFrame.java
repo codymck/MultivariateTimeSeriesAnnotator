@@ -125,7 +125,6 @@ public class AppFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         importChooser = new javax.swing.JFileChooser();
         buttonGroup1 = new javax.swing.ButtonGroup();
@@ -183,7 +182,7 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
         jPanel2.setLayout(new java.awt.GridLayout(2, 0));
 
-        panel3.setLayout(new java.awt.GridLayout());
+        panel3.setLayout(new java.awt.GridLayout(1, 0));
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
         AddChartButton.setToolTipText("Add new chart to the frame");
@@ -269,11 +268,12 @@ public class AppFrame extends javax.swing.JFrame {
         jLayeredPane1.setLayout(new javax.swing.OverlayLayout(jLayeredPane1));
 
         panel2.setVisible(false);
-        panel2.setLayout(new java.awt.GridLayout());
+        panel2.setLayout(new java.awt.GridLayout(1, 0));
 
         buttonGroup3.add(SquareButton);
         SquareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-square-spinner-24.png"))); // NOI18N
         SquareButton.setSelected(true);
+        SquareButton.setName("SquareButton");
         SquareButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SquareButtonActionPerformed(evt);
@@ -283,6 +283,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup3.add(CircleButton);
         CircleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-loading-circle-24.png"))); // NOI18N
+        CircleButton.setName("CircleButton");
         CircleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CircleButtonActionPerformed(evt);
@@ -292,6 +293,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup3.add(StarButton);
         StarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-star-24.png"))); // NOI18N
+        StarButton.setName("StarButton");
         StarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 StarButtonActionPerformed(evt);
@@ -301,6 +303,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup3.add(DiagonalButton);
         DiagonalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
+        DiagonalButton.setName("DiagonalButton");
         DiagonalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DiagonalButtonActionPerformed(evt);
@@ -310,6 +313,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup3.add(HorizontalButton);
         HorizontalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-horizontal-line-24.png"))); // NOI18N
+        HorizontalButton.setName("HorizontalButton");
         HorizontalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 HorizontalButtonActionPerformed(evt);
@@ -319,6 +323,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup3.add(Vertical);
         Vertical.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-vertical-line-24.png"))); // NOI18N
+        Vertical.setName("VerticalButton");
         Vertical.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VerticalActionPerformed(evt);
@@ -328,25 +333,26 @@ public class AppFrame extends javax.swing.JFrame {
 
         jLayeredPane1.add(panel2);
 
-        panel1.setLayout(new java.awt.GridLayout());
+        panel1.setLayout(new java.awt.GridLayout(1, 0));
 
         RedButton.setBackground(new java.awt.Color(255, 51, 51));
         buttonGroup2.add(RedButton);
         RedButton.setSelected(true);
         RedButton.setDoubleBuffered(true);
         RedButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        RedButton.setName("RedButton");
         RedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RedButtonActionPerformed(evt);
             }
         });
         panel1.add(RedButton);
-        RedButton.getAccessibleContext().setAccessibleName("RedButton");
 
         OrangeButton.setBackground(new java.awt.Color(255, 153, 0));
         buttonGroup2.add(OrangeButton);
         OrangeButton.setDoubleBuffered(true);
         OrangeButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        OrangeButton.setName("OrangeButton");
         OrangeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OrangeButtonActionPerformed(evt);
@@ -358,6 +364,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup2.add(YellowButton);
         YellowButton.setDoubleBuffered(true);
         YellowButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        YellowButton.setName("YellowButton");
         YellowButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 YellowButtonActionPerformed(evt);
@@ -369,6 +376,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup2.add(GreenButton);
         GreenButton.setDoubleBuffered(true);
         GreenButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        GreenButton.setName("GreenButton");
         GreenButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GreenButtonActionPerformed(evt);
@@ -380,6 +388,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup2.add(BlueButton);
         BlueButton.setDoubleBuffered(true);
         BlueButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        BlueButton.setName("BlueButton");
         BlueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BlueButtonActionPerformed(evt);
@@ -391,6 +400,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup2.add(PurpleButton);
         PurpleButton.setDoubleBuffered(true);
         PurpleButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        PurpleButton.setName("PurpleButton");
         PurpleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PurpleButtonActionPerformed(evt);

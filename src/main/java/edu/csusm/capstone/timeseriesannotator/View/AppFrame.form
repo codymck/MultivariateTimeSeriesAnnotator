@@ -288,6 +288,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SquareButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="SquareButton.setName(&quot;SquareButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="CircleButton">
                   <Properties>
@@ -301,6 +304,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CircleButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="CircleButton.setName(&quot;CircleButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="StarButton">
                   <Properties>
@@ -314,6 +320,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="StarButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="StarButton.setName(&quot;StarButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="DiagonalButton">
                   <Properties>
@@ -327,6 +336,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DiagonalButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="DiagonalButton.setName(&quot;DiagonalButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="HorizontalButton">
                   <Properties>
@@ -340,6 +352,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HorizontalButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="HorizontalButton.setName(&quot;HorizontalButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="Vertical">
                   <Properties>
@@ -353,6 +368,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VerticalActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Vertical.setName(&quot;VerticalButton&quot;);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -377,12 +395,12 @@
                       <Dimension value="[20, 20]"/>
                     </Property>
                   </Properties>
-                  <AccessibilityProperties>
-                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="RedButton"/>
-                  </AccessibilityProperties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RedButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="RedButton.setName(&quot;RedButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="OrangeButton">
                   <Properties>
@@ -400,6 +418,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OrangeButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="OrangeButton.setName(&quot;OrangeButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="YellowButton">
                   <Properties>
@@ -417,6 +438,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="YellowButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="YellowButton.setName(&quot;YellowButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="GreenButton">
                   <Properties>
@@ -434,6 +458,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GreenButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="GreenButton.setName(&quot;GreenButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="BlueButton">
                   <Properties>
@@ -451,6 +478,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BlueButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="BlueButton.setName(&quot;BlueButton&quot;);"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="PurpleButton">
                   <Properties>
@@ -468,6 +498,9 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PurpleButtonActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="PurpleButton.setName(&quot;PurpleButton&quot;);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

@@ -150,7 +150,7 @@ public class AppFrame extends javax.swing.JFrame {
         PurpleButton = new javax.swing.JToggleButton();
         panel2 = new java.awt.Panel();
         SquareButton = new javax.swing.JToggleButton();
-        CircleButton = new javax.swing.JToggleButton();
+        EllipseButton = new javax.swing.JToggleButton();
         TriangleButton = new javax.swing.JToggleButton();
         DiagonalButton = new javax.swing.JToggleButton();
         HorizontalButton = new javax.swing.JToggleButton();
@@ -349,14 +349,14 @@ public class AppFrame extends javax.swing.JFrame {
         });
         panel2.add(SquareButton);
 
-        buttonGroup3.add(CircleButton);
-        CircleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-loading-circle-24.png"))); // NOI18N
-        CircleButton.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup3.add(EllipseButton);
+        EllipseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-loading-circle-24.png"))); // NOI18N
+        EllipseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CircleButtonActionPerformed(evt);
+                EllipseButtonActionPerformed(evt);
             }
         });
-        panel2.add(CircleButton);
+        panel2.add(EllipseButton);
 
         buttonGroup3.add(TriangleButton);
         TriangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/triangle.png"))); // NOI18N
@@ -488,9 +488,9 @@ public class AppFrame extends javax.swing.JFrame {
         setMarkerType(MarkerType.SQUARE);
     }//GEN-LAST:event_SquareButtonActionPerformed
 
-    private void CircleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CircleButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CircleButtonActionPerformed
+    private void EllipseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EllipseButtonActionPerformed
+        setMarkerType(MarkerType.ELLIPSE);
+    }//GEN-LAST:event_EllipseButtonActionPerformed
 
     private void TriangleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TriangleButtonActionPerformed
         setMarkerType(MarkerType.TRIANGLE);
@@ -616,9 +616,9 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JButton AddChartButton;
     private javax.swing.JMenuItem AddChartMenuItem;
     private javax.swing.JToggleButton BlueButton;
-    private javax.swing.JToggleButton CircleButton;
     private javax.swing.JToggleButton CommentButton;
     private javax.swing.JToggleButton DiagonalButton;
+    private javax.swing.JToggleButton EllipseButton;
     private javax.swing.JToggleButton GreenButton;
     private javax.swing.JMenuItem HighlightColor;
     private javax.swing.JToggleButton HorizontalButton;

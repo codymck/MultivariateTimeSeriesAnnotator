@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
+import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.ELLIPSE;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,12 +13,16 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
@@ -27,6 +32,7 @@ import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.annotations.XYBoxAnnotation;
 import org.jfree.chart.annotations.XYLineAnnotation;
 import org.jfree.chart.annotations.XYPolygonAnnotation;
+import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.ValueMarker;
@@ -75,6 +81,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private Point2D third;
     private XYLineAnnotation fLine;
     private XYLineAnnotation sLine;
+
+    /* ELLIPSE variables */
+    private Point2D ellipseStart;
+    private Point2D ellipseEnd;
+    XYShapeAnnotation ellipseAnnotation;
+    Hashtable<Ellipse2D, XYShapeAnnotation> shapeDict = new Hashtable<Ellipse2D, XYShapeAnnotation>();
 
     public void setChartState(ToolState s) {
         this.state = s;
@@ -229,6 +241,20 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 removeTriangle(point);
                             }
                             break;
+                        case ELLIPSE:
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                pointObj.setLocation(point[0], point[1]);
+                                ellipseStart = pointObj;
+                            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                                Ellipse2D ell = removeEllipse(point);
+                                if (ell != null) {
+                                    XYShapeAnnotation sh = shapeDict.get(ell);
+                                    shapeDict.remove(ell, sh);
+                                    plot.removeAnnotation(sh);
+                                }
+                            }
+                            break;
+
                     }
                     break;
                 default:
@@ -304,6 +330,24 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     new BasicStroke(2.0f), Color.BLACK);
                             plot.addAnnotation(lineAnnotation);
                             repaint();
+                            break;
+                        case ELLIPSE:
+                            if (SwingUtilities.isLeftMouseButton(e)) {
+                                if (ellipseAnnotation != null) {
+                                    plot.removeAnnotation(ellipseAnnotation);
+                                }
+                                double endX = chart.getXYPlot().getDomainAxis().java2DToValue(e.getX(), getBounds(), chart.getXYPlot().getDomainAxisEdge());
+                                double endY = chart.getXYPlot().getRangeAxis().java2DToValue(e.getY(), getBounds(), chart.getXYPlot().getRangeAxisEdge());
+                                double width = Math.abs(endX - ellipseStart.getX());
+                                double height = Math.abs(endY - ellipseStart.getY());
+                                double x = Math.min(ellipseStart.getX(), endX);
+                                double y = Math.min(ellipseStart.getY(), endY);
+                                Ellipse2D ellipse = new Ellipse2D.Double(x, y, width, height);
+                                ellipseAnnotation = new XYShapeAnnotation(ellipse, new BasicStroke(2), color, color);
+
+                                plot.addAnnotation(ellipseAnnotation);
+                                repaint();
+                            }
                             break;
                     }
                 default:
@@ -395,6 +439,27 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 if (startPoint[0] != point[0] && startPoint[1] != point[1]) {
                                     plot.addAnnotation(lineAnnotationP);
                                 }
+                            }
+                            break;
+                        case ELLIPSE:
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                if (ellipseAnnotation != null) {
+                                    plot.removeAnnotation(ellipseAnnotation);
+                                }
+                                ellipseAnnotation = null;
+
+                                double endX = chart.getXYPlot().getDomainAxis().java2DToValue(e.getX(), getBounds(), chart.getXYPlot().getDomainAxisEdge());
+                                double endY = chart.getXYPlot().getRangeAxis().java2DToValue(e.getY(), getBounds(), chart.getXYPlot().getRangeAxisEdge());
+                                double width = Math.abs(endX - ellipseStart.getX());
+                                double height = Math.abs(endY - ellipseStart.getY());
+                                double x = Math.min(ellipseStart.getX(), endX);
+                                double y = Math.min(ellipseStart.getY(), endY);
+                                Ellipse2D ellipseShape = new Ellipse2D.Double(x, y, width, height);
+                                XYShapeAnnotation ellipse = new XYShapeAnnotation(ellipseShape, new BasicStroke(2), color, color);
+                                shapeDict.put(ellipseShape, ellipse);
+
+                                plot.addAnnotation(ellipse);
+                                repaint();
                             }
                             break;
                     }
@@ -694,5 +759,20 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             int x3, int y3) {
         return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1)
                 + x3 * (y1 - y2)) / 2.0);
+    }
+
+    private Ellipse2D removeEllipse(double[] point) {
+        Enumeration<Ellipse2D> e = shapeDict.keys();
+
+        Point2D p = new Point2D.Double(point[0], point[1]);
+
+        while (e.hasMoreElements()) {
+            Ellipse2D ellipse = e.nextElement();
+
+            if (ellipse.contains(p)) {
+                return ellipse;
+            }
+        }
+        return null;
     }
 }

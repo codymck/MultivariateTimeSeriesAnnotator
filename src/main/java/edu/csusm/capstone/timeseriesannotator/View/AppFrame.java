@@ -128,7 +128,6 @@ public class AppFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         importChooser = new javax.swing.JFileChooser();
         buttonGroup1 = new javax.swing.ButtonGroup();
@@ -136,21 +135,12 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup3 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        panel3 = new java.awt.Panel();
         AddChartButton = new javax.swing.JButton();
         ZoomButton = new javax.swing.JToggleButton();
         PanButton = new javax.swing.JToggleButton();
         SelectButton = new javax.swing.JToggleButton();
         CommentButton = new javax.swing.JToggleButton();
         MarkerButton = new javax.swing.JToggleButton();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
-        panel2 = new java.awt.Panel();
-        SquareButton = new javax.swing.JToggleButton();
-        CircleButton = new javax.swing.JToggleButton();
-        StarButton = new javax.swing.JToggleButton();
-        DiagonalButton = new javax.swing.JToggleButton();
-        HorizontalButton = new javax.swing.JToggleButton();
-        Vertical = new javax.swing.JToggleButton();
         panel1 = new java.awt.Panel();
         RedButton = new javax.swing.JToggleButton();
         OrangeButton = new javax.swing.JToggleButton();
@@ -158,6 +148,13 @@ public class AppFrame extends javax.swing.JFrame {
         GreenButton = new javax.swing.JToggleButton();
         BlueButton = new javax.swing.JToggleButton();
         PurpleButton = new javax.swing.JToggleButton();
+        panel2 = new java.awt.Panel();
+        SquareButton = new javax.swing.JToggleButton();
+        EllipseButton = new javax.swing.JToggleButton();
+        TriangleButton = new javax.swing.JToggleButton();
+        DiagonalButton = new javax.swing.JToggleButton();
+        HorizontalButton = new javax.swing.JToggleButton();
+        Vertical = new javax.swing.JToggleButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenuItem = new javax.swing.JMenu();
         importDataMenuItem = new javax.swing.JMenuItem();
@@ -176,7 +173,7 @@ public class AppFrame extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 800));
+        jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
         jPanel1.setLayout(new java.awt.BorderLayout());
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -184,13 +181,11 @@ public class AppFrame extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
         jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
-        jPanel2.setLayout(new java.awt.GridLayout(1, 2));
-
-        panel3.setLayout(new java.awt.GridLayout(2, 0));
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
         AddChartButton.setText("0");
-        AddChartButton.setToolTipText("Add new chart to the frame");
+        AddChartButton.setToolTipText("Add new chart (0)");
         AddChartButton.setName("AddChartButton");
         AddChartButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         AddChartButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -199,7 +194,7 @@ public class AppFrame extends javax.swing.JFrame {
                 AddChartButtonActionPerformed(evt);
             }
         });
-        panel3.add(AddChartButton);
+        jPanel2.add(AddChartButton);
 
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
@@ -213,7 +208,7 @@ public class AppFrame extends javax.swing.JFrame {
                 ZoomButtonActionPerformed(evt);
             }
         });
-        panel3.add(ZoomButton);
+        jPanel2.add(ZoomButton);
 
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
@@ -226,7 +221,7 @@ public class AppFrame extends javax.swing.JFrame {
                 PanButtonActionPerformed(evt);
             }
         });
-        panel3.add(PanButton);
+        jPanel2.add(PanButton);
 
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
@@ -239,10 +234,10 @@ public class AppFrame extends javax.swing.JFrame {
                 SelectButtonActionPerformed(evt);
             }
         });
-        panel3.add(SelectButton);
+        jPanel2.add(SelectButton);
 
         buttonGroup1.add(CommentButton);
-        CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-20.png"))); // NOI18N
+        CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
         CommentButton.setText("4");
         CommentButton.setName("CommentButton");
         CommentButton.setToolTipText("Comment (4)");
@@ -252,7 +247,7 @@ public class AppFrame extends javax.swing.JFrame {
                 CommentButtonActionPerformed(evt);
             }
         });
-        panel3.add(CommentButton);
+        jPanel2.add(CommentButton);
 
         buttonGroup1.add(MarkerButton);
         MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
@@ -266,71 +261,7 @@ public class AppFrame extends javax.swing.JFrame {
                 MarkerButtonActionPerformed(evt);
             }
         });
-        panel3.add(MarkerButton);
-
-        jPanel2.add(panel3);
-
-        jLayeredPane1.setLayout(new javax.swing.OverlayLayout(jLayeredPane1));
-
-        panel2.setVisible(false);
-        panel2.setLayout(new java.awt.GridLayout(2, 0));
-
-        buttonGroup3.add(SquareButton);
-        SquareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-square-spinner-24.png"))); // NOI18N
-        SquareButton.setSelected(true);
-        SquareButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SquareButtonActionPerformed(evt);
-            }
-        });
-        panel2.add(SquareButton);
-
-        buttonGroup3.add(CircleButton);
-        CircleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-loading-circle-24.png"))); // NOI18N
-        CircleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CircleButtonActionPerformed(evt);
-            }
-        });
-        panel2.add(CircleButton);
-
-        buttonGroup3.add(StarButton);
-        StarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-star-24.png"))); // NOI18N
-        StarButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StarButtonActionPerformed(evt);
-            }
-        });
-        panel2.add(StarButton);
-
-        buttonGroup3.add(DiagonalButton);
-        DiagonalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
-        DiagonalButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DiagonalButtonActionPerformed(evt);
-            }
-        });
-        panel2.add(DiagonalButton);
-
-        buttonGroup3.add(HorizontalButton);
-        HorizontalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-horizontal-line-24.png"))); // NOI18N
-        HorizontalButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HorizontalButtonActionPerformed(evt);
-            }
-        });
-        panel2.add(HorizontalButton);
-
-        buttonGroup3.add(Vertical);
-        Vertical.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-vertical-line-24.png"))); // NOI18N
-        Vertical.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerticalActionPerformed(evt);
-            }
-        });
-        panel2.add(Vertical);
-
-        jLayeredPane1.add(panel2);
+        jPanel2.add(MarkerButton);
 
         panel1.setVisible(false);
         panel1.setLayout(new java.awt.GridLayout(2, 0));
@@ -339,7 +270,6 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup2.add(RedButton);
         RedButton.setSelected(true);
         RedButton.setDoubleBuffered(true);
-        RedButton.setName(""); // NOI18N
         RedButton.setPreferredSize(new java.awt.Dimension(20, 20));
         RedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -404,11 +334,69 @@ public class AppFrame extends javax.swing.JFrame {
         });
         panel1.add(PurpleButton);
 
-        jLayeredPane1.add(panel1);
+        jPanel2.add(panel1);
 
-        jPanel2.add(jLayeredPane1);
+        panel2.setVisible(false);
+        panel2.setLayout(new java.awt.GridLayout(2, 0));
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.NORTH);
+        buttonGroup3.add(SquareButton);
+        SquareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-square-spinner-24.png"))); // NOI18N
+        SquareButton.setSelected(true);
+        SquareButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SquareButtonActionPerformed(evt);
+            }
+        });
+        panel2.add(SquareButton);
+
+        buttonGroup3.add(EllipseButton);
+        EllipseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-loading-circle-24.png"))); // NOI18N
+        EllipseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EllipseButtonActionPerformed(evt);
+            }
+        });
+        panel2.add(EllipseButton);
+
+        buttonGroup3.add(TriangleButton);
+        TriangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/triangle.png"))); // NOI18N
+        TriangleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TriangleButtonActionPerformed(evt);
+            }
+        });
+        panel2.add(TriangleButton);
+
+        buttonGroup3.add(DiagonalButton);
+        DiagonalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
+        DiagonalButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DiagonalButtonActionPerformed(evt);
+            }
+        });
+        panel2.add(DiagonalButton);
+
+        buttonGroup3.add(HorizontalButton);
+        HorizontalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-horizontal-line-24.png"))); // NOI18N
+        HorizontalButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HorizontalButtonActionPerformed(evt);
+            }
+        });
+        panel2.add(HorizontalButton);
+
+        buttonGroup3.add(Vertical);
+        Vertical.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-vertical-line-24.png"))); // NOI18N
+        Vertical.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerticalActionPerformed(evt);
+            }
+        });
+        panel2.add(Vertical);
+
+        jPanel2.add(panel2);
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         menuBar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
 
@@ -500,13 +488,13 @@ public class AppFrame extends javax.swing.JFrame {
         setMarkerType(MarkerType.SQUARE);
     }//GEN-LAST:event_SquareButtonActionPerformed
 
-    private void CircleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CircleButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CircleButtonActionPerformed
+    private void EllipseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EllipseButtonActionPerformed
+        setMarkerType(MarkerType.ELLIPSE);
+    }//GEN-LAST:event_EllipseButtonActionPerformed
 
-    private void StarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StarButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StarButtonActionPerformed
+    private void TriangleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TriangleButtonActionPerformed
+        setMarkerType(MarkerType.TRIANGLE);
+    }//GEN-LAST:event_TriangleButtonActionPerformed
 
     private void AddChartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddChartButtonActionPerformed
         AddChartAction addChart = new AddChartAction(split, charts, this);
@@ -628,9 +616,9 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JButton AddChartButton;
     private javax.swing.JMenuItem AddChartMenuItem;
     private javax.swing.JToggleButton BlueButton;
-    private javax.swing.JToggleButton CircleButton;
     private javax.swing.JToggleButton CommentButton;
     private javax.swing.JToggleButton DiagonalButton;
+    private javax.swing.JToggleButton EllipseButton;
     private javax.swing.JToggleButton GreenButton;
     private javax.swing.JMenuItem HighlightColor;
     private javax.swing.JToggleButton HorizontalButton;
@@ -641,7 +629,7 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton RedButton;
     private javax.swing.JToggleButton SelectButton;
     private javax.swing.JToggleButton SquareButton;
-    private javax.swing.JToggleButton StarButton;
+    private javax.swing.JToggleButton TriangleButton;
     private javax.swing.JToggleButton Vertical;
     private javax.swing.JToggleButton YellowButton;
     public javax.swing.JToggleButton ZoomButton;
@@ -652,14 +640,12 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenuItem;
     private javax.swing.JFileChooser importChooser;
     private javax.swing.JMenuItem importDataMenuItem;
-    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu optionsMenuItem;
     private java.awt.Panel panel1;
     private java.awt.Panel panel2;
-    private java.awt.Panel panel3;
     // End of variables declaration//GEN-END:variables
     private javax.swing.JToggleButton selectedButton = ZoomButton;
     

@@ -29,6 +29,7 @@ public class AppFrame extends javax.swing.JFrame {
     public static ArrayList<ChartDisplay> charts;
     private boolean ctrlPressed = false;
     MultiSplitPane split = new MultiSplitPane();
+    private static String[] textFontArray;
 
     /**
      * Creates new form Frame
@@ -59,13 +60,16 @@ public class AppFrame extends javax.swing.JFrame {
                             PanButton.doClick();
                             break;
                         case KeyEvent.VK_3:
-                                SelectButton.doClick();
-                                break;
+                            SelectButton.doClick();
+                            break;
                         case KeyEvent.VK_4:
                             CommentButton.doClick();
                             break;
                         case KeyEvent.VK_5:
-                            MarkerButton.doClick();
+                            LineButton.doClick();
+                            break;
+                        case KeyEvent.VK_6:
+                            ShapeButton.doClick();
                             break;
                         case KeyEvent.VK_CONTROL:
                             ctrlPressed = true;
@@ -93,8 +97,8 @@ public class AppFrame extends javax.swing.JFrame {
         chartDisplay = new ChartDisplay(this);
         charts.add(chartDisplay);
         split.addComponent(chartDisplay);
-        jPanel1.removeAll();
-        jPanel1.add(split);
+        ChartPanel.removeAll();
+        ChartPanel.add(split);
         validate();
         repaint();
     }
@@ -128,33 +132,49 @@ public class AppFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         importChooser = new javax.swing.JFileChooser();
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        jDialog1 = new javax.swing.JDialog();
+        ChartPanel = new javax.swing.JPanel();
+        ToolBarPanel = new javax.swing.JPanel();
+        ToolSelectPanel = new javax.swing.JPanel();
         AddChartButton = new javax.swing.JButton();
         ZoomButton = new javax.swing.JToggleButton();
         PanButton = new javax.swing.JToggleButton();
         SelectButton = new javax.swing.JToggleButton();
         CommentButton = new javax.swing.JToggleButton();
-        MarkerButton = new javax.swing.JToggleButton();
-        panel1 = new java.awt.Panel();
+        LineButton = new javax.swing.JToggleButton();
+        ShapeButton = new javax.swing.JToggleButton();
+        TogglePanel = new javax.swing.JPanel();
+        ColorPanel = new java.awt.Panel();
+        BlackButton = new javax.swing.JToggleButton();
         RedButton = new javax.swing.JToggleButton();
         OrangeButton = new javax.swing.JToggleButton();
         YellowButton = new javax.swing.JToggleButton();
         GreenButton = new javax.swing.JToggleButton();
         BlueButton = new javax.swing.JToggleButton();
         PurpleButton = new javax.swing.JToggleButton();
-        panel2 = new java.awt.Panel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        ShapesPanel = new java.awt.Panel();
         SquareButton = new javax.swing.JToggleButton();
         EllipseButton = new javax.swing.JToggleButton();
         TriangleButton = new javax.swing.JToggleButton();
-        DiagonalButton = new javax.swing.JToggleButton();
+        LinesPanel = new java.awt.Panel();
+        VerticalButton = new javax.swing.JToggleButton();
         HorizontalButton = new javax.swing.JToggleButton();
-        Vertical = new javax.swing.JToggleButton();
+        DiagonalButton = new javax.swing.JToggleButton();
+        FontPanel = new java.awt.Panel();
+        FontSizeLabel = new javax.swing.JLabel();
+        FontSizeComboBox = new javax.swing.JComboBox<>();
+        FontLabel = new javax.swing.JLabel();
+        FontComboBox = new javax.swing.JComboBox<>();
+        FontStyleLabel = new javax.swing.JLabel();
+        FontStyleComboBox = new javax.swing.JComboBox<>();
         menuBar = new javax.swing.JMenuBar();
         fileMenuItem = new javax.swing.JMenu();
         importDataMenuItem = new javax.swing.JMenuItem();
@@ -172,16 +192,18 @@ public class AppFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
-        jPanel1.setLayout(new java.awt.BorderLayout());
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        ChartPanel.setBackground(new java.awt.Color(255, 255, 255));
+        ChartPanel.setPreferredSize(new java.awt.Dimension(900, 800));
+        ChartPanel.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(ChartPanel, java.awt.BorderLayout.CENTER);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        jPanel2.setMaximumSize(new java.awt.Dimension(55, 55));
-        jPanel2.setMinimumSize(new java.awt.Dimension(55, 55));
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
+        ToolBarPanel.setBackground(new java.awt.Color(255, 255, 255));
+        ToolBarPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        ToolBarPanel.setMaximumSize(new java.awt.Dimension(55, 55));
+        ToolBarPanel.setMinimumSize(new java.awt.Dimension(55, 55));
+        ToolBarPanel.setLayout(new java.awt.GridLayout(1, 0));
+
+        ToolSelectPanel.setLayout(new java.awt.GridLayout());
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
         AddChartButton.setText("0");
@@ -194,7 +216,7 @@ public class AppFrame extends javax.swing.JFrame {
                 AddChartButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(AddChartButton);
+        ToolSelectPanel.add(AddChartButton);
 
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
@@ -208,7 +230,7 @@ public class AppFrame extends javax.swing.JFrame {
                 ZoomButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(ZoomButton);
+        ToolSelectPanel.add(ZoomButton);
 
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
@@ -221,7 +243,7 @@ public class AppFrame extends javax.swing.JFrame {
                 PanButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(PanButton);
+        ToolSelectPanel.add(PanButton);
 
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
@@ -234,7 +256,7 @@ public class AppFrame extends javax.swing.JFrame {
                 SelectButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(SelectButton);
+        ToolSelectPanel.add(SelectButton);
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
@@ -247,28 +269,55 @@ public class AppFrame extends javax.swing.JFrame {
                 CommentButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(CommentButton);
+        ToolSelectPanel.add(CommentButton);
 
-        buttonGroup1.add(MarkerButton);
-        MarkerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
-        MarkerButton.setText("5");
-        MarkerButton.setName("MarkerButton");
-        MarkerButton.setToolTipText("Marker (5)");
-        MarkerButton.setActionCommand("(5)");
-        MarkerButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        MarkerButton.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(LineButton);
+        LineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
+        LineButton.setText("5");
+        LineButton.setName("LineButton");
+        LineButton.setToolTipText("Lines (5)");
+        LineButton.setActionCommand("(5)");
+        LineButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        LineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MarkerButtonActionPerformed(evt);
+                LineButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(MarkerButton);
+        ToolSelectPanel.add(LineButton);
 
-        panel1.setVisible(false);
-        panel1.setLayout(new java.awt.GridLayout(2, 0));
+        buttonGroup1.add(ShapeButton);
+        ShapeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
+        ShapeButton.setText("6");
+        ShapeButton.setToolTipText("Shapes(6)");
+        ShapeButton.setActionCommand("(5)");
+        ShapeButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        ShapeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShapeButtonActionPerformed(evt);
+            }
+        });
+        ToolSelectPanel.add(ShapeButton);
+
+        ToolBarPanel.add(ToolSelectPanel);
+
+        TogglePanel.setLayout(new java.awt.GridLayout());
+
+        ColorPanel.setLayout(new java.awt.GridLayout());
+
+        BlackButton.setBackground(new java.awt.Color(0, 0, 0));
+        buttonGroup2.add(BlackButton);
+        BlackButton.setSelected(true);
+        BlackButton.setDoubleBuffered(true);
+        BlackButton.setPreferredSize(new java.awt.Dimension(20, 20));
+        BlackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BlackButtonActionPerformed(evt);
+            }
+        });
+        ColorPanel.add(BlackButton);
 
         RedButton.setBackground(new java.awt.Color(255, 51, 51));
         buttonGroup2.add(RedButton);
-        RedButton.setSelected(true);
         RedButton.setDoubleBuffered(true);
         RedButton.setPreferredSize(new java.awt.Dimension(20, 20));
         RedButton.addActionListener(new java.awt.event.ActionListener() {
@@ -276,7 +325,7 @@ public class AppFrame extends javax.swing.JFrame {
                 RedButtonActionPerformed(evt);
             }
         });
-        panel1.add(RedButton);
+        ColorPanel.add(RedButton);
         RedButton.getAccessibleContext().setAccessibleName("RedButton");
 
         OrangeButton.setBackground(new java.awt.Color(255, 153, 0));
@@ -288,7 +337,7 @@ public class AppFrame extends javax.swing.JFrame {
                 OrangeButtonActionPerformed(evt);
             }
         });
-        panel1.add(OrangeButton);
+        ColorPanel.add(OrangeButton);
 
         YellowButton.setBackground(new java.awt.Color(255, 255, 51));
         buttonGroup2.add(YellowButton);
@@ -299,7 +348,7 @@ public class AppFrame extends javax.swing.JFrame {
                 YellowButtonActionPerformed(evt);
             }
         });
-        panel1.add(YellowButton);
+        ColorPanel.add(YellowButton);
 
         GreenButton.setBackground(new java.awt.Color(0, 255, 0));
         buttonGroup2.add(GreenButton);
@@ -310,7 +359,7 @@ public class AppFrame extends javax.swing.JFrame {
                 GreenButtonActionPerformed(evt);
             }
         });
-        panel1.add(GreenButton);
+        ColorPanel.add(GreenButton);
 
         BlueButton.setBackground(new java.awt.Color(0, 102, 255));
         buttonGroup2.add(BlueButton);
@@ -321,7 +370,7 @@ public class AppFrame extends javax.swing.JFrame {
                 BlueButtonActionPerformed(evt);
             }
         });
-        panel1.add(BlueButton);
+        ColorPanel.add(BlueButton);
 
         PurpleButton.setBackground(new java.awt.Color(153, 0, 255));
         buttonGroup2.add(PurpleButton);
@@ -332,12 +381,14 @@ public class AppFrame extends javax.swing.JFrame {
                 PurpleButtonActionPerformed(evt);
             }
         });
-        panel1.add(PurpleButton);
+        ColorPanel.add(PurpleButton);
 
-        jPanel2.add(panel1);
+        TogglePanel.add(ColorPanel);
 
-        panel2.setVisible(false);
-        panel2.setLayout(new java.awt.GridLayout(2, 0));
+        jLayeredPane1.setLayout(new javax.swing.OverlayLayout(jLayeredPane1));
+
+        ShapesPanel.setVisible(false);
+        ShapesPanel.setLayout(new java.awt.GridLayout());
 
         buttonGroup3.add(SquareButton);
         SquareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-square-spinner-24.png"))); // NOI18N
@@ -347,7 +398,7 @@ public class AppFrame extends javax.swing.JFrame {
                 SquareButtonActionPerformed(evt);
             }
         });
-        panel2.add(SquareButton);
+        ShapesPanel.add(SquareButton);
 
         buttonGroup3.add(EllipseButton);
         EllipseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-loading-circle-24.png"))); // NOI18N
@@ -356,7 +407,7 @@ public class AppFrame extends javax.swing.JFrame {
                 EllipseButtonActionPerformed(evt);
             }
         });
-        panel2.add(EllipseButton);
+        ShapesPanel.add(EllipseButton);
 
         buttonGroup3.add(TriangleButton);
         TriangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/triangle.png"))); // NOI18N
@@ -365,38 +416,99 @@ public class AppFrame extends javax.swing.JFrame {
                 TriangleButtonActionPerformed(evt);
             }
         });
-        panel2.add(TriangleButton);
+        ShapesPanel.add(TriangleButton);
 
-        buttonGroup3.add(DiagonalButton);
-        DiagonalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
-        DiagonalButton.addActionListener(new java.awt.event.ActionListener() {
+        jLayeredPane1.add(ShapesPanel);
+
+        LinesPanel.setVisible(false);
+        LinesPanel.setLayout(new java.awt.GridLayout());
+
+        buttonGroup4.add(VerticalButton);
+        VerticalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-vertical-line-24.png"))); // NOI18N
+        VerticalButton.setSelected(true);
+        VerticalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DiagonalButtonActionPerformed(evt);
+                VerticalButtonActionPerformed(evt);
             }
         });
-        panel2.add(DiagonalButton);
+        LinesPanel.add(VerticalButton);
 
-        buttonGroup3.add(HorizontalButton);
+        buttonGroup4.add(HorizontalButton);
         HorizontalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-horizontal-line-24.png"))); // NOI18N
         HorizontalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 HorizontalButtonActionPerformed(evt);
             }
         });
-        panel2.add(HorizontalButton);
+        LinesPanel.add(HorizontalButton);
 
-        buttonGroup3.add(Vertical);
-        Vertical.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-vertical-line-24.png"))); // NOI18N
-        Vertical.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup4.add(DiagonalButton);
+        DiagonalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
+        DiagonalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerticalActionPerformed(evt);
+                DiagonalButtonActionPerformed(evt);
             }
         });
-        panel2.add(Vertical);
+        LinesPanel.add(DiagonalButton);
 
-        jPanel2.add(panel2);
+        jLayeredPane1.setLayer(LinesPanel, javax.swing.JLayeredPane.PALETTE_LAYER);
+        jLayeredPane1.add(LinesPanel);
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
+        FontPanel.setVisible(false);
+        FontPanel.setLayout(new java.awt.GridBagLayout());
+
+        FontSizeLabel.setText("Font Size:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        FontPanel.add(FontSizeLabel, gridBagConstraints);
+
+        FontSizeComboBox.setEditable(true);
+        FontSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8", "9", "10", "11", "12", "14", "16", "18", "20", "24", "26", "28", "30" }));
+        FontSizeComboBox.setSelectedIndex(4);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        FontPanel.add(FontSizeComboBox, gridBagConstraints);
+
+        FontLabel.setText("Font:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 1);
+        FontPanel.add(FontLabel, gridBagConstraints);
+
+        FontComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arial", "Calibri", "Rockwell", "SansSerif", "Times New Roman", "Comic Sans MS" }));
+        FontComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FontComboBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        FontPanel.add(FontComboBox, gridBagConstraints);
+
+        FontStyleLabel.setText("Font Style:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        FontPanel.add(FontStyleLabel, gridBagConstraints);
+
+        FontStyleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Plain", "Italic", "Bold" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        FontPanel.add(FontStyleComboBox, gridBagConstraints);
+
+        jLayeredPane1.setLayer(FontPanel, javax.swing.JLayeredPane.MODAL_LAYER);
+        jLayeredPane1.add(FontPanel);
+
+        TogglePanel.add(jLayeredPane1);
+
+        ToolBarPanel.add(TogglePanel);
+
+        getContentPane().add(ToolBarPanel, java.awt.BorderLayout.PAGE_START);
 
         menuBar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
 
@@ -500,9 +612,9 @@ public class AppFrame extends javax.swing.JFrame {
         AddChartAction addChart = new AddChartAction(split, charts, this);
     }//GEN-LAST:event_AddChartButtonActionPerformed
 
-    private void VerticalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerticalActionPerformed
+    private void VerticalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerticalButtonActionPerformed
         setMarkerType(MarkerType.VERTICAL);
-    }//GEN-LAST:event_VerticalActionPerformed
+    }//GEN-LAST:event_VerticalButtonActionPerformed
 
     private void HorizontalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HorizontalButtonActionPerformed
         setMarkerType(MarkerType.HORIZONTAL);
@@ -511,6 +623,33 @@ public class AppFrame extends javax.swing.JFrame {
     private void DiagonalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiagonalButtonActionPerformed
         setMarkerType(MarkerType.DIAGONAL);
     }//GEN-LAST:event_DiagonalButtonActionPerformed
+
+    private void ShapeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShapeButtonActionPerformed
+        selectedButton = ShapeButton;
+        RedButtonActionPerformed(evt);
+        SquareButtonActionPerformed(evt);
+        setAppState(ToolState.MARK);
+        ColorPanel.setVisible(true);
+        
+        ShapesPanel.setVisible(true);
+        LinesPanel.setVisible(false);
+        FontPanel.setVisible(false);
+
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setChartState(ToolState.MARK);
+        }
+    }//GEN-LAST:event_ShapeButtonActionPerformed
+
+    private void BlackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlackButtonActionPerformed
+        Color color = Color.BLACK;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setColor(color);
+        }
+    }//GEN-LAST:event_BlackButtonActionPerformed
+
+    private void FontComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FontComboBoxActionPerformed
 
     private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
         Color color = JColorChooser.showDialog(this,
@@ -536,8 +675,11 @@ public class AppFrame extends javax.swing.JFrame {
         boolean zSelected = aB.getModel().isSelected();
 
         setAppState(ToolState.ZOOM);
-        panel1.setVisible(false);
-        panel2.setVisible(false);
+        ColorPanel.setVisible(false);
+        
+        ShapesPanel.setVisible(false);
+        LinesPanel.setVisible(false);
+        FontPanel.setVisible(false);
 
         if (zSelected) {
             for (int i = 0; i < charts.size(); i++) {
@@ -552,8 +694,11 @@ public class AppFrame extends javax.swing.JFrame {
             selectedButton = PanButton;
         }
         setAppState(ToolState.PAN);
-        panel1.setVisible(false);
-        panel2.setVisible(false);
+        ColorPanel.setVisible(false);
+        
+        ShapesPanel.setVisible(false);
+        LinesPanel.setVisible(false);
+        FontPanel.setVisible(false);
         
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
@@ -564,8 +709,11 @@ public class AppFrame extends javax.swing.JFrame {
         selectedButton = SelectButton;
         RedButtonActionPerformed(evt);
         setAppState(ToolState.HIGHLIGHT);
-        panel1.setVisible(true);
-        panel2.setVisible(false);
+        ColorPanel.setVisible(true);
+        
+        ShapesPanel.setVisible(false);
+        LinesPanel.setVisible(false);
+        FontPanel.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.HIGHLIGHT);
@@ -575,25 +723,34 @@ public class AppFrame extends javax.swing.JFrame {
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         selectedButton = CommentButton;
         setAppState(ToolState.COMMENT);
-        panel1.setVisible(false);
-        panel2.setVisible(false);
+        ColorPanel.setVisible(true);
+        
+        ShapesPanel.setVisible(false);
+        LinesPanel.setVisible(false);
+        FontPanel.setVisible(true);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.COMMENT);
         }
     }
 
-    private void MarkerButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        selectedButton = MarkerButton;
+    private void LineButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        selectedButton = LineButton;
         RedButtonActionPerformed(evt);
+        VerticalButtonActionPerformed(evt);
         setAppState(ToolState.MARK);
-        panel1.setVisible(true);
-        panel2.setVisible(true);
+        ColorPanel.setVisible(true);
+        
+        ShapesPanel.setVisible(false);
+        LinesPanel.setVisible(true);
+        FontPanel.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.MARK);
         }
     }
+    
+    
 
     private void setAppState(ToolState s) {
         appState = s;
@@ -615,37 +772,52 @@ public class AppFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddChartButton;
     private javax.swing.JMenuItem AddChartMenuItem;
+    private javax.swing.JToggleButton BlackButton;
     private javax.swing.JToggleButton BlueButton;
+    private javax.swing.JPanel ChartPanel;
+    private java.awt.Panel ColorPanel;
     private javax.swing.JToggleButton CommentButton;
     private javax.swing.JToggleButton DiagonalButton;
     private javax.swing.JToggleButton EllipseButton;
+    private javax.swing.JComboBox<String> FontComboBox;
+    private javax.swing.JLabel FontLabel;
+    private java.awt.Panel FontPanel;
+    private javax.swing.JComboBox<String> FontSizeComboBox;
+    private javax.swing.JLabel FontSizeLabel;
+    private javax.swing.JComboBox<String> FontStyleComboBox;
+    private javax.swing.JLabel FontStyleLabel;
     private javax.swing.JToggleButton GreenButton;
     private javax.swing.JMenuItem HighlightColor;
     private javax.swing.JToggleButton HorizontalButton;
-    private javax.swing.JToggleButton MarkerButton;
+    private javax.swing.JToggleButton LineButton;
+    private java.awt.Panel LinesPanel;
     private javax.swing.JToggleButton OrangeButton;
     private javax.swing.JToggleButton PanButton;
     private javax.swing.JToggleButton PurpleButton;
     private javax.swing.JToggleButton RedButton;
     private javax.swing.JToggleButton SelectButton;
+    private javax.swing.JToggleButton ShapeButton;
+    private java.awt.Panel ShapesPanel;
     private javax.swing.JToggleButton SquareButton;
+    private javax.swing.JPanel TogglePanel;
+    private javax.swing.JPanel ToolBarPanel;
+    private javax.swing.JPanel ToolSelectPanel;
     private javax.swing.JToggleButton TriangleButton;
-    private javax.swing.JToggleButton Vertical;
+    private javax.swing.JToggleButton VerticalButton;
     private javax.swing.JToggleButton YellowButton;
     public javax.swing.JToggleButton ZoomButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JMenu editMenuItem;
     private javax.swing.JMenu fileMenuItem;
     private javax.swing.JFileChooser importChooser;
     private javax.swing.JMenuItem importDataMenuItem;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu optionsMenuItem;
-    private java.awt.Panel panel1;
-    private java.awt.Panel panel2;
     // End of variables declaration//GEN-END:variables
     private javax.swing.JToggleButton selectedButton = ZoomButton;
     

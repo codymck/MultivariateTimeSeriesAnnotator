@@ -144,7 +144,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         if (cMenu.isSubmitted() == false) {
                             return;
                         }
-
+                        
                         XYTextAnnotation at = new XYTextAnnotation(cMenu.getComment(), point[0], point[1]);
                         at.setFont(new Font(cMenu.getFontName(), cMenu.getFontStyle(), cMenu.getFontSize()));
                         at.setPaint(cMenu.getFontColor());
@@ -408,7 +408,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     double y1 = yAxis.getRange().getLowerBound();
                     double y2 = yAxis.getRange().getUpperBound();
                     //System.out.println("x1: " + x1 + " x2: " + x2);
-                    Controller.sync(x1, x2, y1, y2);
+                    //Controller.sync(x1, x2, y1, y2);
                     break;
                 case COMMENT:
                     //super.mouseReleased(e);

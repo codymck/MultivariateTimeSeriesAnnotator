@@ -151,7 +151,7 @@ public class AppFrame extends javax.swing.JFrame {
         panel2 = new java.awt.Panel();
         SquareButton = new javax.swing.JToggleButton();
         CircleButton = new javax.swing.JToggleButton();
-        StarButton = new javax.swing.JToggleButton();
+        TriangleButton = new javax.swing.JToggleButton();
         DiagonalButton = new javax.swing.JToggleButton();
         HorizontalButton = new javax.swing.JToggleButton();
         Vertical = new javax.swing.JToggleButton();
@@ -358,14 +358,14 @@ public class AppFrame extends javax.swing.JFrame {
         });
         panel2.add(CircleButton);
 
-        buttonGroup3.add(StarButton);
-        StarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-star-24.png"))); // NOI18N
-        StarButton.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup3.add(TriangleButton);
+        TriangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/triangle.png"))); // NOI18N
+        TriangleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StarButtonActionPerformed(evt);
+                TriangleButtonActionPerformed(evt);
             }
         });
-        panel2.add(StarButton);
+        panel2.add(TriangleButton);
 
         buttonGroup3.add(DiagonalButton);
         DiagonalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
@@ -492,9 +492,9 @@ public class AppFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CircleButtonActionPerformed
 
-    private void StarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StarButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StarButtonActionPerformed
+    private void TriangleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TriangleButtonActionPerformed
+        setMarkerType(MarkerType.TRIANGLE);
+    }//GEN-LAST:event_TriangleButtonActionPerformed
 
     private void AddChartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddChartButtonActionPerformed
         AddChartAction addChart = new AddChartAction(split, charts, this);
@@ -629,7 +629,7 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton RedButton;
     private javax.swing.JToggleButton SelectButton;
     private javax.swing.JToggleButton SquareButton;
-    private javax.swing.JToggleButton StarButton;
+    private javax.swing.JToggleButton TriangleButton;
     private javax.swing.JToggleButton Vertical;
     private javax.swing.JToggleButton YellowButton;
     public javax.swing.JToggleButton ZoomButton;

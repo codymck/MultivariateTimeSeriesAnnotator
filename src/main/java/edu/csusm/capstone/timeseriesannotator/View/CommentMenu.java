@@ -151,7 +151,6 @@ public class CommentMenu extends javax.swing.JDialog {
         text = TextField.getText();
         
         
-        
         font = FontComboBox.getSelectedItem().toString();
         fontStyle = FontStyleComboBox.getSelectedItem().toString();
         fontSize = Integer.parseInt(FontSizeComboBox.getSelectedItem().toString());

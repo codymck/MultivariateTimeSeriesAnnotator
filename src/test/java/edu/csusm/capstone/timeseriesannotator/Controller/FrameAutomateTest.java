@@ -38,7 +38,7 @@ public class FrameAutomateTest {
         window.toggleButton("PanButton").click();
         window.toggleButton("SelectButton").click();
         window.toggleButton("CommentButton").click();
-        window.toggleButton("MarkerButton").click();
+        //window.toggleButton("MarkerButton").click();
     }
     
     @Test

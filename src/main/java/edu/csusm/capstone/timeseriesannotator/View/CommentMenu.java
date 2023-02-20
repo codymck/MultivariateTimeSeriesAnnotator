@@ -149,6 +149,8 @@ public class CommentMenu extends javax.swing.JDialog {
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
         text = TextField.getText();
+        
+        
         font = FontComboBox.getSelectedItem().toString();
         fontStyle = FontStyleComboBox.getSelectedItem().toString();
         fontSize = Integer.parseInt(FontSizeComboBox.getSelectedItem().toString());
@@ -160,7 +162,7 @@ public class CommentMenu extends javax.swing.JDialog {
     private void FontColorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontColorComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FontColorComboBoxActionPerformed
-
+    
     public String getComment() {
         return text;
     }

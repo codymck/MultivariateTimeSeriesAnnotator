@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
+import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.ELLIPSE;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,14 +10,19 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
@@ -25,6 +31,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.annotations.XYBoxAnnotation;
 import org.jfree.chart.annotations.XYLineAnnotation;
+import org.jfree.chart.annotations.XYPolygonAnnotation;
+import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.ValueMarker;
@@ -34,7 +42,6 @@ import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.Range;
-import org.jfree.data.xy.XYSeries;
 
 /**
  *
@@ -58,13 +65,28 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private Rectangle2D.Double rect = null;
     private double[] startPoint;
 
-
+    /* LINE variables */
     private ValueMarker startMarker;
     private ValueMarker endMarker;
     private ValueMarker hMarker;
     private ValueMarker vMarker;
     private XYLineAnnotation lineAnnotation;
     private Point sPoint, ePoint;
+
+    /* TRIANGLE variables */
+    private List<Point2D> triPoints = new ArrayList<Point2D>();
+    private List<Polygon> pList = new ArrayList<Polygon>();
+    private Point2D first;
+    private Point2D second;
+    private Point2D third;
+    private XYLineAnnotation fLine;
+    private XYLineAnnotation sLine;
+
+    /* ELLIPSE variables */
+    private Point2D ellipseStart;
+    private Point2D ellipseEnd;
+    XYShapeAnnotation ellipseAnnotation;
+    Hashtable<Ellipse2D, XYShapeAnnotation> shapeDict = new Hashtable<Ellipse2D, XYShapeAnnotation>();
 
     public void setChartState(ToolState s) {
         this.state = s;
@@ -122,7 +144,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         if (cMenu.isSubmitted() == false) {
                             return;
                         }
-
+                        
                         XYTextAnnotation at = new XYTextAnnotation(cMenu.getComment(), point[0], point[1]);
                         at.setFont(new Font(cMenu.getFontName(), cMenu.getFontStyle(), cMenu.getFontSize()));
                         at.setPaint(cMenu.getFontColor());
@@ -188,13 +210,51 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 startPoint = point;
                                 lineAnnotation = new XYLineAnnotation(
-                                        point[0], 
-                                        point[1], 
-                                        point[0], 
-                                        point[1], 
+                                        point[0],
+                                        point[1],
+                                        point[0],
+                                        point[1],
                                         new BasicStroke(2.0f), Color.BLACK);
                                 plot.addAnnotation(lineAnnotation);
                             }
+                            break;
+                        case TRIANGLE:
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                pointObj.setLocation(point[0], point[1]);
+                                triPoints.add(pointObj);
+
+                                if (first == null) {
+                                    first = pointObj;
+                                } else if (second == null) {
+                                    second = pointObj;
+                                } else if (third == null) {
+                                    third = pointObj;
+                                }
+
+                                if (triPoints.size() == 3) {
+                                    drawTriangle(triPoints);
+                                    triPoints.clear();
+                                    plot.removeAnnotation(fLine);
+                                    plot.removeAnnotation(sLine);
+                                }
+                            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                                removeTriangle(point);
+                            }
+                            break;
+                        case ELLIPSE:
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                pointObj.setLocation(point[0], point[1]);
+                                ellipseStart = pointObj;
+                            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                                Ellipse2D ell = removeEllipse(point);
+                                if (ell != null) {
+                                    XYShapeAnnotation sh = shapeDict.get(ell);
+                                    shapeDict.remove(ell, sh);
+                                    plot.removeAnnotation(sh);
+                                }
+                            }
+                            break;
+
                     }
                     break;
                 default:
@@ -263,13 +323,31 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         case DIAGONAL:
                             plot.removeAnnotation(lineAnnotation);
                             lineAnnotation = new XYLineAnnotation(
-                                    startPoint[0], 
-                                    startPoint[1], 
-                                    point[0], 
-                                    point[1], 
+                                    startPoint[0],
+                                    startPoint[1],
+                                    point[0],
+                                    point[1],
                                     new BasicStroke(2.0f), Color.BLACK);
                             plot.addAnnotation(lineAnnotation);
                             repaint();
+                            break;
+                        case ELLIPSE:
+                            if (SwingUtilities.isLeftMouseButton(e)) {
+                                if (ellipseAnnotation != null) {
+                                    plot.removeAnnotation(ellipseAnnotation);
+                                }
+                                double endX = chart.getXYPlot().getDomainAxis().java2DToValue(e.getX(), getBounds(), chart.getXYPlot().getDomainAxisEdge());
+                                double endY = chart.getXYPlot().getRangeAxis().java2DToValue(e.getY(), getBounds(), chart.getXYPlot().getRangeAxisEdge());
+                                double width = Math.abs(endX - ellipseStart.getX());
+                                double height = Math.abs(endY - ellipseStart.getY());
+                                double x = Math.min(ellipseStart.getX(), endX);
+                                double y = Math.min(ellipseStart.getY(), endY);
+                                Ellipse2D ellipse = new Ellipse2D.Double(x, y, width, height);
+                                ellipseAnnotation = new XYShapeAnnotation(ellipse, new BasicStroke(2), color, color);
+
+                                plot.addAnnotation(ellipseAnnotation);
+                                repaint();
+                            }
                             break;
                     }
                 default:
@@ -331,7 +409,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     double y2 = yAxis.getRange().getUpperBound();
                     //System.out.println("x1: " + x1 + " x2: " + x2);
                     //Controller.sync(x1, x2, y1, y2);
-                    Controller.syncX(x1, x2, plot);
                     break;
                 case COMMENT:
                     //super.mouseReleased(e);
@@ -354,14 +431,35 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 plot.removeAnnotation(lineAnnotation);
                                 XYLineAnnotation lineAnnotationP = new XYLineAnnotation(
-                                        startPoint[0], 
-                                        startPoint[1], 
-                                        point[0], 
-                                        point[1], 
+                                        startPoint[0],
+                                        startPoint[1],
+                                        point[0],
+                                        point[1],
                                         new BasicStroke(2.0f), Color.BLACK);
-                                if(startPoint[0] != point[0] && startPoint[1] != point[1]){
+                                if (startPoint[0] != point[0] && startPoint[1] != point[1]) {
                                     plot.addAnnotation(lineAnnotationP);
                                 }
+                            }
+                            break;
+                        case ELLIPSE:
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                if (ellipseAnnotation != null) {
+                                    plot.removeAnnotation(ellipseAnnotation);
+                                }
+                                ellipseAnnotation = null;
+
+                                double endX = chart.getXYPlot().getDomainAxis().java2DToValue(e.getX(), getBounds(), chart.getXYPlot().getDomainAxisEdge());
+                                double endY = chart.getXYPlot().getRangeAxis().java2DToValue(e.getY(), getBounds(), chart.getXYPlot().getRangeAxisEdge());
+                                double width = Math.abs(endX - ellipseStart.getX());
+                                double height = Math.abs(endY - ellipseStart.getY());
+                                double x = Math.min(ellipseStart.getX(), endX);
+                                double y = Math.min(ellipseStart.getY(), endY);
+                                Ellipse2D ellipseShape = new Ellipse2D.Double(x, y, width, height);
+                                XYShapeAnnotation ellipse = new XYShapeAnnotation(ellipseShape, new BasicStroke(2), color, color);
+                                shapeDict.put(ellipseShape, ellipse);
+
+                                plot.addAnnotation(ellipse);
+                                repaint();
                             }
                             break;
                     }
@@ -370,7 +468,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
     }
-    
+
     @Override
     public void mouseMoved(MouseEvent e) {
         double point[] = getPointInChart(e);
@@ -389,7 +487,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 } else {
                                     hMarker.setValue(point[1]);
                                 }
-                            }else{
+                            } else {
                                 if (hMarker != null) {
                                     plot.removeRangeMarker(hMarker);
                                     hMarker = null;
@@ -408,10 +506,43 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 } else {
                                     vMarker.setValue(point[0]);
                                 }
-                            }else{
+                            } else {
                                 if (vMarker != null) {
                                     plot.removeDomainMarker(vMarker);
                                     vMarker = null;
+                                }
+                            }
+                            break;
+                        case TRIANGLE:
+                            if (getScreenDataArea().contains(e.getX(), e.getY())) {
+                                if (first != null && second == null) {
+                                    if (fLine != null) {
+                                        plot.removeAnnotation(fLine);
+                                    }
+
+                                    fLine = new XYLineAnnotation(
+                                            first.getX(),
+                                            first.getY(),
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), color);
+                                    plot.addAnnotation(fLine);
+                                } else if (first != null && second != null && third == null) {
+                                    if (sLine != null) {
+                                        plot.removeAnnotation(sLine);
+                                    }
+
+                                    sLine = new XYLineAnnotation(
+                                            second.getX(),
+                                            second.getY(),
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), color);
+                                    plot.addAnnotation(sLine);
+                                } else if (first != null && second != null && third != null) {
+                                    first = null;
+                                    second = null;
+                                    third = null;
                                 }
                             }
                             break;
@@ -569,4 +700,80 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
     }
 
+    private void drawTriangle(List<Point2D> points) {
+        Point2D p1 = points.get(0);
+        Point2D p2 = points.get(1);
+        Point2D p3 = points.get(2);
+
+        int[] xPoints = {(int) p1.getX(), (int) p2.getX(), (int) p3.getX()};
+        int[] yPoints = {(int) p1.getY(), (int) p2.getY(), (int) p3.getY()};
+        Polygon p = new Polygon(xPoints, yPoints, 3);
+        pList.add(p);
+
+        double poly[] = {p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY()};
+
+        XYPolygonAnnotation triangle = new XYPolygonAnnotation(poly, new BasicStroke(2), color, color);
+
+        plot.addAnnotation(triangle);
+    }
+
+    private void removeTriangle(double point[]) {
+        List<XYPolygonAnnotation> a = new ArrayList<>(plot.getAnnotations());
+        List<XYPolygonAnnotation> pAnnotations = new ArrayList<>();
+
+        for (XYAnnotation annotation : a) {
+            if (annotation instanceof XYPolygonAnnotation) {
+                pAnnotations.add((XYPolygonAnnotation) annotation);
+            }
+        }
+
+        for (XYPolygonAnnotation p : pAnnotations) {
+            double coords[] = p.getPolygonCoordinates();
+
+            double xPoints[] = {coords[0], coords[2], coords[4]};
+            double yPoints[] = {coords[1], coords[3], coords[5]};
+
+            if (isInside(xPoints, yPoints, point) == true) {
+                plot.removeAnnotation(p);
+            }
+        }
+
+    }
+
+    private boolean isInside(double xPoints[], double yPoints[], double point[]) {
+        /* calculate area of triangle ABC */
+        double A = area((int) xPoints[0], (int) yPoints[0], (int) xPoints[1], (int) yPoints[1], (int) xPoints[2], (int) yPoints[2]);
+
+        /* calculate area of triangle PBC */
+        double A1 = area((int) point[0], (int) point[1], (int) xPoints[1], (int) yPoints[1], (int) xPoints[2], (int) yPoints[2]);
+
+        /* calculate area of triangle PAC */
+        double A2 = area((int) xPoints[0], (int) yPoints[0], (int) point[0], (int) point[1], (int) xPoints[2], (int) yPoints[2]);
+
+        /* calculate area of triangle PAB */
+        double A3 = area((int) xPoints[0], (int) yPoints[0], (int) xPoints[1], (int) yPoints[1], (int) point[0], (int) point[1]);
+
+        return (A == A1 + A2 + A3);
+    }
+
+    private double area(int x1, int y1, int x2, int y2,
+            int x3, int y3) {
+        return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1)
+                + x3 * (y1 - y2)) / 2.0);
+    }
+
+    private Ellipse2D removeEllipse(double[] point) {
+        Enumeration<Ellipse2D> e = shapeDict.keys();
+
+        Point2D p = new Point2D.Double(point[0], point[1]);
+
+        while (e.hasMoreElements()) {
+            Ellipse2D ellipse = e.nextElement();
+
+            if (ellipse.contains(p)) {
+                return ellipse;
+            }
+        }
+        return null;
+    }
 }

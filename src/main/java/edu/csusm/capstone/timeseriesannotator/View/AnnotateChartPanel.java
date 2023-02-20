@@ -214,7 +214,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         if (cMenu.isSubmitted() == false) {
                             return;
                         }
-
+                        
                         XYTextAnnotation at = new XYTextAnnotation(cMenu.getComment(), point[0], point[1]);
                         at.setFont(new Font(cMenu.getFontName(), cMenu.getFontStyle(), cMenu.getFontSize()));
                         at.setPaint(cMenu.getFontColor());

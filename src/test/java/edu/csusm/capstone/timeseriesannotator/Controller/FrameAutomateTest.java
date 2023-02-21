@@ -52,6 +52,8 @@ public class FrameAutomateTest {
         window.toggleButton("VerticalButton").click();
         window.toggleButton("HorizontalButton").click();
         window.toggleButton("DiagonalButton").click();
+        window.toggleButton("RayButton").click();
+        window.toggleButton("SegmentButton").click();
         //
         window.toggleButton("ShapeButton").click();
         window.toggleButton("SquareButton").click();

@@ -38,35 +38,12 @@ public class CommentMenu extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        FontComboBox = new javax.swing.JComboBox<>();
-        FontLabel = new javax.swing.JLabel();
-        FontSizeLabel = new javax.swing.JLabel();
-        FontSizeComboBox = new javax.swing.JComboBox<>();
         SubmitButton = new javax.swing.JButton();
         TextField = new javax.swing.JTextField();
-        FontStyleLabel = new javax.swing.JLabel();
-        FontStyleComboBox = new javax.swing.JComboBox<>();
-        FontColorLabel = new javax.swing.JLabel();
-        FontColorComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Text Annotations");
         setAlwaysOnTop(true);
-
-        FontComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arial", "Calibri", "Rockwell", "SansSerif", "Times New Roman", "Comic Sans MS" }));
-        FontComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FontComboBoxActionPerformed(evt);
-            }
-        });
-
-        FontLabel.setText("Font:");
-
-        FontSizeLabel.setText("Font Size:");
-
-        FontSizeComboBox.setEditable(true);
-        FontSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8", "9", "10", "11", "12", "14", "16", "18", "20", "24", "26", "28", "30" }));
-        FontSizeComboBox.setSelectedIndex(4);
 
         SubmitButton.setText("OK");
         SubmitButton.setToolTipText("Submit entry and selections (Press Enter)");
@@ -78,45 +55,17 @@ public class CommentMenu extends javax.swing.JDialog {
 
         TextField.setText("Enter text here...");
 
-        FontStyleLabel.setText("Font Style:");
-
-        FontStyleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Plain", "Italic", "Bold" }));
-
-        FontColorLabel.setText("Font Color:");
-
-        FontColorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Black", "Red", "Green", "Blue", "Orange", "Yellow", "Purple" }));
-        FontColorComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FontColorComboBoxActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(FontColorLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(FontColorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99)
-                        .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(FontLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(FontComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(FontSizeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(FontSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(FontStyleLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(FontStyleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(TextField, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(113, 113, 113)
+                        .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -124,84 +73,22 @@ public class CommentMenu extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FontLabel)
-                    .addComponent(FontComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FontSizeLabel)
-                    .addComponent(FontSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FontStyleLabel)
-                    .addComponent(FontStyleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FontColorLabel)
-                    .addComponent(FontColorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SubmitButton))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SubmitButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void FontComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FontComboBoxActionPerformed
-
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
         text = TextField.getText();
-        
-        
-        font = FontComboBox.getSelectedItem().toString();
-        fontStyle = FontStyleComboBox.getSelectedItem().toString();
-        fontSize = Integer.parseInt(FontSizeComboBox.getSelectedItem().toString());
-        fontColor = FontColorComboBox.getSelectedItem().toString();
         submitted = true;
         dispose();
     }//GEN-LAST:event_SubmitButtonActionPerformed
-
-    private void FontColorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontColorComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FontColorComboBoxActionPerformed
     
     public String getComment() {
         return text;
-    }
-    
-    public String getFontName() {
-        return font;
-    }
-    
-    public int getFontStyle() {
-        int style = Font.PLAIN;
-        if (null != fontStyle) switch (fontStyle) {
-            case "Plain" -> style = Font.PLAIN;
-            case "Italic" -> style = Font.ITALIC;
-            case "Bold" -> style = Font.BOLD;
-            default -> {
-            }
-        }
-        
-        return style;
-    }
-    
-    public Color getFontColor() {
-        Color c = Color.BLACK;
-        if (null != fontColor) switch (fontColor) {
-            case "Black" -> c = Color.BLACK;
-            case "Red" -> c = Color.RED;
-            case "Green" -> c = Color.GREEN;
-            case "Blue" -> c = Color.BLUE;
-            case "Orange" -> c = Color.ORANGE;
-            case "Yellow" -> c = Color.YELLOW;
-            case "Purple" -> c = Color.MAGENTA;
-            default -> c = Color.BLACK;
-        }
-        
-        return c;
-    }
-    
-    public int getFontSize() {
-        return fontSize;
     }
     
     public Boolean isSubmitted() {
@@ -209,14 +96,6 @@ public class CommentMenu extends javax.swing.JDialog {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> FontColorComboBox;
-    private javax.swing.JLabel FontColorLabel;
-    private javax.swing.JComboBox<String> FontComboBox;
-    private javax.swing.JLabel FontLabel;
-    private javax.swing.JComboBox<String> FontSizeComboBox;
-    private javax.swing.JLabel FontSizeLabel;
-    private javax.swing.JComboBox<String> FontStyleComboBox;
-    private javax.swing.JLabel FontStyleLabel;
     private javax.swing.JButton SubmitButton;
     private javax.swing.JTextField TextField;
     // End of variables declaration//GEN-END:variables

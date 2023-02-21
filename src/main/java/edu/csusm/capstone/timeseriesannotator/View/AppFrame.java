@@ -30,6 +30,12 @@ public class AppFrame extends javax.swing.JFrame {
     private boolean ctrlPressed = false;
     MultiSplitPane split = new MultiSplitPane();
     private static String[] textFontArray;
+    public static Color color;
+    
+    /* FONT variables */
+    public static String font = "Arial";
+    public static String fontStyle = "PLAIN";
+    public static int fontSize = 12;
 
     /**
      * Creates new form Frame
@@ -188,14 +194,11 @@ public class AppFrame extends javax.swing.JFrame {
         importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
         importChooser.setName("importChooser"); // NOI18N
 
-        jDialog1.getContentPane().setLayout(new java.awt.BorderLayout());
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Multivariate Time Series Annotator");
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
         ChartPanel.setBackground(new java.awt.Color(255, 255, 255));
         ChartPanel.setPreferredSize(new java.awt.Dimension(900, 800));
@@ -503,9 +506,13 @@ public class AppFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         FontPanel.add(FontSizeLabel, gridBagConstraints);
 
-        FontSizeComboBox.setEditable(true);
         FontSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8", "9", "10", "11", "12", "14", "16", "18", "20", "24", "26", "28", "30" }));
         FontSizeComboBox.setSelectedIndex(4);
+        FontSizeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FontSizeComboBoxActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -536,6 +543,11 @@ public class AppFrame extends javax.swing.JFrame {
         FontPanel.add(FontStyleLabel, gridBagConstraints);
 
         FontStyleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Plain", "Italic", "Bold" }));
+        FontStyleComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FontStyleComboBoxActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -595,42 +607,42 @@ public class AppFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void RedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedButtonActionPerformed
-        Color color = Color.RED;
+        color = Color.RED;
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setColor(color);
         }
     }//GEN-LAST:event_RedButtonActionPerformed
 
     private void OrangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrangeButtonActionPerformed
-        Color color = Color.ORANGE;
+        color = Color.ORANGE;
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setColor(color);
         }
     }//GEN-LAST:event_OrangeButtonActionPerformed
 
     private void YellowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YellowButtonActionPerformed
-        Color color = Color.YELLOW;
+        color = Color.YELLOW;
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setColor(color);
         }
     }//GEN-LAST:event_YellowButtonActionPerformed
 
     private void GreenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GreenButtonActionPerformed
-        Color color = Color.GREEN;
+        color = Color.GREEN;
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setColor(color);
         }
     }//GEN-LAST:event_GreenButtonActionPerformed
 
     private void BlueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlueButtonActionPerformed
-        Color color = Color.BLUE;
+        color = Color.BLUE;
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setColor(color);
         }
     }//GEN-LAST:event_BlueButtonActionPerformed
 
     private void PurpleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurpleButtonActionPerformed
-        Color color = Color.MAGENTA;
+        color = Color.MAGENTA;
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setColor(color);
         }
@@ -681,14 +693,14 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ShapeButtonActionPerformed
 
     private void BlackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlackButtonActionPerformed
-        Color color = Color.BLACK;
+        color = Color.BLACK;
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setColor(color);
         }
     }//GEN-LAST:event_BlackButtonActionPerformed
 
     private void FontComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontComboBoxActionPerformed
-        // TODO add your handling code here:
+        font = FontComboBox.getSelectedItem().toString();
     }//GEN-LAST:event_FontComboBoxActionPerformed
 
     private void RayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RayButtonActionPerformed
@@ -699,8 +711,44 @@ public class AppFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DiagonalButtonActionPerformed
 
+    private void FontSizeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontSizeComboBoxActionPerformed
+        fontSize = Integer.parseInt(FontSizeComboBox.getSelectedItem().toString());
+    }//GEN-LAST:event_FontSizeComboBoxActionPerformed
+
+    private void FontStyleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontStyleComboBoxActionPerformed
+        fontStyle = FontStyleComboBox.getSelectedItem().toString();
+    }//GEN-LAST:event_FontStyleComboBoxActionPerformed
+
+    public static int getFontStyle() {
+        int style = Font.PLAIN;
+        if (null != fontStyle) switch (fontStyle) {
+            case "Plain" -> style = Font.PLAIN;
+            case "Italic" -> style = Font.ITALIC;
+            case "Bold" -> style = Font.BOLD;
+            default -> {
+            }
+        }
+        
+        return style;
+    }
+    
+    public static Color getAbsoluteColor() {
+        Color c = Color.BLACK;
+        if (color != null) { c = color; }
+        
+        return c;
+    }
+    
+    public static int getFontSize() {
+        return fontSize;
+    }
+    
+    public static String getFontName() {
+        return font;
+    }
+    
     private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
-        Color color = JColorChooser.showDialog(this,
+        color = JColorChooser.showDialog(this,
                 "Select a color", new Color(0, 100, 255, 60));
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setColor(color);

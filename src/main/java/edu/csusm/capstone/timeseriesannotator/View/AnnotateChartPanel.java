@@ -36,9 +36,7 @@ import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.event.ChartChangeEvent;
-import org.jfree.chart.event.ChartChangeEventType;
 import org.jfree.chart.event.ChartChangeListener;
-import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
@@ -46,10 +44,7 @@ import org.jfree.chart.ui.Layer;
 import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
-import org.jfree.data.Range;
-import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
 
 /**
  *
@@ -228,6 +223,34 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             }
                             break;
                         case DIAGONAL:
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                if(!clickedOnce){
+                                    startPoint = point;
+                                    clickedOnce = true;
+                                }else{
+                                    double dx = startPoint[1] - point[1]; // change in x
+                                    double dy = startPoint[0] - point[0]; // change in y
+                                    double angle = Math.atan2(dy, dx); // angle of line
+
+                                    double minX = plot.getDomainAxis().getLowerBound(); // minimum x-value of plot
+                                    double minY = plot.getRangeAxis().getLowerBound(); // minimum y-value of plot
+                                    double maxX = plot.getDomainAxis().getUpperBound(); // maximum x-value of plot
+                                    double maxY = plot.getRangeAxis().getUpperBound(); // maximum y-value of plot
+
+                                    double length = Math.max(maxX - minX, maxY - minY); // length of line
+
+                                    double x3 = point[1] + length * Math.cos(angle); // x-coordinate of third point
+                                    double y3 = point[0] + length * Math.sin(angle); // y-coordinate of third point
+
+                                    XYLineAnnotation line = new XYLineAnnotation(point[1], point[0], x3, y3);
+                                    plot.addAnnotation(line);
+                                    clickedOnce = false;
+                                }
+                            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                                // code for removing
+                            }
+                            break;
+                        case SEGMENT:
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if(!clickedOnce){
                                     startPoint = point;
@@ -506,7 +529,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 }
                             }
                             break;
-                        case DIAGONAL:
+                        case SEGMENT:
                             if(clickedOnce){
                                 plot.removeAnnotation(lineAnnotation);
                                 lineAnnotation = new XYLineAnnotation(

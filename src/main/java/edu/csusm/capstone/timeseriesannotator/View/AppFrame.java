@@ -673,7 +673,7 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_HorizontalButtonActionPerformed
 
     private void SegmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SegmentButtonActionPerformed
-        setMarkerType(MarkerType.DIAGONAL);
+        setMarkerType(MarkerType.SEGMENT);
     }//GEN-LAST:event_SegmentButtonActionPerformed
 
     private void ShapeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShapeButtonActionPerformed
@@ -708,7 +708,7 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_RayButtonActionPerformed
 
     private void DiagonalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiagonalButtonActionPerformed
-        // TODO add your handling code here:
+        setMarkerType(MarkerType.DIAGONAL);
     }//GEN-LAST:event_DiagonalButtonActionPerformed
 
     private void FontSizeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontSizeComboBoxActionPerformed

@@ -705,7 +705,7 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_FontComboBoxActionPerformed
 
     private void RayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RayButtonActionPerformed
-        // TODO add your handling code here:
+        setMarkerType(MarkerType.RAY);
     }//GEN-LAST:event_RayButtonActionPerformed
 
     private void DiagonalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiagonalButtonActionPerformed

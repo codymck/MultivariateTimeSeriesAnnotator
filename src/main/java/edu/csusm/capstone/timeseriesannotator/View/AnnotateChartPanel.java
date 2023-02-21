@@ -255,6 +255,40 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 // code for removing
                             }
                             break;
+                        case RAY:
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                if (!clickedOnce) {
+                                    startPoint = point;
+                                    lineAnnotation = new XYLineAnnotation(
+                                            point[0],
+                                            point[1],
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    plot.addAnnotation(lineAnnotation);
+                                    clickedOnce = true;
+                                } else {
+                                    plot.removeAnnotation(lineAnnotation);
+                                    double dx = startPoint[0] - point[0]; // change in x
+                                    double dy = startPoint[1] - point[1]; // change in y
+                                    double angle = Math.atan2(dy, dx); // angle of line
+
+                                    double length = 1000000; // length of line
+
+                                    //double x3 = point[0] + length * Math.cos(angle); // x-coordinate of third point
+                                    //double y3 = point[1] + length * Math.sin(angle); // y-coordinate of third point
+
+                                    double x4 = startPoint[0] - length * Math.cos(angle);
+                                    double y4 = startPoint[1] - length * Math.sin(angle);
+
+                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(startPoint[0], startPoint[1], x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    plot.addAnnotation(lineAnnotationP);
+                                    clickedOnce = false;
+                                }
+                            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                                // code for removing
+                            }
+                            break;
                         case SEGMENT:
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
@@ -550,6 +584,26 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 double y4 = startPoint[1] - length * Math.sin(angle);
 
                                 lineAnnotation = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                plot.addAnnotation(lineAnnotation);
+                                repaint();
+                            }
+                            break;
+                        case DIAGONAL:
+                            if (clickedOnce) {
+                                plot.removeAnnotation(lineAnnotation);
+                                double dx = startPoint[0] - point[0]; // change in x
+                                double dy = startPoint[1] - point[1]; // change in y
+                                double angle = Math.atan2(dy, dx); // angle of line
+
+                                double length = 1000000; // length of line
+
+                                //double x3 = point[0] + length * Math.cos(angle); // x-coordinate of third point
+                                //double y3 = point[1] + length * Math.sin(angle); // y-coordinate of third point
+
+                                double x4 = startPoint[0] - length * Math.cos(angle);
+                                double y4 = startPoint[1] - length * Math.sin(angle);
+
+                                lineAnnotation = new XYLineAnnotation(x4, y4, startPoint[0], startPoint[1], new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                 plot.addAnnotation(lineAnnotation);
                                 repaint();
                             }

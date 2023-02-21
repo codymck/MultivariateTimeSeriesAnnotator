@@ -82,6 +82,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private ValueMarker hMarker;
     private ValueMarker vMarker;
     private XYLineAnnotation lineAnnotation;
+    private boolean clickedOnce;
     private Point sPoint, ePoint;
 
     /* TRIANGLE variables */
@@ -92,6 +93,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private Point2D third;
     private XYLineAnnotation fLine;
     private XYLineAnnotation sLine;
+    private XYLineAnnotation tLine;
 
     /* ELLIPSE variables */
     private Point2D ellipseStart;
@@ -279,14 +281,29 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case DIAGONAL:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                startPoint = point;
-                                lineAnnotation = new XYLineAnnotation(
-                                        point[0],
-                                        point[1],
-                                        point[0],
-                                        point[1],
-                                        new BasicStroke(2.0f), Color.BLACK);
-                                plot.addAnnotation(lineAnnotation);
+                                if(!clickedOnce){
+                                    startPoint = point;
+                                    lineAnnotation = new XYLineAnnotation(
+                                            point[0],
+                                            point[1],
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), Color.BLACK);
+                                    plot.addAnnotation(lineAnnotation);
+                                    clickedOnce = true;
+                                }else{
+                                    plot.removeAnnotation(lineAnnotation);
+                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(
+                                            startPoint[0],
+                                            startPoint[1],
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), Color.BLACK);
+                                    if (startPoint[0] != point[0] && startPoint[1] != point[1]) {
+                                        plot.addAnnotation(lineAnnotationP);
+                                    }
+                                    clickedOnce = false;
+                                }
                             }
                             break;
                         case TRIANGLE:
@@ -307,6 +324,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     triPoints.clear();
                                     plot.removeAnnotation(fLine);
                                     plot.removeAnnotation(sLine);
+                                    plot.removeAnnotation(tLine);
                                 }
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 removeTriangle(point);
@@ -390,17 +408,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 rect.setRect(x, y, width, height);
                                 repaint();
                             }
-                            break;
-                        case DIAGONAL:
-                            plot.removeAnnotation(lineAnnotation);
-                            lineAnnotation = new XYLineAnnotation(
-                                    startPoint[0],
-                                    startPoint[1],
-                                    point[0],
-                                    point[1],
-                                    new BasicStroke(2.0f), Color.BLACK);
-                            plot.addAnnotation(lineAnnotation);
-                            repaint();
                             break;
                         case ELLIPSE:
                             if (SwingUtilities.isLeftMouseButton(e)) {
@@ -499,20 +506,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 removeAnnotation("rect", point[0], point[1]);
                             }
                             break;
-                        case DIAGONAL:
-                            if (e.getButton() == MouseEvent.BUTTON1) {
-                                plot.removeAnnotation(lineAnnotation);
-                                XYLineAnnotation lineAnnotationP = new XYLineAnnotation(
-                                        startPoint[0],
-                                        startPoint[1],
-                                        point[0],
-                                        point[1],
-                                        new BasicStroke(2.0f), Color.BLACK);
-                                if (startPoint[0] != point[0] && startPoint[1] != point[1]) {
-                                    plot.addAnnotation(lineAnnotationP);
-                                }
-                            }
-                            break;
                         case ELLIPSE:
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (ellipseAnnotation != null) {
@@ -585,6 +578,19 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 }
                             }
                             break;
+                        case DIAGONAL:
+                            if(clickedOnce){
+                                plot.removeAnnotation(lineAnnotation);
+                                lineAnnotation = new XYLineAnnotation(
+                                        startPoint[0],
+                                        startPoint[1],
+                                        point[0],
+                                        point[1],
+                                        new BasicStroke(2.0f), Color.BLACK);
+                                plot.addAnnotation(lineAnnotation);
+                                repaint();
+                            }
+                            break;
                         case TRIANGLE:
                             if (getScreenDataArea().contains(e.getX(), e.getY())) {
                                 if (first != null && second == null) {
@@ -602,6 +608,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 } else if (first != null && second != null && third == null) {
                                     if (sLine != null) {
                                         plot.removeAnnotation(sLine);
+                                        plot.removeAnnotation(tLine);
                                     }
 
                                     sLine = new XYLineAnnotation(
@@ -610,7 +617,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                             point[0],
                                             point[1],
                                             new BasicStroke(2.0f), color);
+                                    tLine = new XYLineAnnotation(
+                                            first.getX(),
+                                            first.getY(),
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), color);
                                     plot.addAnnotation(sLine);
+                                    plot.addAnnotation(tLine);
                                 } else if (first != null && second != null && third != null) {
                                     first = null;
                                     second = null;

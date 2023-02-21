@@ -192,9 +192,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         case HORIZONTAL:
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 ValueMarker marker = new ValueMarker(point[1]);
-//                                marker.setLabel("line");
                                 marker.setLabelAnchor(RectangleAnchor.CENTER);
-                                marker.setPaint(new Color(0, 0, 0, 200));
+                                marker.setPaint(AppFrame.getAbsoluteColor());
                                 marker.setStroke(new BasicStroke(2.0f));
                                 plot.addRangeMarker(marker);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -212,9 +211,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         case VERTICAL:
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 ValueMarker marker = new ValueMarker(point[0]);
-//                                marker.setLabel("line");
                                 marker.setLabelAnchor(RectangleAnchor.CENTER);
-                                marker.setPaint(new Color(0, 0, 0, 200));
+                                marker.setPaint(AppFrame.getAbsoluteColor());
                                 marker.setStroke(new BasicStroke(2.0f));
                                 plot.addDomainMarker(marker);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -238,7 +236,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                             point[1],
                                             point[0],
                                             point[1],
-                                            new BasicStroke(2.0f), Color.BLACK);
+                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                     plot.addAnnotation(lineAnnotation);
                                     clickedOnce = true;
                                 }else{
@@ -248,7 +246,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                             startPoint[1],
                                             point[0],
                                             point[1],
-                                            new BasicStroke(2.0f), Color.BLACK);
+                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                     if (startPoint[0] != point[0] && startPoint[1] != point[1]) {
                                         plot.addAnnotation(lineAnnotationP);
                                     }
@@ -325,6 +323,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             width = (int) (screenDataArea.getMaxX() - x);
                         }
                         rect.setRect(x, y, width, height);
+                       
                         repaint();
                     }
                     break;
@@ -475,7 +474,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 if (hMarker == null) {
                                     hMarker = new ValueMarker(point[1]);
                                     hMarker.setLabelAnchor(RectangleAnchor.CENTER);
-                                    hMarker.setPaint(new Color(0, 0, 0, 200));
+                                    hMarker.setPaint(AppFrame.getAbsoluteColor());
                                     hMarker.setStroke(new BasicStroke(2.0f));
                                     plot.addRangeMarker(hMarker);
                                 } else {
@@ -493,7 +492,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 if (vMarker == null) {
                                     vMarker = new ValueMarker(point[0]);
                                     vMarker.setLabelAnchor(RectangleAnchor.CENTER);
-                                    vMarker.setPaint(new Color(0, 0, 0, 200));
+                                    vMarker.setPaint(AppFrame.getAbsoluteColor());
                                     vMarker.setStroke(new BasicStroke(2.0f));
                                     plot.addDomainMarker(vMarker);
 
@@ -515,7 +514,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                         startPoint[1],
                                         point[0],
                                         point[1],
-                                        new BasicStroke(2.0f), Color.BLACK);
+                                        new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                 plot.addAnnotation(lineAnnotation);
                                 repaint();
                             }
@@ -616,7 +615,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         if (type.equals("region")) {
             double upperLeftX = Math.min(coordinates[0][0], coordinates[1][0]);
             double lowerRightX = Math.max(coordinates[0][0], coordinates[1][0]);
-            IntervalMarker intervalMarker = new IntervalMarker(upperLeftX, lowerRightX, color);
+            IntervalMarker intervalMarker = new IntervalMarker(upperLeftX, lowerRightX, AppFrame.getAbsoluteColor());
+            // setting alpha value to "60" ((60 / 255) ≈ 0.235)
+            intervalMarker.setAlpha(0.235f);
             plot.addDomainMarker(intervalMarker);
             regionList.add(new RegionStruct(upperLeftX, 0, lowerRightX, 0, intervalMarker, "region"));
         } else if (type.equals("rect")) {
@@ -645,7 +646,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             for (int i = regionList.size() - 1; i >= 0; i--) {
                 RegionStruct r = regionList.get(i);
                 if (r.isClickedOn(mouseX, mouseY)) {
-                    System.out.println("remove");
                     plot.removeDomainMarker(r.getRegion());
                     regionList.remove(i);
                     break;

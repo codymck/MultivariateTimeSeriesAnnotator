@@ -225,8 +225,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     startPoint = point;
+                                    lineAnnotation = new XYLineAnnotation(
+                                            point[0],
+                                            point[1],
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    plot.addAnnotation(lineAnnotation);
                                     clickedOnce = true;
                                 } else {
+                                    plot.removeAnnotation(lineAnnotation);
                                     double dx = startPoint[0] - point[0]; // change in x
                                     double dy = startPoint[1] - point[1]; // change in y
                                     double angle = Math.atan2(dy, dx); // angle of line
@@ -239,8 +247,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     double x4 = startPoint[0] - length * Math.cos(angle);
                                     double y4 = startPoint[1] - length * Math.sin(angle);
 
-                                    XYLineAnnotation line = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
-                                    plot.addAnnotation(line);
+                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    plot.addAnnotation(lineAnnotationP);
                                     clickedOnce = false;
                                 }
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -528,9 +536,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case DIAGONAL:
                             if (clickedOnce) {
-                                if(lineAnnotation != null){
-                                    plot.removeAnnotation(lineAnnotation);
-                                }
+                                plot.removeAnnotation(lineAnnotation);
                                 double dx = startPoint[0] - point[0]; // change in x
                                 double dy = startPoint[1] - point[1]; // change in y
                                 double angle = Math.atan2(dy, dx); // angle of line
@@ -546,7 +552,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 lineAnnotation = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                 plot.addAnnotation(lineAnnotation);
                                 repaint();
-                                System.out.println("moved");
                             }
                             break;
                         case SEGMENT:

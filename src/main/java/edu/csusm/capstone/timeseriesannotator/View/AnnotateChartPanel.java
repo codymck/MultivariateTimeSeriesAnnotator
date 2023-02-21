@@ -413,7 +413,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 double x = Math.min(ellipseStart.getX(), endX);
                                 double y = Math.min(ellipseStart.getY(), endY);
                                 Ellipse2D ellipse = new Ellipse2D.Double(x, y, width, height);
-                                ellipseAnnotation = new XYShapeAnnotation(ellipse, new BasicStroke(2), color, color);
+                                ellipseAnnotation = new XYShapeAnnotation(ellipse, new BasicStroke(2), new Color(0,0,0,0), color);
 
                                 plot.addAnnotation(ellipseAnnotation);
                                 repaint();
@@ -526,7 +526,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 double x = Math.min(ellipseStart.getX(), endX);
                                 double y = Math.min(ellipseStart.getY(), endY);
                                 Ellipse2D ellipseShape = new Ellipse2D.Double(x, y, width, height);
-                                XYShapeAnnotation ellipse = new XYShapeAnnotation(ellipseShape, new BasicStroke(2), color, color);
+                                XYShapeAnnotation ellipse = new XYShapeAnnotation(ellipseShape, new BasicStroke(2), new Color(0,0,0,0), color);
                                 shapeDict.put(ellipseShape, ellipse);
 
                                 plot.addAnnotation(ellipse);
@@ -787,7 +787,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
         double poly[] = {p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY()};
 
-        XYPolygonAnnotation triangle = new XYPolygonAnnotation(poly, new BasicStroke(2), color, color);
+        XYPolygonAnnotation triangle = new XYPolygonAnnotation(poly, new BasicStroke(2), new Color(0,0,0,0), color);
 
         plot.addAnnotation(triangle);
     }

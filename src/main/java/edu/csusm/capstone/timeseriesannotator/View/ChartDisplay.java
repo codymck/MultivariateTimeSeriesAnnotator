@@ -63,8 +63,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     public void setChart(AnnotateChartPanel p) {
         if (emptyChart.getParent() == jPanel2) {
-            SyncButton.setSelected(false);
-            emptyChart.setSync(false);
+//            SyncButton.setSelected(false);
+//            emptyChart.setSync(false);
+//            control.removeSync2(emptyChart.getChart());
+            //plot.setDomainAxis(chartStruct.getDomainAxis());
             jPanel2.remove(emptyChart);
         }
         
@@ -187,10 +189,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_removeChartButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (chartStruct != null) {
+        if (chartStruct != null && !SyncButton.isSelected()) {
             ActionListener addAction = new AddSeriesAction(this.chartStruct, this);
             addAction.actionPerformed(evt);
-        } else {
+        } else if( !SyncButton.isSelected()){
             ActionListener importAction = new ImportDataAction(frame.getImportChooser(), this);
             importAction.actionPerformed(evt);
         }
@@ -206,7 +208,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             //Throw error "Can't Sync a empty chart!"
             SyncButton.setSelected(false);
         }
-        if(!SyncButton.isSelected()){
+        else if(!SyncButton.isSelected()){
             emptyChart.setSync(false);
             control.removeSync2(emptyChart.getChart());
 //            control.removeSync(plot);

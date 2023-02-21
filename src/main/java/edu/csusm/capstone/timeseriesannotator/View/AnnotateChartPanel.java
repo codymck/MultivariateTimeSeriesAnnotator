@@ -119,13 +119,13 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 if (syncing) {
                     // Disable synchronization temporarily
                     syncing = false;
+                    Controller.syncX2(chart);
+//                    if(lastEvent != cce){
+//                        Controller.syncX2(chart);
+//                        lastEvent = cce;
+//                    }
                     
-                    if(lastEvent != cce){
-                        Controller.syncX2(chart);
-                        lastEvent = cce;
-                    }
-                    
-                    
+                    syncing = true;
                     //PlotChangeEvent plotEvent = cce.getPlotChangeEvent();
                     //plotEvent.setChart(chart);
                     //PlotChangeEvent pce = chart.getPlot().get;
@@ -165,7 +165,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     
             
                     // Re-enable synchronization
-                    syncing = true;
+                    
                 }            
             }
             

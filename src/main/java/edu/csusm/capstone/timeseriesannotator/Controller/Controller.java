@@ -18,7 +18,7 @@ import org.jfree.data.general.SeriesChangeListener;
  */
 public class Controller {
     
-    static AtomicReferenceArray<ArrayList<XYPlot>> atomicList = new AtomicReferenceArray<>(new ArrayList[] { new ArrayList<XYPlot>() });
+    static AtomicReferenceArray<ArrayList<JFreeChart>> atomicList = new AtomicReferenceArray<>(new ArrayList[] { new ArrayList<JFreeChart>(6) });
     public static ArrayList<JFreeChart> synced;
     public static Map<XYPlot, ValueAxis> syncedPlots = new HashMap<>();
     static ValueAxis commonXAxis = new NumberAxis("X");
@@ -98,6 +98,7 @@ public class Controller {
         
     public static void syncX2(JFreeChart chart){
         //System.out.println("Syncing? " + chart);
+        synced = atomicList.get(0);
         for(JFreeChart x : synced){
             if(x != chart){
                 System.out.println("In loop " + x);
@@ -108,51 +109,57 @@ public class Controller {
         }
     }
     
-    public void addSync(XYPlot p, Chart cS){
-        ArrayList<XYPlot> list = atomicList.get(0);
-        list.add(p);
-        atomicList.set(0, list);
-        this.chartStruct = cS;
-        
-        ValueAxis xAxis = p.getDomainAxis();
-        syncedPlots.put(p, xAxis);
-        
-        if(counter == 0){
-            FirstAxis = xAxis;
-        }
-        else if(counter == 1){
-            double x3 = FirstAxis.getRange().getLowerBound();
-            double x4 = FirstAxis.getRange().getUpperBound();
-            commonXAxis.setRange(x3,x4);
-            p.setDomainAxis(commonXAxis);
-        }
-        else{
-            double x1 = xAxis.getRange().getLowerBound();
-            double x2 = xAxis.getRange().getUpperBound();
-            commonXAxis.setRange(x1,x2);
-            p.setDomainAxis(commonXAxis);
-        }
-        counter++;
-    }
-    
-    public void removeSync(XYPlot p){
-        //synced.remove(p);
-        syncedPlots.remove(p);
-        counter--;
-        if(counter < 1){
-            for(XYPlot x : syncedPlots.keySet()){
-                x.setDomainAxis(FirstAxis);
-                //x.setRangeAxis(chartStruct.getRangeAxis());
-            }
-        }
-    }
+//    public void addSync(XYPlot p, Chart cS){
+//        ArrayList<XYPlot> list = atomicList.get(0);
+//        list.add(p);
+//        atomicList.set(0, list);
+//        this.chartStruct = cS;
+//        
+//        ValueAxis xAxis = p.getDomainAxis();
+//        syncedPlots.put(p, xAxis);
+//        
+//        if(counter == 0){
+//            FirstAxis = xAxis;
+//        }
+//        else if(counter == 1){
+//            double x3 = FirstAxis.getRange().getLowerBound();
+//            double x4 = FirstAxis.getRange().getUpperBound();
+//            commonXAxis.setRange(x3,x4);
+//            p.setDomainAxis(commonXAxis);
+//        }
+//        else{
+//            double x1 = xAxis.getRange().getLowerBound();
+//            double x2 = xAxis.getRange().getUpperBound();
+//            commonXAxis.setRange(x1,x2);
+//            p.setDomainAxis(commonXAxis);
+//        }
+//        counter++;
+//    }
+//    
+//    public void removeSync(XYPlot p){
+//        //synced.remove(p);
+//        syncedPlots.remove(p);
+//        counter--;
+//        if(counter < 1){
+//            for(XYPlot x : syncedPlots.keySet()){
+//                x.setDomainAxis(FirstAxis);
+//                //x.setRangeAxis(chartStruct.getRangeAxis());
+//            }
+//        }
+//    }
     
     public void removeSync2(JFreeChart c){
+        synced = atomicList.get(0);
         synced.remove(c);
+        atomicList.set(0, synced);
     }
     
     public void addSync2(JFreeChart c){
-        synced.add(c);
+        c.getXYPlot().setDomainAxis(commonXAxis);
+        ArrayList<JFreeChart> list = atomicList.get(0);
+        list.add(c);
+        atomicList.set(0, list);
+        //synced.add(c);
     }
     
 }

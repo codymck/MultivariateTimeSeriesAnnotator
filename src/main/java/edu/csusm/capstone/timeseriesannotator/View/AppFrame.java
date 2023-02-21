@@ -31,7 +31,7 @@ public class AppFrame extends javax.swing.JFrame {
     MultiSplitPane split = new MultiSplitPane();
     private static String[] textFontArray;
     public static Color color;
-    
+
     /* FONT variables */
     public static String font = "Arial";
     public static String fontStyle = "PLAIN";
@@ -79,14 +79,15 @@ public class AppFrame extends javax.swing.JFrame {
                             break;
                         case KeyEvent.VK_CONTROL:
                             ctrlPressed = true;
-                            if (!PanButton.isSelected() && (e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == 0)
+                            if (!PanButton.isSelected() && (e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == 0) {
                                 PanButton.doClick();
+                            }
                             break;
                     }
                 }
-                if(e.getID() == KeyEvent.KEY_RELEASED) {
+                if (e.getID() == KeyEvent.KEY_RELEASED) {
                     ctrlPressed = false;
-                    if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+                    if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
                         selectedButton.doClick();
                     }
                 }
@@ -682,7 +683,7 @@ public class AppFrame extends javax.swing.JFrame {
         SquareButtonActionPerformed(evt);
         setAppState(ToolState.MARK);
         ColorPanel.setVisible(true);
-        
+
         ShapesPanel.setVisible(true);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(false);
@@ -721,32 +722,39 @@ public class AppFrame extends javax.swing.JFrame {
 
     public static int getFontStyle() {
         int style = Font.PLAIN;
-        if (null != fontStyle) switch (fontStyle) {
-            case "Plain" -> style = Font.PLAIN;
-            case "Italic" -> style = Font.ITALIC;
-            case "Bold" -> style = Font.BOLD;
-            default -> {
+        if (null != fontStyle) {
+            switch (fontStyle) {
+                case "Plain" ->
+                    style = Font.PLAIN;
+                case "Italic" ->
+                    style = Font.ITALIC;
+                case "Bold" ->
+                    style = Font.BOLD;
+                default -> {
+                }
             }
         }
-        
+
         return style;
     }
-    
+
     public static Color getAbsoluteColor() {
         Color c = Color.BLACK;
-        if (color != null) { c = color; }
-        
+        if (color != null) {
+            c = color;
+        }
+
         return c;
     }
-    
+
     public static int getFontSize() {
         return fontSize;
     }
-    
+
     public static String getFontName() {
         return font;
     }
-    
+
     private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
         color = JColorChooser.showDialog(this,
                 "Select a color", new Color(0, 100, 255, 60));
@@ -772,7 +780,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         setAppState(ToolState.ZOOM);
         ColorPanel.setVisible(false);
-        
+
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(false);
@@ -786,16 +794,16 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
     private void PanButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        if(!ctrlPressed){
+        if (!ctrlPressed) {
             selectedButton = PanButton;
         }
         setAppState(ToolState.PAN);
         ColorPanel.setVisible(false);
-        
+
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(false);
-        
+
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.PAN);
         }
@@ -806,7 +814,7 @@ public class AppFrame extends javax.swing.JFrame {
         RedButtonActionPerformed(evt);
         setAppState(ToolState.HIGHLIGHT);
         ColorPanel.setVisible(true);
-        
+
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(false);
@@ -820,7 +828,7 @@ public class AppFrame extends javax.swing.JFrame {
         selectedButton = CommentButton;
         setAppState(ToolState.COMMENT);
         ColorPanel.setVisible(true);
-        
+
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(true);
@@ -836,7 +844,7 @@ public class AppFrame extends javax.swing.JFrame {
         VerticalButtonActionPerformed(evt);
         setAppState(ToolState.MARK);
         ColorPanel.setVisible(true);
-        
+
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(true);
         FontPanel.setVisible(false);
@@ -845,8 +853,6 @@ public class AppFrame extends javax.swing.JFrame {
             charts.get(i).emptyChart.setChartState(ToolState.MARK);
         }
     }
-    
-    
 
     private void setAppState(ToolState s) {
         appState = s;
@@ -855,15 +861,15 @@ public class AppFrame extends javax.swing.JFrame {
     public static ToolState getAppState() {
         return appState;
     }
-    
+
     private void setMarkerType(MarkerType m) {
         markerType = m;
     }
-    
+
     public static MarkerType getMarkerType() {
         return markerType;
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddChartButton;
@@ -918,7 +924,7 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JMenu optionsMenuItem;
     // End of variables declaration//GEN-END:variables
     private javax.swing.JToggleButton selectedButton = ZoomButton;
-    
+
     public javax.swing.JMenuItem getImportButton() {
         return importDataMenuItem;
     }
@@ -926,6 +932,5 @@ public class AppFrame extends javax.swing.JFrame {
     public javax.swing.JFileChooser getImportChooser() {
         return importChooser;
     }
-    
 
 }

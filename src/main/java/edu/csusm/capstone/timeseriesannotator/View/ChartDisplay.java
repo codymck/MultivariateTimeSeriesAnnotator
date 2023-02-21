@@ -63,8 +63,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     public void setChart(AnnotateChartPanel p) {
         if (emptyChart.getParent() == jPanel2) {
+            SyncButton.setSelected(false);
+            emptyChart.setSync(false);
             jPanel2.remove(emptyChart);
         }
+        
         emptyChart = p;
         
         emptyChart.setZoomOutlinePaint(Color.BLACK);
@@ -203,7 +206,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             //Throw error "Can't Sync a empty chart!"
             SyncButton.setSelected(false);
         }
-        else{
+        if(!SyncButton.isSelected()){
             emptyChart.setSync(false);
             control.removeSync2(emptyChart.getChart());
 //            control.removeSync(plot);

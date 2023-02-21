@@ -168,6 +168,8 @@ public class AppFrame extends javax.swing.JFrame {
         VerticalButton = new javax.swing.JToggleButton();
         HorizontalButton = new javax.swing.JToggleButton();
         DiagonalButton = new javax.swing.JToggleButton();
+        RayButton = new javax.swing.JToggleButton();
+        SegmentButton = new javax.swing.JToggleButton();
         FontPanel = new java.awt.Panel();
         FontSizeLabel = new javax.swing.JLabel();
         FontSizeComboBox = new javax.swing.JComboBox<>();
@@ -186,11 +188,14 @@ public class AppFrame extends javax.swing.JFrame {
         importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
         importChooser.setName("importChooser"); // NOI18N
 
+        jDialog1.getContentPane().setLayout(new java.awt.BorderLayout());
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Multivariate Time Series Annotator");
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         ChartPanel.setBackground(new java.awt.Color(255, 255, 255));
         ChartPanel.setPreferredSize(new java.awt.Dimension(900, 800));
@@ -430,7 +435,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         jLayeredPane1.add(ShapesPanel);
 
-        LinesPanel.setVisible(false);
         LinesPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         buttonGroup4.add(VerticalButton);
@@ -456,13 +460,36 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup4.add(DiagonalButton);
         DiagonalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
-        DiagonalButton.setName("DiagonalButton");
+        DiagonalButton.setName("DiagonalButton"); // NOI18N
+        SegmentButton.setName("SegmentButton");
         DiagonalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DiagonalButtonActionPerformed(evt);
             }
         });
         LinesPanel.add(DiagonalButton);
+
+        buttonGroup4.add(RayButton);
+        RayButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/annotate.png"))); // NOI18N
+        RayButton.setName("RayButton"); // NOI18N
+        SegmentButton.setName("SegmentButton");
+        RayButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RayButtonActionPerformed(evt);
+            }
+        });
+        LinesPanel.add(RayButton);
+
+        buttonGroup4.add(SegmentButton);
+        SegmentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
+        SegmentButton.setName("SegmentButton"); // NOI18N
+        SegmentButton.setName("SegmentButton");
+        SegmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SegmentButtonActionPerformed(evt);
+            }
+        });
+        LinesPanel.add(SegmentButton);
 
         jLayeredPane1.setLayer(LinesPanel, javax.swing.JLayeredPane.PALETTE_LAYER);
         jLayeredPane1.add(LinesPanel);
@@ -633,9 +660,9 @@ public class AppFrame extends javax.swing.JFrame {
         setMarkerType(MarkerType.HORIZONTAL);
     }//GEN-LAST:event_HorizontalButtonActionPerformed
 
-    private void DiagonalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiagonalButtonActionPerformed
+    private void SegmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SegmentButtonActionPerformed
         setMarkerType(MarkerType.DIAGONAL);
-    }//GEN-LAST:event_DiagonalButtonActionPerformed
+    }//GEN-LAST:event_SegmentButtonActionPerformed
 
     private void ShapeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShapeButtonActionPerformed
         selectedButton = ShapeButton;
@@ -663,6 +690,14 @@ public class AppFrame extends javax.swing.JFrame {
     private void FontComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FontComboBoxActionPerformed
+
+    private void RayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RayButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RayButtonActionPerformed
+
+    private void DiagonalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiagonalButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DiagonalButtonActionPerformed
 
     private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
         Color color = JColorChooser.showDialog(this,
@@ -807,7 +842,9 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton OrangeButton;
     private javax.swing.JToggleButton PanButton;
     private javax.swing.JToggleButton PurpleButton;
+    private javax.swing.JToggleButton RayButton;
     private javax.swing.JToggleButton RedButton;
+    private javax.swing.JToggleButton SegmentButton;
     private javax.swing.JToggleButton SelectButton;
     private javax.swing.JToggleButton ShapeButton;
     private java.awt.Panel ShapesPanel;

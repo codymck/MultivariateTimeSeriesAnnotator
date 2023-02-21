@@ -35,6 +35,10 @@ import org.jfree.chart.annotations.XYPolygonAnnotation;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.event.ChartChangeEvent;
+import org.jfree.chart.event.ChartChangeEventType;
+import org.jfree.chart.event.ChartChangeListener;
+import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ui.Layer;
@@ -42,6 +46,9 @@ import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.Range;
+import org.jfree.data.general.DatasetChangeEvent;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
 
 /**
  *
@@ -57,8 +64,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}};
     private ArrayList<RegionStruct> regionList = new ArrayList<>();
     private ArrayList<RegionStruct> rectList = new ArrayList<>();
+    final List<XYDataset> originalDatasets; 
+    ChartChangeEvent lastEvent = null;
 
     double leftBound, rightBound, bottomBound, topBound;
+    private boolean syncing = false;
 
     private double x, y, width, height;
 
@@ -99,9 +109,69 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     public AnnotateChartPanel(JFreeChart chart) {
         super(chart);
         this.chart = chart;
+        originalDatasets = new ArrayList<>(chart.getXYPlot().getDatasetCount());
         this.plot = (XYPlot) chart.getPlot();
         setChartState(AppFrame.getAppState());
+        
+        chart.addChangeListener(new ChartChangeListener(){
+            @Override
+            public void chartChanged(ChartChangeEvent cce) {
+                if (syncing) {
+                    // Disable synchronization temporarily
+                    syncing = false;
+                    Controller.syncX2(chart);
+//                    if(lastEvent != cce){
+//                        Controller.syncX2(chart);
+//                        lastEvent = cce;
+//                    }
+                    
+                    syncing = true;
+                    //PlotChangeEvent plotEvent = cce.getPlotChangeEvent();
+                    //plotEvent.setChart(chart);
+                    //PlotChangeEvent pce = chart.getPlot().get;
+//                    System.out.println("Change Event: " + cce.getType());
+//                    if(cce.getType() == ChartChangeEventType.GENERAL){
+//                        if (cce instanceof PlotChangeEvent) {
+//                            PlotChangeEvent plotEvent = (PlotChangeEvent) cce;
+//                            if (plotEvent.getPlot() instanceof XYPlot) {
+//                                XYPlot plot = (XYPlot) plotEvent.getPlot();
+//                                List<XYDataset> newDatasets = new ArrayList<>();
+//                                for (int i = 0; i < plot.getDatasetCount(); i++) {
+//                                    newDatasets.add(plot.getDataset(i));
+//                                }
+//                                if (!newDatasets.equals(originalDatasets)) {
+//                                    // A new dataset has been added to the plot
+//                                    originalDatasets.clear();
+//                                    originalDatasets.addAll(newDatasets);
+//                        // Handle the new dataset here
+//                                }else{
+////                                    Controller.syncX2(chart);
+//                                }
+//                            }
+//                        }
+//                    }
+                    
+//                    if (plot.getDatasetCount() > datasets.size()) {
+//                        XYDataset newDataset = plot.getDataset(plot.getDatasetCount() - 1);
+//                        if (!datasets.contains(newDataset)) {
+//                            datasets.add(newDataset);
+//                             System.out.println("A new dataset was added to the plot");
+//                        }
+//                        else{
+//                            Controller.syncX2(chart);
+//                        }
+//                    }
+                    // Apply the changes to chart2
+                    
+            
+                    // Re-enable synchronization
+                    
+                }            
+            }
+            
+        });
     }
+    
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -385,7 +455,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     } else {
                         bottomBound = tempY;
                     }
-                    checkSync(leftBound, rightBound, bottomBound, topBound);
+                    //checkSync(leftBound, rightBound, bottomBound, topBound);
                     break;
                 case PAN:
                     int panMask = MouseEvent.CTRL_MASK;
@@ -409,6 +479,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     double y2 = yAxis.getRange().getUpperBound();
                     //System.out.println("x1: " + x1 + " x2: " + x2);
                     //Controller.sync(x1, x2, y1, y2);
+                    //Controller.syncX(x1, x2, plot);
                     break;
                 case COMMENT:
                     //super.mouseReleased(e);
@@ -695,8 +766,13 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     public void checkSync(double x1, double x2, double y1, double y2) {
         if (x1 < x2) {
-            Controller.sync(x1, x2, y1, y2);
+            Controller.syncX(x1, x2, plot);
+            //Controller.sync(x1, x2, y1, y2);
         }
+    }
+    
+    public void setSync(boolean s){
+        syncing = s;
     }
 
     private void drawTriangle(List<Point2D> points) {

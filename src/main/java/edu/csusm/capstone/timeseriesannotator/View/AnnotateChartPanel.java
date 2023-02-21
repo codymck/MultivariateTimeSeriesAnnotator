@@ -39,6 +39,7 @@ import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeEventType;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.event.PlotChangeEvent;
+import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ui.Layer;
@@ -670,27 +671,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     public void addAnnotation(String type) {
         if (type.equals("region")) {
-            ValueAxis yAxis = plot.getRangeAxis();
-            Range yRange = yAxis.getRange();
-            double yMin = yRange.getLowerBound();
-            double yMax = yRange.getUpperBound();
             double upperLeftX = Math.min(coordinates[0][0], coordinates[1][0]);
-            double upperLeftY = yMin;
-
             double lowerRightX = Math.max(coordinates[0][0], coordinates[1][0]);
-            double lowerRightY = yMax;
-
-            XYBoxAnnotation region = new XYBoxAnnotation(
-                    upperLeftX,
-                    upperLeftY,
-                    lowerRightX,
-                    lowerRightY,
-                    null,
-                    null,
-                    color
-            );
-            plot.addAnnotation(region);
-            regionList.add(new RegionStruct(upperLeftX, upperLeftY, lowerRightX, lowerRightY, region));
+            IntervalMarker intervalMarker = new IntervalMarker(upperLeftX, lowerRightX, color);
+            plot.addDomainMarker(intervalMarker);
+            regionList.add(new RegionStruct(upperLeftX, 0, lowerRightX, 0, intervalMarker, "region"));
         } else if (type.equals("rect")) {
             double upperLeftX = Math.min(coordinates[0][0], coordinates[1][0]);
             double upperLeftY = Math.min(coordinates[0][1], coordinates[1][1]);
@@ -698,7 +683,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             double lowerRightX = Math.max(coordinates[0][0], coordinates[1][0]);
             double lowerRightY = Math.max(coordinates[0][1], coordinates[1][1]);
 
-            XYBoxAnnotation region = new XYBoxAnnotation(
+            XYBoxAnnotation rect = new XYBoxAnnotation(
                     upperLeftX,
                     upperLeftY,
                     lowerRightX,
@@ -707,8 +692,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     null,
                     color
             );
-            plot.addAnnotation(region);
-            rectList.add(new RegionStruct(upperLeftX, upperLeftY, lowerRightX, lowerRightY, region));
+            plot.addAnnotation(rect);
+            rectList.add(new RegionStruct(upperLeftX, upperLeftY, lowerRightX, lowerRightY, rect, "rect"));
         }
     }
 
@@ -717,7 +702,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             for (int i = regionList.size() - 1; i >= 0; i--) {
                 RegionStruct r = regionList.get(i);
                 if (r.isClickedOn(mouseX, mouseY)) {
-                    plot.removeAnnotation(r.getRegion());
+                    System.out.println("remove");
+                    plot.removeDomainMarker(r.getRegion());
                     regionList.remove(i);
                     break;
                 }
@@ -726,7 +712,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             for (int i = rectList.size() - 1; i >= 0; i--) {
                 RegionStruct r = rectList.get(i);
                 if (r.isClickedOn(mouseX, mouseY)) {
-                    plot.removeAnnotation(r.getRegion());
+                    plot.removeAnnotation(r.getRect());
                     rectList.remove(i);
                     break;
                 }

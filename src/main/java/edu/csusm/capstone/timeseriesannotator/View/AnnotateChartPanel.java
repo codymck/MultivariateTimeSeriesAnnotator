@@ -44,6 +44,7 @@ import org.jfree.chart.ui.Layer;
 import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -76,6 +77,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private XYLineAnnotation lineAnnotation;
     private boolean clickedOnce;
     private Point sPoint, ePoint;
+    double minX = Double.POSITIVE_INFINITY;
+    double maxX = Double.NEGATIVE_INFINITY;
+    double minY = Double.POSITIVE_INFINITY;
+    double maxY = Double.NEGATIVE_INFINITY;
 
     /* TRIANGLE variables */
     private List<Point2D> triPoints = new ArrayList<Point2D>();
@@ -106,6 +111,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         this.chart = chart;
         originalDatasets = new ArrayList<>(chart.getXYPlot().getDatasetCount());
         this.plot = (XYPlot) chart.getPlot();
+        this.getMinAndMax();
         setChartState(AppFrame.getAppState());
 
         chart.addChangeListener(new ChartChangeListener() {
@@ -225,13 +231,26 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     startPoint = point;
+                                    lineAnnotation = new XYLineAnnotation(
+                                            point[0],
+                                            point[1],
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    plot.addAnnotation(lineAnnotation);
                                     clickedOnce = true;
                                 } else {
+                                    plot.removeAnnotation(lineAnnotation);
                                     double dx = startPoint[0] - point[0]; // change in x
                                     double dy = startPoint[1] - point[1]; // change in y
                                     double angle = Math.atan2(dy, dx); // angle of line
+                                    
+//                                    double minX = plot.getDomainAxis().getLowerBound(); // minimum x-value of plot
+//                                    double minY = plot.getRangeAxis().getLowerBound(); // minimum y-value of plot
+//                                    double maxX = plot.getDomainAxis().getUpperBound(); // maximum x-value of plot
+//                                    double maxY = plot.getRangeAxis().getUpperBound(); // maximum y-value of plot
 
-                                    double length = 1000000; // length of line
+                                    double length = Math.max(maxX - minX, maxY - minY)*3; // length of line
 
                                     double x3 = point[0] + length * Math.cos(angle); // x-coordinate of third point
                                     double y3 = point[1] + length * Math.sin(angle); // y-coordinate of third point
@@ -239,8 +258,39 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     double x4 = startPoint[0] - length * Math.cos(angle);
                                     double y4 = startPoint[1] - length * Math.sin(angle);
 
-                                    XYLineAnnotation line = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
-                                    plot.addAnnotation(line);
+                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    plot.addAnnotation(lineAnnotationP);
+                                    clickedOnce = false;
+                                }
+                            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                                // code for removing
+                            }
+                            break;
+                        case RAY:
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+                                if (!clickedOnce) {
+                                    startPoint = point;
+                                    lineAnnotation = new XYLineAnnotation(
+                                            point[0],
+                                            point[1],
+                                            point[0],
+                                            point[1],
+                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    plot.addAnnotation(lineAnnotation);
+                                    clickedOnce = true;
+                                } else {
+                                    plot.removeAnnotation(lineAnnotation);
+                                    double dx = startPoint[0] - point[0]; // change in x
+                                    double dy = startPoint[1] - point[1]; // change in y
+                                    double angle = Math.atan2(dy, dx); // angle of line
+                                    
+                                    double length = Math.max(maxX - minX, maxY - minY)*3; // length of line
+
+                                    double x4 = startPoint[0] - length * Math.cos(angle);
+                                    double y4 = startPoint[1] - length * Math.sin(angle);
+
+                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(startPoint[0], startPoint[1], x4, y4, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    plot.addAnnotation(lineAnnotationP);
                                     clickedOnce = false;
                                 }
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -528,14 +578,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case DIAGONAL:
                             if (clickedOnce) {
-                                if(lineAnnotation != null){
-                                    plot.removeAnnotation(lineAnnotation);
-                                }
+                                plot.removeAnnotation(lineAnnotation);
                                 double dx = startPoint[0] - point[0]; // change in x
                                 double dy = startPoint[1] - point[1]; // change in y
                                 double angle = Math.atan2(dy, dx); // angle of line
 
-                                double length = 1000000; // length of line
+                                double length = Math.max(maxX - minX, maxY - minY)*3; // length of line
 
                                 double x3 = point[0] + length * Math.cos(angle); // x-coordinate of third point
                                 double y3 = point[1] + length * Math.sin(angle); // y-coordinate of third point
@@ -546,7 +594,23 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 lineAnnotation = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                 plot.addAnnotation(lineAnnotation);
                                 repaint();
-                                System.out.println("moved");
+                            }
+                            break;
+                        case RAY:
+                            if (clickedOnce) {
+                                plot.removeAnnotation(lineAnnotation);
+                                double dx = startPoint[0] - point[0]; // change in x
+                                double dy = startPoint[1] - point[1]; // change in y
+                                double angle = Math.atan2(dy, dx); // angle of line
+
+                                double length = Math.max(maxX - minX, maxY - minY)*3; // length of line
+
+                                double x4 = startPoint[0] - length * Math.cos(angle);
+                                double y4 = startPoint[1] - length * Math.sin(angle);
+
+                                lineAnnotation = new XYLineAnnotation(x4, y4, startPoint[0], startPoint[1], new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                plot.addAnnotation(lineAnnotation);
+                                repaint();
                             }
                             break;
                         case SEGMENT:
@@ -815,5 +879,31 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
         return null;
+    }
+    
+    private void getMinAndMax(){
+        XYDataset dataset = plot.getDataset();
+        for (int i = 0; i < dataset.getSeriesCount(); i++) {
+            for (int j = 0; j < dataset.getItemCount(i); j++) {
+                double x = dataset.getXValue(i, j);
+                double y = dataset.getYValue(i, j);
+                if (x < minX) {
+                    minX = x;
+                }
+                if (x > maxX) {
+                    maxX = x;
+                }
+                if (y < minY) {
+                    minY = y;
+                }
+                if (y > maxY) {
+                    maxY = y;
+                }
+            }
+        }
+        System.out.println("Minimum X: " + minX);
+        System.out.println("Maximum X: " + maxX);
+        System.out.println("Minimum Y: " + minY);
+        System.out.println("Maximum Y: " + maxY);
     }
 }

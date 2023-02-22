@@ -576,7 +576,7 @@
                           <ComponentRef name="buttonGroup4"/>
                         </Property>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/icons/annotate.png"/>
+                          <Image iconType="3" name="/icons/icons8-drag-up-right-arrow-20.png"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="RayButton" noResource="true"/>
                       </Properties>
@@ -593,7 +593,7 @@
                           <ComponentRef name="buttonGroup4"/>
                         </Property>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/icons/icons8-line-24.png"/>
+                          <Image iconType="3" name="/icons/icons8-polyline-20.png"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="SegmentButton" noResource="true"/>
                       </Properties>

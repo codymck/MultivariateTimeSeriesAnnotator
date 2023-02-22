@@ -86,10 +86,11 @@ public class AppFrame extends javax.swing.JFrame {
                     }
                 }
                 if (e.getID() == KeyEvent.KEY_RELEASED) {
-                    ctrlPressed = false;
+                    
                     if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
                         selectedButton.doClick();
                     }
+                    ctrlPressed = false;
                 }
                 return false;
             }
@@ -474,7 +475,7 @@ public class AppFrame extends javax.swing.JFrame {
         LinesPanel.add(DiagonalButton);
 
         buttonGroup4.add(RayButton);
-        RayButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/annotate.png"))); // NOI18N
+        RayButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-drag-up-right-arrow-20.png"))); // NOI18N
         RayButton.setName("RayButton"); // NOI18N
         SegmentButton.setName("SegmentButton");
         RayButton.addActionListener(new java.awt.event.ActionListener() {
@@ -485,7 +486,7 @@ public class AppFrame extends javax.swing.JFrame {
         LinesPanel.add(RayButton);
 
         buttonGroup4.add(SegmentButton);
-        SegmentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
+        SegmentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-polyline-20.png"))); // NOI18N
         SegmentButton.setName("SegmentButton"); // NOI18N
         SegmentButton.setName("SegmentButton");
         SegmentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -679,8 +680,10 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void ShapeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShapeButtonActionPerformed
         selectedButton = ShapeButton;
-        RedButtonActionPerformed(evt);
-        SquareButtonActionPerformed(evt);
+        if (!ctrlPressed) {
+            OrangeButton.doClick();
+            SquareButton.doClick();
+        }
         setAppState(ToolState.MARK);
         ColorPanel.setVisible(true);
 
@@ -811,7 +814,9 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {
         selectedButton = SelectButton;
-        RedButtonActionPerformed(evt);
+        if (!ctrlPressed) {
+            RedButton.doClick();
+        }
         setAppState(ToolState.HIGHLIGHT);
         ColorPanel.setVisible(true);
 
@@ -826,6 +831,9 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void CommentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         selectedButton = CommentButton;
+        if (!ctrlPressed) {
+            BlackButton.doClick();
+        }
         setAppState(ToolState.COMMENT);
         ColorPanel.setVisible(true);
 
@@ -840,8 +848,10 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void LineButtonActionPerformed(java.awt.event.ActionEvent evt) {
         selectedButton = LineButton;
-        RedButtonActionPerformed(evt);
-        VerticalButtonActionPerformed(evt);
+        if (!ctrlPressed) {
+            BlackButton.doClick();
+            VerticalButton.doClick();
+        }
         setAppState(ToolState.MARK);
         ColorPanel.setVisible(true);
 

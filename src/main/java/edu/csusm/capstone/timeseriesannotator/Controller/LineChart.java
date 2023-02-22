@@ -65,7 +65,6 @@ public class LineChart implements ChartsIF {
         dataSetter();
         
         XYPlot plotter = chartStruct.getPlot();
-        //plotter.setDomainAxis(chartStruct.getDomainAxis());
         XYDataset data = xyChart.getDataset2();
         
         plotter.setDataset(1, data);

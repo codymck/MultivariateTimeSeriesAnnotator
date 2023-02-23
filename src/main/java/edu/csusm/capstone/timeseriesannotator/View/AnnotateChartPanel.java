@@ -421,10 +421,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         // make sure it doesn't overflow the bounds of the chart
                         if (x < screenDataArea.getMinX()) {
                             width -= screenDataArea.getMinX() - x;
-                            x = (int) screenDataArea.getMinX();
+                            x = screenDataArea.getMinX();
                         }
                         if (x + width > screenDataArea.getMaxX()) {
-                            width = (int) (screenDataArea.getMaxX() - x);
+                            width = (screenDataArea.getMaxX() - x);
                         }
                         rect.setRect(x, y, width, height);
                         repaint();
@@ -444,17 +444,17 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 Rectangle2D screenDataArea = getScreenDataArea();
                                 if (x < screenDataArea.getMinX()) {
                                     width -= screenDataArea.getMinX() - x;
-                                    x = (int) screenDataArea.getMinX();
+                                    x = screenDataArea.getMinX();
                                 }
                                 if (y < screenDataArea.getMinY()) {
                                     height -= screenDataArea.getMinY() - y;
-                                    y = (int) screenDataArea.getMinY();
+                                    y = screenDataArea.getMinY();
                                 }
                                 if (x + width > screenDataArea.getMaxX()) {
-                                    width = (int) (screenDataArea.getMaxX() - x);
+                                    width = (screenDataArea.getMaxX() - x);
                                 }
                                 if (y + height > screenDataArea.getMaxY()) {
-                                    height = (int) (screenDataArea.getMaxY() - y);
+                                    height = (screenDataArea.getMaxY() - y);
                                 }
 
                                 rect.setRect(x, y, width, height);
@@ -473,17 +473,17 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     Rectangle2D screenDataArea = getScreenDataArea();
                                     if (x < screenDataArea.getMinX()) {
                                         width -= screenDataArea.getMinX() - x;
-                                        x = (int) screenDataArea.getMinX();
+                                        x = screenDataArea.getMinX();
                                     }
                                     if (y < screenDataArea.getMinY()) {
                                         height -= screenDataArea.getMinY() - y;
-                                        y = (int) screenDataArea.getMinY();
+                                        y = screenDataArea.getMinY();
                                     }
                                     if (x + width > screenDataArea.getMaxX()) {
-                                        width = (int) (screenDataArea.getMaxX() - x);
+                                        width = (screenDataArea.getMaxX() - x);
                                     }
                                     if (y + height > screenDataArea.getMaxY()) {
-                                        height = (int) (screenDataArea.getMaxY() - y);
+                                        height = (screenDataArea.getMaxY() - y);
                                     }
 
                                     ellipse.setFrame(x, y, width, height);
@@ -680,54 +680,30 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                                 new BasicStroke(2.0f), color);
                                 plot.addAnnotation(fLine);
                             }else if(triClick == 2){
-                                Point2D endPoint = e.getPoint();
+                                x = e.getPoint().getX();
+                                y = e.getPoint().getY();
+                                // make sure it doesn't overflow the bounds of the chart
+                                Rectangle2D screenDataArea = getScreenDataArea();
+                                if (x < screenDataArea.getMinX()) {
+                                    x = screenDataArea.getMinX();
+                                }
+                                if (y < screenDataArea.getMinY()) {
+                                    y = screenDataArea.getMinY();
+                                }
+                                if (x > screenDataArea.getMaxX()) {
+                                    x = screenDataArea.getMaxX();
+                                }
+                                if (y > screenDataArea.getMaxY()) {
+                                    y = screenDataArea.getMaxY();
+                                }
                                 triangle = new Path2D.Double();
                                 triangle.moveTo(sPoint.getX(), sPoint.getY());
                                 triangle.lineTo(sPoint2.getX(), sPoint2.getY());
-                                triangle.lineTo(endPoint.getX(), endPoint.getY());
+                                triangle.lineTo(x, y);
                                 triangle.closePath();
                                 repaint();
                             }
-                            
-                            /*if (getScreenDataArea().contains(e.getX(), e.getY())) {
-                                if (first != null && second == null) {
-                                    if (fLine != null) {
-                                        plot.removeAnnotation(fLine);
-                                    }
 
-                                    fLine = new XYLineAnnotation(
-                                            first.getX(),
-                                            first.getY(),
-                                            point[0],
-                                            point[1],
-                                            new BasicStroke(2.0f), color);
-                                    plot.addAnnotation(fLine);
-                                } else if (first != null && second != null && third == null) {
-                                    if (sLine != null) {
-                                        plot.removeAnnotation(sLine);
-                                        plot.removeAnnotation(tLine);
-                                    }
-
-                                    sLine = new XYLineAnnotation(
-                                            second.getX(),
-                                            second.getY(),
-                                            point[0],
-                                            point[1],
-                                            new BasicStroke(2.0f), color);
-                                    tLine = new XYLineAnnotation(
-                                            first.getX(),
-                                            first.getY(),
-                                            point[0],
-                                            point[1],
-                                            new BasicStroke(2.0f), color);
-                                    plot.addAnnotation(sLine);
-                                    plot.addAnnotation(tLine);
-                                } else if (first != null && second != null && third != null) {
-                                    first = null;
-                                    second = null;
-                                    third = null;
-                                }
-                            }*/
                             break;
                     }
                     break;

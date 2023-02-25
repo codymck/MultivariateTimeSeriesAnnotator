@@ -26,12 +26,6 @@ public class HVLineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    void removeFromPlot(XYPlot plot) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeFromPlot'");
-    }
-
-    @Override
     void move(double xOffset, double yOffset) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
@@ -39,7 +33,8 @@ public class HVLineAnnotation extends AbstractAnnotation {
 
     @Override
     public void delete() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

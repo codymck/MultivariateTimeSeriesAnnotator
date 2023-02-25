@@ -16,7 +16,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
 
     private Rectangle2D.Double drawRect = null;
     private Rectangle2D.Double storeRect = null;
-    
+
     private Point2D sPoint;
     private Point2D ePoint;
 
@@ -84,7 +84,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
                 new Color(0, 0, 0, 0), color);
         drawRect = null;
         plot.addAnnotation(rectAnnotation);
-        //return rectAnnotation;
+        // return rectAnnotation;
 
     }
 
@@ -97,12 +97,6 @@ public class RectangleAnnotation extends AbstractAnnotation {
     @Override
     public void delete() {
         plot.removeAnnotation(rectAnnotation);
-    }
-
-    @Override
-    void removeFromPlot(XYPlot plot) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeFromPlot'");
     }
 
     @Override

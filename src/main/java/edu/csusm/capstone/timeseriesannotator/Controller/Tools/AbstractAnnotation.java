@@ -9,7 +9,5 @@ public abstract class AbstractAnnotation {
 
     public abstract void delete();
 
-    abstract void removeFromPlot(XYPlot plot);
-
     abstract void move(double xOffset, double yOffset);
 }

@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
+import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
 import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.ELLIPSE;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.BasicStroke;
@@ -77,6 +78,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private Point2D sPoint, sPoint2;
 
     /* RECT variables */
+    RectangleAnnotation r = null; // REFACTOR
     private Rectangle2D.Double rect = null;
     private Hashtable<Rectangle2D, XYShapeAnnotation> rectangleDict = new Hashtable<Rectangle2D, XYShapeAnnotation>();
 
@@ -318,17 +320,13 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case SQUARE:
                             if (e.getButton() == MouseEvent.BUTTON1) {
+                                r = new RectangleAnnotation(plot, color);
                                 sPoint = e.getPoint();
                                 coordinates[0][0] = point[0];
                                 coordinates[0][1] = point[1];
-                                rect = new Rectangle2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
+                                rect = r.createShape(sPoint);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
-                                Rectangle2D rec = removeRect(point);
-                                if (rec != null) {
-                                    XYShapeAnnotation sh = rectangleDict.get(rec);
-                                    rectangleDict.remove(rec, sh);
-                                    plot.removeAnnotation(sh);
-                                }
+                                r.delete(point);
                             }
                             break;
                         case ELLIPSE:
@@ -441,31 +439,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 case MARK:
                     switch (AppFrame.getMarkerType()) {
                         case SQUARE:
-                            if (this.sPoint != null && this.rect != null) {
+                            if (this.sPoint != null && this.r != null) { // REFACTOR this.rect != null before
                                 Point2D endPoint = e.getPoint();
-                                x = Math.min(sPoint.getX(), endPoint.getX());
-                                y = Math.min(sPoint.getY(), endPoint.getY());
-                                width = Math.abs(sPoint.getX() - endPoint.getX());
-                                height = Math.abs(sPoint.getY() - endPoint.getY());
 
                                 // make sure it doesn't overflow the bounds of the chart
                                 Rectangle2D screenDataArea = getScreenDataArea();
-                                if (x < screenDataArea.getMinX()) {
-                                    width -= screenDataArea.getMinX() - x;
-                                    x = screenDataArea.getMinX();
-                                }
-                                if (y < screenDataArea.getMinY()) {
-                                    height -= screenDataArea.getMinY() - y;
-                                    y = screenDataArea.getMinY();
-                                }
-                                if (x + width > screenDataArea.getMaxX()) {
-                                    width = (screenDataArea.getMaxX() - x);
-                                }
-                                if (y + height > screenDataArea.getMaxY()) {
-                                    height = (screenDataArea.getMaxY() - y);
-                                }
-
-                                rect.setRect(x, y, width, height);
+                                rect = r.drawArea(endPoint, screenDataArea);
                                 repaint();
                             }
                             break;
@@ -546,16 +525,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1 && rect != null) {
                                 coordinates[1][0] = point[0];
                                 coordinates[1][1] = point[1];
-                                x = Math.min(coordinates[0][0], coordinates[1][0]);
-                                y = Math.min(coordinates[0][1], coordinates[1][1]);
-                                width = Math.abs(coordinates[1][0] - coordinates[0][0]);
-                                height = Math.abs(coordinates[1][1] - coordinates[0][1]);
-                                rect.setFrame(x, y, width, height);
-                                XYShapeAnnotation rectA = new XYShapeAnnotation(rect, new BasicStroke(2),
-                                        new Color(0, 0, 0, 0), color);
-                                rectangleDict.put(rect, rectA);
                                 rect = null;
-                                plot.addAnnotation(rectA);
+                                plot.addAnnotation(r.placeShape(coordinates));
+                                rectangleDict.put(r.getShape(), r.getShapeAnnotation());
+                                r.updateHashtable(rectangleDict);
                                 repaint();
                             }
                             break;

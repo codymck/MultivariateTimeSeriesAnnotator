@@ -39,6 +39,7 @@ import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.HorizontalAlignment;
 import org.jfree.chart.ui.Layer;
 import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.RectangleEdge;
@@ -179,22 +180,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case HORIZONTAL:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                ValueMarker marker = new ValueMarker(point[1]);
-                                marker.setLabelAnchor(RectangleAnchor.CENTER);
-                                marker.setPaint(AppFrame.getAbsoluteColor());
-                                marker.setStroke(new BasicStroke(2.0f));
-                                plot.addRangeMarker(marker);
+                                HVLineAnnotation horiz = new HVLineAnnotation(plot, color);
+                                horiz.createHorizontalLine(point);
+                                shapeIndex = annotations.size();
+                                annotations.add(horiz);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
-                                Collection<ValueMarker> markers = plot.getRangeMarkers(Layer.FOREGROUND);
-                                List<ValueMarker> markerList = new ArrayList<>(markers);
-                                for (ValueMarker marker : markerList) {
-                                    double y = plot.getRangeAxis().java2DToValue(e.getY(), this.getScreenDataArea(),
-                                            plot.getRangeAxisEdge());
-                                    if (y >= marker.getValue() - 3 && y <= marker.getValue() + 3) {
-                                        plot.removeRangeMarker(marker);
-                                        break;
-                                    }
-                                }
+                                double y = plot.getRangeAxis().java2DToValue(e.getY(), this.getScreenDataArea(),
+                                        plot.getRangeAxisEdge());
+                                double x = plot.getDomainAxis().java2DToValue(e.getX(), this.getScreenDataArea(),
+                                        plot.getDomainAxisEdge());
+                                deleteAnnotation(x, y);
                             }
                             break;
                         case VERTICAL:
@@ -365,10 +360,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                         sPoint2 = e.getPoint();
                                         coordinates[1][0] = point[0];
                                         coordinates[1][1] = point[1];
-                                        // System.out.println("sPointX: " + sPoint.getX() + " sPointY: " +
-                                        // sPoint.getY());
-                                        // System.out.println("CoordinateX " + coordinates[0][0] + " sPointY: " +
-                                        // coordinates[0][1]);
                                         triangle = new Path2D.Double();
                                         triangle.moveTo(sPoint.getX(), sPoint.getY());
                                         triangle.lineTo(sPoint2.getX(), sPoint2.getY());

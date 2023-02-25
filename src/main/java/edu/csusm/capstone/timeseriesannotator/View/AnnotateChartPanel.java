@@ -70,26 +70,25 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     double minY = Double.POSITIVE_INFINITY;
     double maxY = Double.NEGATIVE_INFINITY;
     private double[] startPoint;
-    
+
     /* SHAPE variables */
-    private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
+    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
     private double x, y, width, height;
     private Point2D sPoint, sPoint2;
-    
+
     /* RECT variables */
     private Rectangle2D.Double rect = null;
     private Hashtable<Rectangle2D, XYShapeAnnotation> rectangleDict = new Hashtable<Rectangle2D, XYShapeAnnotation>();
-    
+
     /* ELLIPSE variables */
     private Ellipse2D.Double ellipse = null;
     private Hashtable<Ellipse2D, XYShapeAnnotation> ellipseDict = new Hashtable<Ellipse2D, XYShapeAnnotation>();
-    
+
     /* TRIANGLE variables */
     private Path2D.Double triangle = null;
     private Hashtable<Path2D, XYShapeAnnotation> triangleDict = new Hashtable<Path2D, XYShapeAnnotation>();
     private int triClick = 0;
     private XYLineAnnotation fLine;
-
 
     public void setChartState(ToolState s) {
         this.state = s;
@@ -172,7 +171,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     if (e.getButton() == MouseEvent.BUTTON3) {
                         removeTextAnnotation();
                     }
-                    //super.mousePressed(e);
+                    // super.mousePressed(e);
                     break;
                 case MARK:
                     switch (AppFrame.getMarkerType()) {
@@ -187,7 +186,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 Collection<ValueMarker> markers = plot.getRangeMarkers(Layer.FOREGROUND);
                                 List<ValueMarker> markerList = new ArrayList<>(markers);
                                 for (ValueMarker marker : markerList) {
-                                    double y = plot.getRangeAxis().java2DToValue(e.getY(), this.getScreenDataArea(), plot.getRangeAxisEdge());
+                                    double y = plot.getRangeAxis().java2DToValue(e.getY(), this.getScreenDataArea(),
+                                            plot.getRangeAxisEdge());
                                     if (y >= marker.getValue() - 3 && y <= marker.getValue() + 3) {
                                         plot.removeRangeMarker(marker);
                                         break;
@@ -206,7 +206,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 Collection<ValueMarker> markers = plot.getDomainMarkers(Layer.FOREGROUND);
                                 List<ValueMarker> markerList = new ArrayList<>(markers);
                                 for (ValueMarker marker : markerList) {
-                                    double x = plot.getDomainAxis().java2DToValue(e.getX(), this.getScreenDataArea(), plot.getDomainAxisEdge());
+                                    double x = plot.getDomainAxis().java2DToValue(e.getX(), this.getScreenDataArea(),
+                                            plot.getDomainAxisEdge());
                                     if (x >= marker.getValue() - 3 && x <= marker.getValue() + 3) {
                                         plot.removeDomainMarker(marker);
                                         break;
@@ -231,13 +232,15 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     double dx = startPoint[0] - point[0]; // change in x
                                     double dy = startPoint[1] - point[1]; // change in y
                                     double angle = Math.atan2(dy, dx); // angle of line
-                                    
-//                                    double minX = plot.getDomainAxis().getLowerBound(); // minimum x-value of plot
-//                                    double minY = plot.getRangeAxis().getLowerBound(); // minimum y-value of plot
-//                                    double maxX = plot.getDomainAxis().getUpperBound(); // maximum x-value of plot
-//                                    double maxY = plot.getRangeAxis().getUpperBound(); // maximum y-value of plot
 
-                                    double length = Math.max(maxX - minX, maxY - minY)*3; // length of line
+                                    // double minX = plot.getDomainAxis().getLowerBound(); // minimum x-value of
+                                    // plot
+                                    // double minY = plot.getRangeAxis().getLowerBound(); // minimum y-value of plot
+                                    // double maxX = plot.getDomainAxis().getUpperBound(); // maximum x-value of
+                                    // plot
+                                    // double maxY = plot.getRangeAxis().getUpperBound(); // maximum y-value of plot
+
+                                    double length = Math.max(maxX - minX, maxY - minY) * 3; // length of line
 
                                     double x3 = point[0] + length * Math.cos(angle); // x-coordinate of third point
                                     double y3 = point[1] + length * Math.sin(angle); // y-coordinate of third point
@@ -245,7 +248,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     double x4 = startPoint[0] - length * Math.cos(angle);
                                     double y4 = startPoint[1] - length * Math.sin(angle);
 
-                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(x4, y4, x3, y3,
+                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                     plot.addAnnotation(lineAnnotationP);
                                     clickedOnce = false;
                                 }
@@ -270,13 +274,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     double dx = startPoint[0] - point[0]; // change in x
                                     double dy = startPoint[1] - point[1]; // change in y
                                     double angle = Math.atan2(dy, dx); // angle of line
-                                    
-                                    double length = Math.max(maxX - minX, maxY - minY)*3; // length of line
+
+                                    double length = Math.max(maxX - minX, maxY - minY) * 3; // length of line
 
                                     double x4 = startPoint[0] - length * Math.cos(angle);
                                     double y4 = startPoint[1] - length * Math.sin(angle);
 
-                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(startPoint[0], startPoint[1], x4, y4, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(startPoint[0],
+                                            startPoint[1], x4, y4, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                     plot.addAnnotation(lineAnnotationP);
                                     clickedOnce = false;
                                 }
@@ -362,8 +367,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                         sPoint2 = e.getPoint();
                                         coordinates[1][0] = point[0];
                                         coordinates[1][1] = point[1];
-                                        //System.out.println("sPointX: " + sPoint.getX() + " sPointY: " + sPoint.getY());
-                                        //System.out.println("CoordinateX " + coordinates[0][0] + " sPointY: " + coordinates[0][1]);
+                                        // System.out.println("sPointX: " + sPoint.getX() + " sPointY: " +
+                                        // sPoint.getY());
+                                        // System.out.println("CoordinateX " + coordinates[0][0] + " sPointY: " +
+                                        // coordinates[0][1]);
                                         triangle = new Path2D.Double();
                                         triangle.moveTo(sPoint.getX(), sPoint.getY());
                                         triangle.lineTo(sPoint2.getX(), sPoint2.getY());
@@ -379,7 +386,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                         triangle.lineTo(coordinates[1][0], coordinates[1][1]);
                                         triangle.lineTo(coordinates[2][0], coordinates[2][1]);
                                         triangle.closePath();
-                                        XYShapeAnnotation triangleA = new XYShapeAnnotation(triangle, new BasicStroke(2), new Color(0, 0, 0, 0), color);
+                                        XYShapeAnnotation triangleA = new XYShapeAnnotation(triangle,
+                                                new BasicStroke(2), new Color(0, 0, 0, 0), color);
                                         triangleDict.put(triangle, triangleA);
                                         triangle = null;
                                         plot.addAnnotation(triangleA);
@@ -463,31 +471,31 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case ELLIPSE:
                             if (SwingUtilities.isLeftMouseButton(e)) {
-                                    Point2D endPoint = e.getPoint();
-                                    x = Math.min(sPoint.getX(), endPoint.getX());
-                                    y = Math.min(sPoint.getY(), endPoint.getY());
-                                    width = Math.abs(sPoint.getX() - endPoint.getX());
-                                    height = Math.abs(sPoint.getY() - endPoint.getY());
-                                    
-                                    // make sure it doesn't overflow the bounds of the chart
-                                    Rectangle2D screenDataArea = getScreenDataArea();
-                                    if (x < screenDataArea.getMinX()) {
-                                        width -= screenDataArea.getMinX() - x;
-                                        x = screenDataArea.getMinX();
-                                    }
-                                    if (y < screenDataArea.getMinY()) {
-                                        height -= screenDataArea.getMinY() - y;
-                                        y = screenDataArea.getMinY();
-                                    }
-                                    if (x + width > screenDataArea.getMaxX()) {
-                                        width = (screenDataArea.getMaxX() - x);
-                                    }
-                                    if (y + height > screenDataArea.getMaxY()) {
-                                        height = (screenDataArea.getMaxY() - y);
-                                    }
+                                Point2D endPoint = e.getPoint();
+                                x = Math.min(sPoint.getX(), endPoint.getX());
+                                y = Math.min(sPoint.getY(), endPoint.getY());
+                                width = Math.abs(sPoint.getX() - endPoint.getX());
+                                height = Math.abs(sPoint.getY() - endPoint.getY());
 
-                                    ellipse.setFrame(x, y, width, height);
-                                    repaint();
+                                // make sure it doesn't overflow the bounds of the chart
+                                Rectangle2D screenDataArea = getScreenDataArea();
+                                if (x < screenDataArea.getMinX()) {
+                                    width -= screenDataArea.getMinX() - x;
+                                    x = screenDataArea.getMinX();
+                                }
+                                if (y < screenDataArea.getMinY()) {
+                                    height -= screenDataArea.getMinY() - y;
+                                    y = screenDataArea.getMinY();
+                                }
+                                if (x + width > screenDataArea.getMaxX()) {
+                                    width = (screenDataArea.getMaxX() - x);
+                                }
+                                if (y + height > screenDataArea.getMaxY()) {
+                                    height = (screenDataArea.getMaxY() - y);
+                                }
+
+                                ellipse.setFrame(x, y, width, height);
+                                repaint();
                             }
                             break;
                     }
@@ -543,7 +551,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 width = Math.abs(coordinates[1][0] - coordinates[0][0]);
                                 height = Math.abs(coordinates[1][1] - coordinates[0][1]);
                                 rect.setFrame(x, y, width, height);
-                                XYShapeAnnotation rectA = new XYShapeAnnotation(rect, new BasicStroke(2), new Color(0, 0, 0, 0), color);
+                                XYShapeAnnotation rectA = new XYShapeAnnotation(rect, new BasicStroke(2),
+                                        new Color(0, 0, 0, 0), color);
                                 rectangleDict.put(rect, rectA);
                                 rect = null;
                                 plot.addAnnotation(rectA);
@@ -559,8 +568,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 width = Math.abs(coordinates[1][0] - coordinates[0][0]);
                                 height = Math.abs(coordinates[1][1] - coordinates[0][1]);
                                 ellipse.setFrame(x, y, width, height);
-                                
-                                XYShapeAnnotation ellipseA = new XYShapeAnnotation(ellipse, new BasicStroke(2), new Color(0, 0, 0, 0), color);
+
+                                XYShapeAnnotation ellipseA = new XYShapeAnnotation(ellipse, new BasicStroke(2),
+                                        new Color(0, 0, 0, 0), color);
                                 ellipseDict.put(ellipse, ellipseA);
 
                                 plot.addAnnotation(ellipseA);
@@ -626,7 +636,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 double dy = startPoint[1] - point[1]; // change in y
                                 double angle = Math.atan2(dy, dx); // angle of line
 
-                                double length = Math.max(maxX - minX, maxY - minY)*3; // length of line
+                                double length = Math.max(maxX - minX, maxY - minY) * 3; // length of line
 
                                 double x3 = point[0] + length * Math.cos(angle); // x-coordinate of third point
                                 double y3 = point[1] + length * Math.sin(angle); // y-coordinate of third point
@@ -634,7 +644,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 double x4 = startPoint[0] - length * Math.cos(angle);
                                 double y4 = startPoint[1] - length * Math.sin(angle);
 
-                                lineAnnotation = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                lineAnnotation = new XYLineAnnotation(x4, y4, x3, y3, new BasicStroke(2.0f),
+                                        AppFrame.getAbsoluteColor());
                                 plot.addAnnotation(lineAnnotation);
                                 repaint();
                             }
@@ -646,12 +657,13 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 double dy = startPoint[1] - point[1]; // change in y
                                 double angle = Math.atan2(dy, dx); // angle of line
 
-                                double length = Math.max(maxX - minX, maxY - minY)*3; // length of line
+                                double length = Math.max(maxX - minX, maxY - minY) * 3; // length of line
 
                                 double x4 = startPoint[0] - length * Math.cos(angle);
                                 double y4 = startPoint[1] - length * Math.sin(angle);
 
-                                lineAnnotation = new XYLineAnnotation(x4, y4, startPoint[0], startPoint[1], new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                                lineAnnotation = new XYLineAnnotation(x4, y4, startPoint[0], startPoint[1],
+                                        new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
                                 plot.addAnnotation(lineAnnotation);
                                 repaint();
                             }
@@ -670,16 +682,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             }
                             break;
                         case TRIANGLE:
-                            if(triClick == 1){
+                            if (triClick == 1) {
                                 plot.removeAnnotation(fLine);
                                 fLine = new XYLineAnnotation(
-                                                coordinates[0][0],
-                                                coordinates[0][1],
-                                                point[0],
-                                                point[1],
-                                                new BasicStroke(2.0f), color);
+                                        coordinates[0][0],
+                                        coordinates[0][1],
+                                        point[0],
+                                        point[1],
+                                        new BasicStroke(2.0f), color);
                                 plot.addAnnotation(fLine);
-                            }else if(triClick == 2){
+                            } else if (triClick == 2) {
                                 x = e.getPoint().getX();
                                 y = e.getPoint().getY();
                                 // make sure it doesn't overflow the bounds of the chart
@@ -719,12 +731,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             g2.setColor(color);
             g2.fill(rect);
         }
-        if (ellipse!= null) {
+        if (ellipse != null) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(color);
             g2.fill(ellipse);
         }
-        if (triangle!= null) {
+        if (triangle != null) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(color);
             g2.fill(triangle);
@@ -750,7 +762,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     Rectangle2D bounds = info.getPlotInfo().getDataArea();
                     double x1 = plot.getDomainAxis().valueToJava2D(annotation.getX(), bounds, plot.getDomainAxisEdge());
                     double y1 = plot.getRangeAxis().valueToJava2D(annotation.getY(), bounds, plot.getRangeAxisEdge());
-                    if (x >= x1 && x <= x1 + annotation.getText().length() * 7 && y >= y1 && y <= y1 + 20) {//maybe make variable
+                    if (x >= x1 && x <= x1 + annotation.getText().length() * 7 && y >= y1 && y <= y1 + 20) {// maybe
+                                                                                                            // make
+                                                                                                            // variable
                         plot.removeAnnotation(annotation);
                         break;
                     }
@@ -791,7 +805,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         Insets insets = getInsets();
         int mouseX = (int) ((e.getX() - insets.left) / this.getScaleX());
         int mouseY = (int) ((e.getY() - insets.top) / this.getScaleY());
-//        System.out.println("x = " + mouseX + ", y = " + mouseY);
+        // System.out.println("x = " + mouseX + ", y = " + mouseY);
 
         Point2D p = this.translateScreenToJava2D(new Point(mouseX, mouseY));
         ChartRenderingInfo info = this.getChartRenderingInfo();
@@ -804,8 +818,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
         double chartX = domainAxis.java2DToValue(p.getX(), dataArea, domainAxisEdge);
         double chartY = rangeAxis.java2DToValue(p.getY(), dataArea, rangeAxisEdge);
-//        System.out.println("Chart: x = " + chartX + ", y = " + chartY);
-        double[] r = {chartX, chartY};
+        // System.out.println("Chart: x = " + chartX + ", y = " + chartY);
+        double[] r = { chartX, chartY };
         return r;
     }
 
@@ -835,7 +849,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
         return null;
     }
-    
+
     private Rectangle2D removeRect(double[] point) {
         Enumeration<Rectangle2D> e = rectangleDict.keys();
 
@@ -850,7 +864,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
         return null;
     }
-    
+
     private Path2D removeTriangle(double[] point) {
         Enumeration<Path2D> e = triangleDict.keys();
 
@@ -865,8 +879,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
         return null;
     }
-    
-    private void getMinAndMax(){
+
+    private void getMinAndMax() {
         XYDataset dataset = plot.getDataset();
         for (int i = 0; i < dataset.getSeriesCount(); i++) {
             for (int j = 0; j < dataset.getItemCount(i); j++) {

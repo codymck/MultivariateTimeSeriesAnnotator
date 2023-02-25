@@ -5,11 +5,9 @@ import org.jfree.chart.plot.XYPlot;
 
 public abstract class AbstractAnnotation {
 
-    abstract boolean clickedOn(double mouseX, double mouseY);
+    public abstract boolean clickedOn(double mouseX, double mouseY);
 
-    abstract boolean clickedOn(Point2D point);
-
-    abstract void delete(double[] point);
+    public abstract void delete();
 
     abstract void removeFromPlot(XYPlot plot);
 

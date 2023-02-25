@@ -6,8 +6,6 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.plot.XYPlot;
 
@@ -16,9 +14,9 @@ public class RectangleAnnotation extends AbstractAnnotation {
     public Color color;
     public XYPlot plot;
 
-    private Rectangle2D.Double rect = null;
-    private Hashtable<Rectangle2D, XYShapeAnnotation> rectangleDict = new Hashtable<Rectangle2D, XYShapeAnnotation>();
-
+    private Rectangle2D.Double drawRect = null;
+    private Rectangle2D.Double storeRect = null;
+    
     private Point2D sPoint;
     private Point2D ePoint;
 
@@ -42,13 +40,12 @@ public class RectangleAnnotation extends AbstractAnnotation {
 
     public Rectangle2D.Double createShape(Point2D p) {
         this.sPoint = p;
-        rect = new Rectangle2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
-
-        return rect;
+        drawRect = new Rectangle2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
+        return drawRect;
     }
 
-    public Rectangle2D.Double drawArea(Point2D p, Rectangle2D screenDataArea) {
-        if (rect != null) {
+    public Rectangle2D.Double drawRect(Point2D p, Rectangle2D screenDataArea) {
+        if (drawRect != null) {
             this.ePoint = p;
             x = Math.min(sPoint.getX(), ePoint.getX());
             y = Math.min(sPoint.getY(), ePoint.getY());
@@ -70,73 +67,36 @@ public class RectangleAnnotation extends AbstractAnnotation {
             if (y + height > screenDataArea.getMaxY()) {
                 height = (screenDataArea.getMaxY() - y);
             }
-            rect.setRect(x, y, width, height);
+            drawRect.setRect(x, y, width, height);
 
-            return rect;
+            return drawRect;
         }
         return null;
     }
 
-    public XYShapeAnnotation placeShape(double[][] coordinates) {
+    public void placeShape(double[][] coordinates) {
         x = Math.min(coordinates[0][0], coordinates[1][0]);
         y = Math.min(coordinates[0][1], coordinates[1][1]);
         width = Math.abs(coordinates[1][0] - coordinates[0][0]);
         height = Math.abs(coordinates[1][1] - coordinates[0][1]);
-        rect.setFrame(x, y, width, height);
-        rectAnnotation = new XYShapeAnnotation(rect, new BasicStroke(2),
+        storeRect = new Rectangle2D.Double(x, y, width, height);
+        rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(2),
                 new Color(0, 0, 0, 0), color);
-        return rectAnnotation;
+        drawRect = null;
+        plot.addAnnotation(rectAnnotation);
+        //return rectAnnotation;
 
-    }
-
-    public XYShapeAnnotation getShapeAnnotation() {
-        return rectAnnotation;
-    }
-
-    public Rectangle2D.Double getShape() {
-        return rect;
-    }
-
-    public void updateHashtable(Hashtable<Rectangle2D, XYShapeAnnotation> r) {
-        this.rectangleDict = r;
-        rect = null;
-    }
-
-    private Rectangle2D removeRect(double[] point) {
-        Enumeration<Rectangle2D> e = rectangleDict.keys();
-
-        Point2D p = new Point2D.Double(point[0], point[1]);
-
-        while (e.hasMoreElements()) {
-            Rectangle2D rec = e.nextElement();
-
-            if (rec.contains(p)) {
-                return rec;
-            }
-        }
-        return null;
     }
 
     @Override
-    boolean clickedOn(double mouseX, double mouseY) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickedOn'");
+    public boolean clickedOn(double mouseX, double mouseY) {
+        Point2D p = new Point2D.Double(mouseX, mouseY);
+        return storeRect.contains(p);
     }
 
     @Override
-    boolean clickedOn(Point2D point) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickedOn'");
-    }
-
-    @Override
-    public void delete(double[] point) {
-        Rectangle2D rec = removeRect(point);
-        if (rec != null) {
-            XYShapeAnnotation sh = rectangleDict.get(rec);
-            rectangleDict.remove(rec, sh);
-            plot.removeAnnotation(sh);
-        }
+    public void delete() {
+        plot.removeAnnotation(rectAnnotation);
     }
 
     @Override

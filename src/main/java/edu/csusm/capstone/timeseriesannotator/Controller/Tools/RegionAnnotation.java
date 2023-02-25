@@ -15,19 +15,12 @@ public class RegionAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    boolean clickedOn(double mouseX, double mouseY) {
+    public boolean clickedOn(double mouseX, double mouseY) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'clickedOn'");
     }
 
-    @Override
-    boolean clickedOn(Point2D point) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickedOn'");
-    }
-
-    @Override
-    void delete(double[] point) {
+    void delete(Point2D point) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
@@ -42,6 +35,11 @@ public class RegionAnnotation extends AbstractAnnotation {
     void move(double xOffset, double yOffset) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
+    }
+
+    @Override
+    public void delete() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

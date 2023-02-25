@@ -73,14 +73,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private double[] startPoint;
 
     /* SHAPE variables */
+    private ArrayList<AbstractAnnotation> annotations = new ArrayList<>();
+    private int shapeIndex = 0;
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
     private double x, y, width, height;
     private Point2D sPoint, sPoint2;
 
     /* RECT variables */
-    RectangleAnnotation r = null; // REFACTOR
     private Rectangle2D.Double rect = null;
-    private Hashtable<Rectangle2D, XYShapeAnnotation> rectangleDict = new Hashtable<Rectangle2D, XYShapeAnnotation>();
 
     /* ELLIPSE variables */
     private Ellipse2D.Double ellipse = null;
@@ -320,13 +320,15 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case SQUARE:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                r = new RectangleAnnotation(plot, color);
+                                RectangleAnnotation r = new RectangleAnnotation(plot, color);
+                                shapeIndex = annotations.size();
+                                annotations.add(r);
                                 sPoint = e.getPoint();
                                 coordinates[0][0] = point[0];
                                 coordinates[0][1] = point[1];
                                 rect = r.createShape(sPoint);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
-                                r.delete(point);
+                                deleteAnnotation(point[0], point[1]);
                             }
                             break;
                         case ELLIPSE:
@@ -439,12 +441,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 case MARK:
                     switch (AppFrame.getMarkerType()) {
                         case SQUARE:
-                            if (this.sPoint != null && this.r != null) { // REFACTOR this.rect != null before
+                            if (this.sPoint != null && annotations.size() > 0) { // REFACTOR this.rect != null before
                                 Point2D endPoint = e.getPoint();
-
                                 // make sure it doesn't overflow the bounds of the chart
                                 Rectangle2D screenDataArea = getScreenDataArea();
-                                rect = r.drawArea(endPoint, screenDataArea);
+                                RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
+                                rect = tempRect.drawRect(endPoint, screenDataArea);
                                 repaint();
                             }
                             break;
@@ -478,6 +480,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             }
                             break;
                     }
+                    break;
                 default:
                     super.mouseDragged(e);
                     break;
@@ -526,9 +529,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 coordinates[1][0] = point[0];
                                 coordinates[1][1] = point[1];
                                 rect = null;
-                                plot.addAnnotation(r.placeShape(coordinates));
-                                rectangleDict.put(r.getShape(), r.getShapeAnnotation());
-                                r.updateHashtable(rectangleDict);
+                                RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
+                                tempRect.placeShape(coordinates);
+                                shapeIndex = 0;
                                 repaint();
                             }
                             break;
@@ -823,21 +826,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         return null;
     }
 
-    private Rectangle2D removeRect(double[] point) {
-        Enumeration<Rectangle2D> e = rectangleDict.keys();
-
-        Point2D p = new Point2D.Double(point[0], point[1]);
-
-        while (e.hasMoreElements()) {
-            Rectangle2D rec = e.nextElement();
-
-            if (rec.contains(p)) {
-                return rec;
-            }
-        }
-        return null;
-    }
-
     private Path2D removeTriangle(double[] point) {
         Enumeration<Path2D> e = triangleDict.keys();
 
@@ -851,6 +839,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
         return null;
+    }
+    
+    private void deleteAnnotation(double mouseX, double mouseY){
+        for(int i = annotations.size()-1; i >= 0; i--){
+            if(annotations.get(i).clickedOn(mouseX, mouseY)){
+               annotations.get(i).delete();
+               annotations.remove(i);
+               break;
+            }
+        }
     }
 
     private void getMinAndMax() {

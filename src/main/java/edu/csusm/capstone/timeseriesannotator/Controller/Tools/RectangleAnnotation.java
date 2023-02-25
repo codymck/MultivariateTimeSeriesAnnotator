@@ -84,8 +84,6 @@ public class RectangleAnnotation extends AbstractAnnotation {
                 new Color(0, 0, 0, 0), color);
         drawRect = null;
         plot.addAnnotation(rectAnnotation);
-        // return rectAnnotation;
-
     }
 
     @Override

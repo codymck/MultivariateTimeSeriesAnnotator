@@ -333,17 +333,15 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case ELLIPSE:
                             if (e.getButton() == MouseEvent.BUTTON1) {
+                                EllipseAnnotation ell = new EllipseAnnotation(plot, color);
+                                shapeIndex = annotations.size();
+                                annotations.add(ell);
                                 sPoint = e.getPoint();
                                 coordinates[0][0] = point[0];
                                 coordinates[0][1] = point[1];
-                                ellipse = new Ellipse2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
+                                ellipse = ell.createShape(sPoint);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
-                                Ellipse2D ell = removeEllipse(point);
-                                if (ell != null) {
-                                    XYShapeAnnotation sh = ellipseDict.get(ell);
-                                    ellipseDict.remove(ell, sh);
-                                    plot.removeAnnotation(sh);
-                                }
+                                deleteAnnotation(point[0], point[1]);
                             }
                             break;
                         case TRIANGLE:
@@ -453,31 +451,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         case ELLIPSE:
                             if (SwingUtilities.isLeftMouseButton(e)) {
                                 Point2D endPoint = e.getPoint();
-                                x = Math.min(sPoint.getX(), endPoint.getX());
-                                y = Math.min(sPoint.getY(), endPoint.getY());
-                                width = Math.abs(sPoint.getX() - endPoint.getX());
-                                height = Math.abs(sPoint.getY() - endPoint.getY());
-
                                 // make sure it doesn't overflow the bounds of the chart
                                 Rectangle2D screenDataArea = getScreenDataArea();
-                                if (x < screenDataArea.getMinX()) {
-                                    width -= screenDataArea.getMinX() - x;
-                                    x = screenDataArea.getMinX();
-                                }
-                                if (y < screenDataArea.getMinY()) {
-                                    height -= screenDataArea.getMinY() - y;
-                                    y = screenDataArea.getMinY();
-                                }
-                                if (x + width > screenDataArea.getMaxX()) {
-                                    width = (screenDataArea.getMaxX() - x);
-                                }
-                                if (y + height > screenDataArea.getMaxY()) {
-                                    height = (screenDataArea.getMaxY() - y);
-                                }
-
-                                ellipse.setFrame(x, y, width, height);
+                                EllipseAnnotation tempEll = (EllipseAnnotation) annotations.get(shapeIndex);
+                                ellipse = tempEll.drawEllipse(endPoint, screenDataArea);
                                 repaint();
                             }
+                            break;
+                        default:
                             break;
                     }
                     break;
@@ -539,20 +520,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1 && ellipse != null) {
                                 coordinates[1][0] = point[0];
                                 coordinates[1][1] = point[1];
-                                x = Math.min(coordinates[0][0], coordinates[1][0]);
-                                y = Math.min(coordinates[0][1], coordinates[1][1]);
-                                width = Math.abs(coordinates[1][0] - coordinates[0][0]);
-                                height = Math.abs(coordinates[1][1] - coordinates[0][1]);
-                                ellipse.setFrame(x, y, width, height);
-
-                                XYShapeAnnotation ellipseA = new XYShapeAnnotation(ellipse, new BasicStroke(2),
-                                        new Color(0, 0, 0, 0), color);
-                                ellipseDict.put(ellipse, ellipseA);
-
-                                plot.addAnnotation(ellipseA);
                                 ellipse = null;
+                                EllipseAnnotation tempEll = (EllipseAnnotation) annotations.get(shapeIndex);
+                                tempEll.placeShape(coordinates);
+                                shapeIndex = 0;
                                 repaint();
                             }
+                            break;
+                        default:
                             break;
                     }
                 default:
@@ -840,13 +815,13 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
         return null;
     }
-    
-    private void deleteAnnotation(double mouseX, double mouseY){
-        for(int i = annotations.size()-1; i >= 0; i--){
-            if(annotations.get(i).clickedOn(mouseX, mouseY)){
-               annotations.get(i).delete();
-               annotations.remove(i);
-               break;
+
+    private void deleteAnnotation(double mouseX, double mouseY) {
+        for (int i = annotations.size() - 1; i >= 0; i--) {
+            if (annotations.get(i).clickedOn(mouseX, mouseY)) {
+                annotations.get(i).delete();
+                annotations.remove(i);
+                break;
             }
         }
     }

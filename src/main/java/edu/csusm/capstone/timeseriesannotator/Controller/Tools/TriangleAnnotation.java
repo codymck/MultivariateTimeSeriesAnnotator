@@ -19,18 +19,14 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     private Path2D.Double drawTriangle = null;
     private Path2D.Double storeTriangle = null;
-    
+
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
-    
+
     private Point2D sPoint;
     private Point2D sPoint2;
-    private Point2D ePoint;
 
     private double x;
     private double y;
-
-    private double width;
-    private double height;
 
     private XYShapeAnnotation triangleAnnotation;
 
@@ -108,6 +104,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
         }
         return drawTriangle;
     }
+
     public void placeShape(double[] point) {
         coordinates[2][0] = point[0];
         coordinates[2][1] = point[1];
@@ -122,7 +119,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
         drawTriangle = null;
         triClick = 0;
     }
-    
+
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);

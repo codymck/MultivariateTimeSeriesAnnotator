@@ -1,16 +1,9 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.awt.Color;
-
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import java.awt.BasicStroke;
-
-import org.jfree.chart.ui.Layer;
 import org.jfree.chart.ui.RectangleAnchor;
 
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
@@ -85,11 +78,11 @@ public class HVLineAnnotation extends AbstractAnnotation {
                 plot.removeDomainMarker(traceMarker);
             }
         }
-
     }
 
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
+        // DETERMINE RATIO OF ZOOM FOR PROXIMITY TO LINE
         if (type == "horizontal" && mouseY >= storeMarker.getValue() - 3 && mouseY <= storeMarker.getValue() + 3) {
             return true;
         }

@@ -88,13 +88,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     /* ELLIPSE variables */
     private Ellipse2D.Double ellipse = null;
-    private Hashtable<Ellipse2D, XYShapeAnnotation> ellipseDict = new Hashtable<Ellipse2D, XYShapeAnnotation>();
 
     /* TRIANGLE variables */
     private Path2D.Double triangle = null;
-    private Hashtable<Path2D, XYShapeAnnotation> triangleDict = new Hashtable<Path2D, XYShapeAnnotation>();
     private int triClick = 0;
-    private XYLineAnnotation fLine;
 
     public void setChartState(ToolState s) {
         this.state = s;
@@ -318,10 +315,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 RectangleAnnotation r = new RectangleAnnotation(plot, color);
                                 shapeIndex = annotations.size();
                                 annotations.add(r);
-                                sPoint = e.getPoint();
-                                coordinates[0][0] = point[0];
-                                coordinates[0][1] = point[1];
-                                rect = r.createShape(sPoint);
+                                rect = r.createShape(point, e.getPoint());
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point[0], point[1]);
                             }
@@ -331,10 +325,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 EllipseAnnotation ell = new EllipseAnnotation(plot, color);
                                 shapeIndex = annotations.size();
                                 annotations.add(ell);
-                                sPoint = e.getPoint();
-                                coordinates[0][0] = point[0];
-                                coordinates[0][1] = point[1];
-                                ellipse = ell.createShape(sPoint);
+                                ellipse = ell.createShape(point,e.getPoint());
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point[0], point[1]);
                             }
@@ -343,54 +334,28 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 switch (triClick) {
                                     case 0 -> {
-                                        sPoint = e.getPoint();
-                                        coordinates[0][0] = point[0];
-                                        coordinates[0][1] = point[1];
-                                        fLine = new XYLineAnnotation(
-                                                point[0],
-                                                point[1],
-                                                point[0],
-                                                point[1],
-                                                new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
-                                        plot.addAnnotation(fLine);
+                                        TriangleAnnotation tri = new TriangleAnnotation(plot, color);
+                                        shapeIndex = annotations.size();
+                                        annotations.add(tri);
+                                        triangle = tri.createShape(point, pointObj);
                                         triClick++;
                                     }
                                     case 1 -> {
-                                        plot.removeAnnotation(fLine);
-                                        sPoint2 = e.getPoint();
-                                        coordinates[1][0] = point[0];
-                                        coordinates[1][1] = point[1];
-                                        triangle = new Path2D.Double();
-                                        triangle.moveTo(sPoint.getX(), sPoint.getY());
-                                        triangle.lineTo(sPoint2.getX(), sPoint2.getY());
-                                        triangle.lineTo(sPoint2.getX(), sPoint2.getY());
-                                        triangle.closePath();
+                                        TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
+                                        triangle = tempTri.createShape(point, pointObj);
                                         triClick++;
                                     }
                                     case 2 -> {
-                                        coordinates[2][0] = point[0];
-                                        coordinates[2][1] = point[1];
-                                        triangle = new Path2D.Double();
-                                        triangle.moveTo(coordinates[0][0], coordinates[0][1]);
-                                        triangle.lineTo(coordinates[1][0], coordinates[1][1]);
-                                        triangle.lineTo(coordinates[2][0], coordinates[2][1]);
-                                        triangle.closePath();
-                                        XYShapeAnnotation triangleA = new XYShapeAnnotation(triangle,
-                                                new BasicStroke(2), new Color(0, 0, 0, 0), color);
-                                        triangleDict.put(triangle, triangleA);
+                                        TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
+                                        tempTri.placeShape(point);
+                                        shapeIndex = 0;
                                         triangle = null;
-                                        plot.addAnnotation(triangleA);
-                                        repaint();
                                         triClick = 0;
+                                        repaint();
                                     }
                                 }
-                            } else if (e.getButton() == MouseEvent.BUTTON3) {
-                                Path2D tr = removeTriangle(point);
-                                if (tr != null) {
-                                    XYShapeAnnotation sh = triangleDict.get(tr);
-                                    triangleDict.remove(tr, sh);
-                                    plot.removeAnnotation(sh);
-                                }
+                            }else if (e.getButton() == MouseEvent.BUTTON3) {
+                                deleteAnnotation(point[0], point[1]);
                             }
                             break;
                     }
@@ -430,22 +395,20 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 case MARK:
                     switch (AppFrame.getMarkerType()) {
                         case SQUARE:
-                            if (this.sPoint != null && annotations.size() > 0) { // REFACTOR this.rect != null before
-                                Point2D endPoint = e.getPoint();
+                            if (SwingUtilities.isLeftMouseButton(e)) {
                                 // make sure it doesn't overflow the bounds of the chart
                                 Rectangle2D screenDataArea = getScreenDataArea();
                                 RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
-                                rect = tempRect.drawRect(endPoint, screenDataArea);
+                                rect = tempRect.drawRect(e.getPoint(), screenDataArea);
                                 repaint();
                             }
                             break;
                         case ELLIPSE:
                             if (SwingUtilities.isLeftMouseButton(e)) {
-                                Point2D endPoint = e.getPoint();
                                 // make sure it doesn't overflow the bounds of the chart
                                 Rectangle2D screenDataArea = getScreenDataArea();
                                 EllipseAnnotation tempEll = (EllipseAnnotation) annotations.get(shapeIndex);
-                                ellipse = tempEll.drawEllipse(endPoint, screenDataArea);
+                                ellipse = tempEll.drawEllipse(e.getPoint(), screenDataArea);
                                 repaint();
                             }
                             break;
@@ -498,22 +461,18 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case SQUARE:
                             if (e.getButton() == MouseEvent.BUTTON1 && rect != null) {
-                                coordinates[1][0] = point[0];
-                                coordinates[1][1] = point[1];
                                 rect = null;
                                 RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
-                                tempRect.placeShape(coordinates);
+                                tempRect.placeShape(point);
                                 shapeIndex = 0;
                                 repaint();
                             }
                             break;
                         case ELLIPSE:
                             if (e.getButton() == MouseEvent.BUTTON1 && ellipse != null) {
-                                coordinates[1][0] = point[0];
-                                coordinates[1][1] = point[1];
                                 ellipse = null;
                                 EllipseAnnotation tempEll = (EllipseAnnotation) annotations.get(shapeIndex);
-                                tempEll.placeShape(coordinates);
+                                tempEll.placeShape(point);
                                 shapeIndex = 0;
                                 repaint();
                             }
@@ -529,6 +488,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        Point2D pointObj = e.getPoint();
         double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
@@ -605,40 +565,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             }
                             break;
                         case TRIANGLE:
-                            if (triClick == 1) {
-                                plot.removeAnnotation(fLine);
-                                fLine = new XYLineAnnotation(
-                                        coordinates[0][0],
-                                        coordinates[0][1],
-                                        point[0],
-                                        point[1],
-                                        new BasicStroke(2.0f), color);
-                                plot.addAnnotation(fLine);
-                            } else if (triClick == 2) {
-                                x = e.getPoint().getX();
-                                y = e.getPoint().getY();
-                                // make sure it doesn't overflow the bounds of the chart
+                            if(triClick > 0){
                                 Rectangle2D screenDataArea = getScreenDataArea();
-                                if (x < screenDataArea.getMinX()) {
-                                    x = screenDataArea.getMinX();
-                                }
-                                if (y < screenDataArea.getMinY()) {
-                                    y = screenDataArea.getMinY();
-                                }
-                                if (x > screenDataArea.getMaxX()) {
-                                    x = screenDataArea.getMaxX();
-                                }
-                                if (y > screenDataArea.getMaxY()) {
-                                    y = screenDataArea.getMaxY();
-                                }
-                                triangle = new Path2D.Double();
-                                triangle.moveTo(sPoint.getX(), sPoint.getY());
-                                triangle.lineTo(sPoint2.getX(), sPoint2.getY());
-                                triangle.lineTo(x, y);
-                                triangle.closePath();
+                                TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
+                                triangle = tempTri.drawTriangle(point, pointObj, screenDataArea);
                                 repaint();
                             }
-
                             break;
                     }
                     break;
@@ -756,36 +688,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     public void setSync(boolean s) {
         syncing = s;
-    }
-
-    private Ellipse2D removeEllipse(double[] point) {
-        Enumeration<Ellipse2D> e = ellipseDict.keys();
-
-        Point2D p = new Point2D.Double(point[0], point[1]);
-
-        while (e.hasMoreElements()) {
-            Ellipse2D ell = e.nextElement();
-
-            if (ell.contains(p)) {
-                return ell;
-            }
-        }
-        return null;
-    }
-
-    private Path2D removeTriangle(double[] point) {
-        Enumeration<Path2D> e = triangleDict.keys();
-
-        Point2D p = new Point2D.Double(point[0], point[1]);
-
-        while (e.hasMoreElements()) {
-            Path2D tri = e.nextElement();
-
-            if (tri.contains(p)) {
-                return tri;
-            }
-        }
-        return null;
     }
 
     private void deleteAnnotation(double mouseX, double mouseY) {

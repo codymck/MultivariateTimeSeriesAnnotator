@@ -16,6 +16,8 @@ public class EllipseAnnotation extends AbstractAnnotation {
     private Ellipse2D.Double drawEllipse = null;
     private Ellipse2D.Double storeEllipse = null;
 
+    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 } };
+    
     private Point2D sPoint;
     private Point2D ePoint;
 
@@ -32,8 +34,10 @@ public class EllipseAnnotation extends AbstractAnnotation {
         this.color = c;
     }
 
-    public Ellipse2D.Double createShape(Point2D p) {
-        this.sPoint = p;
+    public Ellipse2D.Double createShape(double[] point, Point2D pointObj) {
+        this.sPoint = pointObj;
+        coordinates[0][0] = point[0];
+        coordinates[0][1] = point[1];
         drawEllipse = new Ellipse2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
         return drawEllipse;
     }
@@ -68,7 +72,9 @@ public class EllipseAnnotation extends AbstractAnnotation {
         return null;
     }
 
-    public void placeShape(double[][] coordinates) {
+    public void placeShape(double[] point) {
+        coordinates[1][0] = point[0];
+        coordinates[1][1] = point[1];
         x = Math.min(coordinates[0][0], coordinates[1][0]);
         y = Math.min(coordinates[0][1], coordinates[1][1]);
         width = Math.abs(coordinates[1][0] - coordinates[0][0]);

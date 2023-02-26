@@ -19,7 +19,9 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     private Path2D.Double drawTriangle = null;
     private Path2D.Double storeTriangle = null;
-
+    
+    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
+    
     private Point2D sPoint;
     private Point2D sPoint2;
     private Point2D ePoint;
@@ -33,29 +35,34 @@ public class TriangleAnnotation extends AbstractAnnotation {
     private XYShapeAnnotation triangleAnnotation;
 
     private int triClick = 0;
-    private XYLineAnnotation fLine;
+    private XYLineAnnotation line;
 
     public TriangleAnnotation(XYPlot p, Color c) {
         this.plot = p;
         this.color = c;
     }
 
-    public void createShape(Point2D p, double[] point) {
+    public Path2D.Double createShape(double[] point, Point2D pointObj) {
         switch (triClick) {
             case 0 -> {
-                this.sPoint = p;
-                fLine = new XYLineAnnotation(
+                sPoint = pointObj;
+                coordinates[0][0] = point[0];
+                coordinates[0][1] = point[1];
+                line = new XYLineAnnotation(
                         point[0],
                         point[1],
                         point[0],
                         point[1],
                         new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
-                plot.addAnnotation(fLine);
+                plot.addAnnotation(line);
+                drawTriangle = new Path2D.Double();
                 triClick++;
             }
             case 1 -> {
-                this.sPoint2 = p;
-                plot.removeAnnotation(fLine);
+                plot.removeAnnotation(line);
+                sPoint2 = pointObj;
+                coordinates[1][0] = point[0];
+                coordinates[1][1] = point[1];
                 drawTriangle = new Path2D.Double();
                 drawTriangle.moveTo(sPoint.getX(), sPoint.getY());
                 drawTriangle.lineTo(sPoint2.getX(), sPoint2.getY());
@@ -63,36 +70,23 @@ public class TriangleAnnotation extends AbstractAnnotation {
                 drawTriangle.closePath();
                 triClick++;
             }
-            case 2 -> {
-                this.ePoint = p;
-                drawTriangle = new Path2D.Double();
-                drawTriangle.moveTo(sPoint.getX(), sPoint.getY());
-                drawTriangle.lineTo(sPoint2.getX(), sPoint2.getY());
-                drawTriangle.lineTo(ePoint.getX(), ePoint.getY());
-                drawTriangle.closePath();
-                XYShapeAnnotation triangleA = new XYShapeAnnotation(drawTriangle,
-                        new BasicStroke(2), new Color(0, 0, 0, 0), color);
-                drawTriangle = null;
-                plot.addAnnotation(triangleA);
-                triClick = 0;
-            }
         }
+        return drawTriangle;
     }
 
-    public Path2D.Double drawTriangle(Point2D p, Rectangle2D screenDataArea) {
+    public Path2D.Double drawTriangle(double[] point, Point2D pointObj, Rectangle2D screenDataArea) {
         if (triClick == 1) {
-            sPoint2 = p;
-            plot.removeAnnotation(fLine);
-            fLine = new XYLineAnnotation(
-                    sPoint.getX(),
-                    sPoint.getY(),
-                    sPoint2.getX(),
-                    sPoint2.getY(),
+            plot.removeAnnotation(line);
+            line = new XYLineAnnotation(
+                    coordinates[0][0],
+                    coordinates[0][1],
+                    point[0],
+                    point[1],
                     new BasicStroke(2.0f), color);
-            plot.addAnnotation(fLine);
+            plot.addAnnotation(line);
         } else if (triClick == 2) {
-            x = p.getX();
-            y = p.getY();
+            x = pointObj.getX();
+            y = pointObj.getY();
             // make sure it doesn't overflow the bounds of the chart
             if (x < screenDataArea.getMinX()) {
                 x = screenDataArea.getMinX();
@@ -111,20 +105,28 @@ public class TriangleAnnotation extends AbstractAnnotation {
             drawTriangle.lineTo(sPoint2.getX(), sPoint2.getY());
             drawTriangle.lineTo(x, y);
             drawTriangle.closePath();
-            return drawTriangle;
         }
-        return null;
+        return drawTriangle;
     }
-
+    public void placeShape(double[] point) {
+        coordinates[2][0] = point[0];
+        coordinates[2][1] = point[1];
+        storeTriangle = new Path2D.Double();
+        storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);
+        storeTriangle.lineTo(coordinates[1][0], coordinates[1][1]);
+        storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
+        storeTriangle.closePath();
+        triangleAnnotation = new XYShapeAnnotation(storeTriangle,
+                new BasicStroke(2), new Color(0, 0, 0, 0), color);
+        plot.addAnnotation(triangleAnnotation);
+        drawTriangle = null;
+        triClick = 0;
+    }
+    
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    void delete(Point2D point) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Point2D p = new Point2D.Double(mouseX, mouseY);
+        return storeTriangle.contains(p);
     }
 
     @Override
@@ -135,8 +137,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     @Override
     public void delete() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        plot.removeAnnotation(triangleAnnotation);
     }
 
 }

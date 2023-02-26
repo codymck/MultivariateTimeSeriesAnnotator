@@ -17,6 +17,8 @@ public class RectangleAnnotation extends AbstractAnnotation {
     private Rectangle2D.Double drawRect = null;
     private Rectangle2D.Double storeRect = null;
 
+    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 } };
+    
     private Point2D sPoint;
     private Point2D ePoint;
 
@@ -38,15 +40,17 @@ public class RectangleAnnotation extends AbstractAnnotation {
 
     }
 
-    public Rectangle2D.Double createShape(Point2D p) {
-        this.sPoint = p;
+    public Rectangle2D.Double createShape(double[] point, Point2D pointObj) {
+        coordinates[0][0] = point[0];
+        coordinates[0][1] = point[1];
+        this.sPoint = pointObj;
         drawRect = new Rectangle2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
         return drawRect;
     }
 
-    public Rectangle2D.Double drawRect(Point2D p, Rectangle2D screenDataArea) {
+    public Rectangle2D.Double drawRect(Point2D pointObj, Rectangle2D screenDataArea) {
         if (drawRect != null) {
-            this.ePoint = p;
+            this.ePoint = pointObj;
             x = Math.min(sPoint.getX(), ePoint.getX());
             y = Math.min(sPoint.getY(), ePoint.getY());
             width = Math.abs(sPoint.getX() - ePoint.getX());
@@ -74,7 +78,9 @@ public class RectangleAnnotation extends AbstractAnnotation {
         return null;
     }
 
-    public void placeShape(double[][] coordinates) {
+    public void placeShape(double[] point) {
+        coordinates[1][0] = point[0];
+        coordinates[1][1] = point[1];
         x = Math.min(coordinates[0][0], coordinates[1][0]);
         y = Math.min(coordinates[0][1], coordinates[1][1]);
         width = Math.abs(coordinates[1][0] - coordinates[0][0]);

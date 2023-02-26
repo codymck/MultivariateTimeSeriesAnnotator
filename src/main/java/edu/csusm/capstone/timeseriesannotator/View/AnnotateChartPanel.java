@@ -2,7 +2,6 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
-import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.ELLIPSE;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -33,7 +32,6 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.IntervalMarker;
-import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
@@ -56,7 +54,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     /* LINE variables */
     private HVLineAnnotation horiz;
-    private ValueMarker vMarker;
+    private HVLineAnnotation vert;
     private XYLineAnnotation lineAnnotation;
     private HVLineAnnotation hTrace;
     private HVLineAnnotation vTrace;
@@ -73,7 +71,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private int shapeIndex = 0;
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
     private double x, y, width, height;
-    private Point2D sPoint, sPoint2;
+    private Point2D sPoint;
 
     /* RECT variables */
     private Rectangle2D.Double rect = null;
@@ -189,7 +187,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case VERTICAL:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                HVLineAnnotation vert = new HVLineAnnotation(plot, color, "vertical");
+                                vert = new HVLineAnnotation(plot, color, "vertical");
                                 vert.createLine(point);
                                 shapeIndex = annotations.size();
                                 annotations.add(vert);
@@ -360,7 +358,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
                 case HIGHLIGHT:
@@ -417,7 +414,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Point2D pointObj = e.getPoint();
         double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
@@ -563,6 +559,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 triangle = tempTri.drawTriangle(point, pointObj, screenDataArea);
                                 repaint();
                             }
+                            break;
+                        default:
                             break;
                     }
                     break;

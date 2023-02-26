@@ -217,13 +217,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     double dy = startPoint[1] - point[1]; // change in y
                                     double angle = Math.atan2(dy, dx); // angle of line
 
-                                    // double minX = plot.getDomainAxis().getLowerBound(); // minimum x-value of
-                                    // plot
-                                    // double minY = plot.getRangeAxis().getLowerBound(); // minimum y-value of plot
-                                    // double maxX = plot.getDomainAxis().getUpperBound(); // maximum x-value of
-                                    // plot
-                                    // double maxY = plot.getRangeAxis().getUpperBound(); // maximum y-value of plot
-
                                     double length = Math.max(maxX - minX, maxY - minY) * 3; // length of line
 
                                     double x3 = point[0] + length * Math.cos(angle); // x-coordinate of third point
@@ -419,7 +412,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             switch (state) {
                 case HIGHLIGHT:
                     if (e.getButton() == MouseEvent.BUTTON1 && this.rect != null) {
-                        super.mouseReleased(e);
+                        // super.mouseReleased(e);
                         coordinates[1][0] = point[0];
                         coordinates[1][1] = point[1];
                         rect = null;

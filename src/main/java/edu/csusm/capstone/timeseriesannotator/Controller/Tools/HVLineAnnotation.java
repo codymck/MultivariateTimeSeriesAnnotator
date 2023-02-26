@@ -19,38 +19,82 @@ public class HVLineAnnotation extends AbstractAnnotation {
     public boolean selected;
     public Color color;
     public XYPlot plot;
+    public String type;
 
     ValueMarker drawMarker;
+    ValueMarker traceMarker = null;
     ValueMarker storeMarker;
+    ValueMarker deleteMarker;
 
-    public HVLineAnnotation(XYPlot p, Color c) {
+    public HVLineAnnotation(XYPlot p, Color c, String t) {
         this.plot = p;
         this.color = c;
+        this.type = t;
     }
 
-    public void createHorizontalLine(double[] point) {
-        drawMarker = new ValueMarker(point[1]);
-        drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
-        drawMarker.setPaint(AppFrame.getAbsoluteColor());
-        drawMarker.setStroke(new BasicStroke(2.0f));
-        storeMarker = drawMarker;
-        drawMarker = null;
-        plot.addRangeMarker(storeMarker);
+    public void createLine(double[] point) {
+        if (type == "horizontal") {
+            drawMarker = new ValueMarker(point[1]);
+            drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
+            drawMarker.setPaint(AppFrame.getAbsoluteColor());
+            drawMarker.setStroke(new BasicStroke(2.0f));
+            storeMarker = drawMarker;
+            drawMarker = null;
+            plot.addRangeMarker(storeMarker);
+        } else if (type == "vertical") {
+            drawMarker = new ValueMarker(point[0]);
+            drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
+            drawMarker.setPaint(AppFrame.getAbsoluteColor());
+            drawMarker.setStroke(new BasicStroke(2.0f));
+            storeMarker = drawMarker;
+            drawMarker = null;
+            plot.addDomainMarker(storeMarker);
+        }
+
+    }
+
+    public void drawTrace(double[] point) {
+        if (type == "horizontal") {
+            if (traceMarker != null) {
+                plot.removeRangeMarker(traceMarker);
+            }
+            traceMarker = new ValueMarker(point[1]);
+            traceMarker.setLabelAnchor(RectangleAnchor.CENTER);
+            traceMarker.setPaint(AppFrame.getAbsoluteColor());
+            traceMarker.setStroke(new BasicStroke(2.0f));
+            plot.addRangeMarker(traceMarker);
+        } else if (type == "vertical") {
+            if (traceMarker != null) {
+                plot.removeDomainMarker(traceMarker);
+            }
+            traceMarker = new ValueMarker(point[0]);
+            traceMarker.setLabelAnchor(RectangleAnchor.CENTER);
+            traceMarker.setPaint(AppFrame.getAbsoluteColor());
+            traceMarker.setStroke(new BasicStroke(2.0f));
+            plot.addDomainMarker(traceMarker);
+        }
+    }
+
+    public void removeTrace() {
+        if (type == "horizontal") {
+            if (traceMarker != null) {
+                plot.removeRangeMarker(traceMarker);
+            }
+        } else if (type == "vertical") {
+            if (traceMarker != null) {
+                plot.removeDomainMarker(traceMarker);
+            }
+        }
+
     }
 
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
-        Collection<ValueMarker> markers = plot.getRangeMarkers(Layer.FOREGROUND);
-        List<ValueMarker> markerList = new ArrayList<>(markers);
-        for (ValueMarker marker : markerList) {
-            double y = mouseY;
-            double x = mouseX;
-            if (y >= marker.getValue() - 3 && y <= marker.getValue() + 3) {
-                return true;
-            }
-            if (x >= marker.getValue() - 3 && x <= marker.getValue() + 3) {
-                return true;
-            }
+        if (type == "horizontal" && mouseY >= storeMarker.getValue() - 3 && mouseY <= storeMarker.getValue() + 3) {
+            return true;
+        }
+        if (type == "vertical" && mouseX >= storeMarker.getValue() - 3 && mouseX <= storeMarker.getValue() + 3) {
+            return true;
         }
 
         return false;
@@ -64,8 +108,11 @@ public class HVLineAnnotation extends AbstractAnnotation {
 
     @Override
     public void delete() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (type == "horizontal") {
+            plot.removeRangeMarker(storeMarker);
+        } else if (type == "vertical") {
+            plot.removeDomainMarker(storeMarker);
+        }
     }
 
 }

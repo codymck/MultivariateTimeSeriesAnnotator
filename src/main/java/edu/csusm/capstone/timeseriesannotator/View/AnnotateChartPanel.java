@@ -44,6 +44,7 @@ import org.jfree.chart.ui.Layer;
 import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
+import org.jfree.data.Value;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -62,9 +63,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private boolean syncing = false;
 
     /* LINE variables */
-    private ValueMarker hMarker;
+    private HVLineAnnotation horiz;
     private ValueMarker vMarker;
     private XYLineAnnotation lineAnnotation;
+    private HVLineAnnotation hTrace;
+    private HVLineAnnotation vTrace;
     private boolean clickedOnce;
 
     double minX = Double.POSITIVE_INFINITY;
@@ -108,6 +111,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         this.plot = (XYPlot) chart.getPlot();
         this.getMinAndMax();
         setChartState(AppFrame.getAppState());
+
+        hTrace = new HVLineAnnotation(plot, color, "horizontal");
+        vTrace = new HVLineAnnotation(plot, color, "vertical");
 
         chart.addChangeListener(new ChartChangeListener() {
             @Override
@@ -180,8 +186,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case HORIZONTAL:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                HVLineAnnotation horiz = new HVLineAnnotation(plot, color);
-                                horiz.createHorizontalLine(point);
+                                horiz = new HVLineAnnotation(plot, color, "horizontal");
+                                horiz.createLine(point);
                                 shapeIndex = annotations.size();
                                 annotations.add(horiz);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -194,22 +200,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case VERTICAL:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                ValueMarker marker = new ValueMarker(point[0]);
-                                marker.setLabelAnchor(RectangleAnchor.CENTER);
-                                marker.setPaint(AppFrame.getAbsoluteColor());
-                                marker.setStroke(new BasicStroke(2.0f));
-                                plot.addDomainMarker(marker);
+                                HVLineAnnotation vert = new HVLineAnnotation(plot, color, "vertical");
+                                vert.createLine(point);
+                                shapeIndex = annotations.size();
+                                annotations.add(vert);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
-                                Collection<ValueMarker> markers = plot.getDomainMarkers(Layer.FOREGROUND);
-                                List<ValueMarker> markerList = new ArrayList<>(markers);
-                                for (ValueMarker marker : markerList) {
-                                    double x = plot.getDomainAxis().java2DToValue(e.getX(), this.getScreenDataArea(),
-                                            plot.getDomainAxisEdge());
-                                    if (x >= marker.getValue() - 3 && x <= marker.getValue() + 3) {
-                                        plot.removeDomainMarker(marker);
-                                        break;
-                                    }
-                                }
+                                double y = plot.getRangeAxis().java2DToValue(e.getY(), this.getScreenDataArea(),
+                                        plot.getRangeAxisEdge());
+                                double x = plot.getDomainAxis().java2DToValue(e.getX(), this.getScreenDataArea(),
+                                        plot.getDomainAxisEdge());
+                                deleteAnnotation(x, y);
                             }
                             break;
                         case DIAGONAL:
@@ -536,39 +536,20 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case HORIZONTAL:
                             if (getScreenDataArea().contains(e.getX(), e.getY())) {
-                                if (hMarker == null) {
-                                    hMarker = new ValueMarker(point[1]);
-                                    hMarker.setLabelAnchor(RectangleAnchor.CENTER);
-                                    hMarker.setPaint(AppFrame.getAbsoluteColor());
-                                    hMarker.setStroke(new BasicStroke(2.0f));
-                                    plot.addRangeMarker(hMarker);
-                                } else {
-                                    hMarker.setValue(point[1]);
+                                if (hTrace != null) {
+                                    hTrace.drawTrace(point);
                                 }
                             } else {
-                                if (hMarker != null) {
-                                    plot.removeRangeMarker(hMarker);
-                                    hMarker = null;
-                                }
+                                hTrace.removeTrace();
                             }
                             break;
                         case VERTICAL:
                             if (getScreenDataArea().contains(e.getX(), e.getY())) {
-                                if (vMarker == null) {
-                                    vMarker = new ValueMarker(point[0]);
-                                    vMarker.setLabelAnchor(RectangleAnchor.CENTER);
-                                    vMarker.setPaint(AppFrame.getAbsoluteColor());
-                                    vMarker.setStroke(new BasicStroke(2.0f));
-                                    plot.addDomainMarker(vMarker);
-
-                                } else {
-                                    vMarker.setValue(point[0]);
+                                if (vTrace != null) {
+                                    vTrace.drawTrace(point);
                                 }
                             } else {
-                                if (vMarker != null) {
-                                    plot.removeDomainMarker(vMarker);
-                                    vMarker = null;
-                                }
+                                vTrace.removeTrace();
                             }
                             break;
                         case DIAGONAL:

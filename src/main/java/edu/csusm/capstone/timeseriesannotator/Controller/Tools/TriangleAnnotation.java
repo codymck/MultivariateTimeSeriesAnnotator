@@ -46,10 +46,6 @@ public class TriangleAnnotation extends AbstractAnnotation {
             plot.addAnnotation(line);
             triClick++;
         }else{
-            if(line != null){
-                plot.removeAnnotation(line);
-                line = null;
-            }
             if(triangleAnnotation != null){
                 plot.removeAnnotation(triangleAnnotation);
             }
@@ -79,6 +75,10 @@ public class TriangleAnnotation extends AbstractAnnotation {
                     new BasicStroke(2.0f), color);
             plot.addAnnotation(line);
         } else if (triClick == 2) {
+            if(line != null){
+                plot.removeAnnotation(line);
+                line = null;
+            }
             plot.removeAnnotation(triangleAnnotation);
             storeTriangle = new Path2D.Double();
             storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);

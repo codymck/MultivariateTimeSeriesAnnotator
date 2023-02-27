@@ -70,7 +70,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private double x, y, width, height;
     private Point2D sPoint;
     private double[] moveTest = { 0.0, 0.0 };
-
+    private boolean moved;
+    
     /* RECT variables */
     private Rectangle2D.Double rect = null;
 
@@ -120,6 +121,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 case SELECT:
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         moveTest = point;
+                        moved = false;
                     }
                     break;
                 case HIGHLIGHT:
@@ -346,6 +348,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             switch (state) {
                 case SELECT:
                     if (SwingUtilities.isLeftMouseButton(e)) {
+                        moved = true;
                         double xOffset = moveTest[0] - point[0];
                         double yOffset = moveTest[1] - point[1];
                         for (int i =  0; i < annotations.size(); i++) {
@@ -415,7 +418,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 annotations.get(i).move(xOffset, yOffset, true);
                             }
                         }
-                        selectAnnotation(point[0], point[1]);
+                        if(!moved){
+                            selectAnnotation(point[0], point[1]);
+                        }
                     }
                     break;
                 case HIGHLIGHT:

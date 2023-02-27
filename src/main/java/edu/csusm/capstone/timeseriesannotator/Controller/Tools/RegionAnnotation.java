@@ -26,15 +26,18 @@ public class RegionAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    void move(double xOffset, double yOffset) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
-
-    @Override
     public void delete() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
                                                                        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    @Override
+    public void move(double newX, double newY, boolean set) {
 
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
 }

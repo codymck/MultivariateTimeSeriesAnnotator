@@ -6,13 +6,10 @@ import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -72,15 +69,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
     private double x, y, width, height;
     private Point2D sPoint;
+    private double[] moveTest = { 0.0, 0.0 };
 
     /* RECT variables */
     private Rectangle2D.Double rect = null;
 
-    /* ELLIPSE variables */
-    private Ellipse2D.Double ellipse = null;
-
     /* TRIANGLE variables */
-    private Path2D.Double triangle = null;
     private int triClick = 0;
 
     public void setChartState(ToolState s) {
@@ -93,7 +87,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     public AnnotateChartPanel(JFreeChart chart) {
         super(chart);
-        this.chart = chart;
+        this.chart  = chart;
         originalDatasets = new ArrayList<>(chart.getXYPlot().getDatasetCount());
         this.plot = (XYPlot) chart.getPlot();
         this.getMinAndMax();
@@ -123,6 +117,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         Rectangle2D chartArea = getScreenDataArea();
         if (null != state && chartArea.contains(pointObj)) {
             switch (state) {
+                case SELECT:
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        moveTest = point;
+                    }
+                    break;
                 case HIGHLIGHT:
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         sPoint = e.getPoint();
@@ -295,46 +294,37 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case SQUARE:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                RectangleAnnotation r = new RectangleAnnotation(plot, color);
+                                RectangleAnnotation r = new RectangleAnnotation(plot, color, point);
                                 shapeIndex = annotations.size();
                                 annotations.add(r);
-                                rect = r.createShape(point, e.getPoint());
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point[0], point[1]);
                             }
                             break;
                         case ELLIPSE:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                EllipseAnnotation ell = new EllipseAnnotation(plot, color);
+                                EllipseAnnotation ell = new EllipseAnnotation(plot, color, point);
                                 shapeIndex = annotations.size();
                                 annotations.add(ell);
-                                ellipse = ell.createShape(point, e.getPoint());
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point[0], point[1]);
                             }
                             break;
                         case TRIANGLE:
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                switch (triClick) {
-                                    case 0 -> {
-                                        TriangleAnnotation tri = new TriangleAnnotation(plot, color);
-                                        shapeIndex = annotations.size();
-                                        annotations.add(tri);
-                                        triangle = tri.createShape(point, pointObj);
-                                        triClick++;
-                                    }
-                                    case 1 -> {
-                                        TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
-                                        triangle = tempTri.createShape(point, pointObj);
-                                        triClick++;
-                                    }
-                                    case 2 -> {
-                                        TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
-                                        tempTri.placeShape(point);
-                                        shapeIndex = 0;
-                                        triangle = null;
+                                if(triClick == 0){
+                                    moveTest = point;
+                                    TriangleAnnotation tri = new TriangleAnnotation(plot, color);
+                                    shapeIndex = annotations.size();
+                                    annotations.add(tri);
+                                    tri.createShape(point);
+                                    triClick++;
+                                }else{
+                                    TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
+                                    tempTri.createShape(point);
+                                    triClick++;
+                                    if(triClick > 2){
                                         triClick = 0;
-                                        repaint();
                                     }
                                 }
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -351,8 +341,20 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
+                case SELECT:
+                    if (SwingUtilities.isLeftMouseButton(e)) {
+                        double xOffset = moveTest[0] - point[0];
+                        double yOffset = moveTest[1] - point[1];
+                        for (int i =  0; i < annotations.size(); i++) {
+                            if(annotations.get(i).isSelected()){
+                                annotations.get(i).move(xOffset, yOffset, false);
+                            }
+                        }
+                    }
+                    break;
                 case HIGHLIGHT:
                     if (this.sPoint != null && this.rect != null) {
                         Rectangle2D screenDataArea = getScreenDataArea();
@@ -378,20 +380,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case SQUARE:
                             if (SwingUtilities.isLeftMouseButton(e)) {
-                                // make sure it doesn't overflow the bounds of the chart
-                                Rectangle2D screenDataArea = getScreenDataArea();
                                 RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
-                                rect = tempRect.drawRect(e.getPoint(), screenDataArea);
-                                repaint();
+                                tempRect.drawRect(point);
                             }
                             break;
                         case ELLIPSE:
                             if (SwingUtilities.isLeftMouseButton(e)) {
-                                // make sure it doesn't overflow the bounds of the chart
-                                Rectangle2D screenDataArea = getScreenDataArea();
                                 EllipseAnnotation tempEll = (EllipseAnnotation) annotations.get(shapeIndex);
-                                ellipse = tempEll.drawEllipse(e.getPoint(), screenDataArea);
-                                repaint();
+                                tempEll.drawEllipse(point);
                             }
                             break;
                         default:
@@ -410,6 +406,18 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
+                case SELECT:
+                    if (e.getButton() == MouseEvent.BUTTON1){
+                        double xOffset = moveTest[0] - point[0];
+                        double yOffset = moveTest[1] - point[1];
+                        for (int i =  0; i < annotations.size(); i++) {
+                            if(annotations.get(i).isSelected()){
+                                annotations.get(i).move(xOffset, yOffset, true);
+                            }
+                        }
+                        selectAnnotation(point[0], point[1]);
+                    }
+                    break;
                 case HIGHLIGHT:
                     if (e.getButton() == MouseEvent.BUTTON1 && this.rect != null) {
                         // super.mouseReleased(e);
@@ -439,28 +447,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 case COMMENT:
                     break;
                 case MARK:
-                    switch (AppFrame.getMarkerType()) {
-                        case SQUARE:
-                            if (e.getButton() == MouseEvent.BUTTON1 && rect != null) {
-                                rect = null;
-                                RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
-                                tempRect.placeShape(point);
-                                shapeIndex = 0;
-                                repaint();
-                            }
-                            break;
-                        case ELLIPSE:
-                            if (e.getButton() == MouseEvent.BUTTON1 && ellipse != null) {
-                                ellipse = null;
-                                EllipseAnnotation tempEll = (EllipseAnnotation) annotations.get(shapeIndex);
-                                tempEll.placeShape(point);
-                                shapeIndex = 0;
-                                repaint();
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                    break;
                 default:
                     break;
             }
@@ -547,10 +534,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case TRIANGLE:
                             if (triClick > 0) {
-                                Rectangle2D screenDataArea = getScreenDataArea();
                                 TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
-                                triangle = tempTri.drawTriangle(point, pointObj, screenDataArea);
-                                repaint();
+                                tempTri.drawTriangle(point);
                             }
                             break;
                         default:
@@ -561,26 +546,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     hTrace.removeTrace();
                     vTrace.removeTrace();
             }
-        }
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (rect != null) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(color);
-            g2.fill(rect);
-        }
-        if (ellipse != null) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(color);
-            g2.fill(ellipse);
-        }
-        if (triangle != null) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(color);
-            g2.fill(triangle);
         }
     }
 
@@ -681,6 +646,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             if (annotations.get(i).clickedOn(mouseX, mouseY)) {
                 annotations.get(i).delete();
                 annotations.remove(i);
+                break;
+            }
+        }
+    }
+    
+    private void selectAnnotation(double mouseX, double mouseY) {
+        for (int i = annotations.size() - 1; i >= 0; i--) {
+            if (annotations.get(i).clickedOn(mouseX, mouseY)) {
                 break;
             }
         }

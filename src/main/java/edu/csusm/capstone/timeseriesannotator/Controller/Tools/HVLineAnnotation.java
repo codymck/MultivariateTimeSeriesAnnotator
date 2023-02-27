@@ -94,12 +94,6 @@ public class HVLineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    void move(double xOffset, double yOffset) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
-
-    @Override
     public void delete() {
         if (type == "horizontal") {
             plot.removeRangeMarker(storeMarker);
@@ -108,4 +102,13 @@ public class HVLineAnnotation extends AbstractAnnotation {
         }
     }
 
+    @Override
+    public void move(double newX, double newY, boolean set) {
+
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
 }

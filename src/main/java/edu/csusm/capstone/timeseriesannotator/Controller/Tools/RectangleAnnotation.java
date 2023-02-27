@@ -2,8 +2,6 @@ package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
 import java.awt.geom.Point2D;
 import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
@@ -14,71 +12,25 @@ public class RectangleAnnotation extends AbstractAnnotation {
     public Color color;
     public XYPlot plot;
 
-    private Rectangle2D.Double drawRect = null;
     private Rectangle2D.Double storeRect = null;
 
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 } };
-    
-    private Point2D sPoint;
-    private Point2D ePoint;
 
-    private double x;
-    private double y;
+    private double x, y, width, height;
 
-    private double width;
-    private double height;
+    private XYShapeAnnotation rectAnnotation = null;
 
-    private XYShapeAnnotation rectAnnotation;
-
-    public RectangleAnnotation(XYPlot p, Color c) {
+    public RectangleAnnotation(XYPlot p, Color c, double[] point) {
         this.plot = p;
         this.color = c;
-    }
-
-    public RectangleAnnotation(XYPlot p, Color c, double x0, double y0, double width, double height, Stroke s,
-            Paint outlineP, Paint fillP) {
-
-    }
-
-    public Rectangle2D.Double createShape(double[] point, Point2D pointObj) {
         coordinates[0][0] = point[0];
         coordinates[0][1] = point[1];
-        this.sPoint = pointObj;
-        drawRect = new Rectangle2D.Double(sPoint.getX(), sPoint.getY(), 0, 0);
-        return drawRect;
     }
-
-    public Rectangle2D.Double drawRect(Point2D pointObj, Rectangle2D screenDataArea) {
-        if (drawRect != null) {
-            this.ePoint = pointObj;
-            x = Math.min(sPoint.getX(), ePoint.getX());
-            y = Math.min(sPoint.getY(), ePoint.getY());
-            width = Math.abs(sPoint.getX() - ePoint.getX());
-            height = Math.abs(sPoint.getY() - ePoint.getY());
-
-            // make sure it doesn't overflow the bounds of the chart
-            if (x < screenDataArea.getMinX()) {
-                width -= screenDataArea.getMinX() - x;
-                x = screenDataArea.getMinX();
-            }
-            if (y < screenDataArea.getMinY()) {
-                height -= screenDataArea.getMinY() - y;
-                y = screenDataArea.getMinY();
-            }
-            if (x + width > screenDataArea.getMaxX()) {
-                width = (screenDataArea.getMaxX() - x);
-            }
-            if (y + height > screenDataArea.getMaxY()) {
-                height = (screenDataArea.getMaxY() - y);
-            }
-            drawRect.setRect(x, y, width, height);
-
-            return drawRect;
+    
+    public void drawRect(double[] point) {
+        if (rectAnnotation != null){
+            plot.removeAnnotation(rectAnnotation);
         }
-        return null;
-    }
-
-    public void placeShape(double[] point) {
         coordinates[1][0] = point[0];
         coordinates[1][1] = point[1];
         x = Math.min(coordinates[0][0], coordinates[1][0]);
@@ -86,16 +38,31 @@ public class RectangleAnnotation extends AbstractAnnotation {
         width = Math.abs(coordinates[1][0] - coordinates[0][0]);
         height = Math.abs(coordinates[1][1] - coordinates[0][1]);
         storeRect = new Rectangle2D.Double(x, y, width, height);
-        rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(2),
+        rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
                 new Color(0, 0, 0, 0), color);
-        drawRect = null;
         plot.addAnnotation(rectAnnotation);
     }
 
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);
-        return storeRect.contains(p);
+        boolean r = storeRect.contains(p);
+        
+        if(r && !selected){
+            plot.removeAnnotation(rectAnnotation);
+            rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(2),
+                new Color(0, 0, 0), color);
+            plot.addAnnotation(rectAnnotation);
+            selected = true;
+        }else if(r && selected){
+            plot.removeAnnotation(rectAnnotation);
+            rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
+                new Color(0, 0, 0, 0), color);
+            plot.addAnnotation(rectAnnotation);
+            selected = false;
+        }
+        
+        return r;
     }
 
     @Override
@@ -104,9 +71,23 @@ public class RectangleAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    void move(double xOffset, double yOffset) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
+    public void move(double xOffset, double yOffset, boolean set) {
+        plot.removeAnnotation(rectAnnotation);
+        if(!set){
+            storeRect.setFrame(x-xOffset, y-yOffset, width, height);
+        }else{
+            x -= xOffset;
+            y -= yOffset;
+            storeRect.setFrame(x, y, width, height);
+        }
+        rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(2),
+            new Color(0, 0, 0), color);
+        plot.addAnnotation(rectAnnotation);
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
     }
 
 }

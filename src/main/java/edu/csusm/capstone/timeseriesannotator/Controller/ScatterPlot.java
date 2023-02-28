@@ -68,7 +68,7 @@ public class ScatterPlot implements ChartsIF {
         XYPlot plotter = chartStruct.getPlot();
         XYDataset data = xyChart.getDataset2();
         
-        dotRenderer.setSeriesPaint(0, java.awt.Color.blue);
+        dotRenderer.setSeriesPaint(0, java.awt.Color.blue);//possibly update later for user selection
         dotRenderer.setDotWidth(5);
         dotRenderer.setDotHeight(5);
         

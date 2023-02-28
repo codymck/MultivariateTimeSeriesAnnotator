@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.event.ChartChangeListener;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Controller {
     
     static AtomicReferenceArray<ArrayList<JFreeChart>> atomicList = new AtomicReferenceArray<>(new ArrayList[] { new ArrayList<JFreeChart>(6) });
     static AtomicReferenceArray<Map<JFreeChart,AnnotateChartPanel>> atomicMap = new AtomicReferenceArray<>(new HashMap[] {new HashMap<JFreeChart,AnnotateChartPanel>(6) });
-    static Map<JFreeChart, AnnotateChartPanel> syncMap; 
+    static volatile  Map<JFreeChart, AnnotateChartPanel> syncMap; 
     public static ArrayList<JFreeChart> synced;
     static ValueAxis commonXAxis = new NumberAxis("X");
     
@@ -26,25 +27,25 @@ public class Controller {
         this.syncMap = new HashMap<>(6);
     }
         
-    public static void syncX(JFreeChart chart){
+    public static void syncX(JFreeChart chart, ChartChangeListener L){
         syncMap = atomicMap.get(0);
-        syncMap.remove(chart);
-        syncMap.forEach((x, cS) -> {
-            //x.setNotify(false);
-            if(x != chart){
-                //x.setNotify(true);
-                System.out.println("in loop");
-                x.getXYPlot().setDomainAxis(chart.getXYPlot().getDomainAxis());
-                //cS.restoreAutoRangeBounds();
-            }
-        });
+        //syncMap.remove(chart);
         
-//        synced = atomicList.get(0);
-//        for(JFreeChart x : synced){
-//            if(x != chart){
-//                x.getXYPlot().setDomainAxis(chart.getXYPlot().getDomainAxis());
-//            }
-//        }
+       synchronized(chart){
+           chart.removeChangeListener(L);
+            try{
+                syncMap.forEach((x, cS) -> {
+                    if(x != chart){
+                        System.out.println("in loop " + cS.getCursor());
+                        x.getXYPlot().setDomainAxis(chart.getXYPlot().getDomainAxis());
+                        cS.restoreAutoRangeBounds();
+                    }
+                });
+            }finally{
+                chart.addChangeListener(L);
+                //chart.fireChartChanged();
+            }
+        }
     }
     
     public void restoreY(JFreeChart chart){
@@ -56,7 +57,7 @@ public class Controller {
     }
     
     public void removeSync(JFreeChart c){
-        syncMap = atomicMap.get(0);
+        syncMap = atomicMap.get(0); 
         syncMap.remove(c);
         atomicMap.set(0, syncMap);
         

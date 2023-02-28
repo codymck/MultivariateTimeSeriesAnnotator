@@ -4,5 +4,5 @@ public interface ChartData {
 
     public void createDataset();
     
-    public void addDataset();
+    public void addDataset(String name);
 }

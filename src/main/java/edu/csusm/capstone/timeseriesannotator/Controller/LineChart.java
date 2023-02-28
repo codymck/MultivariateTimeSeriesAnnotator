@@ -67,8 +67,8 @@ public class LineChart implements ChartsIF {
         XYPlot plotter = chartStruct.getPlot();
         XYDataset data = xyChart.getDataset2();
         
-        plotter.setDataset(1, data);
-        plotter.setRenderer(1,lineRenderer);
+        plotter.setDataset(chartStruct.getFlag()-1, data);
+        plotter.setRenderer(chartStruct.getFlag()-1,lineRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         JFreeChart chart = new JFreeChart("Test", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
@@ -89,8 +89,10 @@ public class LineChart implements ChartsIF {
             xyChart.createDataset();
             chartStruct.setFlag(2);
         }
-        else if (chartStruct.getFlag() == 2){
-            xyChart.addDataset();
+        else if (chartStruct.getFlag() >= 2){
+            String name = "Chart " + chartStruct.getFlag();
+            xyChart.addDataset(name);
+            chartStruct.setFlag(chartStruct.getFlag()+1);
         }
     }
     

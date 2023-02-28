@@ -24,6 +24,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     Chart chartStruct;
     Controller control;
     XYPlot plot;
+    JFreeChart chart;
 
     /**
      * Creates new form ChartPanel
@@ -42,7 +43,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         String xAxisLabel = "X";
         String yAxisLabel = "Y";
 
-        JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
+        chart = ChartFactory.createXYLineChart(chartTitle,
                 xAxisLabel, yAxisLabel, emptyData);
 
         emptyChart = new AnnotateChartPanel(chart);
@@ -57,7 +58,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }
 
     public XYPlot returnPlot() {
-        JFreeChart chart = emptyChart.getChart();
+        chart = emptyChart.getChart();
         return chart.getXYPlot();
     }
 
@@ -75,6 +76,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             public void chartMouseClicked(ChartMouseEvent event) {
                 if (event.getTrigger().getClickCount() == 2) {
                     emptyChart.restoreAutoBounds();
+                    //control.restoreY(chart);
                 }
             }
 
@@ -197,7 +199,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
         if(SyncButton.isSelected() && plot != null ){
             emptyChart.setSync(true);
-            control.addSync(emptyChart.getChart());
+            control.addSync(emptyChart.getChart(), emptyChart);
         }
         else if(SyncButton.isSelected()){
             //Throw error "Can't Sync a empty chart!"

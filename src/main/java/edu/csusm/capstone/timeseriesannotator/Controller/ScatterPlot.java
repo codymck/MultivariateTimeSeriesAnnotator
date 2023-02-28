@@ -72,12 +72,12 @@ public class ScatterPlot implements ChartsIF {
         dotRenderer.setDotWidth(5);
         dotRenderer.setDotHeight(5);
         
-        plotter.setDataset(1, data);
+        plotter.setDataset(chartStruct.getFlag()-1, data);
         plotter.setBackgroundPaint(new java.awt.Color(204, 204, 204));
         plotter.setDomainGridlinePaint(Color.WHITE);
         plotter.setRangeGridlinePaint(Color.WHITE);
         
-        plotter.setRenderer(1,dotRenderer);
+        plotter.setRenderer(chartStruct.getFlag()-1,dotRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         JFreeChart chart = new JFreeChart("Test", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
@@ -98,8 +98,10 @@ public class ScatterPlot implements ChartsIF {
             xyChart.createDataset();
             chartStruct.setFlag(2);
         }
-        else if (chartStruct.getFlag() == 2){
-            xyChart.addDataset();
+        else if (chartStruct.getFlag() >= 2){
+            String name = "Chart " + chartStruct.getFlag();
+            xyChart.addDataset(name);
+            chartStruct.setFlag(chartStruct.getFlag()+1);
         }
     }
     

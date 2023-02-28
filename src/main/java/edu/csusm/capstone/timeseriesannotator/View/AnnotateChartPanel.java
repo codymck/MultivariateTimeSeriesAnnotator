@@ -270,26 +270,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         case SEGMENT:
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
-                                    startPoint = point;
-                                    lineAnnotation = new XYLineAnnotation(
-                                            point[0],
-                                            point[1],
-                                            point[0],
-                                            point[1],
-                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
-                                    plot.addAnnotation(lineAnnotation);
                                     clickedOnce = true;
+                                    LineAnnotation r = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point);
+                                    shapeIndex = annotations.size();
+                                    annotations.add(r);
                                 } else {
-                                    plot.removeAnnotation(lineAnnotation);
-                                    XYLineAnnotation lineAnnotationP = new XYLineAnnotation(
-                                            startPoint[0],
-                                            startPoint[1],
-                                            point[0],
-                                            point[1],
-                                            new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
-                                    if (startPoint[0] != point[0] && startPoint[1] != point[1]) {
-                                        plot.addAnnotation(lineAnnotationP);
-                                    }
                                     clickedOnce = false;
                                 }
                             }
@@ -526,15 +511,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             break;
                         case SEGMENT:
                             if (clickedOnce) {
-                                plot.removeAnnotation(lineAnnotation);
-                                lineAnnotation = new XYLineAnnotation(
-                                        startPoint[0],
-                                        startPoint[1],
-                                        point[0],
-                                        point[1],
-                                        new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
-                                plot.addAnnotation(lineAnnotation);
-                                repaint();
+                                LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
+                                tempLine.drawLine(point);
                             }
                             break;
                         case TRIANGLE:

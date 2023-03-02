@@ -1,58 +1,34 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.event.ChartChangeListener;
-
+import org.jfree.data.Range;
 /**
  *
  * @author Cody McKinney
  */
 public class Controller {
-    
-    static AtomicReferenceArray<ArrayList<JFreeChart>> atomicList = new AtomicReferenceArray<>(new ArrayList[] { new ArrayList<JFreeChart>(6) });
     static AtomicReferenceArray<Map<JFreeChart,AnnotateChartPanel>> atomicMap = new AtomicReferenceArray<>(new HashMap[] {new HashMap<JFreeChart,AnnotateChartPanel>(6) });
     static volatile  Map<JFreeChart, AnnotateChartPanel> syncMap; 
-    public static ArrayList<JFreeChart> synced;
-    static ValueAxis commonXAxis = new NumberAxis("X");
+    static ValueAxis commonXAxis = new NumberAxis("X"); //refactor to be proper label
     
     public Controller(){
-        this.synced = new ArrayList<>(6);
         this.syncMap = new HashMap<>(6);
     }
         
-    public static void syncX(JFreeChart chart, ChartChangeListener L){
-        syncMap = atomicMap.get(0);
-        //syncMap.remove(chart);
-        
-       synchronized(chart){
-           chart.removeChangeListener(L);
-            try{
-                syncMap.forEach((x, cS) -> {
-                    if(x != chart){
-                        System.out.println("in loop " + cS.getCursor());
-                        x.getXYPlot().setDomainAxis(chart.getXYPlot().getDomainAxis());
-                        cS.restoreAutoRangeBounds();
-                    }
-                });
-            }finally{
-                chart.addChangeListener(L);
-                //chart.fireChartChanged();
-            }
-        }
-    }
-    
-    public void restoreY(JFreeChart chart){
-        syncMap = atomicMap.get(0);
-        syncMap.remove(chart);
+    public static void syncX(JFreeChart chart){
+        syncMap = atomicMap.get(0); 
         syncMap.forEach((x, cS) -> {
-            cS.restoreAutoRangeBounds();
+            if (x != chart) {
+                //System.out.println("in loop " + x.getXYPlot().getDatasetCount());
+                x.getXYPlot().setDomainAxis(chart.getXYPlot().getDomainAxis());
+                cS.restoreAutoRangeBounds();
+            }
         });
     }
     
@@ -61,20 +37,17 @@ public class Controller {
         syncMap.remove(c);
         atomicMap.set(0, syncMap);
         
-        synced = atomicList.get(0);
-        synced.remove(c);
-        atomicList.set(0, synced);
+        if (!syncMap.isEmpty()) {
+            Range r = syncMap.keySet().iterator().next().getXYPlot().getDomainAxis().getRange();
+            commonXAxis.setRange(r);
+        }
     }
     
     public void addSync(JFreeChart c, AnnotateChartPanel cS){
         c.getXYPlot().setDomainAxis(commonXAxis);
-        ArrayList<JFreeChart> list = atomicList.get(0);
         
         syncMap.put(c,cS);
         atomicMap.set(0, syncMap);
-        
-        list.add(c);
-        atomicList.set(0, list);
     }
     
 }

@@ -48,13 +48,21 @@ public class FrameAutomateTest {
         window.toggleButton("PurpleButton").click();
         //end of color buttons
         window.toggleButton("CommentButton").click();
+        //
+    }
+    
+    @Test
+    public void testButtons2(){
         window.toggleButton("LineButton").click();
         window.toggleButton("VerticalButton").click();
         window.toggleButton("HorizontalButton").click();
         window.toggleButton("DiagonalButton").click();
         window.toggleButton("RayButton").click();
         window.toggleButton("SegmentButton").click();
-        //
+    }
+    
+    @Test
+    public void testButtons3(){
         window.toggleButton("ShapeButton").click();
         window.toggleButton("SquareButton").click();
         window.toggleButton("EllipseButton").click();

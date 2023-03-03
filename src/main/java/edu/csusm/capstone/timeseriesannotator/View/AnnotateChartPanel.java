@@ -110,8 +110,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 if (syncing) {
                     // Disable synchronization temporarily
                     syncing = false;
+                    
                     synchronized(this){
-                        Controller.syncX(chart);
+                        Controller.syncX(chart,this);
                     }
                     syncing = true;
                 }

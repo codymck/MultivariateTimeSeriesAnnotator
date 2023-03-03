@@ -71,7 +71,7 @@ public class StepChart implements ChartsIF {
         plotter.setRenderer(chartStruct.getFlag()-1,stepRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
-        JFreeChart chart = new JFreeChart("Data", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
+        JFreeChart chart = new JFreeChart("Test", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
@@ -90,7 +90,7 @@ public class StepChart implements ChartsIF {
             chartStruct.setFlag(2);
         }
         else if (chartStruct.getFlag() >= 2){
-            String name = "Dataset " + chartStruct.getFlag();
+            String name = "Chart " + chartStruct.getFlag();
             xyChart.addDataset(name);
             chartStruct.setFlag(chartStruct.getFlag()+1);
         }

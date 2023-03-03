@@ -6,6 +6,9 @@ import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -76,13 +79,34 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             public void chartMouseClicked(ChartMouseEvent event) {
                 if (event.getTrigger().getClickCount() == 2) {
                     emptyChart.restoreAutoBounds();
-                    //control.restoreY(chart);
                 }
             }
 
             @Override
             public void chartMouseMoved(ChartMouseEvent event) {
-
+                
+            }
+        });
+        
+        emptyChart.addMouseWheelListener(new MouseWheelListener(){
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent event) {
+                if(!event.isShiftDown()){
+                    int k = event.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK;
+                    //System.out.println("Type: " + event.getScrollType() + " Precise: " + event.getPreciseWheelRotation());
+                    if (event.getPreciseWheelRotation() > 0 || event.isShiftDown() || k == MouseEvent.CTRL_DOWN_MASK) {
+                        //System.out.println("max x: " + emptyChart.maxX*3 + " min x: " + emptyChart.minX*3 + " max y: " + emptyChart.maxY*3 + " min y: " + emptyChart.minY*3);
+                        if (plot.getDomainAxis().getUpperBound() > emptyChart.maxX*3 || plot.getDomainAxis().getLowerBound() < -emptyChart.maxX*3 ||
+                            plot.getRangeAxis().getUpperBound() > emptyChart.maxY*3 || plot.getRangeAxis().getLowerBound() < -emptyChart.maxY*3){
+                            emptyChart.setDomainZoomable(false);
+                            emptyChart.setRangeZoomable(false);
+                        }
+                    }
+                    else{
+                        emptyChart.setDomainZoomable(true);
+                        emptyChart.setRangeZoomable(true);
+                    }
+                }
             }
         });
 
@@ -199,6 +223,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
         if(SyncButton.isSelected() && plot != null ){
             emptyChart.setSync(true);
+            emptyChart.setMouseZoomable(false);
+            emptyChart.setRangeZoomable(false);
             control.addSync(emptyChart.getChart(), emptyChart);
         }
         else if(SyncButton.isSelected()){
@@ -209,6 +235,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             control.removeSync(emptyChart.getChart());
             emptyChart.setSync(false);
             plot.setDomainAxis(chartStruct.getDomainAxis());
+            emptyChart.restoreAutoBounds();
         }
     }//GEN-LAST:event_SyncButtonActionPerformed
 

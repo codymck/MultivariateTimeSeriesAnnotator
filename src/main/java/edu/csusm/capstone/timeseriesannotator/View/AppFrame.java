@@ -319,6 +319,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup2.add(BlackButton);
         BlackButton.setSelected(true);
         BlackButton.setDoubleBuffered(true);
+        BlackButton.setName("BlackButton"); // NOI18N
         BlackButton.setPreferredSize(new java.awt.Dimension(20, 20));
         BlackButton.setName("BlackButton");
         BlackButton.addActionListener(new java.awt.event.ActionListener() {
@@ -331,6 +332,7 @@ public class AppFrame extends javax.swing.JFrame {
         RedButton.setBackground(new java.awt.Color(255, 51, 51));
         buttonGroup2.add(RedButton);
         RedButton.setDoubleBuffered(true);
+        RedButton.setName("RedButton"); // NOI18N
         RedButton.setPreferredSize(new java.awt.Dimension(20, 20));
         RedButton.setName("RedButton");
         RedButton.addActionListener(new java.awt.event.ActionListener() {
@@ -343,6 +345,7 @@ public class AppFrame extends javax.swing.JFrame {
         OrangeButton.setBackground(new java.awt.Color(255, 153, 0));
         buttonGroup2.add(OrangeButton);
         OrangeButton.setDoubleBuffered(true);
+        OrangeButton.setName("OrangeButton"); // NOI18N
         OrangeButton.setPreferredSize(new java.awt.Dimension(20, 20));
         OrangeButton.setName("OrangeButton");
         OrangeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -355,6 +358,7 @@ public class AppFrame extends javax.swing.JFrame {
         YellowButton.setBackground(new java.awt.Color(255, 255, 51));
         buttonGroup2.add(YellowButton);
         YellowButton.setDoubleBuffered(true);
+        YellowButton.setName("YellowButton"); // NOI18N
         YellowButton.setPreferredSize(new java.awt.Dimension(20, 20));
         YellowButton.setName("YellowButton");
         YellowButton.addActionListener(new java.awt.event.ActionListener() {
@@ -367,6 +371,7 @@ public class AppFrame extends javax.swing.JFrame {
         GreenButton.setBackground(new java.awt.Color(0, 255, 0));
         buttonGroup2.add(GreenButton);
         GreenButton.setDoubleBuffered(true);
+        GreenButton.setName("GreenButton"); // NOI18N
         GreenButton.setPreferredSize(new java.awt.Dimension(20, 20));
         GreenButton.setName("GreenButton");
         GreenButton.addActionListener(new java.awt.event.ActionListener() {
@@ -379,6 +384,7 @@ public class AppFrame extends javax.swing.JFrame {
         BlueButton.setBackground(new java.awt.Color(0, 102, 255));
         buttonGroup2.add(BlueButton);
         BlueButton.setDoubleBuffered(true);
+        BlueButton.setName("BlueButton"); // NOI18N
         BlueButton.setPreferredSize(new java.awt.Dimension(20, 20));
         BlueButton.setName("BlueButton");
         BlueButton.addActionListener(new java.awt.event.ActionListener() {
@@ -391,6 +397,7 @@ public class AppFrame extends javax.swing.JFrame {
         PurpleButton.setBackground(new java.awt.Color(153, 0, 255));
         buttonGroup2.add(PurpleButton);
         PurpleButton.setDoubleBuffered(true);
+        PurpleButton.setName("PurpleButton"); // NOI18N
         PurpleButton.setPreferredSize(new java.awt.Dimension(20, 20));
         PurpleButton.setName("PurpleButton");
         PurpleButton.addActionListener(new java.awt.event.ActionListener() {
@@ -410,6 +417,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup3.add(SquareButton);
         SquareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-square-spinner-24.png"))); // NOI18N
         SquareButton.setSelected(true);
+        SquareButton.setName("SquareButton"); // NOI18N
         SquareButton.setName("SquareButton");
         SquareButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -420,6 +428,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup3.add(EllipseButton);
         EllipseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-loading-circle-24.png"))); // NOI18N
+        EllipseButton.setName("EllipseButton"); // NOI18N
         EllipseButton.setName("EllipseButton");
         EllipseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -430,6 +439,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup3.add(TriangleButton);
         TriangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/triangle.png"))); // NOI18N
+        TriangleButton.setName("TriangleButton"); // NOI18N
         TriangleButton.setName("TriangleButton");
         TriangleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -445,6 +455,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup4.add(VerticalButton);
         VerticalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-vertical-line-24.png"))); // NOI18N
         VerticalButton.setSelected(true);
+        VerticalButton.setName("VerticalButton"); // NOI18N
         VerticalButton.setName("VerticalButton");
         VerticalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -455,6 +466,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup4.add(HorizontalButton);
         HorizontalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-horizontal-line-24.png"))); // NOI18N
+        HorizontalButton.setName("HorizontalButton"); // NOI18N
         HorizontalButton.setName("HorizontalButton");
         HorizontalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -477,7 +489,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup4.add(RayButton);
         RayButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-drag-up-right-arrow-20.png"))); // NOI18N
         RayButton.setName("RayButton"); // NOI18N
-        SegmentButton.setName("SegmentButton");
+        RayButton.setName("RayButton");
         RayButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RayButtonActionPerformed(evt);

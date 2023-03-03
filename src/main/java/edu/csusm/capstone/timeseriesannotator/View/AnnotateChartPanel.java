@@ -5,6 +5,7 @@ import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -134,7 +135,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 }
                 case COMMENT -> {
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        CommentAnnotation comment = new CommentAnnotation(plot, color, point, this);
+                        Font f = new Font(AppFrame.getFontName(), AppFrame.getFontStyle(), AppFrame.getFontSize());
+                        CommentAnnotation comment = new CommentAnnotation(plot, color, point, this, f);
                         shapeIndex = annotations.size();
                         annotations.add(comment);
                     }

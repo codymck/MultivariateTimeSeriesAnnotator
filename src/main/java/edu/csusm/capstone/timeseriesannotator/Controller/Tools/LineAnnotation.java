@@ -89,7 +89,7 @@ public class LineAnnotation extends AbstractAnnotation {
 
     @Override
     public void delete() {
-        plot.removeAnnotation(lineAnnotation);                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        plot.removeAnnotation(lineAnnotation);
     }
     
     @Override

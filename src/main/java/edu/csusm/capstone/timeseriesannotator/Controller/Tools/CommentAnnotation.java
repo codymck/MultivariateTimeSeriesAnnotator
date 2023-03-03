@@ -8,24 +8,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Shape;
-import java.awt.Toolkit;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
-import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.text.TextUtils;
 import org.jfree.chart.ui.TextAnchor;
 
@@ -35,28 +23,29 @@ public class CommentAnnotation extends AbstractAnnotation {
     private boolean selected;
     private Color color;
     private XYPlot plot;
+    private Font font;
     private AnnotateChartPanel chartPanel;
+    private XYTextAnnotation commentAnnotation = null;
 
-    private XYTextAnnotation commentToDelete;
-
-    public CommentAnnotation(XYPlot p, Color c, double[] point, AnnotateChartPanel a) {
+    public CommentAnnotation(XYPlot p, Color c, double[] point, AnnotateChartPanel a, Font f) {
         this.plot = p;
         this.color = c;
         this.coordinates[0] = point[0];
         this.coordinates[1] = point[1];
         this.chartPanel = a;
+        this.font = f;
 
         CommentMenu cMenu = new CommentMenu(new javax.swing.JFrame(), true);
         cMenu.setVisible(true);
-        if (cMenu.isSubmitted() == false) {
+        if (!cMenu.isSubmitted()) {
             return;
         }
 
-        XYTextAnnotation at = new XYTextAnnotation(cMenu.getComment(), coordinates[0], coordinates[1]);
-        at.setFont(new Font(AppFrame.getFontName(), AppFrame.getFontStyle(), AppFrame.getFontSize()));
-        at.setPaint(AppFrame.getAbsoluteColor());
-        at.setTextAnchor(TextAnchor.TOP_RIGHT);
-        plot.addAnnotation(at);
+        commentAnnotation = new XYTextAnnotation(cMenu.getComment(), coordinates[0], coordinates[1]);
+        commentAnnotation.setFont(f);
+        commentAnnotation.setPaint(AppFrame.getAbsoluteColor());
+        commentAnnotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
+        plot.addAnnotation(commentAnnotation);
     }
 
     @Override
@@ -66,45 +55,52 @@ public class CommentAnnotation extends AbstractAnnotation {
 
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
-        List<XYTextAnnotation> annotations = new ArrayList<>(plot.getAnnotations());
-        List<XYTextAnnotation> textAnnotations = new ArrayList<>();
-        for (XYAnnotation annotation : annotations) {
-            if (annotation instanceof XYTextAnnotation xYTextAnnotation) {
-                textAnnotations.add(xYTextAnnotation);
-            }
+
+        Point2D.Double click = new Point2D.Double(mouseX, mouseY);
+
+        double x1 = commentAnnotation.getX();
+        double y1 = commentAnnotation.getY();
+        
+        Rectangle2D.Double screenDataArea = (Rectangle2D.Double) chartPanel.getScreenDataArea();
+        double screenWidthPx = screenDataArea.getMaxX() - screenDataArea.getMinX();
+        double screenHeightPx = screenDataArea.getMaxY() - screenDataArea.getMinY();
+
+        Graphics2D g2 = (Graphics2D) chartPanel.getGraphics();
+        FontMetrics fm = g2.getFontMetrics(font);
+        Rectangle2D.Double bounds = (Rectangle2D.Double) TextUtils.getTextBounds(commentAnnotation.getText(), g2, fm);
+
+        double commentWidthPx = bounds.getMaxX() - bounds.getMinX();
+        double commentHeightPx = bounds.getMaxY() - bounds.getMinY();
+        
+        
+        ValueAxis domainAxis = plot.getDomainAxis();
+        double domainMin = domainAxis.getLowerBound();
+        double domainMax = domainAxis.getUpperBound();
+        ValueAxis rangeAxis = plot.getRangeAxis();
+        double rangeMin = rangeAxis.getLowerBound();
+        double rangeMax = rangeAxis.getUpperBound();
+        
+        double plotWidth = domainMax - domainMin;
+        double plotHeight = rangeMax - rangeMin;
+        
+        double hitboxWidth = (commentWidthPx * plotWidth) / screenWidthPx ;
+        double hitboxHeight = (commentHeightPx * plotHeight) / screenHeightPx;
+        
+        Rectangle2D.Double hitbox = new Rectangle2D.Double(x1, y1, hitboxWidth, hitboxHeight);
+        
+        // Add the rectangle annotation to the plot
+        //XYShapeAnnotation rect = new XYShapeAnnotation(hitbox, new BasicStroke(2.0f), Color.RED, new Color(0,0,0,0));
+        //plot.addAnnotation(rect);
+
+        if (hitbox.contains(click)) {
+            return true;
         }
-        for (XYTextAnnotation annotation : textAnnotations) {
-            Point2D.Double click = new Point2D.Double(mouseX, mouseY);
-            System.out.println(click.getX() + " " + click.getY());
-
-            double x1 = annotation.getX();
-            double y1 = annotation.getY();
-            System.out.println(x1 + " " + y1);
-
-            Graphics2D g2 = (Graphics2D) chartPanel.getGraphics();
-            Font font = annotation.getFont();
-            FontMetrics fm = g2.getFontMetrics(font);
-
-            Rectangle2D bounds = TextUtils.getTextBounds(annotation.getText(), g2, fm);
-
-            XYShapeAnnotation rect = new XYShapeAnnotation(bounds, new BasicStroke(1.0f), Color.RED, Color.RED);
-
-            // Add the rectangle annotation to the plot
-            plot.addAnnotation(rect);
-
-            if (bounds.contains(click)) {
-                commentToDelete = annotation;
-                return true;
-            }
-        }
-        annotations.clear();
-        textAnnotations.clear();
         return false;
     }
 
     @Override
     public void delete() {
-        plot.removeAnnotation(commentToDelete);
+        plot.removeAnnotation(commentAnnotation);
     }
 
     @Override

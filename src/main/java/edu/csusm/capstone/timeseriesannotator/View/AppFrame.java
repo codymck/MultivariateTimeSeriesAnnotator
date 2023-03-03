@@ -402,6 +402,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         TogglePanel.add(ColorPanel);
 
+        jLayeredPane1.setName("LayedPane"); // NOI18N
         jLayeredPane1.setLayout(new javax.swing.OverlayLayout(jLayeredPane1));
 
         ShapesPanel.setVisible(false);
@@ -410,6 +411,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup3.add(SquareButton);
         SquareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-square-spinner-24.png"))); // NOI18N
         SquareButton.setSelected(true);
+        SquareButton.setName("SquareButton"); // NOI18N
         SquareButton.setName("SquareButton");
         SquareButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -440,6 +442,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         jLayeredPane1.add(ShapesPanel);
 
+        LinesPanel.setName("LinesPanel"); // NOI18N
         LinesPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         buttonGroup4.add(VerticalButton);

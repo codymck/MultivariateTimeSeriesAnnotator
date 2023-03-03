@@ -134,20 +134,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 }
                 case COMMENT -> {
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        CommentMenu cMenu = new CommentMenu(new javax.swing.JFrame(), true);
-                        cMenu.setVisible(true);
-                        if (cMenu.isSubmitted() == false) {
-                            return;
-                        }
-
-                        XYTextAnnotation at = new XYTextAnnotation(cMenu.getComment(), point[0], point[1]);
-                        at.setFont(new Font(AppFrame.getFontName(), AppFrame.getFontStyle(), AppFrame.getFontSize()));
-                        at.setPaint(AppFrame.getAbsoluteColor());
-                        at.setTextAnchor(TextAnchor.TOP_LEFT);
-                        plot.addAnnotation(at);
+                        CommentAnnotation comment = new CommentAnnotation(plot, color, point, this);
+                        shapeIndex = annotations.size();
+                        annotations.add(comment);
                     }
-                    if (e.getButton() == MouseEvent.BUTTON3) {
-                        removeTextAnnotation();
+                    else if (e.getButton() == MouseEvent.BUTTON3) {
+                        deleteAnnotation(point);
                     }
                 }
                 case MARK -> {
@@ -439,9 +431,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     Rectangle2D bounds = info.getPlotInfo().getDataArea();
                     double x1 = plot.getDomainAxis().valueToJava2D(annotation.getX(), bounds, plot.getDomainAxisEdge());
                     double y1 = plot.getRangeAxis().valueToJava2D(annotation.getY(), bounds, plot.getRangeAxisEdge());
-                    if (x >= x1 && x <= x1 + annotation.getText().length() * 7 && y >= y1 && y <= y1 + 20) {// maybe
-                                                                                                            // make
-                                                                                                            // variable
+                    if (x >= x1 && x <= x1 + annotation.getText().length() * 7 && y >= y1 && y <= y1 + 20) {
                         plot.removeAnnotation(annotation);
                         break;
                     }
@@ -492,6 +482,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private void deleteAnnotation(double[] point) {
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(point[0], point[1])) {
+                System.out.println("CLICKED");
                 annotations.get(i).delete();
                 annotations.remove(i);
                 break;

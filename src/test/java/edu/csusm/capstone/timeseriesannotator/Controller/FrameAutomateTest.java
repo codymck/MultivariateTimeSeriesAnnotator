@@ -1,7 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
-import org.assertj.swing.core.MouseButton;
 import org.assertj.swing.edt.GuiActionRunner;
 import static org.assertj.swing.launcher.ApplicationLauncher.application;
 import static org.assertj.swing.finder.WindowFinder.findFrame;
@@ -53,25 +52,18 @@ public class FrameAutomateTest {
     }
     
     @Test
-    public void testButtons2() throws InterruptedException{
+    public void testButtons2(){
         window.toggleButton("LineButton").click();
-        Thread.sleep(50);
         window.toggleButton("VerticalButton").click();
         window.toggleButton("HorizontalButton").click();
         window.toggleButton("DiagonalButton").click();
         window.toggleButton("RayButton").click();
         window.toggleButton("SegmentButton").click();
-//        window.toggleButton("VerticalButton").click();
-//        window.toggleButton("HorizontalButton").click();
-//        window.toggleButton("DiagonalButton").click();
-//        window.toggleButton("RayButton").click();
-//        window.toggleButton("SegmentButton").click();
     }
     
     @Test
-    public void testButtons3() throws InterruptedException{
+    public void testButtons3(){
         window.toggleButton("ShapeButton").click();
-        Thread.sleep(50);
         window.toggleButton("SquareButton").click();
         window.toggleButton("EllipseButton").click();
         window.toggleButton("TriangleButton").click();

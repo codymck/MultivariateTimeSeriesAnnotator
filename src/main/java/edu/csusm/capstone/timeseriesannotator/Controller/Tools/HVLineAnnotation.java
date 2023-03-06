@@ -7,6 +7,9 @@ import java.awt.BasicStroke;
 import org.jfree.chart.ui.RectangleAnchor;
 
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import org.jfree.chart.axis.ValueAxis;
 
 public class HVLineAnnotation extends AbstractAnnotation {
     public boolean selected;
@@ -14,40 +17,43 @@ public class HVLineAnnotation extends AbstractAnnotation {
     public XYPlot plot;
     public String type;
 
-    ValueMarker drawMarker;
-    ValueMarker traceMarker = null;
-    ValueMarker storeMarker;
-    ValueMarker deleteMarker;
-
-    public HVLineAnnotation(XYPlot p, Color c, String t) {
+    private ValueMarker drawMarker;
+    private ValueMarker traceMarker = null;
+    private Line2D.Double storeLine = null;
+    private Rectangle2D.Double intersectRect;
+    
+    private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
+    
+    public HVLineAnnotation(XYPlot p, Color c, String t, double[] m) {
         this.plot = p;
         this.color = c;
         this.type = t;
+        this.minMax = m;
     }
 
     public void createLine(double[] point) {
-        if (type == "horizontal") {
+        if (type.equals("horizontal")) {
             drawMarker = new ValueMarker(point[1]);
             drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
-            drawMarker.setPaint(AppFrame.getAbsoluteColor());
+            drawMarker.setPaint(color);
             drawMarker.setStroke(new BasicStroke(2.0f));
-            storeMarker = drawMarker;
-            drawMarker = null;
-            plot.addRangeMarker(storeMarker);
-        } else if (type == "vertical") {
+            plot.addRangeMarker(drawMarker);
+            double lengthX = minMax[2] - minMax[0];
+            storeLine = new Line2D.Double(minMax[0] + lengthX*3, point[1], minMax[2] - lengthX*3, point[1]);
+        } else if (type.equals("vertical")) {
             drawMarker = new ValueMarker(point[0]);
             drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
-            drawMarker.setPaint(AppFrame.getAbsoluteColor());
+            drawMarker.setPaint(color);
             drawMarker.setStroke(new BasicStroke(2.0f));
-            storeMarker = drawMarker;
-            drawMarker = null;
-            plot.addDomainMarker(storeMarker);
+            plot.addDomainMarker(drawMarker);
+            double lengthY = minMax[3] - minMax[1];
+            storeLine = new Line2D.Double(point[0], minMax[1] - lengthY*3, point[0], minMax[3] + lengthY*3);
         }
 
     }
 
     public void drawTrace(double[] point) {
-        if (type == "horizontal") {
+        if (type.equals("horizontal")) {
             if (traceMarker != null) {
                 plot.removeRangeMarker(traceMarker);
             }
@@ -56,7 +62,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
             traceMarker.setPaint(AppFrame.getAbsoluteColor());
             traceMarker.setStroke(new BasicStroke(2.0f));
             plot.addRangeMarker(traceMarker);
-        } else if (type == "vertical") {
+        } else if (type.equals("vertical")) {
             if (traceMarker != null) {
                 plot.removeDomainMarker(traceMarker);
             }
@@ -69,11 +75,11 @@ public class HVLineAnnotation extends AbstractAnnotation {
     }
 
     public void removeTrace() {
-        if (type == "horizontal") {
+        if (type.equals("horizontal")) {
             if (traceMarker != null) {
                 plot.removeRangeMarker(traceMarker);
             }
-        } else if (type == "vertical") {
+        } else if (type.equals("vertical")) {
             if (traceMarker != null) {
                 plot.removeDomainMarker(traceMarker);
             }
@@ -82,30 +88,39 @@ public class HVLineAnnotation extends AbstractAnnotation {
 
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
-        // DETERMINE RATIO OF ZOOM FOR PROXIMITY TO LINE
-        if (type == "horizontal" && mouseY >= storeMarker.getValue() - 3 && mouseY <= storeMarker.getValue() + 3) {
-            return true;
-        }
-        if (type == "vertical" && mouseX >= storeMarker.getValue() - 3 && mouseX <= storeMarker.getValue() + 3) {
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    void move(double xOffset, double yOffset) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
+        ValueAxis domainAxis = plot.getDomainAxis();
+        double domainMin = domainAxis.getLowerBound();
+        double domainMax = domainAxis.getUpperBound();
+        ValueAxis rangeAxis = plot.getRangeAxis();
+        double rangeMin = rangeAxis.getLowerBound();
+        double rangeMax = rangeAxis.getUpperBound();
+        double xSize = (domainMax - domainMin) / 50.0;
+        double ySize = (rangeMax - rangeMin) / 50.0;
+        double xOffset = xSize / 2.0;
+        double yOffset = ySize / 2.0;
+        intersectRect = new Rectangle2D.Double(mouseX-xOffset, mouseY-yOffset, xSize, ySize);
+        //XYShapeAnnotation hitbox = new XYShapeAnnotation(intersectRect, new BasicStroke(0), color, color);
+        //plot.addAnnotation(hitbox);
+        boolean r = storeLine.intersects(intersectRect);
+        return r;
     }
 
     @Override
     public void delete() {
-        if (type == "horizontal") {
-            plot.removeRangeMarker(storeMarker);
-        } else if (type == "vertical") {
-            plot.removeDomainMarker(storeMarker);
+        if (type.equals("horizontal")) {
+            plot.removeRangeMarker(drawMarker);
+        } else if (type.equals("vertical")) {
+            plot.removeDomainMarker(drawMarker);
         }
     }
 
+    @Override
+    public void move(double newX, double newY, boolean set) {
+
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
 }

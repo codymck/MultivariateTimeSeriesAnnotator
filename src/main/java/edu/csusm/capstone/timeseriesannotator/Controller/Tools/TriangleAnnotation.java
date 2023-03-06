@@ -17,60 +17,54 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public Color color;
     public XYPlot plot;
 
-    private Path2D.Double drawTriangle = null;
     private Path2D.Double storeTriangle = null;
 
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
 
-    private Point2D sPoint;
-    private Point2D sPoint2;
-
-    private double x;
-    private double y;
-
-    private XYShapeAnnotation triangleAnnotation;
-
+    private XYShapeAnnotation triangleAnnotation = null;
+    private XYLineAnnotation line = null;
+    
     private int triClick = 0;
-    private XYLineAnnotation line;
 
     public TriangleAnnotation(XYPlot p, Color c) {
         this.plot = p;
         this.color = c;
     }
 
-    public Path2D.Double createShape(double[] point, Point2D pointObj) {
-        switch (triClick) {
-            case 0 -> {
-                sPoint = pointObj;
-                coordinates[0][0] = point[0];
-                coordinates[0][1] = point[1];
-                line = new XYLineAnnotation(
-                        point[0],
-                        point[1],
-                        point[0],
-                        point[1],
-                        new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
-                plot.addAnnotation(line);
-                drawTriangle = new Path2D.Double();
-                triClick++;
+    public void createShape(double[] point) {
+        for(int i = triClick; i < 3; i++){
+            coordinates[i][0] = point[0];
+            coordinates[i][1] = point[1];
+        }
+        if(triClick == 0){
+            line = new XYLineAnnotation(
+                    point[0],
+                    point[1],
+                    point[0],
+                    point[1],
+                    new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+            plot.addAnnotation(line);
+            triClick++;
+        }else{
+            if(triangleAnnotation != null){
+                plot.removeAnnotation(triangleAnnotation);
             }
-            case 1 -> {
-                plot.removeAnnotation(line);
-                sPoint2 = pointObj;
-                coordinates[1][0] = point[0];
-                coordinates[1][1] = point[1];
-                drawTriangle = new Path2D.Double();
-                drawTriangle.moveTo(sPoint.getX(), sPoint.getY());
-                drawTriangle.lineTo(sPoint2.getX(), sPoint2.getY());
-                drawTriangle.lineTo(sPoint2.getX(), sPoint2.getY());
-                drawTriangle.closePath();
-                triClick++;
+            storeTriangle = new Path2D.Double();
+            storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);
+            storeTriangle.lineTo(coordinates[1][0], coordinates[1][1]);
+            storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
+            storeTriangle.closePath();
+            triangleAnnotation = new XYShapeAnnotation(storeTriangle,
+                    new BasicStroke(0), new Color(0, 0, 0, 0), color);
+            plot.addAnnotation(triangleAnnotation);
+            triClick++;
+            if(triClick > 2){
+                triClick = 0;
             }
         }
-        return drawTriangle;
     }
 
-    public Path2D.Double drawTriangle(double[] point, Point2D pointObj, Rectangle2D screenDataArea) {
+    public void drawTriangle(double[] point) {
         if (triClick == 1) {
             plot.removeAnnotation(line);
             line = new XYLineAnnotation(
@@ -81,60 +75,75 @@ public class TriangleAnnotation extends AbstractAnnotation {
                     new BasicStroke(2.0f), color);
             plot.addAnnotation(line);
         } else if (triClick == 2) {
-            x = pointObj.getX();
-            y = pointObj.getY();
-            // make sure it doesn't overflow the bounds of the chart
-            if (x < screenDataArea.getMinX()) {
-                x = screenDataArea.getMinX();
+            if(line != null){
+                plot.removeAnnotation(line);
+                line = null;
             }
-            if (y < screenDataArea.getMinY()) {
-                y = screenDataArea.getMinY();
-            }
-            if (x > screenDataArea.getMaxX()) {
-                x = screenDataArea.getMaxX();
-            }
-            if (y > screenDataArea.getMaxY()) {
-                y = screenDataArea.getMaxY();
-            }
-            drawTriangle = new Path2D.Double();
-            drawTriangle.moveTo(sPoint.getX(), sPoint.getY());
-            drawTriangle.lineTo(sPoint2.getX(), sPoint2.getY());
-            drawTriangle.lineTo(x, y);
-            drawTriangle.closePath();
+            plot.removeAnnotation(triangleAnnotation);
+            storeTriangle = new Path2D.Double();
+            storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);
+            storeTriangle.lineTo(coordinates[1][0], coordinates[1][1]);
+            storeTriangle.lineTo(point[0], point[1]);
+            storeTriangle.closePath();
+            triangleAnnotation = new XYShapeAnnotation(storeTriangle,
+                    new BasicStroke(0), new Color(0, 0, 0, 0), color);
+            plot.addAnnotation(triangleAnnotation);
         }
-        return drawTriangle;
-    }
-
-    public void placeShape(double[] point) {
-        coordinates[2][0] = point[0];
-        coordinates[2][1] = point[1];
-        storeTriangle = new Path2D.Double();
-        storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);
-        storeTriangle.lineTo(coordinates[1][0], coordinates[1][1]);
-        storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
-        storeTriangle.closePath();
-        triangleAnnotation = new XYShapeAnnotation(storeTriangle,
-                new BasicStroke(2), new Color(0, 0, 0, 0), color);
-        plot.addAnnotation(triangleAnnotation);
-        drawTriangle = null;
-        triClick = 0;
     }
 
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);
-        return storeTriangle.contains(p);
-    }
-
-    @Override
-    void move(double xOffset, double yOffset) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean r = storeTriangle.contains(p);
+        
+        if(r && !selected){
+            plot.removeAnnotation(triangleAnnotation);
+            triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(2),
+                new Color(0, 0, 0), color);
+            plot.addAnnotation(triangleAnnotation);
+            selected = true;
+        }else if(r && selected){
+            plot.removeAnnotation(triangleAnnotation);
+            triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(0),
+                new Color(0, 0, 0, 0), color);
+            plot.addAnnotation(triangleAnnotation);
+            selected = false;
+        }
+        return r;
     }
 
     @Override
     public void delete() {
         plot.removeAnnotation(triangleAnnotation);
     }
+    
+    @Override
+    public void move(double xOffset, double yOffset, boolean set) {
+        plot.removeAnnotation(triangleAnnotation);
+        if(!set){
+            storeTriangle = new Path2D.Double();
+            storeTriangle.moveTo(coordinates[0][0]-xOffset, coordinates[0][1]-yOffset);
+            storeTriangle.lineTo(coordinates[1][0]-xOffset, coordinates[1][1]-yOffset);
+            storeTriangle.lineTo(coordinates[2][0]-xOffset, coordinates[2][1]-yOffset);
+            storeTriangle.closePath();
+        }else{
+            for(int i = 0; i < 3; i++){
+                coordinates[i][0]-=xOffset;
+                coordinates[i][1]-=yOffset;
+            }
+            storeTriangle = new Path2D.Double();
+            storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);
+            storeTriangle.lineTo(coordinates[1][0], coordinates[1][1]);
+            storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
+            storeTriangle.closePath();
+        }
+        triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(2),
+            new Color(0, 0, 0), color);
+        plot.addAnnotation(triangleAnnotation);
+    }
 
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
 }

@@ -96,8 +96,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                     //System.out.println("Type: " + event.getScrollType() + " Precise: " + event.getPreciseWheelRotation());
                     if (event.getPreciseWheelRotation() > 0 || event.isShiftDown() || k == MouseEvent.CTRL_DOWN_MASK) {
                         //System.out.println("max x: " + emptyChart.maxX*3 + " min x: " + emptyChart.minX*3 + " max y: " + emptyChart.maxY*3 + " min y: " + emptyChart.minY*3);
-                        if (plot.getDomainAxis().getUpperBound() > emptyChart.maxX*3 || plot.getDomainAxis().getLowerBound() < -emptyChart.maxX*3 ||
-                            plot.getRangeAxis().getUpperBound() > emptyChart.maxY*3 || plot.getRangeAxis().getLowerBound() < -emptyChart.maxY*3){
+                        if (plot.getDomainAxis().getUpperBound() > emptyChart.minMax[2]*3 || plot.getDomainAxis().getLowerBound() < -emptyChart.minMax[2]*3 ||
+                            plot.getRangeAxis().getUpperBound() > emptyChart.minMax[3]*3 || plot.getRangeAxis().getLowerBound() < -emptyChart.minMax[3]*3){
                             emptyChart.setDomainZoomable(false);
                             emptyChart.setRangeZoomable(false);
                         }

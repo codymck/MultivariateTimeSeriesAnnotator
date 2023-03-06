@@ -52,7 +52,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private HVLineAnnotation vTrace;
     private boolean clickedOnce;
 
-    private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
+    public double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
 
     /* SHAPE variables */
     private ArrayList<AbstractAnnotation> annotations = new ArrayList<>();

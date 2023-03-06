@@ -183,26 +183,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddChartButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="ZoomButton1">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroup1"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/icons8-star-24.png"/>
-                </Property>
-                <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="1"/>
-                <Property name="toolTipText" type="java.lang.String" value="Zoom (1)"/>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ZoomButton1ActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-              </AuxValues>
-            </Component>
             <Component class="javax.swing.JToggleButton" name="ZoomButton">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -238,16 +218,36 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PanButtonActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JToggleButton" name="EditButton">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroup1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/icons8-3d-pointer-20.png"/>
+                </Property>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="3"/>
+                <Property name="toolTipText" type="java.lang.String" value="Select (3)"/>
+                <Property name="verticalTextPosition" type="int" value="1"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EditButtonActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
+            </Component>
             <Component class="javax.swing.JToggleButton" name="SelectButton">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/select.png"/>
+                  <Image iconType="3" name="/icons/icons8-select-middle-column-20.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="3" postCode="SelectButton.setName(&quot;SelectButton&quot;);"/>
-                <Property name="toolTipText" type="java.lang.String" value="Select (3)"/>
+                <Property name="text" type="java.lang.String" value="4" postCode="SelectButton.setName(&quot;SelectButton&quot;);"/>
+                <Property name="toolTipText" type="java.lang.String" value="Select (4)"/>
                 <Property name="verticalTextPosition" type="int" value="1"/>
               </Properties>
               <Events>
@@ -262,8 +262,8 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icons/icons8-comment-medical-32.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="4" postCode="CommentButton.setName(&quot;CommentButton&quot;);"/>
-                <Property name="toolTipText" type="java.lang.String" value="Comment (4)"/>
+                <Property name="text" type="java.lang.String" value="5" postCode="CommentButton.setName(&quot;CommentButton&quot;);"/>
+                <Property name="toolTipText" type="java.lang.String" value="Comment (5)"/>
                 <Property name="verticalTextPosition" type="int" value="1"/>
               </Properties>
               <Events>
@@ -278,8 +278,8 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icons/icons8-line-24.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="5" postCode="LineButton.setName(&quot;LineButton&quot;);"/>
-                <Property name="toolTipText" type="java.lang.String" value="Lines (5)"/>
+                <Property name="text" type="java.lang.String" value="6" postCode="LineButton.setName(&quot;LineButton&quot;);"/>
+                <Property name="toolTipText" type="java.lang.String" value="Lines (6)"/>
                 <Property name="actionCommand" type="java.lang.String" value="(5)"/>
                 <Property name="verticalTextPosition" type="int" value="1"/>
               </Properties>
@@ -295,8 +295,8 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icons/icons8-diversity-50.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="6"/>
-                <Property name="toolTipText" type="java.lang.String" value="Shapes(6)"/>
+                <Property name="text" type="java.lang.String" value="7"/>
+                <Property name="toolTipText" type="java.lang.String" value="Shapes(7)"/>
                 <Property name="actionCommand" type="java.lang.String" value="(5)"/>
                 <Property name="verticalTextPosition" type="int" value="1"/>
               </Properties>

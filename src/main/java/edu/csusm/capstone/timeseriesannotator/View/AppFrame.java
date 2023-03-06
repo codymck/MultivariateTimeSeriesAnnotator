@@ -66,15 +66,18 @@ public class AppFrame extends javax.swing.JFrame {
                             PanButton.doClick();
                             break;
                         case KeyEvent.VK_3:
-                            SelectButton.doClick();
+                            EditButton.doClick();
                             break;
                         case KeyEvent.VK_4:
-                            CommentButton.doClick();
+                            SelectButton.doClick();
                             break;
                         case KeyEvent.VK_5:
-                            LineButton.doClick();
+                            CommentButton.doClick();
                             break;
                         case KeyEvent.VK_6:
+                            LineButton.doClick();
+                            break;
+                        case KeyEvent.VK_7:
                             ShapeButton.doClick();
                             break;
                         case KeyEvent.VK_CONTROL:
@@ -152,9 +155,9 @@ public class AppFrame extends javax.swing.JFrame {
         ToolBarPanel = new javax.swing.JPanel();
         ToolSelectPanel = new javax.swing.JPanel();
         AddChartButton = new javax.swing.JButton();
-        ZoomButton1 = new javax.swing.JToggleButton();
         ZoomButton = new javax.swing.JToggleButton();
         PanButton = new javax.swing.JToggleButton();
+        EditButton = new javax.swing.JToggleButton();
         SelectButton = new javax.swing.JToggleButton();
         CommentButton = new javax.swing.JToggleButton();
         LineButton = new javax.swing.JToggleButton();
@@ -229,19 +232,6 @@ public class AppFrame extends javax.swing.JFrame {
         });
         ToolSelectPanel.add(AddChartButton);
 
-        buttonGroup1.add(ZoomButton1);
-        ZoomButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-star-24.png"))); // NOI18N
-        ZoomButton1.setSelected(true);
-        ZoomButton1.setText("1");
-        ZoomButton1.setToolTipText("Zoom (1)");
-        ZoomButton1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        ZoomButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ZoomButton1ActionPerformed(evt);
-            }
-        });
-        ToolSelectPanel.add(ZoomButton1);
-
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
         ZoomButton.setText("1");
@@ -268,11 +258,24 @@ public class AppFrame extends javax.swing.JFrame {
         });
         ToolSelectPanel.add(PanButton);
 
+        buttonGroup1.add(EditButton);
+        EditButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-3d-pointer-20.png"))); // NOI18N
+        EditButton.setSelected(true);
+        EditButton.setText("3");
+        EditButton.setToolTipText("Select (3)");
+        EditButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        EditButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditButtonActionPerformed(evt);
+            }
+        });
+        ToolSelectPanel.add(EditButton);
+
         buttonGroup1.add(SelectButton);
-        SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/select.png"))); // NOI18N
-        SelectButton.setText("3");
+        SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-select-middle-column-20.png"))); // NOI18N
+        SelectButton.setText("4");
         SelectButton.setName("SelectButton");
-        SelectButton.setToolTipText("Select (3)");
+        SelectButton.setToolTipText("Select (4)");
         SelectButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         SelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,9 +286,9 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
-        CommentButton.setText("4");
+        CommentButton.setText("5");
         CommentButton.setName("CommentButton");
-        CommentButton.setToolTipText("Comment (4)");
+        CommentButton.setToolTipText("Comment (5)");
         CommentButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         CommentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -296,9 +299,9 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(LineButton);
         LineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
-        LineButton.setText("5");
+        LineButton.setText("6");
         LineButton.setName("LineButton");
-        LineButton.setToolTipText("Lines (5)");
+        LineButton.setToolTipText("Lines (6)");
         LineButton.setActionCommand("(5)");
         LineButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         LineButton.addActionListener(new java.awt.event.ActionListener() {
@@ -310,8 +313,8 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(ShapeButton);
         ShapeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
-        ShapeButton.setText("6");
-        ShapeButton.setToolTipText("Shapes(6)");
+        ShapeButton.setText("7");
+        ShapeButton.setToolTipText("Shapes(7)");
         ShapeButton.setActionCommand("(5)");
         ShapeButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         ShapeButton.setName("ShapeButton");
@@ -748,7 +751,7 @@ public class AppFrame extends javax.swing.JFrame {
         fontStyle = FontStyleComboBox.getSelectedItem().toString();
     }//GEN-LAST:event_FontStyleComboBoxActionPerformed
 
-    private void ZoomButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomButton1ActionPerformed
+    private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
         setAppState(ToolState.SELECT);
         ColorPanel.setVisible(false);
 
@@ -759,7 +762,7 @@ public class AppFrame extends javax.swing.JFrame {
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).emptyChart.setChartState(ToolState.SELECT);
         }
-    }//GEN-LAST:event_ZoomButton1ActionPerformed
+    }//GEN-LAST:event_EditButtonActionPerformed
 
     public static int getFontStyle() {
         int style = Font.PLAIN;
@@ -928,6 +931,7 @@ public class AppFrame extends javax.swing.JFrame {
     private java.awt.Panel ColorPanel;
     private javax.swing.JToggleButton CommentButton;
     private javax.swing.JToggleButton DiagonalButton;
+    public javax.swing.JToggleButton EditButton;
     private javax.swing.JToggleButton EllipseButton;
     private javax.swing.JComboBox<String> FontComboBox;
     private javax.swing.JLabel FontLabel;
@@ -958,7 +962,6 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton VerticalButton;
     private javax.swing.JToggleButton YellowButton;
     public javax.swing.JToggleButton ZoomButton;
-    public javax.swing.JToggleButton ZoomButton1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;

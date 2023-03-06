@@ -15,6 +15,8 @@ import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -50,7 +52,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private HVLineAnnotation vTrace;
     private boolean clickedOnce;
 
-    private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
+    public double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
 
     /* SHAPE variables */
     private ArrayList<AbstractAnnotation> annotations = new ArrayList<>();
@@ -86,7 +88,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 if (syncing) {
                     // Disable synchronization temporarily
                     syncing = false;
-                    Controller.syncX(chart);
+                    synchronized(this){
+                        Controller.syncX(chart);
+                    }
                     syncing = true;
                 }
             }

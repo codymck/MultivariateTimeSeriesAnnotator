@@ -68,7 +68,7 @@ public class ScatterPlot implements ChartsIF {
         XYPlot plotter = chartStruct.getPlot();
         XYDataset data = xyChart.getDataset2();
         
-        dotRenderer.setSeriesPaint(0, java.awt.Color.blue);
+        dotRenderer.setSeriesPaint(0, java.awt.Color.blue);//possibly update later for user selection
         dotRenderer.setDotWidth(5);
         dotRenderer.setDotHeight(5);
         
@@ -80,7 +80,7 @@ public class ScatterPlot implements ChartsIF {
         plotter.setRenderer(chartStruct.getFlag()-1,dotRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
-        JFreeChart chart = new JFreeChart("Test", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
+        JFreeChart chart = new JFreeChart("Data", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
@@ -99,7 +99,7 @@ public class ScatterPlot implements ChartsIF {
             chartStruct.setFlag(2);
         }
         else if (chartStruct.getFlag() >= 2){
-            String name = "Chart " + chartStruct.getFlag();
+            String name = "Dataset " + chartStruct.getFlag();
             xyChart.addDataset(name);
             chartStruct.setFlag(chartStruct.getFlag()+1);
         }

@@ -33,7 +33,7 @@ public class FrameAutomateTest {
     }
     
     @Test
-    public void testButtons(){
+    public void testButtons() throws InterruptedException{
         window.button("AddChartButton").click();
         window.toggleButton("ZoomButton").click();
         window.toggleButton("PanButton").click();
@@ -48,17 +48,22 @@ public class FrameAutomateTest {
         window.toggleButton("PurpleButton").click();
         //end of color buttons
         window.toggleButton("CommentButton").click();
+        
+        window.toggleButton("ShapeButton").click();
+        Thread.sleep(50);
+        window.toggleButton("SquareButton").click();
+        window.toggleButton("EllipseButton").click();
+        window.toggleButton("TriangleButton").click();
+        
         window.toggleButton("LineButton").click();
+        Thread.sleep(50);
         window.toggleButton("VerticalButton").click();
         window.toggleButton("HorizontalButton").click();
         window.toggleButton("DiagonalButton").click();
         window.toggleButton("RayButton").click();
         window.toggleButton("SegmentButton").click();
         //
-        window.toggleButton("ShapeButton").click();
-        window.toggleButton("SquareButton").click();
-        window.toggleButton("EllipseButton").click();
-        window.toggleButton("TriangleButton").click();
+        
     }
     
     @Test

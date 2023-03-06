@@ -152,6 +152,7 @@ public class AppFrame extends javax.swing.JFrame {
         ToolBarPanel = new javax.swing.JPanel();
         ToolSelectPanel = new javax.swing.JPanel();
         AddChartButton = new javax.swing.JButton();
+        ZoomButton1 = new javax.swing.JToggleButton();
         ZoomButton = new javax.swing.JToggleButton();
         PanButton = new javax.swing.JToggleButton();
         SelectButton = new javax.swing.JToggleButton();
@@ -228,9 +229,21 @@ public class AppFrame extends javax.swing.JFrame {
         });
         ToolSelectPanel.add(AddChartButton);
 
+        buttonGroup1.add(ZoomButton1);
+        ZoomButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-star-24.png"))); // NOI18N
+        ZoomButton1.setSelected(true);
+        ZoomButton1.setText("1");
+        ZoomButton1.setToolTipText("Zoom (1)");
+        ZoomButton1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        ZoomButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ZoomButton1ActionPerformed(evt);
+            }
+        });
+        ToolSelectPanel.add(ZoomButton1);
+
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
-        ZoomButton.setSelected(true);
         ZoomButton.setText("1");
         ZoomButton.setName("ZoomButton");
         ZoomButton.setToolTipText("Zoom (1)");
@@ -735,6 +748,19 @@ public class AppFrame extends javax.swing.JFrame {
         fontStyle = FontStyleComboBox.getSelectedItem().toString();
     }//GEN-LAST:event_FontStyleComboBoxActionPerformed
 
+    private void ZoomButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomButton1ActionPerformed
+        setAppState(ToolState.SELECT);
+        ColorPanel.setVisible(false);
+
+        ShapesPanel.setVisible(false);
+        LinesPanel.setVisible(false);
+        FontPanel.setVisible(false);
+
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).emptyChart.setChartState(ToolState.SELECT);
+        }
+    }//GEN-LAST:event_ZoomButton1ActionPerformed
+
     public static int getFontStyle() {
         int style = Font.PLAIN;
         if (null != fontStyle) {
@@ -932,6 +958,7 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton VerticalButton;
     private javax.swing.JToggleButton YellowButton;
     public javax.swing.JToggleButton ZoomButton;
+    public javax.swing.JToggleButton ZoomButton1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;

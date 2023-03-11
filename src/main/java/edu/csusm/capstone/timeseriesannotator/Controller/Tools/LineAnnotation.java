@@ -67,7 +67,7 @@ public class LineAnnotation extends AbstractAnnotation {
         storeLine = new Line2D.Double(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
         lineAnnotation = new XYShapeAnnotation(storeLine, new BasicStroke(2), color);
         plot.addAnnotation(lineAnnotation);
-        System.out.println(""+type);
+        export();
     }
     
     @Override
@@ -106,7 +106,16 @@ public class LineAnnotation extends AbstractAnnotation {
 
     @Override
     public void export() {
-        String annotation_type = "Line";
+        String annotation_type = "lines";
+        List<Integer> rgba = getRGBAList();
+        List<List<Double>> coords = getLineCoords();
+        List<String> data = getDataList();
+        
+        System.out.println("Annotation Type: " + annotation_type);
+        System.out.println("Coordinates: " + coords.toString());
+        System.out.println("RGBA Values: " + rgba.toString());
+        System.out.println("Data: " + data.toString());
+        System.out.println("");
     }
 
     @Override
@@ -136,7 +145,21 @@ public class LineAnnotation extends AbstractAnnotation {
 
     @Override
     public List<Double> getCoordsList() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
+    }
+    
+    public List<List<Double>> getLineCoords() {
+        List<List<Double>> coords = new ArrayList<>();
+        
+        for (double[] coordinate : coordinates) {
+            List<Double> set = new ArrayList<>();
+            for (int i = 0; i < coordinate.length; i++) {
+                set.add(coordinate[i]);
+            }
+            coords.add(set);
+        }
+        
+        return coords;
     }
     
 }

@@ -56,8 +56,6 @@ public class RectangleAnnotation extends AbstractAnnotation {
         rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
                 new Color(0, 0, 0, 0), color);
         plot.addAnnotation(rectAnnotation);
-        
-        export();
     }
 
     @Override

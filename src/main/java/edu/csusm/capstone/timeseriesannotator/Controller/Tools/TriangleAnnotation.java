@@ -151,7 +151,14 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     @Override
     public void export() {
-        String annotation_type = "Triangle";
+        String annotation_type = "triangle";
+        List<Integer> rgba = getRGBAList();
+        List<List<Double>> coords = getTriCoords();
+        
+        System.out.println("Annotation Type: " + annotation_type);
+        System.out.println("Coordinates: " + coords.toString());
+        System.out.println("RGBA Values: " + rgba.toString());
+        System.out.println("");
     }
 
     @Override
@@ -176,6 +183,20 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     @Override
     public List<Double> getCoordsList() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
+    }
+    
+    public List<List<Double>> getTriCoords() {
+        List<List<Double>> coords = new ArrayList<>();
+        
+        for (double[] coordinate : coordinates) {
+            List<Double> set = new ArrayList<>();
+            for (int i = 0; i < coordinate.length; i++) {
+                set.add(coordinate[i]);
+            }
+            coords.add(set);
+        }
+        
+        return coords;
     }
 }

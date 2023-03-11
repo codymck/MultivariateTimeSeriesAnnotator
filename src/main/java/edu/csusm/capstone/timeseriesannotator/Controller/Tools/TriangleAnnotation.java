@@ -9,6 +9,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import java.awt.BasicStroke;
+import java.util.ArrayList;
+import java.util.List;
 import org.jfree.chart.annotations.XYLineAnnotation;
 
 public class TriangleAnnotation extends AbstractAnnotation {
@@ -145,5 +147,35 @@ public class TriangleAnnotation extends AbstractAnnotation {
     @Override
     public boolean isSelected() {
         return selected;
+    }
+
+    @Override
+    public void export() {
+        String annotation_type = "Triangle";
+    }
+
+    @Override
+    public List<Integer> getRGBAList() {
+        int R = color.getRed();
+        int G = color.getGreen();
+        int B = color.getBlue();
+        int A = color.getAlpha();
+        List<Integer> rgba = new ArrayList<>();
+        rgba.add(R);
+        rgba.add(G);
+        rgba.add(B);
+        rgba.add(A);
+        
+        return rgba;
+    }
+
+    @Override
+    public List<String> getDataList() {
+        return null;
+    }
+
+    @Override
+    public List<Double> getCoordsList() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

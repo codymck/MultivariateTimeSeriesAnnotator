@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -100,6 +102,41 @@ public class LineAnnotation extends AbstractAnnotation {
     @Override
     public boolean isSelected() {
         return selected;
+    }
+
+    @Override
+    public void export() {
+        String annotation_type = "Line";
+    }
+
+    @Override
+    public List<Integer> getRGBAList() {
+        int R = color.getRed();
+        int G = color.getGreen();
+        int B = color.getBlue();
+        int A = color.getAlpha();
+        List<Integer> rgba = new ArrayList<>();
+        rgba.add(R);
+        rgba.add(G);
+        rgba.add(B);
+        rgba.add(A);
+        
+        return rgba;
+    }
+
+    @Override
+    public List<String> getDataList() {
+        List<String> data = new ArrayList<>();
+        if (type.equals("diagonal")) data.add("diagonal");
+        else if (type.equals("ray")) data.add("ray");
+        else if (type.equals("segment")) data.add("segment");
+        
+        return data;
+    }
+
+    @Override
+    public List<Double> getCoordsList() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

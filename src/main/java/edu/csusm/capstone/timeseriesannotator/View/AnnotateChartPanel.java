@@ -42,7 +42,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     private ToolState state;
     private JFreeChart chart = null;
-    Color color = new Color(0, 100, 255, 60);
+    Color color = new Color(0, 0, 0, 60);
     private XYPlot plot;
     final List<XYDataset> originalDatasets;
     private boolean syncing = false;
@@ -493,6 +493,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 annotations.remove(i);
                 break;
             }
+        }
+    }
+    
+    public void exportAnnotations() {
+        for (int i = 0; i < annotations.size(); i++) {
+                annotations.get(i).export();
         }
     }
     

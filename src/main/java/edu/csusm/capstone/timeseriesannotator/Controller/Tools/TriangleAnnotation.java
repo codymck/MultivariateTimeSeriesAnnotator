@@ -9,6 +9,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import java.awt.BasicStroke;
+import java.util.ArrayList;
+import java.util.List;
 import org.jfree.chart.annotations.XYLineAnnotation;
 
 public class TriangleAnnotation extends AbstractAnnotation {
@@ -145,5 +147,56 @@ public class TriangleAnnotation extends AbstractAnnotation {
     @Override
     public boolean isSelected() {
         return selected;
+    }
+
+    @Override
+    public void export() {
+        String annotation_type = "triangle";
+        List<Integer> rgba = getRGBAList();
+        List<List<Double>> coords = getTriCoords();
+        
+        System.out.println("Annotation Type: " + annotation_type);
+        System.out.println("Coordinates: " + coords.toString());
+        System.out.println("RGBA Values: " + rgba.toString());
+        System.out.println("");
+    }
+
+    @Override
+    public List<Integer> getRGBAList() {
+        int R = color.getRed();
+        int G = color.getGreen();
+        int B = color.getBlue();
+        int A = color.getAlpha();
+        List<Integer> rgba = new ArrayList<>();
+        rgba.add(R);
+        rgba.add(G);
+        rgba.add(B);
+        rgba.add(A);
+        
+        return rgba;
+    }
+
+    @Override
+    public List<String> getDataList() {
+        return null;
+    }
+
+    @Override
+    public List<Double> getCoordsList() {
+        return null;
+    }
+    
+    public List<List<Double>> getTriCoords() {
+        List<List<Double>> coords = new ArrayList<>();
+        
+        for (double[] coordinate : coordinates) {
+            List<Double> set = new ArrayList<>();
+            for (int i = 0; i < coordinate.length; i++) {
+                set.add(coordinate[i]);
+            }
+            coords.add(set);
+        }
+        
+        return coords;
     }
 }

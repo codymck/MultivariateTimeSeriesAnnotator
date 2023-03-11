@@ -10,6 +10,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
@@ -26,6 +29,7 @@ public class CommentAnnotation extends AbstractAnnotation {
     private Font font;
     private AnnotateChartPanel chartPanel;
     private XYTextAnnotation commentAnnotation = null;
+    private String text;
 
     public CommentAnnotation(XYPlot p, Color c, double[] point, AnnotateChartPanel a, Font f) {
         this.plot = p;
@@ -40,8 +44,8 @@ public class CommentAnnotation extends AbstractAnnotation {
         if (!cMenu.isSubmitted()) {
             return;
         }
-
-        commentAnnotation = new XYTextAnnotation(cMenu.getComment(), coordinates[0], coordinates[1]);
+        text = cMenu.getComment();
+        commentAnnotation = new XYTextAnnotation(text, coordinates[0], coordinates[1]);
         commentAnnotation.setFont(f);
         commentAnnotation.setPaint(AppFrame.getAbsoluteColor());
         commentAnnotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
@@ -108,4 +112,54 @@ public class CommentAnnotation extends AbstractAnnotation {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public void export() {
+        String annotation_type = "comment";
+        List<Integer> rgba = getRGBAList();
+        List<String> data = getDataList();
+        List<Double> coords = getCoordsList();
+        
+        System.out.println("Annotation Type: " + annotation_type);
+        System.out.println("Coordinates: " + coords.toString());
+        System.out.println("RGBA Values: " + rgba.toString());
+        System.out.println("Data: " + data.toString());
+        System.out.println("");
+    }
+    
+    @Override
+    public List<Integer> getRGBAList() {
+        int R = color.getRed();
+        int G = color.getGreen();
+        int B = color.getBlue();
+        int A = color.getAlpha();
+        List<Integer> rgba = new ArrayList<>();
+        rgba.add(R);
+        rgba.add(G);
+        rgba.add(B);
+        rgba.add(A);
+        
+        return rgba;
+    }
+    
+    @Override
+    public List<String> getDataList() {
+        List<String> data = new ArrayList<>();
+        data.add(text);
+        data.add(font.getFamily());
+        data.add(Integer.toString(font.getStyle()));
+        data.add(Integer.toString(font.getSize()));
+        
+        return data;
+    }
+
+    @Override
+    public List<Double> getCoordsList() {
+        List<Double> coords = new ArrayList<>();
+        coords.add(coordinates[0]);
+        coords.add(coordinates[1]);
+        
+        return coords;
+    }
+
+    
 }

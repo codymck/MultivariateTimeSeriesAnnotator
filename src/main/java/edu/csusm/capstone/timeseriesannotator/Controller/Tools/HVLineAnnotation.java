@@ -9,6 +9,8 @@ import org.jfree.chart.ui.RectangleAnchor;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import org.jfree.chart.axis.ValueAxis;
 
 public class HVLineAnnotation extends AbstractAnnotation {
@@ -16,6 +18,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
     public Color color;
     public XYPlot plot;
     public String type;
+    private double coordinate;
 
     private ValueMarker drawMarker;
     private ValueMarker traceMarker = null;
@@ -33,6 +36,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
 
     public void createLine(double[] point) {
         if (type.equals("horizontal")) {
+            coordinate = point[1];
             drawMarker = new ValueMarker(point[1]);
             drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
             drawMarker.setPaint(color);
@@ -41,6 +45,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
             double lengthX = minMax[2] - minMax[0];
             storeLine = new Line2D.Double(minMax[0] + lengthX*3, point[1], minMax[2] - lengthX*3, point[1]);
         } else if (type.equals("vertical")) {
+            coordinate = point[0];
             drawMarker = new ValueMarker(point[0]);
             drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
             drawMarker.setPaint(color);
@@ -49,7 +54,6 @@ public class HVLineAnnotation extends AbstractAnnotation {
             double lengthY = minMax[3] - minMax[1];
             storeLine = new Line2D.Double(point[0], minMax[1] - lengthY*3, point[0], minMax[3] + lengthY*3);
         }
-
     }
 
     public void drawTrace(double[] point) {
@@ -122,5 +126,51 @@ public class HVLineAnnotation extends AbstractAnnotation {
     @Override
     public boolean isSelected() {
         return selected;
+    }
+
+    @Override
+    public void export() {
+        String annotation_type = "hvlines";
+        List<Integer> rgba = getRGBAList();
+        List<Double> coords = getCoordsList();
+        List<String> data = getDataList();
+        
+        System.out.println("Annotation Type: " + annotation_type);
+        System.out.println("Coordinates: " + coords.toString());
+        System.out.println("RGBA Values: " + rgba.toString());
+        System.out.println("Data: " + data.toString());
+        System.out.println("");
+    }
+
+    @Override
+    public List<Integer> getRGBAList() {
+        int R = color.getRed();
+        int G = color.getGreen();
+        int B = color.getBlue();
+        int A = color.getAlpha();
+        List<Integer> rgba = new ArrayList<>();
+        rgba.add(R);
+        rgba.add(G);
+        rgba.add(B);
+        rgba.add(A);
+        
+        return rgba;
+    }
+
+    @Override
+    public List<String> getDataList() {
+        List<String> data = new ArrayList<>();
+        if (type.equals("horizontal")) data.add("horizontal");
+        else if (type.equals("vertical")) data.add("vertical");
+        
+        return data;
+    }
+
+    @Override
+    public List<Double> getCoordsList() {
+        List<Double> coords = new ArrayList<>();
+        coords.add(coordinate);
+        
+        return coords;
     }
 }

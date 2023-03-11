@@ -133,9 +133,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
         jPanel1 = new javax.swing.JPanel();
         removeChartButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        AddSeriesButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         SyncButton = new javax.swing.JRadioButton();
+        ExportAnnotationsButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         setLayout(new java.awt.BorderLayout());
@@ -148,16 +149,19 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         removeChartButton.setToolTipText("");
         removeChartButton.addActionListener(this);
 
-        jButton2.setBackground(new java.awt.Color(153, 255, 153));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setText("Add Series");
-        jButton2.setToolTipText("");
-        jButton2.addActionListener(this);
+        AddSeriesButton.setBackground(new java.awt.Color(153, 255, 153));
+        AddSeriesButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        AddSeriesButton.setText("Add Series");
+        AddSeriesButton.setToolTipText("");
+        AddSeriesButton.addActionListener(this);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         SyncButton.setText("Sync Chart");
         SyncButton.addActionListener(this);
+
+        ExportAnnotationsButton.setText("Export Annotations");
+        ExportAnnotationsButton.addActionListener(this);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,8 +169,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                .addComponent(AddSeriesButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ExportAnnotationsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
                 .addComponent(SyncButton)
                 .addGap(18, 18, 18)
                 .addComponent(removeChartButton)
@@ -178,10 +184,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(removeChartButton)
-                    .addComponent(jButton2)
-                    .addComponent(SyncButton))
+                    .addComponent(AddSeriesButton)
+                    .addComponent(SyncButton)
+                    .addComponent(ExportAnnotationsButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -193,11 +200,14 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         if (evt.getSource() == removeChartButton) {
             ChartDisplay.this.removeChartButtonActionPerformed(evt);
         }
-        else if (evt.getSource() == jButton2) {
-            ChartDisplay.this.jButton2ActionPerformed(evt);
+        else if (evt.getSource() == AddSeriesButton) {
+            ChartDisplay.this.AddSeriesButtonActionPerformed(evt);
         }
         else if (evt.getSource() == SyncButton) {
             ChartDisplay.this.SyncButtonActionPerformed(evt);
+        }
+        else if (evt.getSource() == ExportAnnotationsButton) {
+            ChartDisplay.this.ExportAnnotationsButtonActionPerformed(evt);
         }
     }// </editor-fold>//GEN-END:initComponents
 
@@ -210,7 +220,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
     }//GEN-LAST:event_removeChartButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void AddSeriesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSeriesButtonActionPerformed
         if (chartStruct != null && !SyncButton.isSelected()) {
             ActionListener addAction = new AddSeriesAction(this.chartStruct, this);
             addAction.actionPerformed(evt);
@@ -218,7 +228,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             ActionListener importAction = new ImportDataAction(frame.getImportChooser(), this);
             importAction.actionPerformed(evt);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_AddSeriesButtonActionPerformed
 
     private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
         if(SyncButton.isSelected() && plot != null ){
@@ -239,10 +249,15 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
     }//GEN-LAST:event_SyncButtonActionPerformed
 
+    private void ExportAnnotationsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportAnnotationsButtonActionPerformed
+        emptyChart.exportAnnotations();
+    }//GEN-LAST:event_ExportAnnotationsButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddSeriesButton;
+    private javax.swing.JButton ExportAnnotationsButton;
     private javax.swing.JRadioButton SyncButton;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton removeChartButton;

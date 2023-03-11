@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.plot.XYPlot;
 
@@ -101,6 +103,59 @@ public class RectangleAnnotation extends AbstractAnnotation {
     @Override
     public boolean isSelected() {
         return selected;
+    }
+
+    @Override
+    public void export() {
+        String annotation_type = "";
+        if (type.equals("rectangle")) { annotation_type = "rectangle"; }
+        else if (type.equals("region")) { annotation_type = "region"; }
+        
+        List<Integer> rgba = getRGBAList();
+        List<Double> coords = getCoordsList();
+        
+        System.out.println("Annotation Type: " + annotation_type);
+        System.out.println("Coordinates: " + coords.toString());
+        System.out.println("RGBA Values: " + rgba.toString());
+        System.out.println("");
+        
+    }
+
+    @Override
+    public List<Integer> getRGBAList() {
+        int R = color.getRed();
+        int G = color.getGreen();
+        int B = color.getBlue();
+        int A = color.getAlpha();
+        List<Integer> rgba = new ArrayList<>();
+        rgba.add(R);
+        rgba.add(G);
+        rgba.add(B);
+        rgba.add(A);
+        
+        return rgba;
+    }
+
+    @Override
+    public List<String> getDataList() {
+        return null;
+    }
+
+    @Override
+    public List<Double> getCoordsList() {
+        List<Double> coords = new ArrayList<>();
+        if (type.equals("rectangle")) { 
+            coords.add(x);
+            coords.add(y);
+            coords.add(width);
+            coords.add(height);
+        }
+        else if (type.equals("region")) {
+            coords.add(x);
+            coords.add(width);
+        }
+        
+        return coords;
     }
 
 }

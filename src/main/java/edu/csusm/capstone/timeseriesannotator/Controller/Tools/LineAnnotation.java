@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -65,7 +67,6 @@ public class LineAnnotation extends AbstractAnnotation {
         storeLine = new Line2D.Double(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
         lineAnnotation = new XYShapeAnnotation(storeLine, new BasicStroke(2), color);
         plot.addAnnotation(lineAnnotation);
-        System.out.println(""+type);
     }
     
     @Override
@@ -100,6 +101,64 @@ public class LineAnnotation extends AbstractAnnotation {
     @Override
     public boolean isSelected() {
         return selected;
+    }
+
+    @Override
+    public void export() {
+        String annotation_type = "lines";
+        List<Integer> rgba = getRGBAList();
+        List<List<Double>> coords = getLineCoords();
+        List<String> data = getDataList();
+        
+        System.out.println("Annotation Type: " + annotation_type);
+        System.out.println("Coordinates: " + coords.toString());
+        System.out.println("RGBA Values: " + rgba.toString());
+        System.out.println("Data: " + data.toString());
+        System.out.println("");
+    }
+
+    @Override
+    public List<Integer> getRGBAList() {
+        int R = color.getRed();
+        int G = color.getGreen();
+        int B = color.getBlue();
+        int A = color.getAlpha();
+        List<Integer> rgba = new ArrayList<>();
+        rgba.add(R);
+        rgba.add(G);
+        rgba.add(B);
+        rgba.add(A);
+        
+        return rgba;
+    }
+
+    @Override
+    public List<String> getDataList() {
+        List<String> data = new ArrayList<>();
+        if (type.equals("diagonal")) data.add("diagonal");
+        else if (type.equals("ray")) data.add("ray");
+        else if (type.equals("segment")) data.add("segment");
+        
+        return data;
+    }
+
+    @Override
+    public List<Double> getCoordsList() {
+        return null;
+    }
+    
+    public List<List<Double>> getLineCoords() {
+        List<List<Double>> coords = new ArrayList<>();
+        
+        for (double[] coordinate : coordinates) {
+            List<Double> set = new ArrayList<>();
+            for (int i = 0; i < coordinate.length; i++) {
+                set.add(coordinate[i]);
+            }
+            coords.add(set);
+        }
+        
+        return coords;
     }
     
 }

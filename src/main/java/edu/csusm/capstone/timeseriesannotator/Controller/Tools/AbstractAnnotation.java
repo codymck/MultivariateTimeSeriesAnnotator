@@ -1,5 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import java.util.List;
+
 public abstract class AbstractAnnotation {
     
     public abstract boolean isSelected();
@@ -9,4 +11,12 @@ public abstract class AbstractAnnotation {
     public abstract void delete();
 
     public abstract void move(double xOffset, double yOffset, boolean set);
+    
+    public abstract void export();
+    
+    public abstract List<Integer> getRGBAList();
+    
+    public abstract List<Double> getCoordsList();
+    
+    public abstract List<String> getDataList();
 }

@@ -496,6 +496,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
     }
     
+    public void exportAnnotations() {
+        for (int i = 0; i < annotations.size(); i++) {
+                annotations.get(i).export();
+        }
+    }
+    
     private void selectAnnotation(double mouseX, double mouseY) {
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(mouseX, mouseY)) {

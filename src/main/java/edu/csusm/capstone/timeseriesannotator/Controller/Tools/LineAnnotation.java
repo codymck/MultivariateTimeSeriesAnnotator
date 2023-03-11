@@ -67,7 +67,6 @@ public class LineAnnotation extends AbstractAnnotation {
         storeLine = new Line2D.Double(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
         lineAnnotation = new XYShapeAnnotation(storeLine, new BasicStroke(2), color);
         plot.addAnnotation(lineAnnotation);
-        export();
     }
     
     @Override

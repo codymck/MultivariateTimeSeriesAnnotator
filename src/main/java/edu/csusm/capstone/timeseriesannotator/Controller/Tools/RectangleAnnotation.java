@@ -56,6 +56,8 @@ public class RectangleAnnotation extends AbstractAnnotation {
         rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
                 new Color(0, 0, 0, 0), color);
         plot.addAnnotation(rectAnnotation);
+        
+        export();
     }
 
     @Override
@@ -107,7 +109,18 @@ public class RectangleAnnotation extends AbstractAnnotation {
 
     @Override
     public void export() {
-        String annotation_type = "Rectangle";
+        String annotation_type = "";
+        if (type.equals("rectangle")) { annotation_type = "rectangle"; }
+        else if (type.equals("region")) { annotation_type = "region"; }
+        
+        List<Integer> rgba = getRGBAList();
+        List<Double> coords = getCoordsList();
+        
+        System.out.println("Annotation Type: " + annotation_type);
+        System.out.println("Coordinates: " + coords.toString());
+        System.out.println("RGBA Values: " + rgba.toString());
+        System.out.println("");
+        
     }
 
     @Override
@@ -132,7 +145,19 @@ public class RectangleAnnotation extends AbstractAnnotation {
 
     @Override
     public List<Double> getCoordsList() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Double> coords = new ArrayList<>();
+        if (type.equals("rectangle")) { 
+            coords.add(x);
+            coords.add(y);
+            coords.add(width);
+            coords.add(height);
+        }
+        else if (type.equals("region")) {
+            coords.add(x);
+            coords.add(width);
+        }
+        
+        return coords;
     }
 
 }

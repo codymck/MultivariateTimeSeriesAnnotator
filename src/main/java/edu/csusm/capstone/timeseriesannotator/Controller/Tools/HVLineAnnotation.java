@@ -130,7 +130,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
 
     @Override
     public void export() {
-        String annotation_type = "HVLineAnnotation";
+        String annotation_type = "hvlines";
         List<Integer> rgba = getRGBAList();
         List<Double> coords = getCoordsList();
         List<String> data = getDataList();

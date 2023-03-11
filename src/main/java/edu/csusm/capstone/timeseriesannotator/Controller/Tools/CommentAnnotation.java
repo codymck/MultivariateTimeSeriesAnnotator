@@ -114,7 +114,7 @@ public class CommentAnnotation extends AbstractAnnotation {
 
     @Override
     public void export() {
-        String annotation_type = "Comment";
+        String annotation_type = "comment";
         List<Integer> rgba = getRGBAList();
         List<String> data = getDataList();
         List<Double> coords = getCoordsList();

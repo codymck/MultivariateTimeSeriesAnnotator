@@ -93,7 +93,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
 
     @Override
     public void export() {
-        String annotation_type = "Ellipse";
+        String annotation_type = "ellipse";
         List<Integer> rgba = getRGBAList();
         List<Double> coords = getCoordsList();
         

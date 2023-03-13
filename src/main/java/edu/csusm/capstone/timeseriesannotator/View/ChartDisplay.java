@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -263,7 +266,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_SyncButtonActionPerformed
 
     private void ExportAnnotationsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportAnnotationsButtonActionPerformed
-        emptyChart.exportAnnotations();
+        try {
+            emptyChart.exportAnnotations();
+        } catch (IOException ex) {
+            Logger.getLogger(ChartDisplay.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_ExportAnnotationsButtonActionPerformed
 
     public boolean synced(){

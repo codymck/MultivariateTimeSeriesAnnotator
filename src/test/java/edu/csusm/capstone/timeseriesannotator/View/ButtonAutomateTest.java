@@ -1,9 +1,6 @@
-package edu.csusm.capstone.timeseriesannotator.Controller;
+package edu.csusm.capstone.timeseriesannotator.View;
 
-import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import org.assertj.swing.edt.GuiActionRunner;
-import static org.assertj.swing.launcher.ApplicationLauncher.application;
-import static org.assertj.swing.finder.WindowFinder.findFrame;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +15,7 @@ import org.junit.Test;
  *
  * @author Ramon Duran
  */
-public class FrameAutomateTest {
+public class ButtonAutomateTest {
     private FrameFixture window;
     private AppFrame frame;
     @Before
@@ -37,6 +34,7 @@ public class FrameAutomateTest {
         window.button("AddChartButton").click();
         window.toggleButton("ZoomButton").click();
         window.toggleButton("PanButton").click();
+        window.toggleButton("EditButton").click();
         window.toggleButton("SelectButton").click();
         //color buttons shown when on select tool
         window.toggleButton("BlackButton").click();
@@ -63,18 +61,5 @@ public class FrameAutomateTest {
         window.toggleButton("RayButton").click();
         window.toggleButton("SegmentButton").click();
         //
-        
-    }
-    
-    @Test
-    public void testImport(){
-//        window.menuItem("ImportData").click();
-//        window.fileChooser().fileNameTextBox().enterText("data.csv");
-//        window.fileChooser().approveButton().click();
-//        
-//        window.menuItem("AddChartMenuItem").click();
-//          for(int i = 0;i < 5;i++){
-//              window.button("AddChartButton").click();
-//          }
     }
 }

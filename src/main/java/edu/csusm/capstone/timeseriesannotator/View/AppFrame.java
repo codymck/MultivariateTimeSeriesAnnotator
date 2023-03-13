@@ -264,6 +264,7 @@ public class AppFrame extends javax.swing.JFrame {
         EditButton.setText("3");
         EditButton.setToolTipText("Select (3)");
         EditButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        EditButton.setName("EditButton");
         EditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditButtonActionPerformed(evt);

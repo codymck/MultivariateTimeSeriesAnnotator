@@ -33,9 +33,9 @@ public class Chart {
         Ct = this;
     }
     
-    public static Chart getInstance() {
-        return Ct;
-    }
+//    public static Chart getInstance() {
+//        return Ct;
+//    }
     
     public void setXaxis(int x){
         Xaxis = x;

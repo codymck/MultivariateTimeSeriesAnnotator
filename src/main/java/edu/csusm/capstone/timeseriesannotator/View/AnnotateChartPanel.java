@@ -112,8 +112,17 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     }
                 }
                 case ZOOM -> {
-                    setMouseZoomable(true, false);
-                    super.mousePressed(e);
+                    
+                    if(syncing == true){
+                        setMouseZoomable(true, true);
+                        this.setZoomFillPaint(new Color(0,0,0,40));
+                        this.setRangeZoomable(false);
+                    }else{
+                        setMouseZoomable(true, false);
+                        this.setRangeZoomable(true);
+                    }
+                    
+                    super.mousePressed(e);                   
                 }
                 case PAN -> {
                     int panMask = MouseEvent.BUTTON1_MASK;

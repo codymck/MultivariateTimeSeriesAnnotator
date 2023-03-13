@@ -17,7 +17,7 @@ import org.jfree.data.xy.XYDataset;
 public class StepChart implements ChartsIF {
     
     XYLineChartDataset xyChart;
-    Chart chartStruct = Chart.getInstance();
+    Chart chartStruct;// = Chart.getInstance();
     XYStepRenderer stepRenderer = new XYStepRenderer();
     
     StepChart() {
@@ -25,8 +25,9 @@ public class StepChart implements ChartsIF {
     }
 
     @Override
-    public AnnotateChartPanel createChartPanel() {
-               
+    public AnnotateChartPanel createChartPanel(Chart c){
+        
+        chartStruct = c;
         dataSetter();
         
         NumberAxis xAxis = new NumberAxis("Type");
@@ -60,8 +61,9 @@ public class StepChart implements ChartsIF {
     }
     
     @Override
-    public AnnotateChartPanel addSeries(){
+    public AnnotateChartPanel addSeries(Chart c){
         
+        chartStruct = c;
         dataSetter();
         
         XYPlot plotter = chartStruct.getPlot();

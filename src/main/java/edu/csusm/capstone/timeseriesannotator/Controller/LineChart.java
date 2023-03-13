@@ -17,7 +17,7 @@ import org.jfree.data.xy.XYDataset;
 public class LineChart implements ChartsIF {
     
     XYLineChartDataset xyChart;
-    Chart chartStruct = Chart.getInstance();
+    Chart chartStruct;// = Chart.getInstance();
     XYLineAndShapeRenderer lineRenderer = new XYLineAndShapeRenderer();
     
     LineChart() {
@@ -25,8 +25,9 @@ public class LineChart implements ChartsIF {
     }
 
     @Override
-    public AnnotateChartPanel createChartPanel() {
+    public AnnotateChartPanel createChartPanel(Chart c){
         
+        chartStruct = c;
         dataSetter();
         
         NumberAxis xAxis = new NumberAxis("Type");
@@ -60,8 +61,9 @@ public class LineChart implements ChartsIF {
     }
     
     @Override
-    public AnnotateChartPanel addSeries(){
+    public AnnotateChartPanel addSeries(Chart c){
         
+        chartStruct = c;
         dataSetter();
         
         XYPlot plotter = chartStruct.getPlot();

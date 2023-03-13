@@ -221,12 +221,22 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_removeChartButtonActionPerformed
 
     private void AddSeriesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSeriesButtonActionPerformed
-        if (chartStruct != null && !SyncButton.isSelected()) {
+        boolean toggle = false;
+        if(SyncButton.isSelected()){
+            SyncButton.doClick();
+            toggle = true;
+        }
+        
+        if (chartStruct != null) {
             ActionListener addAction = new AddSeriesAction(this.chartStruct, this);
             addAction.actionPerformed(evt);
-        } else if( !SyncButton.isSelected()){
+        } else{
             ActionListener importAction = new ImportDataAction(frame.getImportChooser(), this);
             importAction.actionPerformed(evt);
+        }
+        
+        if(toggle == true){
+            SyncButton.doClick();
         }
     }//GEN-LAST:event_AddSeriesButtonActionPerformed
 
@@ -253,6 +263,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         emptyChart.exportAnnotations();
     }//GEN-LAST:event_ExportAnnotationsButtonActionPerformed
 
+    public boolean synced(){
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddSeriesButton;

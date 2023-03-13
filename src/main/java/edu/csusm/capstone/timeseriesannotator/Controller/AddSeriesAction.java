@@ -22,7 +22,7 @@ import org.jfree.data.xy.XYDataset;
 public class AddSeriesAction implements ActionListener {
     
     AnnotateChartPanel cP;
-    Chart chartStruct = Chart.getInstance();
+    Chart chartStruct;
     ChartDisplay dis;
     XYDataset series;
     ChartTypes t = ChartTypes.LineChart;
@@ -97,7 +97,7 @@ public class AddSeriesAction implements ActionListener {
             ErrorDialog.UnsupportedFile();
         }
 
-        cP = ChartBuilder.addSeries(t);
+        cP = ChartBuilder.addSeries(t, chartStruct);
         dis.setChart(cP);
         
     }

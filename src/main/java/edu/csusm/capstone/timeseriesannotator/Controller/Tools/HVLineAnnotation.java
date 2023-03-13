@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import java.awt.Color;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
@@ -129,7 +130,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export() {
+    public void export(CSVWriter writer) {
         String annotation_type = "hvlines";
         List<Integer> rgba = getRGBAList();
         List<Double> coords = getCoordsList();

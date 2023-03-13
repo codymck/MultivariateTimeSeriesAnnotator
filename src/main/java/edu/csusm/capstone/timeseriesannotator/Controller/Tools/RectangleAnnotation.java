@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.BasicStroke;
@@ -106,7 +107,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export() {
+    public void export(CSVWriter writer) {
         String annotation_type = "";
         if (type.equals("rectangle")) { annotation_type = "rectangle"; }
         else if (type.equals("region")) { annotation_type = "region"; }

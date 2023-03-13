@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.CommentMenu;
@@ -113,7 +114,7 @@ public class CommentAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export() {
+    public void export(CSVWriter writer) {
         String annotation_type = "comment";
         List<Integer> rgba = getRGBAList();
         List<String> data = getDataList();

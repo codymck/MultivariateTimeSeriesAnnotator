@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -92,7 +93,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export() {
+    public void export(CSVWriter writer) {
         String annotation_type = "ellipse";
         List<Integer> rgba = getRGBAList();
         List<Double> coords = getCoordsList();

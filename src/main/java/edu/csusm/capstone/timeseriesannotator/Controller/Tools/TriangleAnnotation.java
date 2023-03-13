@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 
 import java.awt.geom.Point2D;
@@ -150,7 +151,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export() {
+    public void export(CSVWriter writer) {
         String annotation_type = "triangle";
         List<Integer> rgba = getRGBAList();
         List<List<Double>> coords = getTriCoords();

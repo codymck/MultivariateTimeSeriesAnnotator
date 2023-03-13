@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
@@ -104,7 +105,7 @@ public class LineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export() {
+    public void export(CSVWriter writer) {
         String annotation_type = "lines";
         List<Integer> rgba = getRGBAList();
         List<List<Double>> coords = getLineCoords();

@@ -36,6 +36,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         setResizable(false);
 
         jRadioButton1.setText("Line Chart");
+        jRadioButton1.setName("LineChart");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -43,6 +44,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         });
 
         jRadioButton2.setText("Scatter Plot");
+        jRadioButton2.setName("ScatterPlot");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton2ActionPerformed(evt);
@@ -50,6 +52,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         });
 
         jRadioButton3.setText("Step Chart");
+        jRadioButton3.setName("StepChart");
         jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton3ActionPerformed(evt);

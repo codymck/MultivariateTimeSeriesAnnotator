@@ -152,15 +152,18 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         AddSeriesButton.setBackground(new java.awt.Color(153, 255, 153));
         AddSeriesButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         AddSeriesButton.setText("Add Series");
+        AddSeriesButton.setName("AddSeries");
         AddSeriesButton.setToolTipText("");
         AddSeriesButton.addActionListener(this);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         SyncButton.setText("Sync Chart");
+        SyncButton.setName("SyncChart");
         SyncButton.addActionListener(this);
 
         ExportAnnotationsButton.setText("Export Annotations");
+        ExportAnnotationsButton.setName("ExportAnnotations");
         ExportAnnotationsButton.addActionListener(this);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

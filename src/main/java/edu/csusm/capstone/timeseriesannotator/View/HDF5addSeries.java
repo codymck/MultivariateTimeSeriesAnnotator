@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 public class HDF5addSeries extends javax.swing.JDialog implements ActionListener {
 
     
-    Chart chartStruct = Chart.getInstance();
-    String Xaxis;
+   // Chart chartStruct;// = Chart.getInstance();
+    //String Xaxis;
     /**
      * Creates new form HDF5addSeries
      */
@@ -20,8 +20,8 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        Xaxis = chartStruct.getXpath().split("/")[0];
-        System.out.print(Xaxis);
+        //Xaxis = chartStruct.getXpath().split("/")[0];
+        //System.out.print(Xaxis);
     }
 
     /**

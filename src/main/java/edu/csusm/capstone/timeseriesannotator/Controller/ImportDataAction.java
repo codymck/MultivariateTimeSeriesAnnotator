@@ -140,7 +140,7 @@ public class ImportDataAction implements ActionListener {
            
            
 
-           cP = ChartBuilder.buildCharts(chartStruct.getChartType());
+           cP = ChartBuilder.buildCharts(chartStruct.getChartType(), chartStruct);
            
            dis.setChartData(chartStruct);
            

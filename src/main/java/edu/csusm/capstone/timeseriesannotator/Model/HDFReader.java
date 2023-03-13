@@ -22,7 +22,7 @@ public class HDFReader implements DataReader {
     String file;
     public static String xP;
     public static String yP;
-    Chart chartStruct = Chart.getInstance();
+    Chart chartStruct;// = Chart.getInstance();
 
     @Override
     public void buildDataList(String fileName) {

@@ -17,7 +17,7 @@ import org.jfree.data.xy.XYDataset;
 public class ScatterPlot implements ChartsIF {
     
     XYLineChartDataset xyChart;
-    Chart chartStruct = Chart.getInstance();
+    Chart chartStruct;// = Chart.getInstance();
     XYDotRenderer dotRenderer = new XYDotRenderer();
     
     ScatterPlot() {
@@ -25,8 +25,9 @@ public class ScatterPlot implements ChartsIF {
     }
 
     @Override
-    public AnnotateChartPanel createChartPanel() {
-               
+    public AnnotateChartPanel createChartPanel(Chart c){
+        
+        chartStruct = c;
         dataSetter();
         
         NumberAxis xAxis = new NumberAxis("Type");
@@ -61,8 +62,9 @@ public class ScatterPlot implements ChartsIF {
     }
     
     @Override
-    public AnnotateChartPanel addSeries(){
+    public AnnotateChartPanel addSeries(Chart c){
         
+        chartStruct = c;
         dataSetter();
         
         XYPlot plotter = chartStruct.getPlot();

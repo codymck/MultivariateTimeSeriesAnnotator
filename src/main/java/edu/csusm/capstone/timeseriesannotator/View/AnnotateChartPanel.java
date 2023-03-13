@@ -8,10 +8,12 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import static java.lang.Double.NaN;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.data.Range;
+
 
 /**
  *
@@ -46,6 +50,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private XYPlot plot;
     final List<XYDataset> originalDatasets;
     private boolean syncing = false;
+    
+    private boolean panLimit = false;
+    private double initialX;
+    private double initialY;
+    private Point strPoint;
 
     /* LINE variables */
     private HVLineAnnotation hTrace;
@@ -125,17 +134,23 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mousePressed(e);                   
                 }
                 case PAN -> {
-                    int panMask = MouseEvent.BUTTON1_MASK;
-
-                    try {
-                        Field mask = ChartPanel.class.getDeclaredField("panMask");
-                        mask.setAccessible(true);
-                        mask.set(this, panMask);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+////                    int panMask = MouseEvent.BUTTON1_MASK;
+////
+////                    try {
+////                        Field mask = ChartPanel.class.getDeclaredField("panMask");
+////                        mask.setAccessible(true);
+////                        mask.set(this, panMask);
+////
+////                    } catch (Exception ex) {
+////                        ex.printStackTrace();
+////                    }
+                    if ((e.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
+                        initialX = point[0];
+                        initialY = point[1];
+                        strPoint = e.getPoint();
+                        
                     }
-                    super.mousePressed(e);
+//                    super.mousePressed(e);
                 }
                 case HIGHLIGHT -> {
                     if (e.getButton() == MouseEvent.BUTTON1) {
@@ -281,6 +296,60 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
+                case PAN -> {
+                    //System.out.println("1: " + plot.getDomainAxis().getUpperBound() + " 2: " + Math.max(maxX - minX, maxY - minY)*3);
+                    //System.out.println("Max: " + Math.max(maxX - minX, maxY - minY)*3 + " Min: " + (-Math.max(maxX - minX, maxY - minY)*3));
+                    if (initialX != NaN){
+                        double currentX = point[0];
+                        double currentY = point[1];
+                        double x = Math.abs(currentX) - Math.abs(initialX);
+                        double y = Math.abs(currentY) - Math.abs(initialY);
+                        System.out.println("1: " + initialX + " " + initialY + " \n2: " + currentX + " " + currentY + "\n\n");
+                        if (x > 0 || y > 0) {
+                            panLimit = false;
+                            plot.setRangePannable(true);
+                            plot.setDomainPannable(true);
+                        }
+                        else if((plot.getRangeAxis().getUpperBound() >= minMax[3]*3 ||
+                                plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3) ||
+                                plot.getDomainAxis().getUpperBound() >= minMax[2]*3 ||
+                                plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3))){
+                            //super.mouseReleased(e);
+
+                            panLimit = true;
+                            plot.setRangePannable(false);
+                            plot.setDomainPannable(false);
+                            e.consume();
+                            break;
+                        }
+                        else{
+                            panLimit = false;
+                            plot.setRangePannable(true);
+                            plot.setDomainPannable(true);
+                        }
+                    }
+                    //super.mouseDragged(e);
+                    if (strPoint != null && panLimit == false) {
+                        //System.out.println("indide");
+                        double deltaX = e.getX() - strPoint.x;
+                        double deltaY = e.getY() - strPoint.y;
+                        
+                        System.out.println(deltaX + " " + deltaY);
+
+                        Range domainRange = chart.getXYPlot().getDomainAxis().getRange();
+                        double domainLength = domainRange.getLength();
+                        Range rangeRange = chart.getXYPlot().getRangeAxis().getRange();
+                        double rangeLength = rangeRange.getLength();
+
+                        double deltaXValue = domainLength * deltaX / getWidth();
+                        double deltaYValue = rangeLength * deltaY / getHeight();
+                        getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
+                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue);
+                        getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                    }
+                    strPoint = e.getPoint();
+                }
                 case SELECT -> {
                     if (SwingUtilities.isLeftMouseButton(e)) {
                         moved = true;
@@ -344,16 +413,19 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 }
                 case ZOOM -> super.mouseReleased(e);
                 case PAN -> {
-                    int panMask = MouseEvent.CTRL_MASK;
-
-                    try {
-                        Field mask = ChartPanel.class.getDeclaredField("panMask");
-                        mask.setAccessible(true);
-                        mask.set(this, panMask);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    if ((e.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
+                        strPoint = null;
                     }
+//                    int panMask = MouseEvent.CTRL_MASK;
+//
+//                    try {
+//                        Field mask = ChartPanel.class.getDeclaredField("panMask");
+//                        mask.setAccessible(true);
+//                        mask.set(this, panMask);
+//
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
                     super.mouseReleased(e);
                 }
                 case COMMENT -> {

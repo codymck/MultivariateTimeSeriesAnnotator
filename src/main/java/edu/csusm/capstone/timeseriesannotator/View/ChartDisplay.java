@@ -140,6 +140,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         jPanel2 = new javax.swing.JPanel();
         SyncButton = new javax.swing.JRadioButton();
         ExportAnnotationsButton = new javax.swing.JButton();
+        ImportAnnotationsButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         setLayout(new java.awt.BorderLayout());
@@ -169,6 +170,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         ExportAnnotationsButton.setName("ExportAnnotations");
         ExportAnnotationsButton.addActionListener(this);
 
+        ImportAnnotationsButton.setText("Import Annotations");
+        ExportAnnotationsButton.setName("ExportAnnotations");
+        ImportAnnotationsButton.addActionListener(this);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -178,7 +183,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                 .addComponent(AddSeriesButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ExportAnnotationsButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ImportAnnotationsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addComponent(SyncButton)
                 .addGap(18, 18, 18)
                 .addComponent(removeChartButton)
@@ -192,9 +199,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                     .addComponent(removeChartButton)
                     .addComponent(AddSeriesButton)
                     .addComponent(SyncButton)
-                    .addComponent(ExportAnnotationsButton))
+                    .addComponent(ExportAnnotationsButton)
+                    .addComponent(ImportAnnotationsButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -214,6 +222,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
         else if (evt.getSource() == ExportAnnotationsButton) {
             ChartDisplay.this.ExportAnnotationsButtonActionPerformed(evt);
+        }
+        else if (evt.getSource() == ImportAnnotationsButton) {
+            ChartDisplay.this.ImportAnnotationsButtonActionPerformed(evt);
         }
     }// </editor-fold>//GEN-END:initComponents
 
@@ -273,6 +284,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
     }//GEN-LAST:event_ExportAnnotationsButtonActionPerformed
 
+    private void ImportAnnotationsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportAnnotationsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ImportAnnotationsButtonActionPerformed
+
     public boolean synced(){
         return true;
     }
@@ -280,6 +295,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddSeriesButton;
     private javax.swing.JButton ExportAnnotationsButton;
+    private javax.swing.JButton ImportAnnotationsButton;
     private javax.swing.JRadioButton SyncButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

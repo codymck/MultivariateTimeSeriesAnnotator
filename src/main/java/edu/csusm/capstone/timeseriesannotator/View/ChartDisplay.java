@@ -1,7 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
-import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
+import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
 import java.awt.Color;
@@ -25,9 +25,9 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
-    AnnotateChartPanel emptyChart;
+    AnnotateChartPanel aChartPanel;
     AppFrame frame;
-    Chart chartStruct;
+    ChartStruct chartStruct;
     Controller control;
     XYPlot plot;
     JFreeChart chart;
@@ -52,36 +52,36 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         chart = ChartFactory.createXYLineChart(chartTitle,
                 xAxisLabel, yAxisLabel, emptyData);
 
-        emptyChart = new AnnotateChartPanel(chart);
-        emptyChart.setZoomOutlinePaint(Color.BLACK);
-        emptyChart.setMouseWheelEnabled(true);
+        aChartPanel = new AnnotateChartPanel(chart);
+        aChartPanel.setZoomOutlinePaint(Color.BLACK);
+        aChartPanel.setMouseWheelEnabled(true);
 
         XYPlot plot = chart.getXYPlot();
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
 
-        jPanel2.add(emptyChart);
+        jPanel2.add(aChartPanel);
     }
 
     public XYPlot returnPlot() {
-        chart = emptyChart.getChart();
+        chart = aChartPanel.getChart();
         return chart.getXYPlot();
     }
 
     public void setChart(AnnotateChartPanel p) {
-        if (emptyChart.getParent() == jPanel2) {
-            jPanel2.remove(emptyChart);
+        if (aChartPanel.getParent() == jPanel2) {
+            jPanel2.remove(aChartPanel);
         }
         
-        emptyChart = p;
+        aChartPanel = p;
         
-        emptyChart.setZoomOutlinePaint(Color.BLACK);
+        aChartPanel.setZoomOutlinePaint(Color.BLACK);
 
-        emptyChart.addChartMouseListener(new ChartMouseListener() {
+        aChartPanel.addChartMouseListener(new ChartMouseListener() {
             @Override
             public void chartMouseClicked(ChartMouseEvent event) {
                 if (event.getTrigger().getClickCount() == 2) {
-                    emptyChart.restoreAutoBounds();
+                    aChartPanel.restoreAutoBounds();
                 }
             }
 
@@ -91,35 +91,35 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             }
         });
         
-        emptyChart.addMouseWheelListener(new MouseWheelListener(){
+        aChartPanel.addMouseWheelListener(new MouseWheelListener(){
             @Override
             public void mouseWheelMoved(MouseWheelEvent event) {
                 if(!event.isShiftDown()){
                     int k = event.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK;
                     //System.out.println("Type: " + event.getScrollType() + " Precise: " + event.getPreciseWheelRotation());
                     if (event.getPreciseWheelRotation() > 0 || event.isShiftDown() || k == MouseEvent.CTRL_DOWN_MASK) {
-                        //System.out.println("max x: " + emptyChart.maxX*3 + " min x: " + emptyChart.minX*3 + " max y: " + emptyChart.maxY*3 + " min y: " + emptyChart.minY*3);
-                        if (plot.getDomainAxis().getUpperBound() > emptyChart.minMax[2]*3 || plot.getDomainAxis().getLowerBound() < -emptyChart.minMax[2]*3 ||
-                            plot.getRangeAxis().getUpperBound() > emptyChart.minMax[3]*3 || plot.getRangeAxis().getLowerBound() < -emptyChart.minMax[3]*3){
-                            emptyChart.setDomainZoomable(false);
-                            emptyChart.setRangeZoomable(false);
+                        //System.out.println("max x: " + aChartPanel.maxX*3 + " min x: " + aChartPanel.minX*3 + " max y: " + aChartPanel.maxY*3 + " min y: " + aChartPanel.minY*3);
+                        if (plot.getDomainAxis().getUpperBound() > aChartPanel.minMax[2]*3 || plot.getDomainAxis().getLowerBound() < -aChartPanel.minMax[2]*3 ||
+                            plot.getRangeAxis().getUpperBound() > aChartPanel.minMax[3]*3 || plot.getRangeAxis().getLowerBound() < -aChartPanel.minMax[3]*3){
+                            aChartPanel.setDomainZoomable(false);
+                            aChartPanel.setRangeZoomable(false);
                         }
                     }
                     else{
-                        emptyChart.setDomainZoomable(true);
-                        emptyChart.setRangeZoomable(true);
+                        aChartPanel.setDomainZoomable(true);
+                        aChartPanel.setRangeZoomable(true);
                     }
                 }
             }
         });
 
-        jPanel2.add(emptyChart);
+        jPanel2.add(aChartPanel);
         validate();
         repaint();
         setVisible(true);
     }
 
-    public void setChartData(Chart c) {
+    public void setChartData(ChartStruct c) {
         this.chartStruct = c;
         this.plot = chartStruct.getPlot();
         chartStruct.setDomainAxis(this.plot.getDomainAxis());
@@ -259,26 +259,26 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
         if(SyncButton.isSelected() && plot != null ){
-            emptyChart.setSync(true);
-            emptyChart.setMouseZoomable(false);
-            emptyChart.setRangeZoomable(false);
-            control.addSync(emptyChart.getChart(), emptyChart);
+            aChartPanel.setSync(true);
+            aChartPanel.setMouseZoomable(false);
+            aChartPanel.setRangeZoomable(false);
+            control.addSync(aChartPanel.getChart(), aChartPanel);
         }
         else if(SyncButton.isSelected()){
             //Throw error "Can't Sync a empty chart!"
             SyncButton.setSelected(false);
         }
         else if(!SyncButton.isSelected()){
-            control.removeSync(emptyChart.getChart());
-            emptyChart.setSync(false);
+            control.removeSync(aChartPanel.getChart());
+            aChartPanel.setSync(false);
             plot.setDomainAxis(chartStruct.getDomainAxis());
-            emptyChart.restoreAutoBounds();
+            aChartPanel.restoreAutoBounds();
         }
     }//GEN-LAST:event_SyncButtonActionPerformed
 
     private void ExportAnnotationsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportAnnotationsButtonActionPerformed
         try {
-            emptyChart.exportAnnotations();
+            aChartPanel.exportAnnotations();
         } catch (IOException ex) {
             Logger.getLogger(ChartDisplay.class.getName()).log(Level.SEVERE, null, ex);
         }

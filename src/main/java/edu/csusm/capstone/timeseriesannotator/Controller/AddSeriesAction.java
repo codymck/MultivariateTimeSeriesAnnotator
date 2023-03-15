@@ -22,12 +22,12 @@ import org.jfree.data.xy.XYDataset;
 public class AddSeriesAction implements ActionListener {
     
     AnnotateChartPanel cP;
-    Chart chartStruct;
+    ChartStruct chartStruct;
     ChartDisplay dis;
     XYDataset series;
     ChartTypes t = ChartTypes.LineChart;
     
-    public AddSeriesAction(Chart c, ChartDisplay d){
+    public AddSeriesAction(ChartStruct c, ChartDisplay d){
         this.chartStruct = c;
         this.dis = d;
     }

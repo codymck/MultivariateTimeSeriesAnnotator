@@ -14,6 +14,7 @@ public class CSVAction implements ActionListener {
     JDialog dialog;
     int xaxis;
     int yaxis;
+    String Sx, Sy;
     private javax.swing.JList<String> XAxisList;
     private javax.swing.JList<String> YAxisList;
 
@@ -36,6 +37,8 @@ public class CSVAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Sx = XAxisList.getSelectedValue();
+        Sy = YAxisList.getSelectedValue();
         xaxis = XAxisList.getSelectedIndex();
         yaxis = YAxisList.getSelectedIndex();
 
@@ -55,6 +58,14 @@ public class CSVAction implements ActionListener {
 
     public int getYAxis() {
         return yaxis;
+    }
+    
+    public String getX() {
+        return Sx;
+    }
+
+    public String getY() {
+        return Sy;
     }
 
 }

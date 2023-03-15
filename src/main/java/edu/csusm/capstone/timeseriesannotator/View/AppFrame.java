@@ -640,42 +640,42 @@ public class AppFrame extends javax.swing.JFrame {
     private void RedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedButtonActionPerformed
         color = Color.RED;
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setColor(color);
+            charts.get(i).aChartPanel.setColor(color);
         }
     }//GEN-LAST:event_RedButtonActionPerformed
 
     private void OrangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrangeButtonActionPerformed
         color = Color.ORANGE;
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setColor(color);
+            charts.get(i).aChartPanel.setColor(color);
         }
     }//GEN-LAST:event_OrangeButtonActionPerformed
 
     private void YellowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YellowButtonActionPerformed
         color = Color.YELLOW;
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setColor(color);
+            charts.get(i).aChartPanel.setColor(color);
         }
     }//GEN-LAST:event_YellowButtonActionPerformed
 
     private void GreenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GreenButtonActionPerformed
         color = Color.GREEN;
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setColor(color);
+            charts.get(i).aChartPanel.setColor(color);
         }
     }//GEN-LAST:event_GreenButtonActionPerformed
 
     private void BlueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlueButtonActionPerformed
         color = Color.BLUE;
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setColor(color);
+            charts.get(i).aChartPanel.setColor(color);
         }
     }//GEN-LAST:event_BlueButtonActionPerformed
 
     private void PurpleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurpleButtonActionPerformed
         color = Color.MAGENTA;
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setColor(color);
+            charts.get(i).aChartPanel.setColor(color);
         }
     }//GEN-LAST:event_PurpleButtonActionPerformed
 
@@ -721,14 +721,14 @@ public class AppFrame extends javax.swing.JFrame {
         FontPanel.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setChartState(ToolState.MARK);
+            charts.get(i).aChartPanel.setChartState(ToolState.MARK);
         }
     }//GEN-LAST:event_ShapeButtonActionPerformed
 
     private void BlackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlackButtonActionPerformed
         color = Color.BLACK;
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setColor(color);
+            charts.get(i).aChartPanel.setColor(color);
         }
     }//GEN-LAST:event_BlackButtonActionPerformed
 
@@ -761,7 +761,7 @@ public class AppFrame extends javax.swing.JFrame {
         FontPanel.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setChartState(ToolState.SELECT);
+            charts.get(i).aChartPanel.setChartState(ToolState.SELECT);
         }
     }//GEN-LAST:event_EditButtonActionPerformed
 
@@ -804,7 +804,7 @@ public class AppFrame extends javax.swing.JFrame {
         color = JColorChooser.showDialog(this,
                 "Select a color", new Color(0, 100, 255, 60));
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setColor(color);
+            charts.get(i).aChartPanel.setColor(color);
         }
 
     }// GEN-LAST:event_HighlightColorActionPerformed
@@ -832,8 +832,8 @@ public class AppFrame extends javax.swing.JFrame {
 
         if (zSelected) {
             for (int i = 0; i < charts.size(); i++) {
-                charts.get(i).emptyChart.setZoomOutlinePaint(Color.BLACK);
-                charts.get(i).emptyChart.setChartState(ToolState.ZOOM);
+                charts.get(i).aChartPanel.setZoomOutlinePaint(Color.BLACK);
+                charts.get(i).aChartPanel.setChartState(ToolState.ZOOM);
             }
         }
     }
@@ -850,7 +850,7 @@ public class AppFrame extends javax.swing.JFrame {
         FontPanel.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setChartState(ToolState.PAN);
+            charts.get(i).aChartPanel.setChartState(ToolState.PAN);
         }
     }
 
@@ -867,7 +867,7 @@ public class AppFrame extends javax.swing.JFrame {
         FontPanel.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setChartState(ToolState.HIGHLIGHT);
+            charts.get(i).aChartPanel.setChartState(ToolState.HIGHLIGHT);
         }
     }
 
@@ -884,7 +884,7 @@ public class AppFrame extends javax.swing.JFrame {
         FontPanel.setVisible(true);
 
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setChartState(ToolState.COMMENT);
+            charts.get(i).aChartPanel.setChartState(ToolState.COMMENT);
         }
     }
 
@@ -902,7 +902,7 @@ public class AppFrame extends javax.swing.JFrame {
         FontPanel.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).emptyChart.setChartState(ToolState.MARK);
+            charts.get(i).aChartPanel.setChartState(ToolState.MARK);
         }
     }
 

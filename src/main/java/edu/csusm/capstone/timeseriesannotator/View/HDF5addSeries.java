@@ -1,6 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
+import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
 import java.awt.event.ActionListener;
 
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class HDF5addSeries extends javax.swing.JDialog implements ActionListener {
 
     
-   // Chart chartStruct;// = Chart.getInstance();
+   // ChartStruct chartStruct;// = ChartStruct.getInstance();
     //String Xaxis;
     /**
      * Creates new form HDF5addSeries

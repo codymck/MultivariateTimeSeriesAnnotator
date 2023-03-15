@@ -17,7 +17,7 @@ import org.jfree.data.xy.XYDataset;
 public class StepChart implements ChartsIF {
     
     XYLineChartDataset xyChart;
-    Chart chartStruct;// = Chart.getInstance();
+    ChartStruct chartStruct;// = ChartStruct.getInstance();
     XYStepRenderer stepRenderer = new XYStepRenderer();
     
     StepChart() {
@@ -25,14 +25,14 @@ public class StepChart implements ChartsIF {
     }
 
     @Override
-    public AnnotateChartPanel createChartPanel(Chart c){
+    public AnnotateChartPanel createChartPanel(ChartStruct c){
         
         chartStruct = c;
         dataSetter();
         
-        NumberAxis xAxis = new NumberAxis("Type");
-        NumberAxis yAxis = new NumberAxis("Value");   
-        String chartTitle = "Data";
+        NumberAxis xAxis = new NumberAxis(chartStruct.getLabels()[1]);
+        NumberAxis yAxis = new NumberAxis(chartStruct.getLabels()[2]);   
+        String chartTitle = chartStruct.getLabels()[0];
         
         stepRenderer.setSeriesPaint(0, new java.awt.Color(0, 100, 0));
         stepRenderer.setSeriesShapesVisible(0,  false);
@@ -61,7 +61,7 @@ public class StepChart implements ChartsIF {
     }
     
     @Override
-    public AnnotateChartPanel addSeries(Chart c){
+    public AnnotateChartPanel addSeries(ChartStruct c){
         
         chartStruct = c;
         dataSetter();
@@ -73,7 +73,7 @@ public class StepChart implements ChartsIF {
         plotter.setRenderer(chartStruct.getFlag()-1,stepRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
-        JFreeChart chart = new JFreeChart("Data", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
+        JFreeChart chart = new JFreeChart(chartStruct.getLabels()[0], JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);

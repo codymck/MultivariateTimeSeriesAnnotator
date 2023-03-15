@@ -15,7 +15,7 @@ public class ChartBuilder {
     }
     
     
-    public static AnnotateChartPanel buildCharts(ChartTypes c, Chart cS) {
+    public static AnnotateChartPanel buildCharts(ChartTypes c, ChartStruct cS) {
         switch (c) {
             case LineChart -> {
                 LineChart l = new LineChart();
@@ -33,7 +33,7 @@ public class ChartBuilder {
         }
     }
     
-        public static AnnotateChartPanel addSeries(ChartTypes c, Chart cS) {
+        public static AnnotateChartPanel addSeries(ChartTypes c, ChartStruct cS) {
         switch (c) {
             case LineChart -> {
                 LineChart l = new LineChart();

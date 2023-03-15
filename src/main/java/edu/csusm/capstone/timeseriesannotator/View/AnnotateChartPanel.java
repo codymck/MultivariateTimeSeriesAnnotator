@@ -547,11 +547,17 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             if (fileType.equalsIgnoreCase("csv")) {
                 // CREATE CSVWriter
                 FileWriter outputFile = new FileWriter(fileToSave);
-                CSVWriter writer = new CSVWriter(outputFile);
-                
+                CSVWriter writer = new CSVWriter(outputFile, ',',
+                                             CSVWriter.NO_QUOTE_CHARACTER,
+                                             CSVWriter.NO_QUOTE_CHARACTER,
+                                             CSVWriter.DEFAULT_LINE_END);
+                String[] header = {"Annotation Type", "RGBA", "Coordinates", "Data"};
+                writer.writeNext(header);
                 for (int i = 0; i < annotations.size(); i++) {
                     annotations.get(i).export(writer);
                 }
+                
+                writer.close();
             } else {
                 ErrorDialog.badFileType();
             }

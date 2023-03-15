@@ -152,52 +152,53 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     @Override
     public void export(CSVWriter writer) {
-        String annotation_type = "triangle";
-        List<Integer> rgba = getRGBAList();
-        List<List<Double>> coords = getTriCoords();
+        String[] annotation_type = {"triangle"};
+        String[] rgba = getRGBAList();
+        String[] coords = getTriCoords();
         
-        System.out.println("Annotation Type: " + annotation_type);
-        System.out.println("Coordinates: " + coords.toString());
-        System.out.println("RGBA Values: " + rgba.toString());
-        System.out.println("");
+        String[] row = {annotation_type[0], rgba[0], coords[0]};
+        
+        writer.writeNext(row);
     }
 
     @Override
-    public List<Integer> getRGBAList() {
+    public String[] getRGBAList() {
         int R = color.getRed();
         int G = color.getGreen();
         int B = color.getBlue();
         int A = color.getAlpha();
-        List<Integer> rgba = new ArrayList<>();
-        rgba.add(R);
-        rgba.add(G);
-        rgba.add(B);
-        rgba.add(A);
+        
+        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
         
         return rgba;
     }
 
     @Override
-    public List<String> getDataList() {
+    public String[] getDataList() {
         return null;
     }
 
     @Override
-    public List<Double> getCoordsList() {
+    public String[] getCoordsList() {
         return null;
     }
     
-    public List<List<Double>> getTriCoords() {
-        List<List<Double>> coords = new ArrayList<>();
+    public String[] getTriCoords() {
+        String[] coord = new String[1]; 
         
+        String set = "";
         for (double[] coordinate : coordinates) {
-            List<Double> set = new ArrayList<>();
+            set += '[';
             for (int i = 0; i < coordinate.length; i++) {
-                set.add(coordinate[i]);
+                set+= (String.valueOf(coordinate[i]));
+                if (i < coordinate.length - 1)
+                {
+                    set+= '/';
+                }
             }
-            coords.add(set);
+            set += ']';
         }
-        
-        return coords;
+        coord[0] = set;
+        return coord;
     }
 }

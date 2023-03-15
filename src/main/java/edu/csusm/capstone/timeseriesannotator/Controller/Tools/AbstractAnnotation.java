@@ -15,9 +15,9 @@ public abstract class AbstractAnnotation {
     
     public abstract void export(CSVWriter writer);
     
-    public abstract List<Integer> getRGBAList();
+    public abstract String[] getRGBAList();
     
-    public abstract List<Double> getCoordsList();
+    public abstract String[] getCoordsList();
     
-    public abstract List<String> getDataList();
+    public abstract String[] getDataList();
 }

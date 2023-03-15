@@ -6,9 +6,9 @@ import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
@@ -16,11 +16,8 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -37,8 +34,9 @@ import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ui.RectangleEdge;
-import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.data.Range;
+
 
 /**
  *
@@ -53,6 +51,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private XYPlot plot;
     final List<XYDataset> originalDatasets;
     private boolean syncing = false;
+    
+    private boolean panLimit = false;
+    private double initialX;
+    private double initialY;
+    private Point strPoint;
 
     /* LINE variables */
     private HVLineAnnotation hTrace;
@@ -132,17 +135,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     super.mousePressed(e);
                 }
                 case PAN -> {
-                    int panMask = MouseEvent.BUTTON1_MASK;
-
-                    try {
-                        Field mask = ChartPanel.class.getDeclaredField("panMask");
-                        mask.setAccessible(true);
-                        mask.set(this, panMask);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    if ((e.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
+                        initialX = point[0];
+                        initialY = point[1];
+                        strPoint = e.getPoint();
                     }
-                    super.mousePressed(e);
                 }
                 case HIGHLIGHT -> {
                     if (e.getButton() == MouseEvent.BUTTON1) {
@@ -287,6 +284,50 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         double point[] = getPointInChart(e);
         if (null != state) {
             switch (state) {
+                case PAN -> {
+                    
+                    if (strPoint != null){
+                        
+                        double deltaX = e.getX() - strPoint.x; //pan amount
+                        double deltaY = e.getY() - strPoint.y; // pan amount
+                        
+                        //pan info
+                        Range domainRange = chart.getXYPlot().getDomainAxis().getRange();
+                        double domainLength = domainRange.getLength();
+                        Range rangeRange = chart.getXYPlot().getRangeAxis().getRange();
+                        double rangeLength = rangeRange.getLength();
+
+                        double deltaXValue = domainLength * deltaX / getWidth();
+                        double deltaYValue = rangeLength * deltaY / getHeight();
+                        
+                        double currentX = point[0]; //gets X coord
+                        double currentY = point[1]; //gets Y coord
+                        double absX = initialX - currentX;// (-) pan left, 0 nothing (+) pan right
+                        double absY = initialY - currentY  ;// (-) pan down, 0 nothing, (+) pan up
+
+                        if(absY > 0 && !(plot.getRangeAxis().getUpperBound() >= minMax[3]*3)){
+                            //Pan up
+                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                        }
+                        if(absY < 0 && !(plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3))){
+                            //Pan down
+                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                        }
+                        if(absX > 0 && !(plot.getDomainAxis().getUpperBound() >= minMax[2]*3)){
+                            //Pan right
+                            getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
+                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+                        }
+                        if(absX < 0 && !(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3))){
+                            //Pan left
+                            getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
+                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+                        }
+                    }
+                    strPoint = e.getPoint();
+                }
                 case SELECT -> {
                     if (SwingUtilities.isLeftMouseButton(e)) {
                         moved = true;
@@ -352,15 +393,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 case ZOOM ->
                     super.mouseReleased(e);
                 case PAN -> {
-                    int panMask = MouseEvent.CTRL_MASK;
-
-                    try {
-                        Field mask = ChartPanel.class.getDeclaredField("panMask");
-                        mask.setAccessible(true);
-                        mask.set(this, panMask);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    if ((e.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
+                        strPoint = null;
                     }
                     super.mouseReleased(e);
                 }

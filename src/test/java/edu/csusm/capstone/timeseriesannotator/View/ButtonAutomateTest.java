@@ -1,5 +1,5 @@
-package edu.csusm.capstone.timeseriesannotator.View;
 
+import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;

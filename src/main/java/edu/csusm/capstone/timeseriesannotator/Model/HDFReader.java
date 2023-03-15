@@ -3,7 +3,7 @@ package edu.csusm.capstone.timeseriesannotator.Model;
 import ch.systemsx.cisd.hdf5.HDF5Factory;
 import ch.systemsx.cisd.hdf5.IHDF5Reader;
 import ch.systemsx.cisd.hdf5.IHDF5SimpleReader;
-import edu.csusm.capstone.timeseriesannotator.Controller.Chart;
+import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5Action;
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
 import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
@@ -22,7 +22,7 @@ public class HDFReader implements DataReader {
     String file;
     public static String xP;
     public static String yP;
-    Chart chartStruct;// = Chart.getInstance();
+    ChartStruct chartStruct;// = ChartStruct.getInstance();
 
     @Override
     public void buildDataList(String fileName) {

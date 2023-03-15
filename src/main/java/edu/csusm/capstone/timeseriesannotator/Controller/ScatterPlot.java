@@ -17,7 +17,7 @@ import org.jfree.data.xy.XYDataset;
 public class ScatterPlot implements ChartsIF {
     
     XYLineChartDataset xyChart;
-    Chart chartStruct;// = Chart.getInstance();
+    ChartStruct chartStruct;// = ChartStruct.getInstance();
     XYDotRenderer dotRenderer = new XYDotRenderer();
     
     ScatterPlot() {
@@ -25,14 +25,14 @@ public class ScatterPlot implements ChartsIF {
     }
 
     @Override
-    public AnnotateChartPanel createChartPanel(Chart c){
+    public AnnotateChartPanel createChartPanel(ChartStruct c){
         
         chartStruct = c;
         dataSetter();
         
-        NumberAxis xAxis = new NumberAxis("Type");
-        NumberAxis yAxis = new NumberAxis("Value");   
-        String chartTitle = "Data";
+        NumberAxis xAxis = new NumberAxis(chartStruct.getLabels()[1]);
+        NumberAxis yAxis = new NumberAxis(chartStruct.getLabels()[2]);   
+        String chartTitle = chartStruct.getLabels()[0];
         
         dotRenderer.setSeriesPaint(0, java.awt.Color.blue);
         dotRenderer.setDotWidth(5);
@@ -62,7 +62,7 @@ public class ScatterPlot implements ChartsIF {
     }
     
     @Override
-    public AnnotateChartPanel addSeries(Chart c){
+    public AnnotateChartPanel addSeries(ChartStruct c){
         
         chartStruct = c;
         dataSetter();
@@ -82,7 +82,7 @@ public class ScatterPlot implements ChartsIF {
         plotter.setRenderer(chartStruct.getFlag()-1,dotRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
-        JFreeChart chart = new JFreeChart("Data", JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
+        JFreeChart chart = new JFreeChart(chartStruct.getLabels()[0], JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);

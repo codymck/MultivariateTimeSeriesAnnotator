@@ -27,7 +27,7 @@ public class ImportDataAction implements ActionListener {
     
     JFileChooser importChooser;
     ChartDisplay dis;
-    Chart chartStruct;// = Chart.getInstance();
+    ChartStruct chartStruct;// = ChartStruct.getInstance();
     
     public ImportDataAction(JFileChooser importChooser, ChartDisplay f) {
         this.importChooser = importChooser;
@@ -95,7 +95,7 @@ public class ImportDataAction implements ActionListener {
            
            XYLineChartDataset xyChart = new XYLineChartDataset();
            
-           chartStruct = new Chart(fileName, fileType, t, xyChart);
+           chartStruct = new ChartStruct(fileName, fileType, t, xyChart);
            
            
            //Select menu features
@@ -113,6 +113,7 @@ public class ImportDataAction implements ActionListener {
                
                CSVAction cAction = CSVAction.getInstance();
                chartStruct.setXaxis(cAction.getXAxis());
+               chartStruct.setLabels(new String[]{cAction.getX() + " vs " + cAction.getY(), cAction.getX(), cAction.getY()});
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
@@ -130,6 +131,10 @@ public class ImportDataAction implements ActionListener {
                HDFReader h = (HDFReader)dReader;
                h.setPaths(hAction.getXPath(), hAction.getYPath(), 0);
                chartStruct.setXpath(hAction.getXPath());
+               String[] tmpX = hAction.getXPath().split("/");
+               String[] tmpY = hAction.getYPath().split("/");
+               
+               chartStruct.setLabels(new String[]{tmpX[tmpX.length - 1] + " vs " + tmpY[tmpY.length - 1], tmpX[tmpX.length - 1], tmpY[tmpY.length - 1]});
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatHDF5(HDFReader.xP, HDFReader.yP);

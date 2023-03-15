@@ -9,7 +9,7 @@ import org.jfree.chart.plot.XYPlot;
  *
  * @author josef
  */
-public class Chart {
+public class ChartStruct {
     private String fileName;
     private String fileType;
     private ChartTypes chartType;
@@ -20,20 +20,21 @@ public class Chart {
     XYPlot plot;
     private ValueAxis dAxis;
     private ValueAxis rAxis;
+    private String[] Labels; //0:Title, 1: X, 2: Y
     
-    public static Chart Ct;
+    //public static ChartStruct Ct;
     
     
-    public Chart(String f, String t, ChartTypes c, XYLineChartDataset d){
+    public ChartStruct(String f, String t, ChartTypes c, XYLineChartDataset d){
         fileName = f;
         fileType = t;
         chartType = c;
         series = d;
         flag = 1;
-        Ct = this;
+        //Ct = this;
     }
     
-//    public static Chart getInstance() {
+//    public static ChartStruct getInstance() {
 //        return Ct;
 //    }
     
@@ -100,4 +101,12 @@ public class Chart {
     public void setRangeAxis(ValueAxis r){
         rAxis = r;
     }
+    
+    public void setLabels(String[] l){
+        Labels = l;
+    }
+    public String[] getLabels(){
+        return Labels;
+    }
+    
 }

@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.BasicStroke;
@@ -106,53 +107,45 @@ public class RectangleAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export() {
-        String annotation_type = "";
-        if (type.equals("rectangle")) { annotation_type = "rectangle"; }
-        else if (type.equals("region")) { annotation_type = "region"; }
+    public void export(CSVWriter writer) {
+        String[] annotation_type = new String[1];
+        if (type.equals("rectangle")) { annotation_type[0] = "rectangle"; }
+        else if (type.equals("region")) { annotation_type[0] = "region"; }
         
-        List<Integer> rgba = getRGBAList();
-        List<Double> coords = getCoordsList();
+        String[] rgba = getRGBAList();
+        String[] coords = getCoordsList();
         
-        System.out.println("Annotation Type: " + annotation_type);
-        System.out.println("Coordinates: " + coords.toString());
-        System.out.println("RGBA Values: " + rgba.toString());
-        System.out.println("");
+        String[] row = {annotation_type[0], rgba[0], coords[0]};
+        
+        writer.writeNext(row);
         
     }
 
     @Override
-    public List<Integer> getRGBAList() {
+    public String[] getRGBAList() {
         int R = color.getRed();
         int G = color.getGreen();
         int B = color.getBlue();
         int A = color.getAlpha();
-        List<Integer> rgba = new ArrayList<>();
-        rgba.add(R);
-        rgba.add(G);
-        rgba.add(B);
-        rgba.add(A);
+        
+        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
         
         return rgba;
     }
 
     @Override
-    public List<String> getDataList() {
+    public String[] getDataList() {
         return null;
     }
 
     @Override
-    public List<Double> getCoordsList() {
-        List<Double> coords = new ArrayList<>();
+    public String[] getCoordsList() {
+        String[] coords = new String[1];
         if (type.equals("rectangle")) { 
-            coords.add(x);
-            coords.add(y);
-            coords.add(width);
-            coords.add(height);
+            coords[0] = '[' + String.valueOf(x) + '/' + String.valueOf(y) + '/' + String.valueOf(width) + '/' + String.valueOf(height) + ']';
         }
         else if (type.equals("region")) {
-            coords.add(x);
-            coords.add(width);
+            coords[0] = '[' + String.valueOf(x)+ '/' + String.valueOf(width) + ']';
         }
         
         return coords;

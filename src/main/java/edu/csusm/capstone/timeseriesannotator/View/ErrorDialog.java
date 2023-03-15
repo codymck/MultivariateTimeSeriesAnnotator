@@ -25,4 +25,8 @@ public class ErrorDialog {
         JOptionPane.showMessageDialog(new JFrame(), "Select valid indexes", "Error", JOptionPane.ERROR_MESSAGE);
     }
     
+    public static void badFileType() {
+        JOptionPane.showMessageDialog(new JFrame(), "Not a valid file type to save to", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
 }

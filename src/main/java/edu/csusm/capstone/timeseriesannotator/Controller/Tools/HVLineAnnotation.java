@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import java.awt.Color;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
@@ -129,47 +130,42 @@ public class HVLineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export() {
-        String annotation_type = "hvlines";
-        List<Integer> rgba = getRGBAList();
-        List<Double> coords = getCoordsList();
-        List<String> data = getDataList();
+    public void export(CSVWriter writer) {
+        String[] annotation_type = {"hvlines"};
+        String[] rgba = getRGBAList();
+        String[] coords = getCoordsList();
+        String[] data = getDataList();
         
-        System.out.println("Annotation Type: " + annotation_type);
-        System.out.println("Coordinates: " + coords.toString());
-        System.out.println("RGBA Values: " + rgba.toString());
-        System.out.println("Data: " + data.toString());
-        System.out.println("");
+        String[] row = {annotation_type[0], rgba[0], coords[0], data[0]};
+        
+        writer.writeNext(row);
     }
 
     @Override
-    public List<Integer> getRGBAList() {
+    public String[] getRGBAList() {
         int R = color.getRed();
         int G = color.getGreen();
         int B = color.getBlue();
         int A = color.getAlpha();
-        List<Integer> rgba = new ArrayList<>();
-        rgba.add(R);
-        rgba.add(G);
-        rgba.add(B);
-        rgba.add(A);
+        
+        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
         
         return rgba;
     }
 
     @Override
-    public List<String> getDataList() {
-        List<String> data = new ArrayList<>();
-        if (type.equals("horizontal")) data.add("horizontal");
-        else if (type.equals("vertical")) data.add("vertical");
+    public String[] getDataList() {
+        String[] data = new String[1];
+        if (type.equals("horizontal")) data[0] = "horizontal";
+        else if (type.equals("vertical")) data[0] = "vertical";
         
         return data;
     }
 
     @Override
-    public List<Double> getCoordsList() {
-        List<Double> coords = new ArrayList<>();
-        coords.add(coordinate);
+    public String[] getCoordsList() {
+        String[] coords = new String[1];
+        coords[0] = String.valueOf(coordinate);
         
         return coords;
     }

@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import com.opencsv.CSVWriter;
 import java.util.List;
 
 public abstract class AbstractAnnotation {
@@ -12,11 +13,11 @@ public abstract class AbstractAnnotation {
 
     public abstract void move(double xOffset, double yOffset, boolean set);
     
-    public abstract void export();
+    public abstract void export(CSVWriter writer);
     
-    public abstract List<Integer> getRGBAList();
+    public abstract String[] getRGBAList();
     
-    public abstract List<Double> getCoordsList();
+    public abstract String[] getCoordsList();
     
-    public abstract List<String> getDataList();
+    public abstract String[] getDataList();
 }

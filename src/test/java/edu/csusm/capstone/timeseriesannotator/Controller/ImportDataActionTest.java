@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Cody McKinney
+ * @author Ramon Duran
  */
 public class ImportDataActionTest {
     /**
@@ -31,6 +31,10 @@ public class ImportDataActionTest {
 //     */
 //    @Test
 //    public void testActionPerformed() {
+//        window.menuItem("ImportData").click();
+//        window.fileChooser().fileNameTextBox().enterText("data.csv");
+//        window.fileChooser().approveButton().click();
+    
 //        AppFrame a = new AppFrame();
 //        
 //        assertDoesNotThrow(() -> a.getImportButton().doClick());

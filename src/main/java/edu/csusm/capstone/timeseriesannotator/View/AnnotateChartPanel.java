@@ -6,7 +6,6 @@ import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.InputEvent;
@@ -14,15 +13,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import static java.lang.Double.NaN;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -39,7 +34,6 @@ import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ui.RectangleEdge;
-import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.Range;
 
@@ -308,8 +302,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         
                         double currentX = point[0]; //gets X coord
                         double currentY = point[1]; //gets Y coord
-                        double absX = Math.abs(currentX) - Math.abs(initialX);// (-) pan down, 0 nothing, (+) pan up
-                        double absY = Math.abs(currentY) - Math.abs(initialY);// (-) pan left, 0 nothing (+) pan right
+                        double absX = initialX - currentX;// (-) pan left, 0 nothing (+) pan right
+                        double absY = initialY - currentY  ;// (-) pan down, 0 nothing, (+) pan up
 
                         if(absY > 0 && !(plot.getRangeAxis().getUpperBound() >= minMax[3]*3)){
                             //Pan up
@@ -326,7 +320,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
                                 getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
                         }
-                        if(absX > 0 && !(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3))){
+                        if(absX < 0 && !(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3))){
                             //Pan left
                             getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
                                 getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 

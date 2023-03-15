@@ -297,6 +297,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         if (null != state) {
             switch (state) {
                 case PAN -> {
+                    boolean left = true;
+                    boolean right = true;
+                    boolean top = true;
+                    boolean bottom = true;
                     //System.out.println("1: " + plot.getDomainAxis().getUpperBound() + " 2: " + Math.max(maxX - minX, maxY - minY)*3);
                     //System.out.println("Max: " + Math.max(maxX - minX, maxY - minY)*3 + " Min: " + (-Math.max(maxX - minX, maxY - minY)*3));
                     if (initialX != NaN){
@@ -304,23 +308,47 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         double currentY = point[1];
                         double x = Math.abs(currentX) - Math.abs(initialX);
                         double y = Math.abs(currentY) - Math.abs(initialY);
-                        System.out.println("1: " + initialX + " " + initialY + " \n2: " + currentX + " " + currentY + "\n\n");
+                        //System.out.println("1: " + initialX + " " + initialY + " \n2: " + currentX + " " + currentY + "\n\n");
                         if (x > 0 || y > 0) {
                             panLimit = false;
                             plot.setRangePannable(true);
                             plot.setDomainPannable(true);
                         }
-                        else if((plot.getRangeAxis().getUpperBound() >= minMax[3]*3 ||
-                                plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3) ||
-                                plot.getDomainAxis().getUpperBound() >= minMax[2]*3 ||
-                                plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3))){
-                            //super.mouseReleased(e);
-
+                        else if(plot.getRangeAxis().getUpperBound() >= minMax[3]*3){
+                            System.out.println("1: ");
+                            top = false;
                             panLimit = true;
                             plot.setRangePannable(false);
+                            //plot.setDomainPannable(false);
+                            //e.consume();
+                            //break;
+                        }
+                        else if(plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3)){
+                            System.out.println("2: ");
+                            bottom = false;
+                            panLimit = true;
+                            plot.setRangePannable(false);
+//                            plot.setDomainPannable(false);
+//                            e.consume();
+//                            break;
+                        }
+                        else if(plot.getDomainAxis().getUpperBound() >= minMax[2]*3){
+                            System.out.println("3: ");
+                            right = false;
+                            panLimit = true;
+                            //plot.setRangePannable(false);
                             plot.setDomainPannable(false);
-                            e.consume();
-                            break;
+//                            e.consume();
+//                            break;
+                        }   
+                        else if(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3)){
+                            System.out.println("4: ");
+                            left = false;
+                            panLimit = true;
+                            //plot.setRangePannable(false);
+                            plot.setDomainPannable(false);
+//                            e.consume();
+//                            break;
                         }
                         else{
                             panLimit = false;
@@ -330,11 +358,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     }
                     //super.mouseDragged(e);
                     if (strPoint != null && panLimit == false) {
-                        //System.out.println("indide");
                         double deltaX = e.getX() - strPoint.x;
                         double deltaY = e.getY() - strPoint.y;
                         
-                        System.out.println(deltaX + " " + deltaY);
+                        //System.out.println(deltaX + " " + deltaY);
 
                         Range domainRange = chart.getXYPlot().getDomainAxis().getRange();
                         double domainLength = domainRange.getLength();
@@ -343,10 +370,24 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
                         double deltaXValue = domainLength * deltaX / getWidth();
                         double deltaYValue = rangeLength * deltaY / getHeight();
-                        getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
-                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue);
-                        getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+                        if(deltaX > 0 && left == true){
+                            getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
+                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+                        }
+                        if(deltaX < 0 && right == true){
+                           getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
+                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+                        }
+                        if(deltaY > 0 && bottom == true){
+                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
                                 getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                        }
+                        if(deltaY < 0 && top == true){
+                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                        }
+                        
+                        
                     }
                     strPoint = e.getPoint();
                 }

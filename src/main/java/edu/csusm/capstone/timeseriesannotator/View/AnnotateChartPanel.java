@@ -303,72 +303,13 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         if (null != state) {
             switch (state) {
                 case PAN -> {
-                    boolean left = true;
-                    boolean right = true;
-                    boolean top = true;
-                    boolean bottom = true;
-                    //System.out.println("1: " + plot.getDomainAxis().getUpperBound() + " 2: " + Math.max(maxX - minX, maxY - minY)*3);
-                    //System.out.println("Max: " + Math.max(maxX - minX, maxY - minY)*3 + " Min: " + (-Math.max(maxX - minX, maxY - minY)*3));
-                    if (initialX != NaN){
-                        double currentX = point[0];
-                        double currentY = point[1];
-                        double x = Math.abs(currentX) - Math.abs(initialX);
-                        double y = Math.abs(currentY) - Math.abs(initialY);
-                        //System.out.println("1: " + initialX + " " + initialY + " \n2: " + currentX + " " + currentY + "\n\n");
-                        if (x > 0 || y > 0) {
-                            panLimit = false;
-                            plot.setRangePannable(true);
-                            plot.setDomainPannable(true);
-                        }
-                        else if(plot.getRangeAxis().getUpperBound() >= minMax[3]*3){
-                            System.out.println("1: ");
-                            top = false;
-                            panLimit = true;
-                            plot.setRangePannable(false);
-                            //plot.setDomainPannable(false);
-                            //e.consume();
-                            //break;
-                        }
-                        else if(plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3)){
-                            System.out.println("2: ");
-                            bottom = false;
-                            panLimit = true;
-                            plot.setRangePannable(false);
-//                            plot.setDomainPannable(false);
-//                            e.consume();
-//                            break;
-                        }
-                        else if(plot.getDomainAxis().getUpperBound() >= minMax[2]*3){
-                            System.out.println("3: ");
-                            right = false;
-                            panLimit = true;
-                            //plot.setRangePannable(false);
-                            plot.setDomainPannable(false);
-//                            e.consume();
-//                            break;
-                        }   
-                        else if(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3)){
-                            System.out.println("4: ");
-                            left = false;
-                            panLimit = true;
-                            //plot.setRangePannable(false);
-                            plot.setDomainPannable(false);
-//                            e.consume();
-//                            break;
-                        }
-                        else{
-                            panLimit = false;
-                            plot.setRangePannable(true);
-                            plot.setDomainPannable(true);
-                        }
-                    }
-                    //super.mouseDragged(e);
-                    if (strPoint != null && panLimit == false) {
-                        double deltaX = e.getX() - strPoint.x;
-                        double deltaY = e.getY() - strPoint.y;
+                    
+                    if (strPoint != null){
                         
-                        //System.out.println(deltaX + " " + deltaY);
-
+                        double deltaX = e.getX() - strPoint.x; //pan amount
+                        double deltaY = e.getY() - strPoint.y; // pan amount
+                        
+                        //pan info
                         Range domainRange = chart.getXYPlot().getDomainAxis().getRange();
                         double domainLength = domainRange.getLength();
                         Range rangeRange = chart.getXYPlot().getRangeAxis().getRange();
@@ -376,26 +317,136 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
                         double deltaXValue = domainLength * deltaX / getWidth();
                         double deltaYValue = rangeLength * deltaY / getHeight();
-                        if(deltaX > 0 && left == true){
+                        
+                        double currentX = point[0]; //gets X coord
+                        double currentY = point[1]; //gets Y coord
+                        double absX = Math.abs(currentX) - Math.abs(initialX);
+                        double absY = Math.abs(currentY) - Math.abs(initialY);
+
+                        if(absY > 0 && !(plot.getRangeAxis().getUpperBound() >= minMax[3]*3)){
+                            //Pan up
+                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                        }
+                        if(absY < 0 && !(plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3))){
+                            //Pan down
+                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                        }
+                        if(absX > 0 && !(plot.getDomainAxis().getUpperBound() >= minMax[2]*3)){
+                            //Pan right
                             getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
                                 getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
                         }
-                        if(deltaX < 0 && right == true){
-                           getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
+                        if(absX > 0 && !(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3))){
+                            //Pan left
+                            getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
                                 getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
                         }
-                        if(deltaY > 0 && bottom == true){
-                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
-                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
-                        }
-                        if(deltaY < 0 && top == true){
-                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
-                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
-                        }
-                        
-                        
                     }
                     strPoint = e.getPoint();
+                    
+                    
+                    
+                    
+                    
+                    
+//                    boolean left = true;
+//                    boolean right = true;
+//                    boolean top = true;
+//                    boolean bottom = true;
+//                    //System.out.println("1: " + plot.getDomainAxis().getUpperBound() + " 2: " + Math.max(maxX - minX, maxY - minY)*3);
+//                    //System.out.println("Max: " + Math.max(maxX - minX, maxY - minY)*3 + " Min: " + (-Math.max(maxX - minX, maxY - minY)*3));
+//                    if (initialX != NaN){//checks if mouse was clicked
+//                        double currentX = point[0]; //gets X coord
+//                        double currentY = point[1]; //gets Y coord
+//                        double x = Math.abs(currentX) - Math.abs(initialX);
+//                        double y = Math.abs(currentY) - Math.abs(initialY);
+//                        //System.out.println("1: " + initialX + " " + initialY + " \n2: " + currentX + " " + currentY + "\n\n");
+//                        if (x > 0) {
+//                            panLimit = false;
+//                            plot.setDomainPannable(true);
+//                        }
+//                        else if(y > 0){
+//                            panLimit = false;
+//                            plot.setRangePannable(true);
+//                        }
+//                        if(plot.getRangeAxis().getUpperBound() >= minMax[3]*3){
+//                            System.out.println("1: ");
+//                            top = false;
+//                            //panLimit = true;
+//                            plot.setRangePannable(false);
+//                            //plot.setDomainPannable(false);
+//                            //e.consume();
+//                            //break;
+//                        }
+//                        else if(plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3)){
+//                            System.out.println("2: ");
+//                            bottom = false;
+//                            //panLimit = true;
+//                            plot.setRangePannable(false);
+////                            plot.setDomainPannable(false);
+////                            e.consume();
+////                            break;
+//                        }
+//                        else if(plot.getDomainAxis().getUpperBound() >= minMax[2]*3){
+//                            System.out.println("3: ");
+//                            right = false;
+//                            panLimit = true;
+//                            //plot.setRangePannable(false);
+//                            plot.setDomainPannable(false);
+////                            e.consume();
+////                            break;
+//                        }   
+//                        else if(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3)){
+//                            System.out.println("4: ");
+//                            left = false;
+//                            //panLimit = true;
+//                            //plot.setRangePannable(false);
+//                            plot.setDomainPannable(false);
+////                            e.consume();
+////                            break;
+//                        }
+//                        else{
+//                            //panLimit = false;
+//                            plot.setRangePannable(true);
+//                            plot.setDomainPannable(true);
+//                        }
+//                    }
+//                    //super.mouseDragged(e);
+//                    if (strPoint != null && panLimit == false) {
+//                        double deltaX = e.getX() - strPoint.x;
+//                        double deltaY = e.getY() - strPoint.y;
+//                        
+//                        //System.out.println(deltaX + " " + deltaY);
+//
+//                        Range domainRange = chart.getXYPlot().getDomainAxis().getRange();
+//                        double domainLength = domainRange.getLength();
+//                        Range rangeRange = chart.getXYPlot().getRangeAxis().getRange();
+//                        double rangeLength = rangeRange.getLength();
+//
+//                        double deltaXValue = domainLength * deltaX / getWidth();
+//                        double deltaYValue = rangeLength * deltaY / getHeight();
+//                        if(deltaX > 0 && left == true){
+//                            getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
+//                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+//                        }
+//                        if(deltaX < 0 && right == true){
+//                           getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
+//                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+//                        }
+//                        if(deltaY > 0 && bottom == true){
+//                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+//                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+//                        }
+//                        if(deltaY < 0 && top == true){
+//                            getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
+//                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+//                        }
+//                        
+//                        
+//                    }
+                    
                 }
                 case SELECT -> {
                     if (SwingUtilities.isLeftMouseButton(e)) {

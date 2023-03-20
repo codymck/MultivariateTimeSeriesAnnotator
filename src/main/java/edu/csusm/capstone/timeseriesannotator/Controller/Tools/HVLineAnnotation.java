@@ -34,7 +34,8 @@ public class HVLineAnnotation extends AbstractAnnotation {
     public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] m) {
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
-        this.type = t[0];
+        String tempType = t[0];
+        this.type = tempType.substring(1, tempType.length() - 1);
         this.minMax = m;
     }
 

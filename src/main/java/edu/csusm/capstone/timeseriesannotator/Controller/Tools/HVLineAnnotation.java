@@ -31,12 +31,13 @@ public class HVLineAnnotation extends AbstractAnnotation {
         this.type = t;
         this.minMax = m;
     }
-    public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] m) {
+    public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] m, double[] point) {
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
         String tempType = t[0];
         this.type = tempType.substring(1, tempType.length() - 1);
         this.minMax = m;
+        this.createLine(point);
     }
 
     public void createLine(double[] point) {

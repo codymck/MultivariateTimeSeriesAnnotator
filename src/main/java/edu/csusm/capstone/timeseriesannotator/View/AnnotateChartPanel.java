@@ -42,7 +42,6 @@ import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.Range;
 
-
 /**
  *
  * @author Ben Theurich
@@ -56,7 +55,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private XYPlot plot;
     final List<XYDataset> originalDatasets;
     private boolean syncing = false;
-    
+
     private boolean panLimit = false;
     private double initialX;
     private double initialY;
@@ -290,12 +289,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         if (null != state) {
             switch (state) {
                 case PAN -> {
-                    
-                    if (strPoint != null){
-                        
+
+                    if (strPoint != null) {
+
                         double deltaX = e.getX() - strPoint.x; //pan amount
                         double deltaY = e.getY() - strPoint.y; // pan amount
-                        
+
                         //pan info
                         Range domainRange = chart.getXYPlot().getDomainAxis().getRange();
                         double domainLength = domainRange.getLength();
@@ -304,31 +303,31 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
                         double deltaXValue = domainLength * deltaX / getWidth();
                         double deltaYValue = rangeLength * deltaY / getHeight();
-                        
+
                         double currentX = point[0]; //gets X coord
                         double currentY = point[1]; //gets Y coord
                         double absX = initialX - currentX;// (-) pan left, 0 nothing (+) pan right
-                        double absY = initialY - currentY  ;// (-) pan down, 0 nothing, (+) pan up
+                        double absY = initialY - currentY;// (-) pan down, 0 nothing, (+) pan up
 
-                        if(absY > 0 && !(plot.getRangeAxis().getUpperBound() >= minMax[3]*3)){
+                        if (absY > 0 && !(plot.getRangeAxis().getUpperBound() >= minMax[3] * 3)) {
                             //Pan up
                             getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
-                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                                    getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue);
                         }
-                        if(absY < 0 && !(plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3))){
+                        if (absY < 0 && !(plot.getRangeAxis().getLowerBound() <= (-minMax[3] * 3))) {
                             //Pan down
                             getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
-                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                                    getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue);
                         }
-                        if(absX > 0 && !(plot.getDomainAxis().getUpperBound() >= minMax[2]*3)){
+                        if (absX > 0 && !(plot.getDomainAxis().getUpperBound() >= minMax[2] * 3)) {
                             //Pan right
                             getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
-                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+                                    getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue);
                         }
-                        if(absX < 0 && !(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3))){
+                        if (absX < 0 && !(plot.getDomainAxis().getLowerBound() <= (-minMax[2] * 3))) {
                             //Pan left
                             getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
-                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+                                    getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue);
                         }
                     }
                     strPoint = e.getPoint();
@@ -595,7 +594,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
     }
-    
+
     public void importAnnotations() throws IOException {
         JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
         JFileChooser fileChooser = new JFileChooser();
@@ -628,10 +627,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 CsvReader reader = new CsvReader(name);
                 reader.readHeaders();
                 // loop through every row
-                while (reader.readRecord()){
+                while (reader.readRecord()) {
                     String annotationType = reader.get("Annotation Type");
                     System.out.println("Annotation Type: " + annotationType);
-                    
+
                     String rgbaString = reader.get("RGBA");
                     JsonArray jsonArray = Json.createReader(new StringReader(rgbaString)).readArray();
                     int[] rgba = new int[jsonArray.size()];
@@ -641,7 +640,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     System.out.println("RGBA:");
                     Arrays.stream(rgba).forEach(System.out::println);
 
-                    
                     String coordinatesString = reader.get("Coordinates");
                     jsonArray = Json.createReader(new StringReader(coordinatesString)).readArray();
                     double[][] coordinates = new double[jsonArray.size()][((JsonArray) jsonArray.get(0)).size()];
@@ -655,7 +653,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     for (double[] row : coordinates) {
                         System.out.println(Arrays.toString(row));
                     }
-                    
+
                     String dataString = reader.get("Data");
                     jsonArray = Json.createReader(new StringReader(dataString)).readArray();
                     String[] data = new String[jsonArray.size()];
@@ -664,7 +662,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     }
                     System.out.println("Data:");
                     Arrays.stream(data).forEach(System.out::println);
-                    
+
                     AbstractAnnotation ann = null;
                     switch (annotationType) {
                         case "rectangle" -> {
@@ -680,10 +678,14 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             ann = new LineAnnotation(plot, rgba, coordinates, data);
                         }
                         case "hvline" -> {
-                           ann = new HVLineAnnotation(plot, rgba, data, minMax, coordinates[0]);
+                            ann = new HVLineAnnotation(plot, rgba, data, minMax, coordinates[0]);
                         }
                         case "comment" -> {
-                           ann = new CommentAnnotation(plot, rgba, coordinates, this, data);
+                            ann = new CommentAnnotation(plot, rgba, coordinates, this, data);
+                        }
+                        default -> {
+                            
+                        }
                     }
                     shapeIndex = annotations.size();
                     annotations.add(ann);

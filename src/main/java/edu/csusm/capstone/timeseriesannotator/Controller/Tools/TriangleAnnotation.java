@@ -1,17 +1,13 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
-import com.opencsv.CSVWriter;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import org.jfree.chart.plot.XYPlot;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import java.awt.BasicStroke;
-import java.util.ArrayList;
-import java.util.List;
 import org.jfree.chart.annotations.XYLineAnnotation;
 
 public class TriangleAnnotation extends AbstractAnnotation {
@@ -32,6 +28,20 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public TriangleAnnotation(XYPlot p, Color c) {
         this.plot = p;
         this.color = c;
+    }
+    
+    public TriangleAnnotation(XYPlot p, int[] c, double[][] coords) {
+        this.plot = p;
+        this.color = new Color(c[0], c[1], c[2], c[3]);
+        this.coordinates = coords;
+        storeTriangle = new Path2D.Double();
+        storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);
+        storeTriangle.lineTo(coordinates[1][0], coordinates[1][1]);
+        storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
+        storeTriangle.closePath();
+        triangleAnnotation = new XYShapeAnnotation(storeTriangle,
+                new BasicStroke(0), new Color(0, 0, 0, 0), color);
+        plot.addAnnotation(triangleAnnotation);
     }
 
     public void createShape(double[] point) {
@@ -149,56 +159,45 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public boolean isSelected() {
         return selected;
     }
-
+    
     @Override
-    public void export(CSVWriter writer) {
-        String[] annotation_type = {"triangle"};
-        String[] rgba = getRGBAList();
-        String[] coords = getTriCoords();
-        
-        String[] row = {annotation_type[0], rgba[0], coords[0]};
-        
-        writer.writeNext(row);
-    }
-
-    @Override
-    public String[] getRGBAList() {
-        int R = color.getRed();
-        int G = color.getGreen();
-        int B = color.getBlue();
-        int A = color.getAlpha();
-        
-        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
-        
-        return rgba;
-    }
-
-    @Override
-    public String[] getDataList() {
-        return null;
-    }
-
-    @Override
-    public String[] getCoordsList() {
-        return null;
+    public String getType(){
+        return "triangle";
     }
     
-    public String[] getTriCoords() {
-        String[] coord = new String[1]; 
-        
-        String set = "";
+    @Override
+    public String getRGBA() {
+        String R = String.valueOf(color.getRed());
+        String G = String.valueOf(color.getGreen());
+        String B = String.valueOf(color.getBlue());
+        String A = String.valueOf(color.getAlpha());
+
+        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
+    }
+
+
+    @Override
+    public String getCoords() {
+        String set = "[";
         for (double[] coordinate : coordinates) {
-            set += '[';
+            set += "[";
             for (int i = 0; i < coordinate.length; i++) {
-                set+= (String.valueOf(coordinate[i]));
-                if (i < coordinate.length - 1)
-                {
-                    set+= '/';
+                set += (String.valueOf(coordinate[i]));
+                if (i < coordinate.length - 1){
+                    set += ", ";
                 }
             }
-            set += ']';
+            set += "]";
+            set += ", ";
         }
-        coord[0] = set;
-        return coord;
+        set = set.substring(0, set.length() - 2);// remove the extra comma and space from the end of the string
+        set += "]";
+        return set;
     }
+    
+    @Override
+    public String getData() {
+        return "[\" \"]";
+    }
+    
 }

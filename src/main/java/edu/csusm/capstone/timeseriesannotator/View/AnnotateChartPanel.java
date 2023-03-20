@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import com.opencsv.CSVWriter;
+import org.jumpmind.symmetric.csv.CsvWriter;
+import org.jumpmind.symmetric.csv.CsvReader;
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
@@ -16,10 +17,12 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.json.Json;
+import javax.json.JsonArray;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -39,7 +42,6 @@ import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.Range;
 
-
 /**
  *
  * @author Ben Theurich
@@ -53,7 +55,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private XYPlot plot;
     final List<XYDataset> originalDatasets;
     private boolean syncing = false;
-    
+
     private boolean panLimit = false;
     private double initialX;
     private double initialY;
@@ -287,12 +289,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         if (null != state) {
             switch (state) {
                 case PAN -> {
-                    
-                    if (strPoint != null){
-                        
+
+                    if (strPoint != null) {
+
                         double deltaX = e.getX() - strPoint.x; //pan amount
                         double deltaY = e.getY() - strPoint.y; // pan amount
-                        
+
                         //pan info
                         Range domainRange = chart.getXYPlot().getDomainAxis().getRange();
                         double domainLength = domainRange.getLength();
@@ -301,31 +303,31 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
                         double deltaXValue = domainLength * deltaX / getWidth();
                         double deltaYValue = rangeLength * deltaY / getHeight();
-                        
+
                         double currentX = point[0]; //gets X coord
                         double currentY = point[1]; //gets Y coord
                         double absX = initialX - currentX;// (-) pan left, 0 nothing (+) pan right
-                        double absY = initialY - currentY  ;// (-) pan down, 0 nothing, (+) pan up
+                        double absY = initialY - currentY;// (-) pan down, 0 nothing, (+) pan up
 
-                        if(absY > 0 && !(plot.getRangeAxis().getUpperBound() >= minMax[3]*3)){
+                        if (absY > 0 && !(plot.getRangeAxis().getUpperBound() >= minMax[3] * 3)) {
                             //Pan up
                             getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
-                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                                    getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue);
                         }
-                        if(absY < 0 && !(plot.getRangeAxis().getLowerBound() <= (-minMax[3]*3))){
+                        if (absY < 0 && !(plot.getRangeAxis().getLowerBound() <= (-minMax[3] * 3))) {
                             //Pan down
                             getChart().getXYPlot().getRangeAxis().setRange(getChart().getXYPlot().getRangeAxis().getLowerBound() + deltaYValue,
-                                getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue); 
+                                    getChart().getXYPlot().getRangeAxis().getUpperBound() + deltaYValue);
                         }
-                        if(absX > 0 && !(plot.getDomainAxis().getUpperBound() >= minMax[2]*3)){
+                        if (absX > 0 && !(plot.getDomainAxis().getUpperBound() >= minMax[2] * 3)) {
                             //Pan right
                             getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
-                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+                                    getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue);
                         }
-                        if(absX < 0 && !(plot.getDomainAxis().getLowerBound() <= (-minMax[2]*3))){
+                        if (absX < 0 && !(plot.getDomainAxis().getLowerBound() <= (-minMax[2] * 3))) {
                             //Pan left
                             getChart().getXYPlot().getDomainAxis().setRange(getChart().getXYPlot().getDomainAxis().getLowerBound() - deltaXValue,
-                                getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue); 
+                                    getChart().getXYPlot().getDomainAxis().getUpperBound() - deltaXValue);
                         }
                     }
                     strPoint = e.getPoint();
@@ -575,10 +577,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             fileToSave = fileChooser.getSelectedFile();
-            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
 
             String name = fileToSave.getName();
-            System.out.println(name);
             char c;
             String fileType = "";
 
@@ -595,23 +595,116 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
             if (fileType.equalsIgnoreCase("csv")) {
                 // CREATE CSVWriter
-                FileWriter outputFile = new FileWriter(fileToSave);
-                CSVWriter writer = new CSVWriter(outputFile, ',',
-                                             CSVWriter.NO_QUOTE_CHARACTER,
-                                             CSVWriter.NO_QUOTE_CHARACTER,
-                                             CSVWriter.DEFAULT_LINE_END);
+                CsvWriter writer = new CsvWriter(new FileWriter(fileToSave, false), ',');
                 String[] header = {"Annotation Type", "RGBA", "Coordinates", "Data"};
-                writer.writeNext(header);
+                writer.writeRecord(header);
                 for (int i = 0; i < annotations.size(); i++) {
-                    annotations.get(i).export(writer);
+                    writer.writeRecord(annotations.get(i).export());
                 }
-                
                 writer.close();
             } else {
                 ErrorDialog.badFileType();
             }
         }
+    }
 
+    public void importAnnotations() throws IOException {
+        JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to load annotations from");
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("CSV", "csv"));
+        fileChooser.setAcceptAllFileFilterUsed(true);
+        int userSelection = fileChooser.showSaveDialog(frame);
+        File fileToLoad;
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            fileToLoad = fileChooser.getSelectedFile();
+
+            String name = fileToLoad.getAbsolutePath();
+            char c;
+            String fileType = "";
+
+            // loop through file name from the end
+            for (int i = name.length() - 1; i >= 0; i--) {
+                c = name.charAt(i);
+                // when we reach a '.' it is the end of file type
+                if (c == '.') {
+                    break;
+                }
+                // append character to fileType
+                fileType = c + fileType;
+            }
+
+            if (fileType.equalsIgnoreCase("csv")) {
+                // CREATE CsvReader
+                CsvReader reader = new CsvReader(name);
+                reader.readHeaders();
+                // loop through every row
+                while (reader.readRecord()) {
+                    String annotationType = reader.get("Annotation Type");
+                    System.out.println("Annotation Type: " + annotationType);
+
+                    String rgbaString = reader.get("RGBA");
+                    JsonArray jsonArray = Json.createReader(new StringReader(rgbaString)).readArray();
+                    int[] rgba = new int[jsonArray.size()];
+                    for (int i = 0; i < rgba.length; i++) {
+                        rgba[i] = jsonArray.getInt(i);
+                    }
+                    System.out.println("RGBA:");
+                    Arrays.stream(rgba).forEach(System.out::println);
+
+                    String coordinatesString = reader.get("Coordinates");
+                    jsonArray = Json.createReader(new StringReader(coordinatesString)).readArray();
+                    double[][] coordinates = new double[jsonArray.size()][((JsonArray) jsonArray.get(0)).size()];
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonArray row = jsonArray.getJsonArray(i);
+                        for (int j = 0; j < row.size(); j++) {
+                            coordinates[i][j] = row.getJsonNumber(j).doubleValue();
+                        }
+                    }
+                    System.out.println("Coordinates:");
+                    for (double[] row : coordinates) {
+                        System.out.println(Arrays.toString(row));
+                    }
+
+                    String dataString = reader.get("Data");
+                    jsonArray = Json.createReader(new StringReader(dataString)).readArray();
+                    String[] data = new String[jsonArray.size()];
+                    for (int i = 0; i < data.length; i++) {
+                        data[i] = jsonArray.getJsonString(i).toString();
+                    }
+                    System.out.println("Data:");
+                    Arrays.stream(data).forEach(System.out::println);
+
+                    AbstractAnnotation ann = null;
+                    switch (annotationType) {
+                        case "rectangle" -> {
+                            ann = new RectangleAnnotation(plot, rgba, coordinates, data);
+                        }
+                        case "ellipse" -> {
+                            ann = new EllipseAnnotation(plot, rgba, coordinates);
+                        }
+                        case "triangle" -> {
+                            ann = new TriangleAnnotation(plot, rgba, coordinates);
+                        }
+                        case "line" -> {
+                            ann = new LineAnnotation(plot, rgba, coordinates, data);
+                        }
+                        case "hvline" -> {
+                            ann = new HVLineAnnotation(plot, rgba, data, minMax, coordinates[0]);
+                        }
+                        case "comment" -> {
+                            ann = new CommentAnnotation(plot, rgba, coordinates, this, data);
+                        }
+                        default -> {
+                            
+                        }
+                    }
+                    shapeIndex = annotations.size();
+                    annotations.add(ann);
+                }
+            }
+        }
     }
 
     private void selectAnnotation(double mouseX, double mouseY) {

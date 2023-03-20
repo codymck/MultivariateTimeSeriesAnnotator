@@ -1,20 +1,14 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
-import com.opencsv.CSVWriter;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.CommentMenu;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -49,6 +43,30 @@ public class CommentAnnotation extends AbstractAnnotation {
         commentAnnotation = new XYTextAnnotation(text, coordinates[0], coordinates[1]);
         commentAnnotation.setFont(f);
         commentAnnotation.setPaint(AppFrame.getAbsoluteColor());
+        commentAnnotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
+        plot.addAnnotation(commentAnnotation);
+    }
+    
+    public CommentAnnotation(XYPlot p, int[] c, double[][] point, AnnotateChartPanel a, String[] t) {
+        this.plot = p;
+        this.color = new Color(c[0], c[1], c[2], 255);
+        this.coordinates[0] = point[0][0];
+        this.coordinates[1] = point[0][1];
+        this.chartPanel = a;
+        
+        this.text = t[0].substring(1, t[0].length()-1);
+        String name = t[1].substring(1, t[1].length()-1);
+        String fStyle = t[2].substring(1, t[2].length()-1);
+        String fSize = t[3].substring(1, t[3].length()-1);
+        
+        int fontStyle = Integer.parseInt(fStyle);
+        int fontSize = Integer.parseInt(fSize);
+        
+        Font f = new Font(name, fontStyle, fontSize);
+        this.font = f;
+        commentAnnotation = new XYTextAnnotation(text, coordinates[0], coordinates[1]);
+        commentAnnotation.setFont(font);
+        commentAnnotation.setPaint(color);
         commentAnnotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
         plot.addAnnotation(commentAnnotation);
     }
@@ -112,42 +130,35 @@ public class CommentAnnotation extends AbstractAnnotation {
     public void move(double xOffset, double yOffset, boolean set) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
-    public void export(CSVWriter writer) {
-        String[] annotation_type = {"comment"};
-        String[] rgba = getRGBAList();
-        String[] coords = getCoordsList();
-        String[] data = getDataList();
-        
-        String[] row = {annotation_type[0], rgba[0], coords[0], data[0]};
-        
-        writer.writeNext(row);
+    public String getType(){
+        return "comment";
     }
     
     @Override
-    public String[] getRGBAList() {
-        int R = color.getRed();
-        int G = color.getGreen();
-        int B = color.getBlue();
-        int A = color.getAlpha();
-        
-        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
-        
-        return rgba;
-    }
-    
-    @Override
-    public String[] getDataList() {
-        String[] data = {'[' + text + '/' + font.getFamily() + '/' + Integer.toString(font.getStyle()) + '/' + Integer.toString(font.getSize()) + ']'};
-        return data;
-    }
+    public String getRGBA() {
+        String R = String.valueOf(color.getRed());
+        String G = String.valueOf(color.getGreen());
+        String B = String.valueOf(color.getBlue());
+        String A = String.valueOf(color.getAlpha());
 
-    @Override
-    public String[] getCoordsList() {
-        String[] coords = {'[' + String.valueOf(coordinates[0]) + '/' + String.valueOf(coordinates[1]) + ']'};
-        return coords;
+        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
 
     
+    @Override
+    public String getData() {
+        String FONT = font.getFamily();
+        String FONTSTYLE = Integer.toString(font.getStyle());
+        String FONTSIZE = Integer.toString(font.getSize());
+        return "[\"" + text + "\", \"" + FONT + "\", \"" + FONTSTYLE + "\", \"" + FONTSIZE + "\"]";
+    }
+
+    @Override
+    public String getCoords() {
+        String X = String.valueOf(coordinates[0]);
+        String Y = String.valueOf(coordinates[1]);
+        return "[[" + X + ", " + Y + "]]";
+    }
 }

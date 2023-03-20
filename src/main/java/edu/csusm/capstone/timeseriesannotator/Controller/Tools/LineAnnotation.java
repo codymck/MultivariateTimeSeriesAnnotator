@@ -35,7 +35,8 @@ public class LineAnnotation extends AbstractAnnotation {
     
     public LineAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
         this.plot = p;
-        this.type = t[0];
+        String tempType = t[0];
+        this.type = tempType.substring(1, tempType.length() - 1);
         this.color = new Color(c[0], c[1], c[2], c[3]);
         this.coordinates = coords;
         storeLine = new Line2D.Double(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
@@ -138,7 +139,7 @@ public class LineAnnotation extends AbstractAnnotation {
                 }
             }
             set += "]";
-            set += ", "; // Probably going to be an extra comma
+            set += ", ";
         }
         set = set.substring(0, set.length() - 2);// remove the extra comma and space from the end of the string
         set += "]";

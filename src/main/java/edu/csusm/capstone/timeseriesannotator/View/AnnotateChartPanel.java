@@ -665,34 +665,28 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     System.out.println("Data:");
                     Arrays.stream(data).forEach(System.out::println);
                     
+                    AbstractAnnotation ann = null;
                     switch (annotationType) {
                         case "rectangle" -> {
-                            RectangleAnnotation rect = new RectangleAnnotation(plot, rgba, coordinates, data);
-                            shapeIndex = annotations.size();
-                            annotations.add(rect);
+                            ann = new RectangleAnnotation(plot, rgba, coordinates, data);
                         }
                         case "ellipse" -> {
-                            EllipseAnnotation ell = new EllipseAnnotation(plot, rgba, coordinates);
-                            shapeIndex = annotations.size();
-                            annotations.add(ell);
+                            ann = new EllipseAnnotation(plot, rgba, coordinates);
                         }
                         case "triangle" -> {
-                            TriangleAnnotation tri = new TriangleAnnotation(plot, rgba, coordinates);
-                            shapeIndex = annotations.size();
-                            annotations.add(tri);
+                            ann = new TriangleAnnotation(plot, rgba, coordinates);
                         }
                         case "line" -> {
-                            LineAnnotation line = new LineAnnotation(plot, rgba, coordinates, data);
-                            shapeIndex = annotations.size();
-                            annotations.add(line);
+                            ann = new LineAnnotation(plot, rgba, coordinates, data);
                         }
                         case "hvline" -> {
-                            HVLineAnnotation hvline = new HVLineAnnotation(plot, rgba, data, minMax);
-                            hvline.createLine(coordinates[0]);
-                            shapeIndex = annotations.size();
-                            annotations.add(hvline);
+                           ann = new HVLineAnnotation(plot, rgba, data, minMax, coordinates[0]);
                         }
+                        case "comment" -> {
+                           ann = new CommentAnnotation(plot, rgba, coordinates, this, data);
                     }
+                    shapeIndex = annotations.size();
+                    annotations.add(ann);
                 }
             }
         }

@@ -32,7 +32,8 @@ public class RectangleAnnotation extends AbstractAnnotation {
     
     public RectangleAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
         this.plot = p;
-        this.type = t[0];
+        String tempType = t[0];
+        this.type = tempType.substring(1, tempType.length() - 1);
         this.color = new Color(c[0], c[1], c[2], c[3]);
         x = coords[0][0];
         y = coords[0][1];

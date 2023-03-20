@@ -4,6 +4,8 @@ import org.jumpmind.symmetric.csv.CsvWriter;
 import org.jumpmind.symmetric.csv.CsvReader;
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
+import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.ELLIPSE;
+import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.SQUARE;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import java.awt.Color;
 import java.awt.Font;
@@ -60,6 +62,18 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private double initialX;
     private double initialY;
     private Point strPoint;
+    
+    private RectangleAnnotation Hr;
+    private RectangleAnnotation r;
+    private EllipseAnnotation ell;
+    private TriangleAnnotation tri;
+    private LineAnnotation sl;
+    private LineAnnotation lr;
+    private LineAnnotation dl;
+    private HVLineAnnotation horiz;
+    private HVLineAnnotation vert;
+    private boolean dragged = false;
+    
 
     /* LINE variables */
     private HVLineAnnotation hTrace;
@@ -84,6 +98,17 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     public ToolState getChartState() {
         return this.state;
     }
+    
+    public void addAbstractAnnotation(AbstractAnnotation a){
+        shapeIndex = annotations.size();
+        annotations.add(a);
+    }
+    public void removeAbstractAnnotation(AbstractAnnotation a){
+        annotations.remove(a);
+        shapeIndex = annotations.size() - 1;
+    }
+    
+    
 
     public AnnotateChartPanel(JFreeChart chart) {
         super(chart);
@@ -147,9 +172,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 }
                 case HIGHLIGHT -> {
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        RectangleAnnotation r = new RectangleAnnotation(plot, color, point, "region", minMax);
-                        shapeIndex = annotations.size();
-                        annotations.add(r);
+                        Hr = new RectangleAnnotation(plot, color, point, "region", minMax, this);
+//                        shapeIndex = annotations.size();
+//                        annotations.add(Hr);
                     } else if (e.getButton() == MouseEvent.BUTTON3) {
                         deleteAnnotation(point);
                     }
@@ -159,7 +184,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         Font f = new Font(AppFrame.getFontName(), AppFrame.getFontStyle(), AppFrame.getFontSize());
                         CommentAnnotation comment = new CommentAnnotation(plot, color, point, this, f);
                         shapeIndex = annotations.size();
-                        annotations.add(comment);
+//                        annotations.add(comment);
                     } else if (e.getButton() == MouseEvent.BUTTON3) {
                         deleteAnnotation(point);
                     }
@@ -168,7 +193,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case VERTICAL -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                HVLineAnnotation vert = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "vertical", minMax);
+                                vert = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "vertical", minMax);
                                 vert.createLine(point);
                                 shapeIndex = annotations.size();
                                 annotations.add(vert);
@@ -178,10 +203,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         }
                         case HORIZONTAL -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                HVLineAnnotation horiz = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "horizontal", minMax);
+                                horiz = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "horizontal", minMax);
                                 horiz.createLine(point);
                                 shapeIndex = annotations.size();
-                                annotations.add(horiz);
+//                                annotations.add(horiz);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point);
                             }
@@ -190,9 +215,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    LineAnnotation r = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "diagonal", minMax);
+                                    dl = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "diagonal", minMax);
                                     shapeIndex = annotations.size();
-                                    annotations.add(r);
+                                    annotations.add(dl);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -206,9 +231,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    LineAnnotation r = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "ray", minMax);
+                                    lr = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "ray", minMax);
                                     shapeIndex = annotations.size();
-                                    annotations.add(r);
+                                    annotations.add(lr);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -222,9 +247,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    LineAnnotation r = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "segment", minMax);
+                                    sl = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "segment", minMax);
                                     shapeIndex = annotations.size();
-                                    annotations.add(r);
+                                    annotations.add(sl);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -236,18 +261,18 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         }
                         case SQUARE -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                RectangleAnnotation r = new RectangleAnnotation(plot, color, point, "rectangle", minMax);
-                                shapeIndex = annotations.size();
-                                annotations.add(r);
+                                r = new RectangleAnnotation(plot, color, point, "rectangle", minMax, this);
+//                                shapeIndex = annotations.size();
+//                                annotations.add(r);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point);
                             }
                         }
                         case ELLIPSE -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                EllipseAnnotation ell = new EllipseAnnotation(plot, color, point);
-                                shapeIndex = annotations.size();
-                                annotations.add(ell);
+                                ell = new EllipseAnnotation(plot, color, point, this);
+//                                shapeIndex = annotations.size();
+//                                annotations.add(ell);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point);
                             }
@@ -256,8 +281,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (triClick == 0) {
                                     moveTest = point;
-                                    TriangleAnnotation tri = new TriangleAnnotation(plot, color);
-                                    shapeIndex = annotations.size();
+                                    tri = new TriangleAnnotation(plot, color, this);
+//                                    shapeIndex = annotations.size();
                                     annotations.add(tri);
                                     tri.createShape(point);
                                     triClick++;
@@ -346,22 +371,25 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 }
                 case HIGHLIGHT -> {
                     if (SwingUtilities.isLeftMouseButton(e)) {
-                        RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
-                        tempRect.drawRect(point);
+//                        RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
+                        Hr.drawRect(point);
+                        dragged = true;
                     }
                 }
                 case MARK -> {
                     switch (AppFrame.getMarkerType()) {
                         case SQUARE -> {
                             if (SwingUtilities.isLeftMouseButton(e)) {
-                                RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
-                                tempRect.drawRect(point);
+                                //RectangleAnnotation tempRect = (RectangleAnnotation) annotations.get(shapeIndex);
+                                r.drawRect(point);
+                                dragged = true;
                             }
                         }
                         case ELLIPSE -> {
                             if (SwingUtilities.isLeftMouseButton(e)) {
-                                EllipseAnnotation tempEll = (EllipseAnnotation) annotations.get(shapeIndex);
-                                tempEll.drawEllipse(point);
+                                //EllipseAnnotation tempEll = (EllipseAnnotation) annotations.get(shapeIndex);
+                                ell.drawEllipse(point);
+                                dragged = true;
                             }
                         }
                         default -> {
@@ -402,9 +430,29 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     }
                     super.mouseReleased(e);
                 }
+                case HIGHLIGHT -> {
+//                    if(dragged){
+//                        annotations.add(Hr);
+//                        dragged = false;
+//                    }
+                }
                 case COMMENT -> {
                 }
                 case MARK -> {
+//                    switch (AppFrame.getMarkerType()) {
+//                        case SQUARE -> {
+//                            if(dragged){
+//                                annotations.add(r);
+//                                dragged = false;
+//                            }
+//                        }
+//                        case ELLIPSE -> {
+//                            if(dragged){
+////                                annotations.add(ell);
+//                                dragged = false;
+//                            }
+//                        }
+//                    }
                 }
                 default -> {
                 }
@@ -483,7 +531,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
             tempLine.delete();
         }
-        
+        if (triClick > 0) {
+            triClick = 0;
+            TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
+            tempTri.delete();
+        }
     }
 
     public void removeTextAnnotation() {

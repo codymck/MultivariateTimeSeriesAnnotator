@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 
 import java.awt.geom.Point2D;
@@ -15,6 +16,8 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public boolean selected;
     public Color color;
     public XYPlot plot;
+    private AnnotateChartPanel chartPanel;
+
 
     private Path2D.Double storeTriangle = null;
 
@@ -25,15 +28,17 @@ public class TriangleAnnotation extends AbstractAnnotation {
     
     private int triClick = 0;
 
-    public TriangleAnnotation(XYPlot p, Color c) {
+    public TriangleAnnotation(XYPlot p, Color c, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
+        this.chartPanel = cP;
     }
     
     public TriangleAnnotation(XYPlot p, int[] c, double[][] coords) {
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
         this.coordinates = coords;
+        
         storeTriangle = new Path2D.Double();
         storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);
         storeTriangle.lineTo(coordinates[1][0], coordinates[1][1]);
@@ -72,6 +77,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
             plot.addAnnotation(triangleAnnotation);
             triClick++;
             if(triClick > 2){
+                chartPanel.addAbstractAnnotation(this);
                 triClick = 0;
             }
         }
@@ -127,7 +133,13 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     @Override
     public void delete() {
-        plot.removeAnnotation(triangleAnnotation);
+        if(triClick == 1){
+            plot.removeAnnotation(line);
+            line = null;
+        }
+        else
+            plot.removeAnnotation(triangleAnnotation);
+        triClick = 0;
     }
     
     @Override

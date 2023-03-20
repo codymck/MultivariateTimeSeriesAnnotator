@@ -31,6 +31,12 @@ public class HVLineAnnotation extends AbstractAnnotation {
         this.type = t;
         this.minMax = m;
     }
+    public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] m) {
+        this.plot = p;
+        this.color = new Color(c[0], c[1], c[2], c[3]);
+        this.type = t[0];
+        this.minMax = m;
+    }
 
     public void createLine(double[] point) {
         if (type.equals("horizontal")) {
@@ -145,7 +151,12 @@ public class HVLineAnnotation extends AbstractAnnotation {
     public String getCoords() {
         String COORD = String.valueOf(coordinate);
 
-        return "[[" + COORD + "]]";
+        if(type.equals("horizontal")){
+            return "[[ 0, " + COORD + "]]";
+        }else{
+            return "[[" + COORD + ", 0]]";
+        }
+        
     }
     
     @Override

@@ -681,6 +681,17 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             shapeIndex = annotations.size();
                             annotations.add(tri);
                         }
+                        case "line" -> {
+                            LineAnnotation line = new LineAnnotation(plot, rgba, coordinates, data);
+                            shapeIndex = annotations.size();
+                            annotations.add(line);
+                        }
+                        case "hvline" -> {
+                            HVLineAnnotation hvline = new HVLineAnnotation(plot, rgba, data, minMax);
+                            hvline.createLine(coordinates[0]);
+                            shapeIndex = annotations.size();
+                            annotations.add(hvline);
+                        }
                     }
                 }
             }

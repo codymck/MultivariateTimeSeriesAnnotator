@@ -33,6 +33,16 @@ public class LineAnnotation extends AbstractAnnotation {
         this.minMax = m;
     }
     
+    public LineAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
+        this.plot = p;
+        this.type = t[0];
+        this.color = new Color(c[0], c[1], c[2], c[3]);
+        this.coordinates = coords;
+        storeLine = new Line2D.Double(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
+        lineAnnotation = new XYShapeAnnotation(storeLine, new BasicStroke(2), color);
+        plot.addAnnotation(lineAnnotation);
+    }
+    
     public void drawLine(double[] point) {
         double dx, dy, angle, length;
         if (lineAnnotation != null){

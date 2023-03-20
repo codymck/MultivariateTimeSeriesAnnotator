@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartBuilder.ChartTypes;
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
+import java.util.ArrayList;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 
@@ -20,7 +21,7 @@ public class ChartStruct {
     XYPlot plot;
     private ValueAxis dAxis;
     private ValueAxis rAxis;
-    private String[] Labels; //0:Title, 1: X, 2: Y
+    private ArrayList<String> Labels; //0:Title, 1: X, 2: Y, 3+: Yn
     
     //public static ChartStruct Ct;
     
@@ -102,10 +103,10 @@ public class ChartStruct {
         rAxis = r;
     }
     
-    public void setLabels(String[] l){
+    public void setLabels(ArrayList<String> l){
         Labels = l;
     }
-    public String[] getLabels(){
+    public ArrayList<String> getLabels(){
         return Labels;
     }
     

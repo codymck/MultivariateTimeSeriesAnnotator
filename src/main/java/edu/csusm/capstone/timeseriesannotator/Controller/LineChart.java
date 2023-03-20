@@ -30,9 +30,9 @@ public class LineChart implements ChartsIF {
         chartStruct = c;
         dataSetter();
         
-        NumberAxis xAxis = new NumberAxis(chartStruct.getLabels()[1]);
-        NumberAxis yAxis = new NumberAxis(chartStruct.getLabels()[2]);   
-        String chartTitle = chartStruct.getLabels()[0];
+        NumberAxis xAxis = new NumberAxis(chartStruct.getLabels().get(1));
+        NumberAxis yAxis = new NumberAxis(chartStruct.getLabels().get(2));   
+        String chartTitle = chartStruct.getLabels().get(0);
         
 
         XYDataset data = xyChart.getDataset();
@@ -73,7 +73,7 @@ public class LineChart implements ChartsIF {
         plotter.setRenderer(chartStruct.getFlag()-1,lineRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
-        JFreeChart chart = new JFreeChart(chartStruct.getLabels()[0], JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
+        JFreeChart chart = new JFreeChart(chartStruct.getLabels().get(0), JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
@@ -88,11 +88,11 @@ public class LineChart implements ChartsIF {
     public void dataSetter(){
         xyChart = chartStruct.getSeries();
         if(chartStruct.getFlag() == 1){
-            xyChart.createDataset();
+            xyChart.createDataset("Dataset: " + chartStruct.getLabels().get(1) + " vs " + chartStruct.getLabels().get(2));
             chartStruct.setFlag(2);
         }
         else if (chartStruct.getFlag() >= 2){
-            String name = "Dataset " + chartStruct.getFlag();
+            String name = "Dataset: " + chartStruct.getLabels().get(1) + " vs " + chartStruct.getLabels().get(chartStruct.getFlag()+1);
             xyChart.addDataset(name);
             chartStruct.setFlag(chartStruct.getFlag()+1);
         }

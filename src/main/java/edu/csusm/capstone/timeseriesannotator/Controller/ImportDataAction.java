@@ -15,6 +15,8 @@ import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JFileChooser;
 
 /**
@@ -113,7 +115,11 @@ public class ImportDataAction implements ActionListener {
                
                CSVAction cAction = CSVAction.getInstance();
                chartStruct.setXaxis(cAction.getXAxis());
-               chartStruct.setLabels(new String[]{cAction.getX() + " vs " + cAction.getY(), cAction.getX(), cAction.getY()});
+               ArrayList<String> labels = new ArrayList<>();
+               labels.add(cAction.getX() + " vs " + cAction.getY());
+               labels.add(cAction.getX());
+               labels.add(cAction.getY());
+               chartStruct.setLabels(labels);
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
@@ -134,7 +140,11 @@ public class ImportDataAction implements ActionListener {
                String[] tmpX = hAction.getXPath().split("/");
                String[] tmpY = hAction.getYPath().split("/");
                
-               chartStruct.setLabels(new String[]{tmpX[tmpX.length - 1] + " vs " + tmpY[tmpY.length - 1], tmpX[tmpX.length - 1], tmpY[tmpY.length - 1]});
+               ArrayList<String> labels = new ArrayList<>();
+               labels.add(tmpX[tmpX.length - 1] + " vs " + tmpY[tmpY.length - 1]);
+               labels.add(tmpX[tmpX.length - 1]);
+               labels.add(tmpY[tmpY.length - 1]);
+               chartStruct.setLabels(labels);
                
                DataFormatter df = new DataFormatter(dReader);
                df.formatHDF5(HDFReader.xP, HDFReader.yP);

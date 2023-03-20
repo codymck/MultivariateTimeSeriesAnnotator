@@ -8,13 +8,18 @@ import javax.swing.JOptionPane;
  * @author Cody McKinney
  */
 public class ErrorDialog {
+    static boolean tooMany;
     
     public static void wrongData() {
         JOptionPane.showMessageDialog(new JFrame(), "Error: Dataset or Object does not exist.\n\n                Try Again.", "Error", JOptionPane.ERROR_MESSAGE);
     }
     
     public static void TooManyCharts() {
-        JOptionPane.showMessageDialog(new JFrame(), "Error: Too Many Charts Added.\n", "Error", JOptionPane.ERROR_MESSAGE);
+        if(tooMany == false){
+            tooMany = true;
+            JOptionPane.showMessageDialog(new JFrame(), "Error: Too Many Charts Added.\n", "Error", JOptionPane.ERROR_MESSAGE);
+            tooMany = false;
+        }
     }
     
     public static void UnsupportedFile() {

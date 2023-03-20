@@ -18,6 +18,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -418,8 +420,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         case VERTICAL -> {
                             if (getScreenDataArea().contains(e.getX(), e.getY())) {
                                 if (vTrace != null) {
-                                    vTrace.drawTrace(point);
+                                    vTrace.drawTrace(point); 
                                 }
+                                
                             } else {
                                 vTrace.removeTrace();
                             }
@@ -467,6 +470,18 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 }
             }
         }
+    }
+    
+    @Override
+    public void mouseExited(MouseEvent e) {
+        vTrace.removeTrace();
+        hTrace.removeTrace();
+        if(clickedOnce){
+            clickedOnce = false;
+            LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
+            tempLine.delete();
+        }
+        
     }
 
     public void removeTextAnnotation() {

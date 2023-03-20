@@ -16,12 +16,12 @@ public class XYLineChartDataset implements ChartData {
     
 
     @Override
-    public void createDataset() {
+    public void createDataset(String name) {
         dFormat = DataFormatter.getInstance();
         
         this.dataset = new XYSeriesCollection();
 
-        XYSeries series1 = new XYSeries("Dataset 1");
+        XYSeries series1 = new XYSeries(name);
 
         float[] x = dFormat.getXDataset();
         float[] y = dFormat.getYDataset();

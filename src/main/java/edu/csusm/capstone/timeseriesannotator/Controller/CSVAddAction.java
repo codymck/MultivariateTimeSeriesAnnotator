@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 public class CSVaddAction implements ActionListener {
     JDialog dialog;
     int yaxis;
+    String y;
     private javax.swing.JList<String> YAxisList;
 
     private static CSVaddAction instance;
@@ -33,7 +34,7 @@ public class CSVaddAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         yaxis = YAxisList.getSelectedIndex();
-
+        y = YAxisList.getSelectedValue();
         System.out.println("CSVAction: Selected Axis --- Y-Axis: " + yaxis);
         if (yaxis == -1 ) {
             ErrorDialog.badIndex();

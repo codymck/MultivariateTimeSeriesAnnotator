@@ -13,6 +13,7 @@ import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -43,7 +44,8 @@ public class AddSeriesAction implements ActionListener {
         Cselect.setVisible(true);
         ChartAction tAction = ChartAction.getInstance();
         int chartType = tAction.getType();
-        
+        ArrayList<String> labels = chartStruct.getLabels();
+       
         
         switch (chartType) {
             case 1:
@@ -70,10 +72,13 @@ public class AddSeriesAction implements ActionListener {
                
             CSVaddSeries series = new CSVaddSeries(new javax.swing.JFrame(), true);
             series.setModel(headers);
-            series.setVisible(true);
+            series.setVisible(true);            
                
             CSVaddAction cAction = CSVaddAction.getInstance();
-               
+            labels.add(cAction.y);
+            labels.set(0, labels.get(0) + " vs " + cAction.y);
+            chartStruct.setLabels(labels);
+            
             DataFormatter df = new DataFormatter(dReader);
             df.formatCSV(chartStruct.getXaxis(), cAction.getYAxis());
         }
@@ -89,6 +94,9 @@ public class AddSeriesAction implements ActionListener {
             HDF5addAction hAction = HDF5addAction.getInstance();
             HDFReader h = (HDFReader)dReader;
             h.setPaths(chartStruct.getXpath(), hAction.getYPath(), 1);
+            labels.add(hAction.getYPath());
+            labels.set(0, labels.get(0) + " vs " + hAction.getYPath());
+            chartStruct.setLabels(labels);
             
             DataFormatter df = new DataFormatter(dReader);
             df.formatHDF5(HDFReader.xP, HDFReader.yP);

@@ -11,7 +11,7 @@ public class XYLineChartDataset implements ChartData {
     DataFormatter dFormat;
     
     public XYLineChartDataset() {
-        System.out.println("Chart being created");
+//        System.out.println("Chart being created");
     }
     
 

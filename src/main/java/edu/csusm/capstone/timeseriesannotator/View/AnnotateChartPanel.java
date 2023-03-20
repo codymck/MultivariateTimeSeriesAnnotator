@@ -557,7 +557,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private void deleteAnnotation(double[] point) {
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(point[0], point[1])) {
-                System.out.println("CLICKED");
+//                System.out.println("CLICKED");
                 annotations.get(i).delete();
                 annotations.remove(i);
                 break;
@@ -642,7 +642,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 // loop through every row
                 while (reader.readRecord()) {
                     String annotationType = reader.get("Annotation Type");
-                    System.out.println("Annotation Type: " + annotationType);
+//                    System.out.println("Annotation Type: " + annotationType);
 
                     String rgbaString = reader.get("RGBA");
                     JsonArray jsonArray = Json.createReader(new StringReader(rgbaString)).readArray();
@@ -650,8 +650,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     for (int i = 0; i < rgba.length; i++) {
                         rgba[i] = jsonArray.getInt(i);
                     }
-                    System.out.println("RGBA:");
-                    Arrays.stream(rgba).forEach(System.out::println);
+//                    System.out.println("RGBA:");
+//                    Arrays.stream(rgba).forEach(System.out::println);
 
                     String coordinatesString = reader.get("Coordinates");
                     jsonArray = Json.createReader(new StringReader(coordinatesString)).readArray();
@@ -662,10 +662,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             coordinates[i][j] = row.getJsonNumber(j).doubleValue();
                         }
                     }
-                    System.out.println("Coordinates:");
-                    for (double[] row : coordinates) {
-                        System.out.println(Arrays.toString(row));
-                    }
+//                    System.out.println("Coordinates:");
+//                    for (double[] row : coordinates) {
+//                        System.out.println(Arrays.toString(row));
+//                    }
 
                     String dataString = reader.get("Data");
                     jsonArray = Json.createReader(new StringReader(dataString)).readArray();
@@ -673,8 +673,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     for (int i = 0; i < data.length; i++) {
                         data[i] = jsonArray.getJsonString(i).toString();
                     }
-                    System.out.println("Data:");
-                    Arrays.stream(data).forEach(System.out::println);
+//                    System.out.println("Data:");
+//                    Arrays.stream(data).forEach(System.out::println);
 
                     AbstractAnnotation ann = null;
                     switch (annotationType) {

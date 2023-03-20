@@ -26,7 +26,7 @@ public class CSVReaderTest {
      */
     @Test
     public void testBuildDataList() {
-        System.out.println("buildDataList");
+//        System.out.println("buildDataList");
         String fileName = buildTestData();
         CSVReader instance = new CSVReader();
         instance.buildDataList(fileName);
@@ -74,7 +74,7 @@ public class CSVReaderTest {
             
             fileWriter.close();
         } catch (IOException e) {//IO
-            System.out.println("Exception occured "+ e);
+//            System.out.println("Exception occured "+ e);
         }
 
         return fileName;

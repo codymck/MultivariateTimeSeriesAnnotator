@@ -71,7 +71,7 @@ public class ImportDataAction implements ActionListener {
         if (importFile != null ) {
             
            String fileName = importFile.getAbsolutePath();
-           System.out.println(fileName);
+//           System.out.println(fileName);
            
            String fileType = findFileType(fileName);
            
@@ -102,7 +102,7 @@ public class ImportDataAction implements ActionListener {
            
            //Select menu features
            if("csv".equals(fileType)) {
-               System.out.println("ImportDataAction: CSV File Imported");
+//               System.out.println("ImportDataAction: CSV File Imported");
                dReader = new CSVReader();
                dReader.buildDataList(fileName);
                
@@ -125,7 +125,7 @@ public class ImportDataAction implements ActionListener {
                df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
            }
            else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
-               System.out.println("ImportDataAction: HDF5 File Imported");
+//               System.out.println("ImportDataAction: HDF5 File Imported");
         
                HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
                select.setVisible(true);

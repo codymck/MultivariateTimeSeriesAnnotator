@@ -16,12 +16,12 @@ public class DataFormatter {
     
     public DataFormatter(DataReader dR) {
         if (dR instanceof CSVReader) {
-            System.out.println("CSV data to be formatted");
+//            System.out.println("CSV data to be formatted");
             
             dReader = (CSVReader)dR;
         }
         else if (dR instanceof HDFReader) {
-            System.out.println("HDF5 data to be formatted");
+//            System.out.println("HDF5 data to be formatted");
             
             dReader = (HDFReader)dR;
         }
@@ -34,7 +34,7 @@ public class DataFormatter {
     }
     
     public void formatCSV(int xIndex, int yIndex) {
-        System.out.println(xIndex + " " + yIndex);
+//        System.out.println(xIndex + " " + yIndex);
         
         String[] keys = ((CSVReader)dReader).getHeaders();
         
@@ -52,11 +52,11 @@ public class DataFormatter {
 //            System.out.print(f + " ");
 //        }
         
-        System.out.println("DataFormatted");
+//        System.out.println("DataFormatted");
     }
     
     public void formatHDF5(String xPath, String yPath) {
-        System.out.println(xPath+ " " + yPath);
+//        System.out.println(xPath+ " " + yPath);
         
         xData = ((HDFReader)dReader).getXData();
         yData = ((HDFReader)dReader).getYData();

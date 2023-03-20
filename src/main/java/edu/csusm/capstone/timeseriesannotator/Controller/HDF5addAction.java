@@ -37,7 +37,7 @@ public class HDF5addAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("HDF5Action: Selected Axis --- Y-Axis: " + yaxis);
+//        System.out.println("HDF5Action: Selected Axis --- Y-Axis: " + yaxis);
         if(yaxis.isBlank()) {
             badPath();
         }else{

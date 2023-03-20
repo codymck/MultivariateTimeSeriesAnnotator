@@ -63,7 +63,7 @@ public class AddSeriesAction implements ActionListener {
 //        chartStruct.setChartType(t);
 //        
         if("csv".equals(chartStruct.getFileType())) {
-            System.out.println("ImportDataAction: CSV File Imported");
+//            System.out.println("ImportDataAction: CSV File Imported");
             dReader = new CSVReader();
             dReader.buildDataList(chartStruct.getFileName());
                
@@ -83,7 +83,7 @@ public class AddSeriesAction implements ActionListener {
             df.formatCSV(chartStruct.getXaxis(), cAction.getYAxis());
         }
         else if ("hdf5".equals(chartStruct.getFileType()) || "h5".equals(chartStruct.getFileType())) {
-            System.out.println("ImportDataAction: HDF5 File Imported");
+//            System.out.println("ImportDataAction: HDF5 File Imported");
       
             HDF5addSeries select = new HDF5addSeries(new javax.swing.JFrame(), true);
             select.setVisible(true);

@@ -42,7 +42,7 @@ public class CSVAction implements ActionListener {
         xaxis = XAxisList.getSelectedIndex();
         yaxis = YAxisList.getSelectedIndex();
 
-        System.out.println("CSVAction: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
+//        System.out.println("CSVAction: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
         if (yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
             ErrorDialog.badIndex();
         } else {

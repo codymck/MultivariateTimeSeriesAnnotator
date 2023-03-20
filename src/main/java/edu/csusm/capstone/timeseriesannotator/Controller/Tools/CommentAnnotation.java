@@ -1,20 +1,14 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
-import com.opencsv.CSVWriter;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.CommentMenu;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -112,42 +106,35 @@ public class CommentAnnotation extends AbstractAnnotation {
     public void move(double xOffset, double yOffset, boolean set) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
-    public void export(CSVWriter writer) {
-        String[] annotation_type = {"comment"};
-        String[] rgba = getRGBAList();
-        String[] coords = getCoordsList();
-        String[] data = getDataList();
-        
-        String[] row = {annotation_type[0], rgba[0], coords[0], data[0]};
-        
-        writer.writeNext(row);
+    public String getType(){
+        return "comment";
     }
     
     @Override
-    public String[] getRGBAList() {
-        int R = color.getRed();
-        int G = color.getGreen();
-        int B = color.getBlue();
-        int A = color.getAlpha();
-        
-        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
-        
-        return rgba;
-    }
-    
-    @Override
-    public String[] getDataList() {
-        String[] data = {'[' + text + '/' + font.getFamily() + '/' + Integer.toString(font.getStyle()) + '/' + Integer.toString(font.getSize()) + ']'};
-        return data;
-    }
+    public String getRGBA() {
+        String R = String.valueOf(color.getRed());
+        String G = String.valueOf(color.getGreen());
+        String B = String.valueOf(color.getBlue());
+        String A = String.valueOf(color.getAlpha());
 
-    @Override
-    public String[] getCoordsList() {
-        String[] coords = {'[' + String.valueOf(coordinates[0]) + '/' + String.valueOf(coordinates[1]) + ']'};
-        return coords;
+        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
 
     
+    @Override
+    public String getData() {
+        String FONT = font.getFamily();
+        String FONTSTYLE = Integer.toString(font.getStyle());
+        String FONTSIZE = Integer.toString(font.getSize());
+        return "[\"" + text + "\", \"" + FONT + "\", \"" + FONTSTYLE + "\", \"" + FONTSIZE + "\"]";
+    }
+
+    @Override
+    public String getCoords() {
+        String X = String.valueOf(coordinates[0]);
+        String Y = String.valueOf(coordinates[1]);
+        return "[[" + X + ", " + Y + "]]";
+    }
 }

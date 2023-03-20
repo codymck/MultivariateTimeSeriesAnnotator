@@ -1,6 +1,5 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
-import com.opencsv.CSVWriter;
 import java.awt.Color;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
@@ -10,8 +9,6 @@ import org.jfree.chart.ui.RectangleAnchor;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 import org.jfree.chart.axis.ValueAxis;
 
 public class HVLineAnnotation extends AbstractAnnotation {
@@ -128,45 +125,31 @@ public class HVLineAnnotation extends AbstractAnnotation {
     public boolean isSelected() {
         return selected;
     }
-
+    
     @Override
-    public void export(CSVWriter writer) {
-        String[] annotation_type = {"hvlines"};
-        String[] rgba = getRGBAList();
-        String[] coords = getCoordsList();
-        String[] data = getDataList();
-        
-        String[] row = {annotation_type[0], rgba[0], coords[0], data[0]};
-        
-        writer.writeNext(row);
+    public String getType(){
+        return "hvline";
     }
 
-    @Override
-    public String[] getRGBAList() {
-        int R = color.getRed();
-        int G = color.getGreen();
-        int B = color.getBlue();
-        int A = color.getAlpha();
-        
-        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
-        
-        return rgba;
-    }
+   @Override
+    public String getRGBA() {
+        String R = String.valueOf(color.getRed());
+        String G = String.valueOf(color.getGreen());
+        String B = String.valueOf(color.getBlue());
+        String A = String.valueOf(color.getAlpha());
 
-    @Override
-    public String[] getDataList() {
-        String[] data = new String[1];
-        if (type.equals("horizontal")) data[0] = "horizontal";
-        else if (type.equals("vertical")) data[0] = "vertical";
-        
-        return data;
+        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
-
+    
     @Override
-    public String[] getCoordsList() {
-        String[] coords = new String[1];
-        coords[0] = String.valueOf(coordinate);
-        
-        return coords;
+    public String getCoords() {
+        String COORD = String.valueOf(coordinate);
+
+        return "[[" + COORD + "]]";
+    }
+    
+    @Override
+    public String getData() {
+        return "[\"" + type + "\"]";
     }
 }

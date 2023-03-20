@@ -1,12 +1,9 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
-import com.opencsv.CSVWriter;
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.plot.XYPlot;
 
@@ -31,6 +28,20 @@ public class RectangleAnnotation extends AbstractAnnotation {
         coordinates[0][1] = point[1];
         this.type = t;
         this.minMax = m;
+    }
+    
+    public RectangleAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
+        this.plot = p;
+        this.type = t[0];
+        this.color = new Color(c[0], c[1], c[2], c[3]);
+        x = coords[0][0];
+        y = coords[0][1];
+        width = coords[0][2];
+        height = coords[0][3];
+        storeRect = new Rectangle2D.Double(x, y, width, height);
+        rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
+                new Color(0, 0, 0, 0), color);
+        plot.addAnnotation(rectAnnotation);
     }
     
     public void drawRect(double[] point) {
@@ -107,48 +118,32 @@ public class RectangleAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void export(CSVWriter writer) {
-        String[] annotation_type = new String[1];
-        if (type.equals("rectangle")) { annotation_type[0] = "rectangle"; }
-        else if (type.equals("region")) { annotation_type[0] = "region"; }
-        
-        String[] rgba = getRGBAList();
-        String[] coords = getCoordsList();
-        
-        String[] row = {annotation_type[0], rgba[0], coords[0]};
-        
-        writer.writeNext(row);
-        
+    public String getType(){
+        return "rectangle";
+    }
+    
+    @Override
+    public String getRGBA() {
+        String R = String.valueOf(color.getRed());
+        String G = String.valueOf(color.getGreen());
+        String B = String.valueOf(color.getBlue());
+        String A = String.valueOf(color.getAlpha());
+
+        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
 
     @Override
-    public String[] getRGBAList() {
-        int R = color.getRed();
-        int G = color.getGreen();
-        int B = color.getBlue();
-        int A = color.getAlpha();
-        
-        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
-        
-        return rgba;
-    }
+    public String getCoords() {
+        String X = String.valueOf(x);
+        String Y = String.valueOf(y);
+        String WIDTH = String.valueOf(width);
+        String HEIGHT = String.valueOf(height);
 
+        return "[[" + X + ", " + Y + ", " + WIDTH + ", " + HEIGHT + "]]";
+    }
+    
     @Override
-    public String[] getDataList() {
-        return null;
+    public String getData() {
+        return "[\"" + type + "\"]";
     }
-
-    @Override
-    public String[] getCoordsList() {
-        String[] coords = new String[1];
-        if (type.equals("rectangle")) { 
-            coords[0] = '[' + String.valueOf(x) + '/' + String.valueOf(y) + '/' + String.valueOf(width) + '/' + String.valueOf(height) + ']';
-        }
-        else if (type.equals("region")) {
-            coords[0] = '[' + String.valueOf(x)+ '/' + String.valueOf(width) + ']';
-        }
-        
-        return coords;
-    }
-
 }

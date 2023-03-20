@@ -285,7 +285,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_ExportAnnotationsButtonActionPerformed
 
     private void ImportAnnotationsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportAnnotationsButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            aChartPanel.importAnnotations();
+        } catch (IOException ex) {
+            Logger.getLogger(ChartDisplay.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_ImportAnnotationsButtonActionPerformed
 
     public boolean synced(){

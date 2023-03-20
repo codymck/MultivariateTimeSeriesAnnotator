@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import com.opencsv.CSVWriter;
+import org.jumpmind.symmetric.csv.CsvWriter;
+import org.jumpmind.symmetric.csv.CsvReader;
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
@@ -16,8 +17,12 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javax.json.Json;
+import javax.json.JsonArray;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -560,10 +565,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             fileToSave = fileChooser.getSelectedFile();
-            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
 
             String name = fileToSave.getName();
-            System.out.println(name);
             char c;
             String fileType = "";
 
@@ -580,23 +583,108 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
             if (fileType.equalsIgnoreCase("csv")) {
                 // CREATE CSVWriter
-                FileWriter outputFile = new FileWriter(fileToSave);
-                CSVWriter writer = new CSVWriter(outputFile, ',',
-                                             CSVWriter.NO_QUOTE_CHARACTER,
-                                             CSVWriter.NO_QUOTE_CHARACTER,
-                                             CSVWriter.DEFAULT_LINE_END);
+                CsvWriter writer = new CsvWriter(new FileWriter(fileToSave, false), ',');
                 String[] header = {"Annotation Type", "RGBA", "Coordinates", "Data"};
-                writer.writeNext(header);
+                writer.writeRecord(header);
                 for (int i = 0; i < annotations.size(); i++) {
-                    annotations.get(i).export(writer);
+                    writer.writeRecord(annotations.get(i).export());
                 }
-                
                 writer.close();
             } else {
                 ErrorDialog.badFileType();
             }
         }
+    }
+    
+    public void importAnnotations() throws IOException {
+        JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to load annotations from");
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("CSV", "csv"));
+        fileChooser.setAcceptAllFileFilterUsed(true);
+        int userSelection = fileChooser.showSaveDialog(frame);
+        File fileToLoad;
 
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            fileToLoad = fileChooser.getSelectedFile();
+
+            String name = fileToLoad.getAbsolutePath();
+            char c;
+            String fileType = "";
+
+            // loop through file name from the end
+            for (int i = name.length() - 1; i >= 0; i--) {
+                c = name.charAt(i);
+                // when we reach a '.' it is the end of file type
+                if (c == '.') {
+                    break;
+                }
+                // append character to fileType
+                fileType = c + fileType;
+            }
+
+            if (fileType.equalsIgnoreCase("csv")) {
+                // CREATE CsvReader
+                CsvReader reader = new CsvReader(name);
+                reader.readHeaders();
+                // loop through every row
+                while (reader.readRecord()){
+                    String annotationType = reader.get("Annotation Type");
+                    System.out.println("Annotation Type: " + annotationType);
+                    
+                    String rgbaString = reader.get("RGBA");
+                    JsonArray jsonArray = Json.createReader(new StringReader(rgbaString)).readArray();
+                    int[] rgba = new int[jsonArray.size()];
+                    for (int i = 0; i < rgba.length; i++) {
+                        rgba[i] = jsonArray.getInt(i);
+                    }
+                    System.out.println("RGBA:");
+                    Arrays.stream(rgba).forEach(System.out::println);
+
+                    
+                    String coordinatesString = reader.get("Coordinates");
+                    jsonArray = Json.createReader(new StringReader(coordinatesString)).readArray();
+                    double[][] coordinates = new double[jsonArray.size()][((JsonArray) jsonArray.get(0)).size()];
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonArray row = jsonArray.getJsonArray(i);
+                        for (int j = 0; j < row.size(); j++) {
+                            coordinates[i][j] = row.getJsonNumber(j).doubleValue();
+                        }
+                    }
+                    System.out.println("Coordinates:");
+                    for (double[] row : coordinates) {
+                        System.out.println(Arrays.toString(row));
+                    }
+                    
+                    String dataString = reader.get("Data");
+                    jsonArray = Json.createReader(new StringReader(dataString)).readArray();
+                    String[] data = new String[jsonArray.size()];
+                    for (int i = 0; i < data.length; i++) {
+                        data[i] = jsonArray.getJsonString(i).toString();
+                    }
+                    System.out.println("Data:");
+                    Arrays.stream(data).forEach(System.out::println);
+                    
+                    switch (annotationType) {
+                        case "rectangle" -> {
+                            RectangleAnnotation rect = new RectangleAnnotation(plot, rgba, coordinates, data);
+                            shapeIndex = annotations.size();
+                            annotations.add(rect);
+                        }
+                        case "ellipse" -> {
+                            EllipseAnnotation ell = new EllipseAnnotation(plot, rgba, coordinates);
+                            shapeIndex = annotations.size();
+                            annotations.add(ell);
+                        }
+                        case "triangle" -> {
+                            TriangleAnnotation tri = new TriangleAnnotation(plot, rgba, coordinates);
+                            shapeIndex = annotations.size();
+                            annotations.add(tri);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void selectAnnotation(double mouseX, double mouseY) {

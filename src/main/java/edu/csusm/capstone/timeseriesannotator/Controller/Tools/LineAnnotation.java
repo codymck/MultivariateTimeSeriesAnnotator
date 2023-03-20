@@ -1,12 +1,9 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
-import com.opencsv.CSVWriter;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -103,63 +100,43 @@ public class LineAnnotation extends AbstractAnnotation {
     public boolean isSelected() {
         return selected;
     }
-
+    
     @Override
-    public void export(CSVWriter writer) {
-        String[] annotation_type = {"lines"};
-        String[] rgba = getRGBAList();
-        String[] coords = getLineCoords();
-        String[] data = getDataList();
-        
-        String[] row = {annotation_type[0], rgba[0], coords[0], data[0]};
-        
-        writer.writeNext(row);
-    }
-
-    @Override
-    public String[] getRGBAList() {
-        int R = color.getRed();
-        int G = color.getGreen();
-        int B = color.getBlue();
-        int A = color.getAlpha();
-        
-        String[] rgba = {'[' + String.valueOf(R) + '/' + String.valueOf(G) + '/' + String.valueOf(B) + '/' + String.valueOf(A) + ']'};
-        
-        return rgba;
-    }
-
-    @Override
-    public String[] getDataList() {
-        String[] data = new String[1];
-        if (type.equals("diagonal")) data[0] = "diagonal";
-        else if (type.equals("ray")) data[0] = "ray";
-        else if (type.equals("segment")) data[0] = "segment";
-        
-        return data;
-    }
-
-    @Override
-    public String[] getCoordsList() {
-        return null;
+    public String getType(){
+        return "line";
     }
     
-    public String[] getLineCoords() {
-        String[] coord = new String[1]; 
-        
-        String set = "";
+    @Override
+    public String getRGBA() {
+        String R = String.valueOf(color.getRed());
+        String G = String.valueOf(color.getGreen());
+        String B = String.valueOf(color.getBlue());
+        String A = String.valueOf(color.getAlpha());
+
+        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
+    }
+
+    @Override
+    public String getCoords() {
+        String set = "[";
         for (double[] coordinate : coordinates) {
-            set += '[';
+            set += "[";
             for (int i = 0; i < coordinate.length; i++) {
-                set+= (String.valueOf(coordinate[i]));
-                if (i < coordinate.length - 1)
-                {
-                    set+= '/';
+                set += (String.valueOf(coordinate[i]));
+                if (i < coordinate.length - 1){
+                    set += ", ";
                 }
             }
-            set += ']';
+            set += "]";
+            set += ", "; // Probably going to be an extra comma
         }
-        coord[0] = set;
-        return coord;
+        set = set.substring(0, set.length() - 2);// remove the extra comma and space from the end of the string
+        set += "]";
+        return set;
     }
     
+    @Override
+    public String getData() {
+        return "[\"" + type + "\"]";
+    }
 }

@@ -1,8 +1,5 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
-import com.opencsv.CSVWriter;
-import java.util.List;
-
 public abstract class AbstractAnnotation {
     
     public abstract boolean isSelected();
@@ -13,11 +10,16 @@ public abstract class AbstractAnnotation {
 
     public abstract void move(double xOffset, double yOffset, boolean set);
     
-    public abstract void export(CSVWriter writer);
+    public abstract String getType();
     
-    public abstract String[] getRGBAList();
+    public abstract String getRGBA();
     
-    public abstract String[] getCoordsList();
+    public abstract String getCoords();
     
-    public abstract String[] getDataList();
+    public abstract String getData();
+    
+    public String[] export(){
+        String[] row = {this.getType(), this.getRGBA(), this.getCoords(), this.getData()};
+        return row;
+    }
 }

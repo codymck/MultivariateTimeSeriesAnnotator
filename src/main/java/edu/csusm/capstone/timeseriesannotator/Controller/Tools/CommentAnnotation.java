@@ -46,6 +46,30 @@ public class CommentAnnotation extends AbstractAnnotation {
         commentAnnotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
         plot.addAnnotation(commentAnnotation);
     }
+    
+    public CommentAnnotation(XYPlot p, int[] c, double[][] point, AnnotateChartPanel a, String[] t) {
+        this.plot = p;
+        this.color = new Color(c[0], c[1], c[2], 255);
+        this.coordinates[0] = point[0][0];
+        this.coordinates[1] = point[0][1];
+        this.chartPanel = a;
+        
+        this.text = t[0].substring(1, t[0].length()-1);
+        String name = t[1].substring(1, t[1].length()-1);
+        String fStyle = t[2].substring(1, t[2].length()-1);
+        String fSize = t[3].substring(1, t[3].length()-1);
+        
+        int fontStyle = Integer.parseInt(fStyle);
+        int fontSize = Integer.parseInt(fSize);
+        
+        Font f = new Font(name, fontStyle, fontSize);
+        this.font = f;
+        commentAnnotation = new XYTextAnnotation(text, coordinates[0], coordinates[1]);
+        commentAnnotation.setFont(font);
+        commentAnnotation.setPaint(color);
+        commentAnnotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
+        plot.addAnnotation(commentAnnotation);
+    }
 
     @Override
     public boolean isSelected() {

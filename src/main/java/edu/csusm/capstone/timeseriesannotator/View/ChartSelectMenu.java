@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
  * @author josef
  */
 public class ChartSelectMenu extends javax.swing.JDialog {
+    boolean selected = false;
 
     /**
      * Creates new form ChartSelectMenu
@@ -91,19 +92,24 @@ public class ChartSelectMenu extends javax.swing.JDialog {
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         ActionListener chartAction = new ChartAction(this, 1);
         chartAction.actionPerformed(evt);
+        selected = true;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         ActionListener chartAction = new ChartAction(this, 2);
         chartAction.actionPerformed(evt);
+        selected = true;
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
         ActionListener chartAction = new ChartAction(this, 3);
         chartAction.actionPerformed(evt);
+        selected = true;
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
-
+    public boolean isSelected(){
+        return selected;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton jRadioButton1;

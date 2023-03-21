@@ -10,7 +10,8 @@ import java.awt.event.ActionListener;
  */
 public class HDF5addSeries extends javax.swing.JDialog implements ActionListener {
 
-    
+    boolean selected = false;
+
    // ChartStruct chartStruct;// = ChartStruct.getInstance();
     //String Xaxis;
     /**
@@ -102,12 +103,16 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HDF5PathButtonActionPerformed
         ActionListener HDF5addAction = new HDF5addAction(this, Yaxispath);
         HDF5addAction.actionPerformed(evt);
+        selected = true;
     }//GEN-LAST:event_HDF5PathButtonActionPerformed
 
     private void YaxispathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YaxispathActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_YaxispathActionPerformed
 
+    public boolean isSelected(){
+        return selected;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton HDF5PathButton;

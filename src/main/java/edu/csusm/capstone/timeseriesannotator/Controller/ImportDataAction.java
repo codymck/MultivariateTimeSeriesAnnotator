@@ -79,6 +79,9 @@ public class ImportDataAction implements ActionListener {
            ChartSelectMenu Cselect = new ChartSelectMenu(new javax.swing.JFrame(), true);
            Cselect.setVisible(true);
            ChartAction tAction = ChartAction.getInstance();
+           if(!Cselect.isSelected()){
+               return;
+           }
            int chartType = tAction.getType();
            ChartTypes t = ChartTypes.LineChart;
            
@@ -114,6 +117,9 @@ public class ImportDataAction implements ActionListener {
                select.setVisible(true);
                
                CSVAction cAction = CSVAction.getInstance();
+               if (!select.isSelected()) {
+                   return;
+               }
                chartStruct.setXaxis(cAction.getXAxis());
                ArrayList<String> labels = new ArrayList<>();
                labels.add(cAction.getX() + " vs " + cAction.getY());
@@ -134,6 +140,10 @@ public class ImportDataAction implements ActionListener {
                dReader.buildDataList(fileName);
                
                HDF5Action hAction = HDF5Action.getInstance();
+               
+               if (!select.isSelected()) {
+                   return;
+               }
                HDFReader h = (HDFReader)dReader;
                h.setPaths(hAction.getXPath(), hAction.getYPath(), 0);
                chartStruct.setXpath(hAction.getXPath());

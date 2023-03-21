@@ -9,7 +9,7 @@ import javax.swing.DefaultComboBoxModel;
  * @author josef
  */
 public class CSVaddSeries extends javax.swing.JDialog implements ActionListener {
-
+     boolean selected = false;
     /**
      * Creates new form CSVaddSeries
      */
@@ -91,8 +91,12 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
     private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
         ActionListener csvAddAction = new CSVaddAction(this, YAxisList);
         csvAddAction.actionPerformed(evt);
+        selected = true;
     }//GEN-LAST:event_csvCoordinateButtonActionPerformed
 
+    public boolean isSelected(){
+        return selected;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> YAxisList;

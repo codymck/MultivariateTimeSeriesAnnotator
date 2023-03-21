@@ -82,6 +82,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             public void chartMouseClicked(ChartMouseEvent event) {
                 if (event.getTrigger().getClickCount() == 2) {
                     aChartPanel.restoreAutoBounds();
+                    aChartPanel.setDomainZoomable(true);
+                    aChartPanel.setRangeZoomable(true);
                 }
             }
 

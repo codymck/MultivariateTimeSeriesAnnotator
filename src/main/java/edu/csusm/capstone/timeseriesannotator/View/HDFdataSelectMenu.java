@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
  */
 public class HDFdataSelectMenu extends javax.swing.JDialog {
 
+    boolean selected = false;
+
     /**
      * Creates new form HDFdataSelectMenu
      */
@@ -107,7 +109,12 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HDF5PathButtonActionPerformed
         ActionListener HDF5Action = new HDF5Action(this, Xaxispath, Yaxispath);
         HDF5Action.actionPerformed(evt);
+        selected = true;
     }// GEN-LAST:event_HDF5PathButtonActionPerformed
+
+    public boolean isSelected() {
+        return selected;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton HDF5PathButton;

@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -11,6 +12,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
     public boolean selected;
     public Color color;
     public XYPlot plot;
+    private AnnotateChartPanel chartPanel;
 
     private Ellipse2D.Double storeEllipse = null;
 
@@ -20,9 +22,10 @@ public class EllipseAnnotation extends AbstractAnnotation {
 
     private XYShapeAnnotation ellipseAnnotation = null;
 
-    public EllipseAnnotation(XYPlot p, Color c, double[] point) {
+    public EllipseAnnotation(XYPlot p, Color c, double[] point, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
+        this.chartPanel = cP;
         coordinates[0][0] = point[0];
         coordinates[0][1] = point[1];
     }
@@ -43,6 +46,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
     public void drawEllipse(double[] point) {
         if (ellipseAnnotation != null){
             plot.removeAnnotation(ellipseAnnotation);
+            chartPanel.removeAbstractAnnotation(this);
         }
         coordinates[1][0] = point[0];
         coordinates[1][1] = point[1];
@@ -54,6 +58,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
         ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(0),
                 new Color(0, 0, 0, 0), color);
         plot.addAnnotation(ellipseAnnotation);
+        chartPanel.addAbstractAnnotation(this);
     }
 
     @Override

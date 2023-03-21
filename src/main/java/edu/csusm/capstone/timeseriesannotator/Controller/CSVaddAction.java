@@ -35,7 +35,7 @@ public class CSVaddAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         yaxis = YAxisList.getSelectedIndex();
         y = YAxisList.getSelectedValue();
-//        System.out.println("CSVAction: Selected Axis --- Y-Axis: " + yaxis);
+        System.out.println("CSVAction: Selected Axis --- Y-Axis: " + yaxis);
         if (yaxis == -1 ) {
             ErrorDialog.badIndex();
         } else {

@@ -43,6 +43,9 @@ public class AddSeriesAction implements ActionListener {
         ChartSelectMenu Cselect = new ChartSelectMenu(new javax.swing.JFrame(), true);
         Cselect.setVisible(true);
         ChartAction tAction = ChartAction.getInstance();
+        if(!Cselect.isSelected()){
+               return;
+        }
         int chartType = tAction.getType();
         ArrayList<String> labels = chartStruct.getLabels();
        
@@ -72,9 +75,13 @@ public class AddSeriesAction implements ActionListener {
                
             CSVaddSeries series = new CSVaddSeries(new javax.swing.JFrame(), true);
             series.setModel(headers);
-            series.setVisible(true);            
+            series.setVisible(true);  
+            
                
             CSVaddAction cAction = CSVaddAction.getInstance();
+            if(!series.isSelected()){
+               return;
+            }
             labels.add(cAction.y);
             labels.set(0, labels.get(0) + " vs " + cAction.y);
             chartStruct.setLabels(labels);
@@ -92,6 +99,11 @@ public class AddSeriesAction implements ActionListener {
             dReader.buildDataList(chartStruct.getFileName());
                
             HDF5addAction hAction = HDF5addAction.getInstance();
+            
+            if(!select.isSelected()){
+               return;
+            }
+            
             HDFReader h = (HDFReader)dReader;
             h.setPaths(chartStruct.getXpath(), hAction.getYPath(), 1);
             labels.add(hAction.getYPath());

@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.BasicStroke;
@@ -12,6 +13,8 @@ public class RectangleAnnotation extends AbstractAnnotation {
     public Color color;
     public XYPlot plot;
     private String type;
+    private AnnotateChartPanel chartPanel;
+    
     private Rectangle2D.Double storeRect = null;
 
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 } };
@@ -21,13 +24,14 @@ public class RectangleAnnotation extends AbstractAnnotation {
     private XYShapeAnnotation rectAnnotation = null;
     private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
     
-    public RectangleAnnotation(XYPlot p, Color c, double[] point, String t, double[] m) {
+    public RectangleAnnotation(XYPlot p, Color c, double[] point, String t, double[] m, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
         coordinates[0][0] = point[0];
         coordinates[0][1] = point[1];
         this.type = t;
         this.minMax = m;
+        this.chartPanel = cP;
     }
     
     public RectangleAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
@@ -48,6 +52,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
     public void drawRect(double[] point) {
         if (rectAnnotation != null){
             plot.removeAnnotation(rectAnnotation);
+            chartPanel.removeAbstractAnnotation(this);
         }
         
         if(type.equals("rectangle")){
@@ -69,6 +74,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
         rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
                 new Color(0, 0, 0, 0), color);
         plot.addAnnotation(rectAnnotation);
+        chartPanel.addAbstractAnnotation(this);
     }
 
     @Override

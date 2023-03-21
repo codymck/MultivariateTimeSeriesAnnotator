@@ -45,6 +45,7 @@ public class CommentAnnotation extends AbstractAnnotation {
         commentAnnotation.setPaint(AppFrame.getAbsoluteColor());
         commentAnnotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
         plot.addAnnotation(commentAnnotation);
+        chartPanel.addAbstractAnnotation(this);
     }
     
     public CommentAnnotation(XYPlot p, int[] c, double[][] point, AnnotateChartPanel a, String[] t) {

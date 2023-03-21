@@ -9,7 +9,7 @@ import javax.swing.DefaultComboBoxModel;
  * @author josef
  */
 public class CSVdataSelectMenu extends javax.swing.JDialog {
-
+    boolean selected = false;
     /**
      * Creates new form CSVdataSelectMenu
      */
@@ -102,11 +102,16 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
           ActionListener csvAction = new CSVAction(this, XAxisList, YAxisList);
           csvAction.actionPerformed(evt);
+          selected = true;
     }//GEN-LAST:event_csvCoordinateButtonActionPerformed
     
     public void setModel(String[] h) {
         XAxisList.setModel(new DefaultComboBoxModel<>(h));
         YAxisList.setModel(new DefaultComboBoxModel<>(h));
+    }
+    
+    public boolean isSelected(){
+        return selected;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

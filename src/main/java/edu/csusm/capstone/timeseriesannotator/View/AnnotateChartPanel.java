@@ -62,7 +62,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private double initialX;
     private double initialY;
     private Point strPoint;
-    
+
     private RectangleAnnotation Hr;
     private RectangleAnnotation r;
     private EllipseAnnotation ell;
@@ -73,7 +73,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private HVLineAnnotation horiz;
     private HVLineAnnotation vert;
     private boolean dragged = false;
-    
+
 
     /* LINE variables */
     private HVLineAnnotation hTrace;
@@ -98,17 +98,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     public ToolState getChartState() {
         return this.state;
     }
-    
-    public void addAbstractAnnotation(AbstractAnnotation a){
+
+    public void addAbstractAnnotation(AbstractAnnotation a) {
         shapeIndex = annotations.size();
         annotations.add(a);
     }
-    public void removeAbstractAnnotation(AbstractAnnotation a){
+
+    public void removeAbstractAnnotation(AbstractAnnotation a) {
         annotations.remove(a);
         shapeIndex = annotations.size() - 1;
     }
-    
-    
 
     public AnnotateChartPanel(JFreeChart chart) {
         super(chart);
@@ -283,12 +282,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     moveTest = point;
                                     tri = new TriangleAnnotation(plot, color, this);
 //                                    shapeIndex = annotations.size();
-                                    annotations.add(tri);
+//                                    annotations.add(tri);
                                     tri.createShape(point);
                                     triClick++;
                                 } else {
-                                    TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
-                                    tempTri.createShape(point);
+//                                    TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
+                                    tri.createShape(point);
                                     triClick++;
                                     if (triClick > 2) {
                                         triClick = 0;
@@ -298,6 +297,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 if (triClick == 0) {
                                     deleteAnnotation(point);
                                 }
+                            }
+                            if(e.getClickCount() == 2){
+                                tri.delete();
+                                triClick = 0;
                             }
                         }
                     }
@@ -470,9 +473,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         case VERTICAL -> {
                             if (getScreenDataArea().contains(e.getX(), e.getY())) {
                                 if (vTrace != null) {
-                                    vTrace.drawTrace(point); 
+                                    vTrace.drawTrace(point);
                                 }
-                                
+
                             } else {
                                 vTrace.removeTrace();
                             }
@@ -505,9 +508,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             }
                         }
                         case TRIANGLE -> {
-                            if (triClick > 0) {
-                                TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
-                                tempTri.drawTriangle(point);
+                            if (triClick > 0 && e.getClickCount() != 2) {
+//                                TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
+                                tri.drawTriangle(point);
                             }
                         }
                         default -> {
@@ -521,57 +524,56 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
         vTrace.removeTrace();
         hTrace.removeTrace();
-        if(clickedOnce){
+        if (clickedOnce) {
             clickedOnce = false;
             LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
             tempLine.delete();
         }
         if (triClick > 0) {
             triClick = 0;
-            TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
-            tempTri.delete();
+//            TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
+            tri.delete();
         }
     }
 
-    public void removeTextAnnotation() {
-        List<XYTextAnnotation> annotations = new ArrayList<>(plot.getAnnotations());
-        List<XYTextAnnotation> textAnnotations = new ArrayList<>();
-        for (XYAnnotation annotation : annotations) {
-            if (annotation instanceof XYTextAnnotation xYTextAnnotation) {
-                textAnnotations.add(xYTextAnnotation);
-            }
-        }
-
-        this.addChartMouseListener(new ChartMouseListener() {
-            @Override
-            public void chartMouseClicked(ChartMouseEvent event) {
-                int x = event.getTrigger().getX();
-                int y = event.getTrigger().getY();
-                for (XYTextAnnotation annotation : textAnnotations) {
-                    ChartRenderingInfo info = getChartRenderingInfo();
-                    Rectangle2D bounds = info.getPlotInfo().getDataArea();
-                    double x1 = plot.getDomainAxis().valueToJava2D(annotation.getX(), bounds, plot.getDomainAxisEdge());
-                    double y1 = plot.getRangeAxis().valueToJava2D(annotation.getY(), bounds, plot.getRangeAxisEdge());
-                    if (x >= x1 && x <= x1 + annotation.getText().length() * 7 && y >= y1 && y <= y1 + 20) {
-                        plot.removeAnnotation(annotation);
-                        break;
-                    }
-                }
-                annotations.clear();
-                textAnnotations.clear();
-            }
-
-            @Override
-            public void chartMouseMoved(ChartMouseEvent event) {
-            }
-        });
-    }
-
+//    public void removeTextAnnotation() {
+//        List<XYTextAnnotation> annotations = new ArrayList<>(plot.getAnnotations());
+//        List<XYTextAnnotation> textAnnotations = new ArrayList<>();
+//        for (XYAnnotation annotation : annotations) {
+//            if (annotation instanceof XYTextAnnotation xYTextAnnotation) {
+//                textAnnotations.add(xYTextAnnotation);
+//            }
+//        }
+//
+//        this.addChartMouseListener(new ChartMouseListener() {
+//            @Override
+//            public void chartMouseClicked(ChartMouseEvent event) {
+//                int x = event.getTrigger().getX();
+//                int y = event.getTrigger().getY();
+//                for (XYTextAnnotation annotation : textAnnotations) {
+//                    ChartRenderingInfo info = getChartRenderingInfo();
+//                    Rectangle2D bounds = info.getPlotInfo().getDataArea();
+//                    double x1 = plot.getDomainAxis().valueToJava2D(annotation.getX(), bounds, plot.getDomainAxisEdge());
+//                    double y1 = plot.getRangeAxis().valueToJava2D(annotation.getY(), bounds, plot.getRangeAxisEdge());
+//                    if (x >= x1 && x <= x1 + annotation.getText().length() * 7 && y >= y1 && y <= y1 + 20) {
+//                        plot.removeAnnotation(annotation);
+//                        break;
+//                    }
+//                }
+//                annotations.clear();
+//                textAnnotations.clear();
+//            }
+//
+//            @Override
+//            public void chartMouseMoved(ChartMouseEvent event) {
+//            }
+//        });
+//    }
     public double[] getPointInChart(MouseEvent e) {
         Insets insets = getInsets();
         int mouseX = (int) ((e.getX() - insets.left) / this.getScaleX());
@@ -749,7 +751,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             ann = new CommentAnnotation(plot, rgba, coordinates, this, data);
                         }
                         default -> {
-                            
+
                         }
                     }
                     shapeIndex = annotations.size();

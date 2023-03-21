@@ -199,24 +199,38 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point);
                             }
+                            if(e.getClickCount() == 2){
+                                vert.delete();
+                                removeAbstractAnnotation(vert);
+                                vert = (HVLineAnnotation) annotations.get(shapeIndex);
+                                vert.delete();
+                                removeAbstractAnnotation(vert);
+                            }
                         }
                         case HORIZONTAL -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 horiz = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "horizontal", minMax);
                                 horiz.createLine(point);
                                 shapeIndex = annotations.size();
-//                                annotations.add(horiz);
+                                annotations.add(horiz);
                             } else if (e.getButton() == MouseEvent.BUTTON3) {
                                 deleteAnnotation(point);
+                            }
+                            if(e.getClickCount() == 2){
+                                horiz.delete();
+                                removeAbstractAnnotation(horiz);
+                                horiz = (HVLineAnnotation) annotations.get(shapeIndex);
+                                horiz.delete();
+                                removeAbstractAnnotation(horiz);
                             }
                         }
                         case DIAGONAL -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    dl = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "diagonal", minMax);
-                                    shapeIndex = annotations.size();
-                                    annotations.add(dl);
+                                    dl = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "diagonal", minMax, this);
+//                                    shapeIndex = annotations.size();
+//                                    annotations.add(dl);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -224,15 +238,19 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 if (!clickedOnce) {
                                     deleteAnnotation(point);
                                 }
+                            }
+                            if(e.getClickCount() == 2 && dl != null){
+                                dl.delete();
+                                clickedOnce = false;
                             }
                         }
                         case RAY -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    lr = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "ray", minMax);
-                                    shapeIndex = annotations.size();
-                                    annotations.add(lr);
+                                    lr = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "ray", minMax, this);
+//                                    shapeIndex = annotations.size();
+//                                    annotations.add(lr);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -241,14 +259,18 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     deleteAnnotation(point);
                                 }
                             }
+                            if(e.getClickCount() == 2 && lr != null){
+                                lr.delete();
+                                clickedOnce = false;
+                            }
                         }
                         case SEGMENT -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    sl = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "segment", minMax);
-                                    shapeIndex = annotations.size();
-                                    annotations.add(sl);
+                                    sl = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "segment", minMax, this);
+//                                    shapeIndex = annotations.size();
+//                                    annotations.add(sl);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -256,6 +278,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                 if (!clickedOnce) {
                                     deleteAnnotation(point);
                                 }
+                            }
+                            if(e.getClickCount() == 2 && sl != null){
+                                sl.delete();
+                                clickedOnce = false;
                             }
                         }
                         case SQUARE -> {
@@ -492,20 +518,20 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         }
                         case DIAGONAL -> {
                             if (clickedOnce) {
-                                LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
-                                tempLine.drawLine(point);
+//                                LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
+                                dl.drawLine(point);
                             }
                         }
                         case RAY -> {
                             if (clickedOnce) {
-                                LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
-                                tempLine.drawLine(point);
+//                                LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
+                                lr.drawLine(point);
                             }
                         }
                         case SEGMENT -> {
                             if (clickedOnce) {
-                                LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
-                                tempLine.drawLine(point);
+//                                LineAnnotation tempLine = (LineAnnotation) annotations.get(shapeIndex);
+                                sl.drawLine(point);
                             }
                         }
                         case TRIANGLE -> {

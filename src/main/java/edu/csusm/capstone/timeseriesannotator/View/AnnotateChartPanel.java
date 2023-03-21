@@ -290,6 +290,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                                     tri.createShape(point);
                                     triClick++;
                                     if (triClick > 2) {
+                                        if(e.getClickCount() == 2)removeAbstractAnnotation(tri);
                                         triClick = 0;
                                     }
                                 }

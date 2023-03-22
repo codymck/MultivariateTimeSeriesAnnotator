@@ -16,7 +16,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     public CSVdataSelectMenu(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(AppFrame.frame);
     }
 
     /**
@@ -38,6 +38,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CSV Axis Selection");
+        setAlwaysOnTop(true);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N

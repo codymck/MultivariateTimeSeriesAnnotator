@@ -16,7 +16,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
     public ChartSelectMenu(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(AppFrame.frame);
     }
 
     /**
@@ -34,6 +34,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Select Chart Type");
+        setAlwaysOnTop(true);
         setResizable(false);
 
         jRadioButton1.setText("Line Chart");

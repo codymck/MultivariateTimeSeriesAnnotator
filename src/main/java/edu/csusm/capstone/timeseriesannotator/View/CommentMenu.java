@@ -27,7 +27,7 @@ public class CommentMenu extends javax.swing.JDialog {
     public CommentMenu(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(AppFrame.frame);
         this.getRootPane().setDefaultButton(SubmitButton);
     }
 

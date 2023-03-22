@@ -16,7 +16,7 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
     public CSVaddSeries(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(AppFrame.frame);
     }
     
     public void setModel(String[] h) {
@@ -38,6 +38,7 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
         csvCoordinateButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel2.setText("Select Y-Axis ");

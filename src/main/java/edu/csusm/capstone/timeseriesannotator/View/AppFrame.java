@@ -36,6 +36,8 @@ public class AppFrame extends javax.swing.JFrame {
     public static String font = "Arial";
     public static String fontStyle = "PLAIN";
     public static int fontSize = 12;
+    
+    public static AppFrame frame;
 
     /**
      * Creates new form Frame
@@ -101,6 +103,7 @@ public class AppFrame extends javax.swing.JFrame {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(toggleKeyDispatcher);
         ZoomButton.doClick();
         this.setLocationRelativeTo(null);
+        this.frame = this;
     }
 
     // Creates an empty chart on instantiation of program
@@ -205,6 +208,7 @@ public class AppFrame extends javax.swing.JFrame {
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
+        setLocation(new java.awt.Point(0, 0));
 
         ChartPanel.setBackground(new java.awt.Color(255, 255, 255));
         ChartPanel.setPreferredSize(new java.awt.Dimension(900, 800));
@@ -635,6 +639,7 @@ public class AppFrame extends javax.swing.JFrame {
         setJMenuBar(menuBar);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void RedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedButtonActionPerformed

@@ -690,12 +690,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     }
 
     public void importAnnotations() throws IOException {
-        JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+        JFrame frame = AppFrame.frame;
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Specify a file to load annotations from");
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("CSV", "csv"));
         fileChooser.setAcceptAllFileFilterUsed(true);
-        int userSelection = fileChooser.showSaveDialog(frame);
+        int userSelection = fileChooser.showOpenDialog(frame);
         File fileToLoad;
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {

@@ -20,7 +20,7 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     public HDF5addSeries(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(AppFrame.frame);
         //Xaxis = chartStruct.getXpath().split("/")[0];
         //System.out.print(Xaxis);
     }
@@ -40,6 +40,7 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         HDF5PathButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel1.setText("Enter HDF5 File Path:");
@@ -92,11 +93,11 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     // Code for dispatching events from components to event handlers.
 
     public void actionPerformed(java.awt.event.ActionEvent evt) {
-        if (evt.getSource() == HDF5PathButton) {
-            HDF5addSeries.this.HDF5PathButtonActionPerformed(evt);
-        }
-        else if (evt.getSource() == Yaxispath) {
+        if (evt.getSource() == Yaxispath) {
             HDF5addSeries.this.YaxispathActionPerformed(evt);
+        }
+        else if (evt.getSource() == HDF5PathButton) {
+            HDF5addSeries.this.HDF5PathButtonActionPerformed(evt);
         }
     }// </editor-fold>//GEN-END:initComponents
 

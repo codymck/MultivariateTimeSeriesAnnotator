@@ -58,28 +58,28 @@ public class AppFrame extends javax.swing.JFrame {
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_PRESSED & !(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() instanceof javax.swing.JTextField)) {
                     switch (e.getKeyCode()) {
-                        case KeyEvent.VK_0:
+                        case KeyEvent.VK_1:
                             AddChartButton.doClick();
                             break;
-                        case KeyEvent.VK_1:
+                        case KeyEvent.VK_2:
                             ZoomButton.doClick();
                             break;
-                        case KeyEvent.VK_2:
+                        case KeyEvent.VK_3:
                             PanButton.doClick();
                             break;
-                        case KeyEvent.VK_3:
+                        case KeyEvent.VK_4:
                             EditButton.doClick();
                             break;
-                        case KeyEvent.VK_4:
+                        case KeyEvent.VK_5:
                             SelectButton.doClick();
                             break;
-                        case KeyEvent.VK_5:
+                        case KeyEvent.VK_6:
                             CommentButton.doClick();
                             break;
-                        case KeyEvent.VK_6:
+                        case KeyEvent.VK_7:
                             LineButton.doClick();
                             break;
-                        case KeyEvent.VK_7:
+                        case KeyEvent.VK_8:
                             ShapeButton.doClick();
                             break;
                         case KeyEvent.VK_CONTROL:
@@ -209,6 +209,7 @@ public class AppFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
         setLocation(new java.awt.Point(0, 0));
+        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         ChartPanel.setBackground(new java.awt.Color(255, 255, 255));
         ChartPanel.setPreferredSize(new java.awt.Dimension(900, 800));
@@ -224,7 +225,7 @@ public class AppFrame extends javax.swing.JFrame {
         ToolSelectPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
-        AddChartButton.setText("0");
+        AddChartButton.setText("1");
         AddChartButton.setToolTipText("Add new chart (0)");
         AddChartButton.setName("AddChartButton");
         AddChartButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -238,7 +239,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(ZoomButton);
         ZoomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoomin.png"))); // NOI18N
-        ZoomButton.setText("1");
+        ZoomButton.setText("2");
         ZoomButton.setName("ZoomButton");
         ZoomButton.setToolTipText("Zoom (1)");
         ZoomButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -251,7 +252,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(PanButton);
         PanButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/4dirs.png"))); // NOI18N
-        PanButton.setText(" 2");
+        PanButton.setText("3");
         PanButton.setName("PanButton");
         PanButton.setToolTipText("Move (2)");
         PanButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -265,7 +266,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup1.add(EditButton);
         EditButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-3d-pointer-20.png"))); // NOI18N
         EditButton.setSelected(true);
-        EditButton.setText("3");
+        EditButton.setText("4");
         EditButton.setToolTipText("Select (3)");
         EditButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         EditButton.setName("EditButton");
@@ -278,7 +279,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(SelectButton);
         SelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-select-middle-column-20.png"))); // NOI18N
-        SelectButton.setText("4");
+        SelectButton.setText("5");
         SelectButton.setName("SelectButton");
         SelectButton.setToolTipText("Select (4)");
         SelectButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -291,7 +292,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N
-        CommentButton.setText("5");
+        CommentButton.setText("6");
         CommentButton.setName("CommentButton");
         CommentButton.setToolTipText("Comment (5)");
         CommentButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -304,7 +305,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(LineButton);
         LineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-line-24.png"))); // NOI18N
-        LineButton.setText("6");
+        LineButton.setText("7");
         LineButton.setName("LineButton");
         LineButton.setToolTipText("Lines (6)");
         LineButton.setActionCommand("(5)");
@@ -318,7 +319,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(ShapeButton);
         ShapeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
-        ShapeButton.setText("7");
+        ShapeButton.setText("8");
         ShapeButton.setToolTipText("Shapes(7)");
         ShapeButton.setActionCommand("(5)");
         ShapeButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -639,7 +640,6 @@ public class AppFrame extends javax.swing.JFrame {
         setJMenuBar(menuBar);
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void RedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedButtonActionPerformed

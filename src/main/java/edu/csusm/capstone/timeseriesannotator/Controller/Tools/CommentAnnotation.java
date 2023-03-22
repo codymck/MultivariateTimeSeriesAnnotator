@@ -3,12 +3,14 @@ package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.CommentMenu;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -24,6 +26,8 @@ public class CommentAnnotation extends AbstractAnnotation {
     private Font font;
     private AnnotateChartPanel chartPanel;
     private XYTextAnnotation commentAnnotation = null;
+    private XYShapeAnnotation selectedRect = null;
+    private Rectangle2D.Double hitbox = null;
     private String text;
 
     public CommentAnnotation(XYPlot p, Color c, double[] point, AnnotateChartPanel a, Font f) {
@@ -74,13 +78,32 @@ public class CommentAnnotation extends AbstractAnnotation {
 
     @Override
     public boolean isSelected() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return selected;
     }
 
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
-
         Point2D.Double click = new Point2D.Double(mouseX, mouseY);
+        this.getBounds();
+        boolean r;
+        if (hitbox.contains(click)) {
+            r = true;
+        }else{
+            r = false;
+        }
+        
+        if(r && !selected){
+            plot.addAnnotation(selectedRect);
+            selected = true;
+        }else if(r && selected){
+            plot.removeAnnotation(selectedRect);
+            selected = false;
+        }
+        
+        return r;
+    }
+    
+    private void getBounds(){
 
         double x1 = commentAnnotation.getX();
         double y1 = commentAnnotation.getY();
@@ -110,26 +133,33 @@ public class CommentAnnotation extends AbstractAnnotation {
         double hitboxWidth = (commentWidthPx * plotWidth) / screenWidthPx ;
         double hitboxHeight = (commentHeightPx * plotHeight) / screenHeightPx;
         
-        Rectangle2D.Double hitbox = new Rectangle2D.Double(x1, y1, hitboxWidth, hitboxHeight);
-        
-        // Add the rectangle annotation to the plot
-        //XYShapeAnnotation rect = new XYShapeAnnotation(hitbox, new BasicStroke(2.0f), Color.RED, new Color(0,0,0,0));
-        //plot.addAnnotation(rect);
-
-        if (hitbox.contains(click)) {
-            return true;
-        }
-        return false;
+        hitbox = new Rectangle2D.Double(x1, y1, hitboxWidth, hitboxHeight);
+        selectedRect = new XYShapeAnnotation(hitbox, new BasicStroke(2), Color.BLACK, new Color(0,0,0,0));
     }
 
     @Override
     public void delete() {
         plot.removeAnnotation(commentAnnotation);
+        plot.removeAnnotation(selectedRect);
     }
 
     @Override
     public void move(double xOffset, double yOffset, boolean set) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        plot.removeAnnotation(commentAnnotation);
+        plot.removeAnnotation(selectedRect);
+
+        if(!set){
+            commentAnnotation.setX(coordinates[0]-xOffset);
+            commentAnnotation.setY(coordinates[1]-yOffset);
+        }else{
+            coordinates[0] -= xOffset;
+            coordinates[1] -= yOffset;
+            commentAnnotation.setX(coordinates[0]);
+            commentAnnotation.setY(coordinates[1]);
+        }
+        this.getBounds();
+        plot.addAnnotation(selectedRect);
+        plot.addAnnotation(commentAnnotation);    
     }
     
     @Override

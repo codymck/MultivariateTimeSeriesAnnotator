@@ -16,6 +16,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.InputEvent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -104,6 +105,11 @@ public class AppFrame extends javax.swing.JFrame {
         ZoomButton.doClick();
         this.setLocationRelativeTo(null);
         this.frame = this;
+        
+        importChooser.addChoosableFileFilter(new FileNameExtensionFilter("Data Files", "csv", "hdf5"));
+        importChooser.addChoosableFileFilter(new FileNameExtensionFilter("CSV", "csv"));
+        importChooser.addChoosableFileFilter(new FileNameExtensionFilter("HDF5", "hdf5"));
+        importChooser.setAcceptAllFileFilterUsed(false);
     }
 
     // Creates an empty chart on instantiation of program

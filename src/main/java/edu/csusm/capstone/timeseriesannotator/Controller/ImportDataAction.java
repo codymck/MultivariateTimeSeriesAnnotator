@@ -13,15 +13,12 @@ import edu.csusm.capstone.timeseriesannotator.View.ChartDisplay;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /**
  *

@@ -178,6 +178,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         ImportAnnotationsButton.addActionListener(this);
 
         restoreAutoBoundsButton.setText("Refocus");
+        restoreAutoBoundsButton.setName("Refocus");
         restoreAutoBoundsButton.addActionListener(this);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

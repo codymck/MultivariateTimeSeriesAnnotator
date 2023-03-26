@@ -148,6 +148,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="restoreAutoBoundsButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="restoreAutoBoundsButton.setName(&quot;Refocus&quot;);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

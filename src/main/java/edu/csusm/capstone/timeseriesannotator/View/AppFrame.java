@@ -228,6 +228,7 @@ public class AppFrame extends javax.swing.JFrame {
         ToolBarPanel.setMinimumSize(new java.awt.Dimension(55, 55));
         ToolBarPanel.setLayout(new java.awt.GridLayout(1, 0));
 
+        ToolSelectPanel.setBackground(new java.awt.Color(255, 255, 255));
         ToolSelectPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         AddChartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addchart.png"))); // NOI18N
@@ -339,6 +340,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         ToolBarPanel.add(ToolSelectPanel);
 
+        TogglePanel.setBackground(new java.awt.Color(255, 255, 255));
         TogglePanel.setLayout(new java.awt.GridLayout(1, 0));
 
         ColorPanel.setLayout(new java.awt.GridLayout(1, 0));

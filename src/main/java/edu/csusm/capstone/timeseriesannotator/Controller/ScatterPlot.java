@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -44,9 +45,11 @@ public class ScatterPlot implements ChartsIF {
         chartStruct.setPlot(plot);
         
         plot.setDataset(0, data);
-        plot.setBackgroundPaint(new java.awt.Color(204, 204, 204));
-        plot.setDomainGridlinePaint(Color.WHITE);
-        plot.setRangeGridlinePaint(Color.WHITE);
+        plot.setBackgroundPaint(new java.awt.Color(255, 255, 255));
+        plot.setDomainGridlinePaint(new java.awt.Color(0, 0, 0, 70));
+        plot.setRangeGridlinePaint(new java.awt.Color(0, 0, 0, 70));
+        plot.setOutlinePaint(Color.LIGHT_GRAY);
+        plot.setOutlineStroke(new BasicStroke(3));
         
         JFreeChart chart = new JFreeChart(chartTitle, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
@@ -75,9 +78,9 @@ public class ScatterPlot implements ChartsIF {
         dotRenderer.setDotHeight(5);
         
         plotter.setDataset(chartStruct.getFlag()-1, data);
-        plotter.setBackgroundPaint(new java.awt.Color(204, 204, 204));
-        plotter.setDomainGridlinePaint(Color.WHITE);
-        plotter.setRangeGridlinePaint(Color.WHITE);
+//        plotter.setBackgroundPaint(new java.awt.Color(204, 204, 204));
+//        plotter.setDomainGridlinePaint(Color.WHITE);
+//        plotter.setRangeGridlinePaint(Color.WHITE);
         
         plotter.setRenderer(chartStruct.getFlag()-1,dotRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);

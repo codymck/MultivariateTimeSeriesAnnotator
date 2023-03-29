@@ -4,7 +4,9 @@ import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -12,11 +14,18 @@ import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPopupMenu;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.Axis;
+import org.jfree.chart.entity.AxisEntity;
+import org.jfree.chart.entity.ChartEntity;
+import org.jfree.chart.entity.TitleEntity;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
@@ -55,10 +64,20 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         aChartPanel = new AnnotateChartPanel(chart);
         aChartPanel.setZoomOutlinePaint(Color.BLACK);
         aChartPanel.setMouseWheelEnabled(true);
+        aChartPanel.setBackground(Color.BLUE);
+        
+        JPopupMenu popupMenu = aChartPanel.getPopupMenu();
+        popupMenu.setEnabled(false);
 
         XYPlot plot = chart.getXYPlot();
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
+        plot.setBackgroundPaint(new java.awt.Color(255, 255, 255));
+        plot.setOutlinePaint(Color.LIGHT_GRAY);
+        plot.setOutlineStroke(new BasicStroke(3));
+        plot.setDomainGridlinePaint(new java.awt.Color(0, 0, 0, 70));
+        plot.setRangeGridlinePaint(new java.awt.Color(0, 0, 0, 70));
+
 
         jPanel2.add(aChartPanel);
     }
@@ -73,7 +92,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             jPanel2.remove(aChartPanel);
         }
         
+        
         aChartPanel = p;
+        
+        JPopupMenu popupMenu = aChartPanel.getPopupMenu();
+        popupMenu.setEnabled(false);
         
         aChartPanel.setZoomOutlinePaint(Color.BLACK);
 
@@ -85,6 +108,21 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                     aChartPanel.setDomainZoomable(true);
                     aChartPanel.setRangeZoomable(true);
                 }
+                if(event.getEntity().toString().contains("AxisEntity") || event.getEntity().toString().contains("TitleEntity")){
+                    LabelsMenu chartTitle = new LabelsMenu(new javax.swing.JFrame(), true);
+                    chartTitle.setVisible(true);
+                    
+                    if(event.getEntity().toString().contains("AxisEntity")){
+                        try {
+                            AxisEntity l = (AxisEntity)event.getEntity().clone();
+                            l.getAxis().setLabel(chartTitle.getComment());
+                        } catch (CloneNotSupportedException ex) {
+                            Logger.getLogger(ChartDisplay.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }else{
+                        aChartPanel.getChart().setTitle(chartTitle.getComment());
+                    }
+                }                
             }
 
             @Override

@@ -116,6 +116,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         this.plot = (XYPlot) chart.getPlot();
         this.getMinAndMax();
         setChartState(AppFrame.getAppState());
+        chart.setBackgroundPaint(new java.awt.Color(242, 242, 242));
 
         hTrace = new HVLineAnnotation(plot, color, "horizontal", minMax);
         vTrace = new HVLineAnnotation(plot, color, "vertical", minMax);

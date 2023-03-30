@@ -44,7 +44,7 @@
                   <Component id="ImportAnnotationsButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="restoreAutoBoundsButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="54" max="32767" attributes="0"/>
+                  <EmptySpace pref="23" max="32767" attributes="0"/>
                   <Component id="SyncButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="removeChartButton" min="-2" max="-2" attributes="0"/>
@@ -104,10 +104,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddSeriesButtonActionPerformed"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JPanel" name="jPanel2">
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-        </Container>
         <Component class="javax.swing.JRadioButton" name="SyncButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Sync Chart"/>
@@ -152,6 +148,10 @@
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="restoreAutoBoundsButton.setName(&quot;Refocus&quot;);"/>
           </AuxValues>
         </Component>
+        <Container class="javax.swing.JPanel" name="jPanel2">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>

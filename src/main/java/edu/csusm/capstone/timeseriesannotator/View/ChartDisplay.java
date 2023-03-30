@@ -8,6 +8,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -112,6 +115,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                     LabelsMenu chartTitle = new LabelsMenu(new javax.swing.JFrame(), true);
                     chartTitle.setVisible(true);
                     
+                    if(!chartTitle.isSubmitted())return;
+                    
                     if(event.getEntity().toString().contains("AxisEntity")){
                         try {
                             AxisEntity l = (AxisEntity)event.getEntity().clone();
@@ -152,6 +157,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                 }
             }
         });
+        
 
         jPanel2.add(aChartPanel);
         validate();
@@ -177,11 +183,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         jPanel1 = new javax.swing.JPanel();
         removeChartButton = new javax.swing.JButton();
         AddSeriesButton = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
         SyncButton = new javax.swing.JRadioButton();
         ExportAnnotationsButton = new javax.swing.JButton();
         ImportAnnotationsButton = new javax.swing.JButton();
         restoreAutoBoundsButton = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         setLayout(new java.awt.BorderLayout());
@@ -201,8 +207,6 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         AddSeriesButton.setToolTipText("");
         AddSeriesButton.addActionListener(this);
 
-        jPanel2.setLayout(new java.awt.BorderLayout());
-
         SyncButton.setText("Sync Chart");
         SyncButton.setName("SyncChart");
         SyncButton.addActionListener(this);
@@ -219,6 +223,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         restoreAutoBoundsButton.setName("Refocus");
         restoreAutoBoundsButton.addActionListener(this);
 
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -232,7 +238,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                 .addComponent(ImportAnnotationsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(restoreAutoBoundsButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(SyncButton)
                 .addGap(18, 18, 18)
                 .addComponent(removeChartButton)

@@ -256,10 +256,14 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         }
 
         //check for addition of "/"
-        if(evt.getKeyCode() == KeyEvent.VK_SLASH && valid){
+        if(valid){
             yList.setVisible(false);
-            pack();
             valid = false;
+            if(evt.getKeyCode() == KeyEvent.VK_SLASH){
+                updateList(Yaxispath.getText(), yList);
+                yList.setVisible(true);
+            }
+            pack();
         }
         
         //check for removal of "/" 

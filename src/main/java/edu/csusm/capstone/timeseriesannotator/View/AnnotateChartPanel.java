@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -125,7 +127,42 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
         hTrace = new HVLineAnnotation(plot, color, "horizontal", minMax);
         vTrace = new HVLineAnnotation(plot, color, "vertical", minMax);
+        
+        this.addComponentListener(new ComponentAdapter() {
+            private double previousScreenWidth = Double.NaN;
+            private double previousScreenHeight = Double.NaN;
+            public void componentResized(ComponentEvent e) {
+                // Get the current screen width and height values
+                Rectangle2D.Double screenDataArea = (Rectangle2D.Double) getScreenDataArea();
+                double currentScreenWidth = screenDataArea.getMaxX() - screenDataArea.getMinX();
+                double currentScreenHeight = screenDataArea.getMaxY() - screenDataArea.getMinY();
+                // Check if the domain or range values have changed by more than a small threshold value
+                double epsilon = 0.00001;
+                if (Math.abs(previousScreenWidth - currentScreenWidth) > epsilon || Math.abs(previousScreenHeight - currentScreenHeight) > epsilon) {
+                    // If the values have changed, set a flag to indicate that the comment box needs to be updated
+                    commentBoxNeedsUpdate = true;
 
+                    // Schedule a timer to update the comment box after a delay of 10 milliseconds
+                    if (timer != null) {
+                        timer.cancel();
+                    }
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            if (commentBoxNeedsUpdate) {
+                                redrawCommentBox();
+                                commentBoxNeedsUpdate = false;
+                            }
+                        }
+                    }, 5);
+                }
+
+                // Store the current domain and range values for comparison in the next iteration
+                previousScreenWidth = currentScreenWidth;
+                previousScreenHeight = currentScreenHeight;
+            }
+        });
+        
         chart.addChangeListener(new ChartChangeListener() {
             private double previousDomain = Double.NaN;
             private double previousRange = Double.NaN;
@@ -833,7 +870,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
     }
     
-    private void redrawCommentBox() {
+    public void redrawCommentBox() {
         for (int i = 0; i < annotations.size(); i++) {
             if (annotations.get(i) instanceof CommentAnnotation && annotations.get(i).isSelected()) {
                 System.out.println("redrawing" + i);

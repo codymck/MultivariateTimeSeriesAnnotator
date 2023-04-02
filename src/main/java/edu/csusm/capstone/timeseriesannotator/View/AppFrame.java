@@ -126,6 +126,11 @@ public class AppFrame extends javax.swing.JFrame {
     // Adds additional charts to the panel
     public void addChart(ArrayList<ChartDisplay> c) {
         this.charts = c;
+        for (int i = 0; i < charts.size(); i++) {
+            System.out.println("test " + i);
+            charts.get(i).aChartPanel.redrawCommentBox();
+            charts.get(i).aChartPanel.repaint();
+        }
         chartDisplay = charts.get(charts.size() - 1);
     }
 

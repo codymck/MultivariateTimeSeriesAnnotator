@@ -9,6 +9,7 @@ import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
 import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,9 @@ import java.util.List;
  */
 public class HDFReader implements DataReader {
 
+    private ArrayList<String> dataPaths;
+    //String currentPath = "/";
+    
     float[] myXdata;
     float[] myYdata;
     String file;
@@ -32,16 +36,16 @@ public class HDFReader implements DataReader {
     public void setPaths(String x, String y, int flag) {
         xP = x;
         yP = y;
-        //IHDF5Reader reader2 = HDF5Factory.openForReading(file);
-        try ( IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
-            //List<String> headers = reader2.getGroupMembers("00000/");
-            //System.out.println("Headers: " + headers);
+        IHDF5Reader reader2 = HDF5Factory.openForReading(file);
+        try (IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
+            List<String> headers = reader2.getGroupMembers("/user1");
+            System.out.println("Headers: " + headers);
             myXdata = reader.readFloatArray(x);
             myYdata = reader.readFloatArray(y);
         } catch (Exception e) {
             System.err.println(e);
             ErrorDialog.wrongData();
-            
+
             if (flag == 0) {
                 HDF5Action.deleteInstance();
                 HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
@@ -55,9 +59,10 @@ public class HDFReader implements DataReader {
                 HDF5addAction hAction = HDF5addAction.getInstance();
                 this.setPaths(chartStruct.getXpath(), hAction.getYPath(), 1);
             }
-            
+
             return;
         }
+
         // OUTPUT FOR DATA 
 //        System.out.print("X :   ");
 //        for (float d : myXdata) {
@@ -68,9 +73,29 @@ public class HDFReader implements DataReader {
 //        for (float r : myYdata) {
 //            System.out.print(r + " , ");
 //        }
+    }
 
+    public List<String> buildPath(String currentPath) {
+
+        //dataPaths = new ArrayList<String>();
+        //List<String> values;
+
+        try (IHDF5Reader reader2 = HDF5Factory.openForReading(file)) {
+            //values = 
+            if(currentPath.endsWith("/")){
+               return reader2.getGroupMembers(currentPath);
+            }else{
+               return reader2.getGroupMembers(currentPath + "/");
+            }
+            
+        } catch (Exception e) {
+            System.err.println(e);
+            //ErrorDialog.wrongData();
+        }
+        return null;
 
     }
+    
 
     public float[] getXData() {
         return myXdata;

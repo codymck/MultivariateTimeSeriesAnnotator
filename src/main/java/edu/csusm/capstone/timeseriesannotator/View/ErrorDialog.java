@@ -11,7 +11,7 @@ public class ErrorDialog {
     static boolean tooMany;
     
     public static void wrongData() {
-        JOptionPane.showMessageDialog(AppFrame.frame, "Error: Dataset or Object does not exist.\n\n                Try Again.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(HDFdataSelectMenu.HDF, "Error: Dataset or Object does not exist.\n\n                Try Again.", "Error", JOptionPane.ERROR_MESSAGE);
     }
     
     public static void TooManyCharts() {

@@ -112,22 +112,29 @@ public class TriangleAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);
-        boolean r = storeTriangle.contains(p);
-
-        if (r && !selected) {
+        return storeTriangle.contains(p);
+    }
+    
+    @Override
+    public void select(){
+        if(!selected){
             plot.removeAnnotation(triangleAnnotation);
             triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(2),
                     new Color(0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
             selected = true;
-        } else if (r && selected) {
+        }
+    }
+    
+    @Override
+    public void deselect(){
+        if(selected){
             plot.removeAnnotation(triangleAnnotation);
             triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(0),
                     new Color(0, 0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
             selected = false;
         }
-        return r;
     }
 
     @Override

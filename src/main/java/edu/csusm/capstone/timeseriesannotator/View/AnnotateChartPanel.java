@@ -78,7 +78,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private HVLineAnnotation vert;
     private boolean dragged = false;
 
-
+    private AbstractAnnotation currentAnnotation = null;
+    private boolean clickedInAnnotation = false;
+    
     /* LINE variables */
     private HVLineAnnotation hTrace;
     private HVLineAnnotation vTrace;
@@ -221,6 +223,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         moveTest = point;
                         moved = false;
+                        if(currentAnnotation != null && currentAnnotation.clickedOn(point[0], point[1])){
+                            clickedInAnnotation = true;
+                        }
                     }
                 }
                 case ZOOM -> {
@@ -466,10 +471,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         moved = true;
                         double xOffset = moveTest[0] - point[0];
                         double yOffset = moveTest[1] - point[1];
-                        for (int i = 0; i < annotations.size(); i++) {
-                            if (annotations.get(i).isSelected()) {
-                                annotations.get(i).move(xOffset, yOffset, false);
-                            }
+                        if(clickedInAnnotation){
+                            currentAnnotation.move(xOffset, yOffset, false);
                         }
                     }
                 }
@@ -516,14 +519,13 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         double xOffset = moveTest[0] - point[0];
                         double yOffset = moveTest[1] - point[1];
-                        for (int i = 0; i < annotations.size(); i++) {
-                            if (annotations.get(i).isSelected()) {
-                                annotations.get(i).move(xOffset, yOffset, true);
-                            }
+                        if(clickedInAnnotation){
+                            currentAnnotation.move(xOffset, yOffset, true);
                         }
                         if (!moved) {
                             selectAnnotation(point[0], point[1]);
                         }
+                        clickedInAnnotation = false;
                     }
                 }
                 case ZOOM ->
@@ -865,15 +867,24 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private void selectAnnotation(double mouseX, double mouseY) {
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(mouseX, mouseY)) {
+                if(annotations.get(i) == currentAnnotation){
+                    currentAnnotation.deselect();
+                    currentAnnotation = null;
+                    return;
+                }
+                currentAnnotation = annotations.get(i);
                 break;
             }
         }
+        for (int i = 0; i < annotations.size(); i++) {
+            annotations.get(i).deselect();
+        }
+        currentAnnotation.select();
     }
     
     public void redrawCommentBox() {
         for (int i = 0; i < annotations.size(); i++) {
             if (annotations.get(i) instanceof CommentAnnotation && annotations.get(i).isSelected()) {
-                System.out.println("redrawing" + i);
                 CommentAnnotation com = (CommentAnnotation) annotations.get(i);
                 com.getBounds(true);
             }

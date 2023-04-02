@@ -64,24 +64,31 @@ public class EllipseAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);
-        boolean r = storeEllipse.contains(p);
-        
-        if(r && !selected){
+        return storeEllipse.contains(p);
+    }
+    
+    @Override
+    public void select(){
+        if(!selected){
             plot.removeAnnotation(ellipseAnnotation);
             ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(2),
                 new Color(0, 0, 0), color);
             plot.addAnnotation(ellipseAnnotation);
             selected = true;
-        }else if(r && selected){
+        }
+    }
+    
+    @Override
+    public void deselect(){
+        if(selected){
             plot.removeAnnotation(ellipseAnnotation);
             ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(0),
                 new Color(0, 0, 0, 0), color);
             plot.addAnnotation(ellipseAnnotation);
             selected = false;
         }
-        return r;
     }
-
+    
     @Override
     public void delete() {
         plot.removeAnnotation(ellipseAnnotation);

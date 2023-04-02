@@ -85,22 +85,23 @@ public class CommentAnnotation extends AbstractAnnotation {
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D.Double click = new Point2D.Double(mouseX, mouseY);
         this.getBounds(false);
-        boolean r;
-        if (hitbox.contains(click)) {
-            r = true;
-        }else{
-            r = false;
-        }
-        
-        if(r && !selected){
+        return hitbox.contains(click);
+    }
+    
+    @Override
+    public void select(){
+        if(!selected){
             plot.addAnnotation(selectedRect);
             selected = true;
-        }else if(r && selected){
+        }
+    }
+    
+    @Override
+    public void deselect(){
+        if(selected){
             plot.removeAnnotation(selectedRect);
             selected = false;
         }
-        
-        return r;
     }
     
     public void getBounds(boolean draw){

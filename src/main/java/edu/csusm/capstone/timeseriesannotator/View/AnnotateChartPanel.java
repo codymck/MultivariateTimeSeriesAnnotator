@@ -23,6 +23,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.swing.JFileChooser;
@@ -90,6 +92,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     /* TRIANGLE variables */
     private int triClick = 0;
+    
+    private Timer timer;
+    private boolean commentBoxNeedsUpdate = false;
 
     public void setChartState(ToolState s) {
         this.state = s;
@@ -122,8 +127,39 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         vTrace = new HVLineAnnotation(plot, color, "vertical", minMax);
 
         chart.addChangeListener(new ChartChangeListener() {
+            private double previousDomain = Double.NaN;
+            private double previousRange = Double.NaN;
+
             @Override
             public void chartChanged(ChartChangeEvent cce) {
+                // Get the current domain and range values
+                double currentDomain = plot.getDomainAxis().getUpperBound() - plot.getDomainAxis().getLowerBound();
+                double currentRange = plot.getRangeAxis().getUpperBound() - plot.getRangeAxis().getLowerBound();
+
+                // Check if the domain or range values have changed by more than a small threshold value
+                double epsilon = 0.00001;
+                if (Math.abs(previousDomain - currentDomain) > epsilon || Math.abs(previousRange - currentRange) > epsilon) {
+                    // If the values have changed, set a flag to indicate that the comment box needs to be updated
+                    commentBoxNeedsUpdate = true;
+
+                    // Schedule a timer to update the comment box after a delay of 10 milliseconds
+                    if (timer != null) {
+                        timer.cancel();
+                    }
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            if (commentBoxNeedsUpdate) {
+                                redrawCommentBox();
+                                commentBoxNeedsUpdate = false;
+                            }
+                        }
+                    }, 5);
+                }
+
+                // Store the current domain and range values for comparison in the next iteration
+                previousDomain = currentDomain;
+                previousRange = currentRange;
                 if (syncing) {
                     // Disable synchronization temporarily
                     syncing = false;
@@ -793,6 +829,16 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(mouseX, mouseY)) {
                 break;
+            }
+        }
+    }
+    
+    private void redrawCommentBox() {
+        for (int i = 0; i < annotations.size(); i++) {
+            if (annotations.get(i) instanceof CommentAnnotation && annotations.get(i).isSelected()) {
+                System.out.println("redrawing" + i);
+                CommentAnnotation com = (CommentAnnotation) annotations.get(i);
+                com.getBounds(true);
             }
         }
     }

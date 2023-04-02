@@ -766,6 +766,7 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_FontStyleComboBoxActionPerformed
 
     private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
+        selectedButton = EditButton;
         setAppState(ToolState.SELECT);
         ColorPanel.setVisible(false);
 

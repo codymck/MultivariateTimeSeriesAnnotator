@@ -84,7 +84,7 @@ public class CommentAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D.Double click = new Point2D.Double(mouseX, mouseY);
-        this.getBounds();
+        this.getBounds(false);
         boolean r;
         if (hitbox.contains(click)) {
             r = true;
@@ -103,7 +103,10 @@ public class CommentAnnotation extends AbstractAnnotation {
         return r;
     }
     
-    private void getBounds(){
+    public void getBounds(boolean draw){
+        if(draw){
+            plot.removeAnnotation(selectedRect);
+        }
 
         double x1 = commentAnnotation.getX();
         double y1 = commentAnnotation.getY();
@@ -135,6 +138,10 @@ public class CommentAnnotation extends AbstractAnnotation {
         
         hitbox = new Rectangle2D.Double(x1, y1, hitboxWidth, hitboxHeight);
         selectedRect = new XYShapeAnnotation(hitbox, new BasicStroke(2), Color.BLACK, new Color(0,0,0,0));
+        if(draw){
+            plot.addAnnotation(selectedRect);
+        }
+
     }
 
     @Override
@@ -157,9 +164,8 @@ public class CommentAnnotation extends AbstractAnnotation {
             commentAnnotation.setX(coordinates[0]);
             commentAnnotation.setY(coordinates[1]);
         }
-        this.getBounds();
-        plot.addAnnotation(selectedRect);
-        plot.addAnnotation(commentAnnotation);    
+        this.getBounds(true);
+        plot.addAnnotation(commentAnnotation);
     }
     
     @Override

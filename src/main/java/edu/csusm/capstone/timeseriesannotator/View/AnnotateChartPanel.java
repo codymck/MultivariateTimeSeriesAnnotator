@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,6 +25,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.swing.JFileChooser;
@@ -74,7 +78,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private HVLineAnnotation vert;
     private boolean dragged = false;
 
-
+    private AbstractAnnotation currentAnnotation = null;
+    private boolean clickedInAnnotation = false;
+    private boolean alreadySelected = false;
+    
     /* LINE variables */
     private HVLineAnnotation hTrace;
     private HVLineAnnotation vTrace;
@@ -90,6 +97,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     /* TRIANGLE variables */
     private int triClick = 0;
+    
+    private Timer timer;
+    private boolean commentBoxNeedsUpdate = false;
 
     public void setChartState(ToolState s) {
         this.state = s;
@@ -120,10 +130,76 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
         hTrace = new HVLineAnnotation(plot, color, "horizontal", minMax);
         vTrace = new HVLineAnnotation(plot, color, "vertical", minMax);
+        
+        this.addComponentListener(new ComponentAdapter() {
+            private double previousScreenWidth = Double.NaN;
+            private double previousScreenHeight = Double.NaN;
+            public void componentResized(ComponentEvent e) {
+                // Get the current screen width and height values
+                Rectangle2D.Double screenDataArea = (Rectangle2D.Double) getScreenDataArea();
+                double currentScreenWidth = screenDataArea.getMaxX() - screenDataArea.getMinX();
+                double currentScreenHeight = screenDataArea.getMaxY() - screenDataArea.getMinY();
+                // Check if the domain or range values have changed by more than a small threshold value
+                double epsilon = 0.00001;
+                if (Math.abs(previousScreenWidth - currentScreenWidth) > epsilon || Math.abs(previousScreenHeight - currentScreenHeight) > epsilon) {
+                    // If the values have changed, set a flag to indicate that the comment box needs to be updated
+                    commentBoxNeedsUpdate = true;
 
+                    // Schedule a timer to update the comment box after a delay of 10 milliseconds
+                    if (timer != null) {
+                        timer.cancel();
+                    }
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            if (commentBoxNeedsUpdate) {
+                                redrawCommentBox();
+                                commentBoxNeedsUpdate = false;
+                            }
+                        }
+                    }, 5);
+                }
+
+                // Store the current domain and range values for comparison in the next iteration
+                previousScreenWidth = currentScreenWidth;
+                previousScreenHeight = currentScreenHeight;
+            }
+        });
+        
         chart.addChangeListener(new ChartChangeListener() {
+            private double previousDomain = Double.NaN;
+            private double previousRange = Double.NaN;
+
             @Override
             public void chartChanged(ChartChangeEvent cce) {
+                // Get the current domain and range values
+                double currentDomain = plot.getDomainAxis().getUpperBound() - plot.getDomainAxis().getLowerBound();
+                double currentRange = plot.getRangeAxis().getUpperBound() - plot.getRangeAxis().getLowerBound();
+
+                // Check if the domain or range values have changed by more than a small threshold value
+                double epsilon = 0.00001;
+                if (Math.abs(previousDomain - currentDomain) > epsilon || Math.abs(previousRange - currentRange) > epsilon) {
+                    // If the values have changed, set a flag to indicate that the comment box needs to be updated
+                    commentBoxNeedsUpdate = true;
+
+                    // Schedule a timer to update the comment box after a delay of 10 milliseconds
+                    if (timer != null) {
+                        timer.cancel();
+                    }
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            if (commentBoxNeedsUpdate) {
+                                redrawCommentBox();
+                                commentBoxNeedsUpdate = false;
+                            }
+                        }
+                    }, 5);
+                }
+
+                // Store the current domain and range values for comparison in the next iteration
+                previousDomain = currentDomain;
+                previousRange = currentRange;
                 if (syncing) {
                     // Disable synchronization temporarily
                     syncing = false;
@@ -148,6 +224,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         moveTest = point;
                         moved = false;
+                        if(currentAnnotation != null && currentAnnotation.clickedOn(point[0], point[1])){
+                            clickedInAnnotation = true;
+                            alreadySelected = true;
+                        }else{
+                            selectAnnotation(point[0], point[1]);
+                        }
                     }
                 }
                 case ZOOM -> {
@@ -393,10 +475,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         moved = true;
                         double xOffset = moveTest[0] - point[0];
                         double yOffset = moveTest[1] - point[1];
-                        for (int i = 0; i < annotations.size(); i++) {
-                            if (annotations.get(i).isSelected()) {
-                                annotations.get(i).move(xOffset, yOffset, false);
-                            }
+                        if(clickedInAnnotation){
+                            currentAnnotation.move(xOffset, yOffset, false);
                         }
                     }
                 }
@@ -443,14 +523,15 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         double xOffset = moveTest[0] - point[0];
                         double yOffset = moveTest[1] - point[1];
-                        for (int i = 0; i < annotations.size(); i++) {
-                            if (annotations.get(i).isSelected()) {
-                                annotations.get(i).move(xOffset, yOffset, true);
-                            }
+                        if(clickedInAnnotation){
+                            currentAnnotation.move(xOffset, yOffset, true);
                         }
-                        if (!moved) {
-                            selectAnnotation(point[0], point[1]);
+                        if (!moved && alreadySelected) {
+                            currentAnnotation.deselect();
+                            currentAnnotation = null;
                         }
+                        clickedInAnnotation = false;
+                        alreadySelected = false;
                     }
                 }
                 case ZOOM ->
@@ -792,7 +873,29 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private void selectAnnotation(double mouseX, double mouseY) {
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(mouseX, mouseY)) {
+                if(annotations.get(i) == currentAnnotation){
+                    currentAnnotation = null;
+                    break;
+                }
+                currentAnnotation = annotations.get(i);
+                clickedInAnnotation = true;
                 break;
+            }
+            currentAnnotation = null; // this line should only be reached if no annotation was selected
+        }
+        for (int i = 0; i < annotations.size(); i++) {
+            annotations.get(i).deselect();
+        }
+        if(currentAnnotation != null){        
+            currentAnnotation.select();
+        }
+    }
+    
+    public void redrawCommentBox() {
+        for (int i = 0; i < annotations.size(); i++) {
+            if (annotations.get(i) instanceof CommentAnnotation && annotations.get(i).isSelected()) {
+                CommentAnnotation com = (CommentAnnotation) annotations.get(i);
+                com.getBounds(true);
             }
         }
     }

@@ -10,6 +10,10 @@ public abstract class AbstractAnnotation {
 
     public abstract void move(double xOffset, double yOffset, boolean set);
     
+    public abstract void select();
+    
+    public abstract void deselect();
+    
     public abstract String getType();
     
     public abstract String getRGBA();

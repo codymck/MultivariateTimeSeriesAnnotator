@@ -80,6 +80,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     private AbstractAnnotation currentAnnotation = null;
     private boolean clickedInAnnotation = false;
+    private boolean alreadySelected = false;
     
     /* LINE variables */
     private HVLineAnnotation hTrace;
@@ -225,6 +226,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         moved = false;
                         if(currentAnnotation != null && currentAnnotation.clickedOn(point[0], point[1])){
                             clickedInAnnotation = true;
+                            alreadySelected = true;
+                        }else{
+                            selectAnnotation(point[0], point[1]);
                         }
                     }
                 }
@@ -522,10 +526,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         if(clickedInAnnotation){
                             currentAnnotation.move(xOffset, yOffset, true);
                         }
-                        if (!moved) {
-                            selectAnnotation(point[0], point[1]);
+                        if (!moved && alreadySelected) {
+                            currentAnnotation.deselect();
+                            currentAnnotation = null;
                         }
                         clickedInAnnotation = false;
+                        alreadySelected = false;
                     }
                 }
                 case ZOOM ->
@@ -873,6 +879,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     return;
                 }
                 currentAnnotation = annotations.get(i);
+                clickedInAnnotation = true;
                 break;
             }
         }

@@ -3,11 +3,8 @@ package edu.csusm.capstone.timeseriesannotator.View;
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5Action;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -19,7 +16,8 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     String xPath;
     String yPath;
     HDFReader reader;
-    char[] previousKey;
+    char[] previousYKey;
+    char[] previousXKey;
     
     public static HDFdataSelectMenu HDF;
 
@@ -267,10 +265,19 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         }
         
         //check for removal of "/" 
-//        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
-//            System.out.println("fucks" );
-//            previousKey = Xaxispath.getText().toCharArray();
-//        }
+        if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousYKey != null){
+            if(previousYKey[previousYKey.length - 1] == '/'){
+                if(sections.length == 1){
+                    updateList("/", yList);
+                }else if(sections.length > 1){
+                    updateList(sections[sections.length - 2], yList);
+                }
+                yList.setVisible(true);
+                pack();
+                
+            }
+        }
+        previousYKey = Yaxispath.getText().toCharArray();
     }//GEN-LAST:event_YaxispathKeyReleased
 
     private void XaxispathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_XaxispathKeyReleased
@@ -306,10 +313,19 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         }
         
         //check for removal of "/" 
-//        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
-//            System.out.println("fucks" );
-//            previousKey = Xaxispath.getText().toCharArray();
-//        }
+        if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousXKey != null){
+            if(previousXKey[previousXKey.length - 1] == '/'){
+                if(sections.length == 1){
+                    updateList("/", yList);
+                }else if(sections.length > 1){
+                    updateList(sections[sections.length - 2], xList);
+                }
+                xList.setVisible(true);
+                pack();
+                
+            }
+        }
+        previousXKey = Xaxispath.getText().toCharArray();
     }//GEN-LAST:event_XaxispathKeyReleased
 
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HDF5PathButtonActionPerformed

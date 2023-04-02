@@ -874,19 +874,21 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(mouseX, mouseY)) {
                 if(annotations.get(i) == currentAnnotation){
-                    currentAnnotation.deselect();
                     currentAnnotation = null;
-                    return;
+                    break;
                 }
                 currentAnnotation = annotations.get(i);
                 clickedInAnnotation = true;
                 break;
             }
+            currentAnnotation = null; // this line should only be reached if no annotation was selected
         }
         for (int i = 0; i < annotations.size(); i++) {
             annotations.get(i).deselect();
         }
-        currentAnnotation.select();
+        if(currentAnnotation != null){        
+            currentAnnotation.select();
+        }
     }
     
     public void redrawCommentBox() {

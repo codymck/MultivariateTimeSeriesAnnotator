@@ -114,6 +114,14 @@ public class HVLineAnnotation extends AbstractAnnotation {
         boolean r = storeLine.intersects(intersectRect);
         return r;
     }
+    
+    @Override
+    public void select(){
+    }
+    
+    @Override
+    public void deselect(){
+    }
 
     @Override
     public void delete() {

@@ -126,6 +126,11 @@ public class AppFrame extends javax.swing.JFrame {
     // Adds additional charts to the panel
     public void addChart(ArrayList<ChartDisplay> c) {
         this.charts = c;
+        for (int i = 0; i < charts.size(); i++) {
+            System.out.println("test " + i);
+            charts.get(i).aChartPanel.redrawCommentBox();
+            charts.get(i).aChartPanel.repaint();
+        }
         chartDisplay = charts.get(charts.size() - 1);
     }
 
@@ -766,6 +771,7 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_FontStyleComboBoxActionPerformed
 
     private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
+        selectedButton = EditButton;
         setAppState(ToolState.SELECT);
         ColorPanel.setVisible(false);
 

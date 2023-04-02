@@ -19,6 +19,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     String xPath;
     String yPath;
     HDFReader reader;
+    char[] previousKey;
     
     public static HDFdataSelectMenu HDF;
 
@@ -89,11 +90,6 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 YaxispathFocusLost(evt);
-            }
-        });
-        Yaxispath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                YaxispathActionPerformed(evt);
             }
         });
         Yaxispath.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -236,38 +232,80 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         pack();
     }//GEN-LAST:event_YaxispathFocusLost
 
-    private void YaxispathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YaxispathActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_YaxispathActionPerformed
-
     private void YaxispathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_YaxispathKeyReleased
         //update yList selection based on current typing
+        boolean valid = false;
+        String compare = null;
         String[] sections = Yaxispath.getText().split("/");
-        String compare = sections[sections.length-1];
-        //System.out.println("Compare : " + compare);
-        for(int x = 0; x < yList.getItemCount(); x++){
-            String temp = yList.getItem(x);
-            if(temp.contains(compare)){
-                yList.remove(x);
-                yList.add(temp, 0);
+        if(sections.length > 0)compare = sections[sections.length-1];
+        if(compare != null){
+            
+            //System.out.println("Compare : " + compare);
+            for(int x = 0; x < yList.getItemCount(); x++){
+                String temp = yList.getItem(x);
+                if(temp.contains(compare)){
+                    yList.remove(x);
+                    yList.add(temp, 0);
+                }
+                if(temp.equals(compare)){
+                    valid = true;
+                }
             }
+            //check for addition and removal of "/" 
+            
         }
-        //check for addition and removal of "/" 
+
+        //check for addition of "/"
+        if(evt.getKeyCode() == KeyEvent.VK_SLASH && valid){
+            yList.setVisible(false);
+            pack();
+            valid = false;
+        }
+        
+        //check for removal of "/" 
+//        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+//            System.out.println("fucks" );
+//            previousKey = Xaxispath.getText().toCharArray();
+//        }
     }//GEN-LAST:event_YaxispathKeyReleased
 
     private void XaxispathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_XaxispathKeyReleased
         //update yList selection based on current typing
+        boolean valid = false;
+        String compare = null;
         String[] sections = Xaxispath.getText().split("/");
-        String compare = sections[sections.length-1];
-        //System.out.println("Compare : " + compare);
-        for(int x = 0; x < xList.getItemCount(); x++){
-            String temp = xList.getItem(x);
-            if(temp.contains(compare)){
-                xList.remove(x);
-                xList.add(temp, 0);
-            }
+        if(sections.length > 0)compare = sections[sections.length-1];
+        if(compare != null){
+            
+            //System.out.println("Compare : " + compare);
+            for(int x = 0; x < xList.getItemCount(); x++){
+                String temp = xList.getItem(x);
+                if(temp.contains(compare)){
+                    xList.remove(x);
+                    xList.add(temp, 0);
+                }
+                if(temp.equals(compare)){
+                    valid = true;
+                }
+            }            
         }
-        //check for addition and removal of "/" 
+        
+        //check for addition of "/"
+        if(valid){
+            xList.setVisible(false);
+            valid = false;
+            if(evt.getKeyCode() == KeyEvent.VK_SLASH){
+                updateList(Xaxispath.getText(), xList);
+                xList.setVisible(true);
+            }
+            pack();
+        }
+        
+        //check for removal of "/" 
+//        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+//            System.out.println("fucks" );
+//            previousKey = Xaxispath.getText().toCharArray();
+//        }
     }//GEN-LAST:event_XaxispathKeyReleased
 
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HDF5PathButtonActionPerformed

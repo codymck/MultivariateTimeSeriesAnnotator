@@ -258,8 +258,8 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             yList.setVisible(false);
             valid = false;
             if(evt.getKeyCode() == KeyEvent.VK_SLASH){
-                updateList(Yaxispath.getText(), yList);
-                yList.setVisible(true);
+                if(updateList(Yaxispath.getText(), yList))
+                    yList.setVisible(true);
             }
             pack();
         }
@@ -306,8 +306,8 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             xList.setVisible(false);
             valid = false;
             if(evt.getKeyCode() == KeyEvent.VK_SLASH){
-                updateList(Xaxispath.getText(), xList);
-                xList.setVisible(true);
+                if(updateList(Xaxispath.getText(), xList))
+                    xList.setVisible(true);
             }
             pack();
         }

@@ -58,8 +58,28 @@ public class DataFormatter {
     public void formatHDF5(String xPath, String yPath) {
 //        System.out.println(xPath+ " " + yPath);
         
-        xData = ((HDFReader)dReader).getXData();
-        yData = ((HDFReader)dReader).getYData();
+        switch(((HDFReader)dReader).getType()){
+            case "FLOAT" -> {
+                xData = ((HDFReader)dReader).getXData();
+                yData = ((HDFReader)dReader).getYData();
+            }
+            case "DOUBLE" -> {
+                double[] t = ((HDFReader)dReader).getDoubleXData();
+                for(int x = 0; x < t.length; x++ ){
+                    xData[x] = (float)t[x];
+                }
+                double[] t2 = ((HDFReader)dReader).getDoubleYData();
+                for(int x = 0; x < t2.length; x++ ){
+                    yData[x] = (float)t2[x];
+                }
+            }
+            case "DATE" -> {
+                //have to make the dataset into a TimeSeriesCollection
+                //https://stackoverflow.com/questions/12837986/how-to-display-date-in-a-x-axis-of-line-graph-using-jfreechart
+            }
+        }
+
+        
     }
     
     public float[] getXDataset() {

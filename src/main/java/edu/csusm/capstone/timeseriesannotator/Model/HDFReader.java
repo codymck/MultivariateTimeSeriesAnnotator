@@ -10,6 +10,7 @@ import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,7 +24,15 @@ public class HDFReader implements DataReader {
     
     float[] myXdata;
     float[] myYdata;
+    
+    double[] doublemyXdata;
+    double[] doublemyYdata;
+    
+    Date[] datemyXdata;
+    Date[] datemyYdata;
+    
     String file;
+    String type;
     public static String xP;
     public static String yP;
     ChartStruct chartStruct;// = ChartStruct.getInstance();
@@ -36,12 +45,29 @@ public class HDFReader implements DataReader {
     public void setPaths(String x, String y, int flag) {
         xP = x;
         yP = y;
-        IHDF5Reader reader2 = HDF5Factory.openForReading(file);
+        //IHDF5Reader reader2 = HDF5Factory.openForReading(file);
         try (IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
-            List<String> headers = reader2.getGroupMembers("/user1");
-            System.out.println("Headers: " + headers);
-            myXdata = reader.readFloatArray(x);
-            myYdata = reader.readFloatArray(y);
+            //List<String> headers = reader2.getGroupMembers("/user1");
+            //System.out.println("Headers: " + headers);
+            type = reader.getDataSetInformation(x).getTypeInformation().toString().toUpperCase();
+                        
+            if(type.contains("FLOAT")){
+                myXdata = reader.readFloatArray(x);
+                myYdata = reader.readFloatArray(y);
+                type = "FLOAT";
+            }
+            if(type.contains("DOUBLE")){
+                doublemyXdata = reader.readDoubleArray(x);
+                doublemyYdata = reader.readDoubleArray(y);
+                type = "DOUBLE";
+            }
+            if(type.contains("DATE")){
+                datemyXdata = reader.readDateArray(x);
+                datemyYdata = reader.readDateArray(y);
+                type = "DATE";
+            }
+            
+            
         } catch (Exception e) {
             System.err.println(e);
             ErrorDialog.wrongData();
@@ -81,7 +107,7 @@ public class HDFReader implements DataReader {
         //List<String> values;
 
         try (IHDF5Reader reader2 = HDF5Factory.openForReading(file)) {
-            //values = 
+            //values =
             if(currentPath.endsWith("/")){
                return reader2.getGroupMembers(currentPath);
             }else{
@@ -96,12 +122,32 @@ public class HDFReader implements DataReader {
 
     }
     
+    public String getType(){
+        return type;
+    }
 
+    
     public float[] getXData() {
         return myXdata;
     }
 
     public float[] getYData() {
         return myYdata;
+    }
+    
+    public double[] getDoubleXData() {
+        return doublemyXdata;
+    }
+
+    public double[] getDoubleYData() {
+        return doublemyYdata;
+    }
+    
+    public Date[] getDateXData() {
+        return datemyXdata;
+    }
+
+    public Date[] getDateYData() {
+        return datemyYdata;
     }
 }

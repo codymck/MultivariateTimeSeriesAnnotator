@@ -2,15 +2,20 @@ package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
+import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.util.List;
 
 /**
  *
  * @author josef
  */
-public class HDF5addSeries extends javax.swing.JDialog implements ActionListener {
+public class HDF5addSeries extends javax.swing.JDialog implements ActionListener, ItemListener {
 
     boolean selected = false;
+    String yPath;
+    HDFReader reader;
 
    // ChartStruct chartStruct;// = ChartStruct.getInstance();
     //String Xaxis;
@@ -38,12 +43,13 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         jLabel3 = new javax.swing.JLabel();
         Yaxispath = new javax.swing.JTextField();
         HDF5PathButton = new javax.swing.JButton();
+        yList = new java.awt.List();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel1.setText("Enter HDF5 File Path:");
+        jLabel1.setText("Enter HDF5 File Path");
 
         jLabel3.setText("Y-Axis File Path:");
 
@@ -53,25 +59,33 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         HDF5PathButton.setText("Select File Path");
         HDF5PathButton.addActionListener(this);
 
+        yList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        yList.addItemListener(this);
+        yList.addActionListener(this);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(HDF5PathButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(Yaxispath, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(yList, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(70, 70, 70))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(Yaxispath, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(31, 31, 31)))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(HDF5PathButton)
+                .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,11 +94,13 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Yaxispath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addGap(1, 1, 1)
+                .addComponent(yList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
                 .addComponent(HDF5PathButton)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
         );
 
         pack();
@@ -99,6 +115,15 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         else if (evt.getSource() == HDF5PathButton) {
             HDF5addSeries.this.HDF5PathButtonActionPerformed(evt);
         }
+        else if (evt.getSource() == yList) {
+            HDF5addSeries.this.yListActionPerformed(evt);
+        }
+    }
+
+    public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        if (evt.getSource() == yList) {
+            HDF5addSeries.this.yListItemStateChanged(evt);
+        }
     }// </editor-fold>//GEN-END:initComponents
 
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HDF5PathButtonActionPerformed
@@ -111,8 +136,50 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         // TODO add your handling code here:
     }//GEN-LAST:event_YaxispathActionPerformed
 
+    private void yListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_yListItemStateChanged
+        if(yPath != null){
+            yPath = yPath + evt.getItemSelectable().getSelectedObjects()[0].toString();
+        }else{
+            yPath = evt.getItemSelectable().getSelectedObjects()[0].toString();
+        }
+
+        //update yList selection
+        if(updateList(yPath, yList)){
+            yPath = yPath + "/";
+        }else{
+            //full path set
+            yList.setVisible(false);
+            pack();
+        }
+        Yaxispath.setText(yPath);
+    }//GEN-LAST:event_yListItemStateChanged
+
+    private void yListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yListActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yListActionPerformed
+
     public boolean isSelected(){
         return selected;
+    }
+    
+    public boolean updateList(String p, java.awt.List l){
+      try{
+          l.removeAll();
+          List<String> h = reader.buildPath(p);
+          for(String t : h){
+                l.add(t);
+            }
+          return true;
+      }catch (Exception e){
+          return false;
+      }
+    }
+    
+    public void setModel(List<String> h, HDFReader hr) {
+        reader = hr;
+        for(String t : h){
+            yList.add(t);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -120,5 +187,6 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     private javax.swing.JTextField Yaxispath;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private java.awt.List yList;
     // End of variables declaration//GEN-END:variables
 }

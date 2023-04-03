@@ -301,6 +301,7 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
         ToolSelectPanel.add(SelectButton);
+        SelectButton.getAccessibleContext().setAccessibleDescription("Highlight (4)");
 
         buttonGroup1.add(CommentButton);
         CommentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-comment-medical-32.png"))); // NOI18N

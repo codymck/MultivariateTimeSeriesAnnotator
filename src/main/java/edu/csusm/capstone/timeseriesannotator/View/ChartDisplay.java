@@ -207,7 +207,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         AddSeriesButton.setToolTipText("");
         AddSeriesButton.addActionListener(this);
 
-        SyncButton.setText("Sync Chart");
+        SyncButton.setText("Sync");
         SyncButton.setName("SyncChart");
         SyncButton.addActionListener(this);
 
@@ -238,7 +238,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                 .addComponent(ImportAnnotationsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(restoreAutoBoundsButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(SyncButton)
                 .addGap(18, 18, 18)
                 .addComponent(removeChartButton)

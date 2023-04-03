@@ -44,7 +44,7 @@
                   <Component id="ImportAnnotationsButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="restoreAutoBoundsButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="23" max="32767" attributes="0"/>
+                  <EmptySpace pref="58" max="32767" attributes="0"/>
                   <Component id="SyncButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="removeChartButton" min="-2" max="-2" attributes="0"/>
@@ -106,7 +106,7 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="SyncButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Sync Chart"/>
+            <Property name="text" type="java.lang.String" value="Sync"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SyncButtonActionPerformed"/>

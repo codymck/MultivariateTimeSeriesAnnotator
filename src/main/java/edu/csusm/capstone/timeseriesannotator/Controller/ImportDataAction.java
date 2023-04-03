@@ -146,12 +146,7 @@ public class ImportDataAction implements ActionListener {
                 HDF5Action hAction = HDF5Action.getInstance();
                 if (!select.isSelected()) {
                     return;
-                }
-                
-
-                
-
-                
+                }                
                 
                 h.setPaths(hAction.getXPath(), hAction.getYPath(), 0);
                 chartStruct.setXpath(hAction.getXPath());

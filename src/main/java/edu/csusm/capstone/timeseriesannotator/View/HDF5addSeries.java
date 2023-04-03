@@ -5,17 +5,20 @@ import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 /**
  *
  * @author josef
  */
-public class HDF5addSeries extends javax.swing.JDialog implements ActionListener, ItemListener {
+public class HDF5addSeries extends javax.swing.JDialog implements ActionListener, ItemListener, KeyListener {
 
     boolean selected = false;
     String yPath;
     HDFReader reader;
+    char[] previousYKey;
 
    // ChartStruct chartStruct;// = ChartStruct.getInstance();
     //String Xaxis;
@@ -55,6 +58,7 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
 
         Yaxispath.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         Yaxispath.addActionListener(this);
+        Yaxispath.addKeyListener(this);
 
         HDF5PathButton.setText("Select File Path");
         HDF5PathButton.addActionListener(this);
@@ -124,6 +128,18 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         if (evt.getSource() == yList) {
             HDF5addSeries.this.yListItemStateChanged(evt);
         }
+    }
+
+    public void keyPressed(java.awt.event.KeyEvent evt) {
+    }
+
+    public void keyReleased(java.awt.event.KeyEvent evt) {
+        if (evt.getSource() == Yaxispath) {
+            HDF5addSeries.this.YaxispathKeyReleased(evt);
+        }
+    }
+
+    public void keyTyped(java.awt.event.KeyEvent evt) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HDF5PathButtonActionPerformed
@@ -157,6 +173,56 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     private void yListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yListActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_yListActionPerformed
+
+    private void YaxispathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_YaxispathKeyReleased
+        //update yList selection based on current typing
+        boolean valid = false;
+        String compare = null;
+        String[] sections = Yaxispath.getText().split("/");
+        if(sections.length > 0)compare = sections[sections.length-1];
+        if(compare != null){
+            
+            //System.out.println("Compare : " + compare);
+            for(int x = 0; x < yList.getItemCount(); x++){
+                String temp = yList.getItem(x);
+                if(temp.contains(compare)){
+                    yList.remove(x);
+                    yList.add(temp, 0);
+                }
+                if(temp.equals(compare)){
+                    valid = true;
+                }
+            }
+            //check for addition and removal of "/" 
+            
+        }
+
+        //check for addition of "/"
+        if(valid){
+            yList.setVisible(false);
+            valid = false;
+            if(evt.getKeyCode() == KeyEvent.VK_SLASH){
+                updateList(Yaxispath.getText(), yList);
+                yList.setVisible(true);
+            }
+            pack();
+        }
+        
+        //check for removal of "/" 
+        if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousYKey != null){
+            if(previousYKey[previousYKey.length - 1] == '/'){
+                if(sections.length == 1){
+                    updateList("/", yList);
+                }else if(sections.length > 1){
+                    updateList(sections[sections.length - 2], yList);
+                }
+                yList.setVisible(true);
+                pack();
+                
+            }
+        }
+        previousYKey = Yaxispath.getText().toCharArray();
+    }//GEN-LAST:event_YaxispathKeyReleased
 
     public boolean isSelected(){
         return selected;

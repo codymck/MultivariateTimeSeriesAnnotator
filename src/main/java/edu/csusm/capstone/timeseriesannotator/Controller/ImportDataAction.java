@@ -137,7 +137,12 @@ public class ImportDataAction implements ActionListener {
                 dReader = new HDFReader();
                 dReader.buildDataList(fileName);//sets file name
                 HDFReader h = (HDFReader) dReader;
+                
+                long startTime = System.currentTimeMillis();
                 List<String> headers = h.buildPath("/");//get initial list of headers
+                long endTime = System.currentTimeMillis();
+                
+                System.out.println("Time to load: " + (endTime - startTime));
 
                 HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
                 select.setModel(headers, h);

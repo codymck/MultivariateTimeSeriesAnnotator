@@ -89,18 +89,31 @@ public class LineAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         ValueAxis domainAxis = plot.getDomainAxis();
-        double domainMin = domainAxis.getLowerBound();
-        double domainMax = domainAxis.getUpperBound();
+        double absDomain = domainAxis.getUpperBound() - domainAxis.getLowerBound();
         ValueAxis rangeAxis = plot.getRangeAxis();
-        double rangeMin = rangeAxis.getLowerBound();
-        double rangeMax = rangeAxis.getUpperBound();
-        double xSize = (domainMax - domainMin) / 50.0;
-        double ySize = (rangeMax - rangeMin) / 50.0;
+        double absRange = rangeAxis.getUpperBound() - rangeAxis.getLowerBound();
+       
+        double aspectRatio = absRange / absDomain;
+
+        // Adjust xSize and ySize based on aspect ratio
+        double xSize, ySize;
+        if (aspectRatio > 1) {
+            // plot is wider than it is tall, so adjust ySize
+            xSize = absDomain / 50;
+            ySize = xSize / aspectRatio;
+            System.out.println("absRange : " + absRange);
+            System.out.println("absDomain : " + absDomain);
+            System.out.println("aspectRatio : " + aspectRatio);
+        } else {
+            // plot is taller than it is wide, so adjust xSize
+            ySize = absRange / 50;
+            xSize = ySize / aspectRatio;
+        }
         double xOffset = xSize / 2.0;
         double yOffset = ySize / 2.0;
         intersectRect = new Rectangle2D.Double(mouseX - xOffset, mouseY - yOffset, xSize, ySize);
-        //XYShapeAnnotation hitbox = new XYShapeAnnotation(intersectRect, new BasicStroke(0), color, color);
-        //plot.addAnnotation(hitbox);
+        XYShapeAnnotation hitbox = new XYShapeAnnotation(intersectRect, new BasicStroke(0), color, color);
+        plot.addAnnotation(hitbox);
         boolean r = storeLine.intersects(intersectRect);
         return r;
     }

@@ -16,8 +16,10 @@ public class RectangleAnnotation extends AbstractAnnotation {
     private AnnotateChartPanel chartPanel;
     
     private Rectangle2D.Double storeRect = null;
+    
+    private ResizeHandle[] handles;
 
-    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 } };
+    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
 
     private double x, y, width, height;
 
@@ -25,6 +27,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
     private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
     
     public RectangleAnnotation(XYPlot p, Color c, double[] point, String t, double[] m, AnnotateChartPanel cP) {
+        this.handles = new ResizeHandle[]{null, null, null, null};
         this.plot = p;
         this.color = c;
         coordinates[0][0] = point[0];
@@ -35,6 +38,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
     }
     
     public RectangleAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
+        this.handles = new ResizeHandle[]{null, null, null, null};
         this.plot = p;
         String tempType = t[0];
         this.type = tempType.substring(1, tempType.length() - 1);
@@ -62,6 +66,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
             y = Math.min(coordinates[0][1], coordinates[1][1]);
             width = Math.abs(coordinates[1][0] - coordinates[0][0]);
             height = Math.abs(coordinates[1][1] - coordinates[0][1]);
+            
         }else if(type.equals("region")){
             double rectHeight = 10 * (minMax[3] - minMax[1]);
             coordinates[1][0] = point[0];
@@ -91,6 +96,20 @@ public class RectangleAnnotation extends AbstractAnnotation {
                 new Color(0, 0, 0), color);
             plot.addAnnotation(rectAnnotation);
             selected = true;
+            coordinates[0][0] = x;
+            coordinates[0][1] = y + height;
+            
+            coordinates[1][0] = x + width;
+            coordinates[1][1] = y + height;
+            
+            coordinates[2][0] = x + width;
+            coordinates[2][1] = y;
+            
+            coordinates[3][0] = x;
+            coordinates[3][1] = y;
+            for(int i = 0; i < 1; i++){
+                handles[i] = new ResizeHandle(plot, coordinates[i]);
+            }
         }
     }
     
@@ -124,6 +143,8 @@ public class RectangleAnnotation extends AbstractAnnotation {
             new Color(0, 0, 0), color);
         plot.addAnnotation(rectAnnotation);
     }
+    
+    
 
     @Override
     public boolean isSelected() {

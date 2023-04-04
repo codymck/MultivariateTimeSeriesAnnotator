@@ -108,7 +108,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
             coordinates[3][0] = x;
             coordinates[3][1] = y;
             for(int i = 0; i < 1; i++){
-                handles[i] = new ResizeHandle(plot, coordinates[i]);
+                handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
             }
         }
     }

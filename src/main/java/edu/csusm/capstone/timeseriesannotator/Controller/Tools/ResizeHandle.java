@@ -1,9 +1,11 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -17,25 +19,33 @@ public class ResizeHandle {
     private double[] size = {0.0, 0.0};
     private double[] offset = {0.0, 0.0};
     private XYPlot plot;
-    
+    private AnnotateChartPanel chartPanel;
+
     private Ellipse2D.Double ell;
     private XYShapeAnnotation handle = null;
     
     
-    public ResizeHandle(XYPlot p, double[] point){
+    public ResizeHandle(XYPlot p, double[] point, AnnotateChartPanel cp){
         plot = p;
+        chartPanel = cp;
         coords = point;
         recalculate();
         draw();
     }
     
     public void recalculate(){
+        
+        Rectangle2D.Double screenDataArea = (Rectangle2D.Double) chartPanel.getScreenDataArea();
+        double screenWidthPx = screenDataArea.getMaxX() - screenDataArea.getMinX();
+        double screenHeightPx = screenDataArea.getMaxY() - screenDataArea.getMinY();
+        
         ValueAxis domainAxis = plot.getDomainAxis();
         double domainMin = domainAxis.getLowerBound();
         double domainMax = domainAxis.getUpperBound();
         ValueAxis rangeAxis = plot.getRangeAxis();
         double rangeMin = rangeAxis.getLowerBound();
         double rangeMax = rangeAxis.getUpperBound();
+        
         size[0] = (domainMax - domainMin) / 50.0;
         size[1] = (rangeMax - rangeMin) / 50.0;
         offset[0] = size[0] / 2.0;

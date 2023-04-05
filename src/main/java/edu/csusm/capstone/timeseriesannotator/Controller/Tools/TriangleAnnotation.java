@@ -9,6 +9,7 @@ import org.jfree.chart.plot.XYPlot;
 import java.awt.geom.Path2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import java.awt.BasicStroke;
+import java.awt.geom.PathIterator;
 import org.jfree.chart.annotations.XYLineAnnotation;
 
 public class TriangleAnnotation extends AbstractAnnotation {
@@ -21,19 +22,25 @@ public class TriangleAnnotation extends AbstractAnnotation {
     private Path2D.Double storeTriangle = null;
 
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
+    
+    private ResizeHandle[] handles;
+    private double[][] handleCoordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
 
+    
     private XYShapeAnnotation triangleAnnotation = null;
     private XYLineAnnotation line = null;
 
     private int triClick = 0;
 
     public TriangleAnnotation(XYPlot p, Color c, AnnotateChartPanel cP) {
+        this.handles = new ResizeHandle[]{null, null, null};
         this.plot = p;
         this.color = c;
         this.chartPanel = cP;
     }
 
     public TriangleAnnotation(XYPlot p, int[] c, double[][] coords) {
+        this.handles = new ResizeHandle[]{null, null, null};
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
         this.coordinates = coords;
@@ -123,6 +130,10 @@ public class TriangleAnnotation extends AbstractAnnotation {
                     new Color(0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
             selected = true;
+            updateCoords();
+            for(int i = 0; i < 3; i++){
+                handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
+            }
         }
     }
     
@@ -130,6 +141,9 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public void deselect(){
         if(selected){
             plot.removeAnnotation(triangleAnnotation);
+            for(int i = 0; i < 3; i++){
+                handles[i].remove();
+            }
             triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(0),
                     new Color(0, 0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
@@ -170,9 +184,40 @@ public class TriangleAnnotation extends AbstractAnnotation {
             storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
             storeTriangle.closePath();
         }
+        updateCoords();
+        
+        for(int i = 0; i < 3; i++){
+            handles[i].changeCoords(handleCoordinates[i]);
+            handles[i].draw();
+        }
         triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(2),
                 new Color(0, 0, 0), color);
         plot.addAnnotation(triangleAnnotation);
+    }
+    
+    private void updateCoords(){
+        PathIterator iterator = storeTriangle.getPathIterator(null);
+        int i = 0;
+        double[] coords = new double[2];
+        while (!iterator.isDone()) {
+            int type = iterator.currentSegment(coords);
+            if (type == PathIterator.SEG_MOVETO || type == PathIterator.SEG_LINETO) {
+                double x = coords[0];
+                double y = coords[1];
+                handleCoordinates[i][0] = x;
+                handleCoordinates[i][1] = y;
+                System.out.println("x: " + x + " - y : " + y);
+                i++;
+            }
+            iterator.next();
+        }
+    }
+    
+    public void resizeHandles(){
+        for(int i = 0; i < 3; i++){
+            handles[i].recalculate();
+            handles[i].draw();
+        }
     }
 
     @Override

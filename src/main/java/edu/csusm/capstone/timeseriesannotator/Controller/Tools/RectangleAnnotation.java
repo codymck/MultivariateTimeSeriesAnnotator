@@ -96,18 +96,8 @@ public class RectangleAnnotation extends AbstractAnnotation {
                 new Color(0, 0, 0), color);
             plot.addAnnotation(rectAnnotation);
             selected = true;
-            coordinates[0][0] = x;
-            coordinates[0][1] = y + height;
-            
-            coordinates[1][0] = x + width;
-            coordinates[1][1] = y + height;
-            
-            coordinates[2][0] = x + width;
-            coordinates[2][1] = y;
-            
-            coordinates[3][0] = x;
-            coordinates[3][1] = y;
-            for(int i = 0; i < 1; i++){
+            updateCoords();
+            for(int i = 0; i < 4; i++){
                 handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
             }
         }
@@ -117,6 +107,9 @@ public class RectangleAnnotation extends AbstractAnnotation {
     public void deselect(){
         if(selected){
             plot.removeAnnotation(rectAnnotation);
+            for(int i = 0; i < 4; i++){
+                handles[i].remove();
+            }
             rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
                 new Color(0, 0, 0, 0), color);
             plot.addAnnotation(rectAnnotation);
@@ -139,11 +132,37 @@ public class RectangleAnnotation extends AbstractAnnotation {
             y -= yOffset;
             storeRect.setFrame(x, y, width, height);
         }
+        updateCoords();
+        
+        for(int i = 0; i < 4; i++){
+            handles[i].changeCoords(coordinates[i]);
+            handles[i].draw();
+        }
         rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(2),
             new Color(0, 0, 0), color);
         plot.addAnnotation(rectAnnotation);
     }
     
+    private void updateCoords(){
+        coordinates[0][0] = storeRect.getX();
+        coordinates[0][1] = storeRect.getY() + storeRect.getHeight();
+
+        coordinates[1][0] = storeRect.getX() + storeRect.getWidth();
+        coordinates[1][1] = storeRect.getY() + storeRect.getHeight();
+
+        coordinates[2][0] = storeRect.getX() + storeRect.getWidth();
+        coordinates[2][1] = storeRect.getY();
+
+        coordinates[3][0] = storeRect.getX();
+        coordinates[3][1] = storeRect.getY();
+    }
+    
+    public void resizeHandles(){
+        for(int i = 0; i < 4; i++){
+            handles[i].recalculate();
+            handles[i].draw();
+        }
+    }
     
 
     @Override

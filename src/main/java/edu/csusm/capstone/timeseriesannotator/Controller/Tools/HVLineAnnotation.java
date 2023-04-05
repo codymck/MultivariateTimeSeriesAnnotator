@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
+import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import java.awt.Color;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
@@ -9,6 +10,7 @@ import org.jfree.chart.ui.RectangleAnchor;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 
 public class HVLineAnnotation extends AbstractAnnotation {
@@ -22,14 +24,16 @@ public class HVLineAnnotation extends AbstractAnnotation {
     private ValueMarker traceMarker = null;
     private Line2D.Double storeLine = null;
     private Rectangle2D.Double intersectRect;
+    private AnnotateChartPanel chartPanel;
     
     private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
     
-    public HVLineAnnotation(XYPlot p, Color c, String t, double[] m) {
+    public HVLineAnnotation(XYPlot p, Color c, String t, double[] m, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
         this.type = t;
         this.minMax = m;
+        this.chartPanel = cP;
     }
     public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] m, double[] point) {
         this.plot = p;
@@ -99,13 +103,18 @@ public class HVLineAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         ValueAxis domainAxis = plot.getDomainAxis();
-        double domainMin = domainAxis.getLowerBound();
-        double domainMax = domainAxis.getUpperBound();
+        double plotDomain = domainAxis.getUpperBound() - domainAxis.getLowerBound();
         ValueAxis rangeAxis = plot.getRangeAxis();
-        double rangeMin = rangeAxis.getLowerBound();
-        double rangeMax = rangeAxis.getUpperBound();
-        double xSize = (domainMax - domainMin) / 50.0;
-        double ySize = (rangeMax - rangeMin) / 50.0;
+        double plotRange = rangeAxis.getUpperBound() - rangeAxis.getLowerBound();
+       
+        
+        Rectangle2D.Double screenDataArea = (Rectangle2D.Double) chartPanel.getScreenDataArea();
+        double screenWidthPx = screenDataArea.getMaxX() - screenDataArea.getMinX();
+        double screenHeightPx = screenDataArea.getMaxY() - screenDataArea.getMinY();
+
+        double xSize = plotDomain*10 / screenWidthPx;
+        double ySize = plotRange*10 / screenHeightPx;
+
         double xOffset = xSize / 2.0;
         double yOffset = ySize / 2.0;
         intersectRect = new Rectangle2D.Double(mouseX-xOffset, mouseY-yOffset, xSize, ySize);

@@ -89,31 +89,22 @@ public class LineAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         ValueAxis domainAxis = plot.getDomainAxis();
-        double absDomain = domainAxis.getUpperBound() - domainAxis.getLowerBound();
+        double plotDomain = domainAxis.getUpperBound() - domainAxis.getLowerBound();
         ValueAxis rangeAxis = plot.getRangeAxis();
-        double absRange = rangeAxis.getUpperBound() - rangeAxis.getLowerBound();
-       
-        double aspectRatio = absRange / absDomain;
+        double plotRange = rangeAxis.getUpperBound() - rangeAxis.getLowerBound();
+        
+        Rectangle2D.Double screenDataArea = (Rectangle2D.Double) chartPanel.getScreenDataArea();
+        double screenWidthPx = screenDataArea.getMaxX() - screenDataArea.getMinX();
+        double screenHeightPx = screenDataArea.getMaxY() - screenDataArea.getMinY();
 
-        // Adjust xSize and ySize based on aspect ratio
-        double xSize, ySize;
-        if (aspectRatio > 1) {
-            // plot is wider than it is tall, so adjust ySize
-            xSize = absDomain / 50;
-            ySize = xSize / aspectRatio;
-            System.out.println("absRange : " + absRange);
-            System.out.println("absDomain : " + absDomain);
-            System.out.println("aspectRatio : " + aspectRatio);
-        } else {
-            // plot is taller than it is wide, so adjust xSize
-            ySize = absRange / 50;
-            xSize = ySize / aspectRatio;
-        }
+        double xSize = plotDomain*10 / screenWidthPx;
+        double ySize = plotRange*10 / screenHeightPx;
+
         double xOffset = xSize / 2.0;
         double yOffset = ySize / 2.0;
         intersectRect = new Rectangle2D.Double(mouseX - xOffset, mouseY - yOffset, xSize, ySize);
-        XYShapeAnnotation hitbox = new XYShapeAnnotation(intersectRect, new BasicStroke(0), color, color);
-        plot.addAnnotation(hitbox);
+        //XYShapeAnnotation hitbox = new XYShapeAnnotation(intersectRect, new BasicStroke(0), color, color);
+        //plot.addAnnotation(hitbox);
         boolean r = storeLine.intersects(intersectRect);
         return r;
     }

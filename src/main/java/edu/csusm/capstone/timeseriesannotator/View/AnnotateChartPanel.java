@@ -128,8 +128,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         setChartState(AppFrame.getAppState());
         chart.setBackgroundPaint(new java.awt.Color(242, 242, 242));
 
-        hTrace = new HVLineAnnotation(plot, color, "horizontal", minMax);
-        vTrace = new HVLineAnnotation(plot, color, "vertical", minMax);
+        hTrace = new HVLineAnnotation(plot, color, "horizontal", minMax, this);
+        vTrace = new HVLineAnnotation(plot, color, "vertical", minMax, this);
         
         this.addComponentListener(new ComponentAdapter() {
             private double previousScreenWidth = Double.NaN;
@@ -154,6 +154,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         public void run() {
                             if (commentBoxNeedsUpdate) {
                                 redrawCommentBox();
+                                redrawHandles();
                                 commentBoxNeedsUpdate = false;
                             }
                         }
@@ -191,6 +192,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         public void run() {
                             if (commentBoxNeedsUpdate) {
                                 redrawCommentBox();
+                                redrawHandles();
                                 commentBoxNeedsUpdate = false;
                             }
                         }
@@ -275,7 +277,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case VERTICAL -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                vert = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "vertical", minMax);
+                                vert = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "vertical", minMax, this);
                                 vert.createLine(point);
                                 shapeIndex = annotations.size();
                                 annotations.add(vert);
@@ -292,7 +294,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         }
                         case HORIZONTAL -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                horiz = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "horizontal", minMax);
+                                horiz = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "horizontal", minMax, this);
                                 horiz.createLine(point);
                                 shapeIndex = annotations.size();
                                 annotations.add(horiz);
@@ -896,6 +898,23 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             if (annotations.get(i) instanceof CommentAnnotation && annotations.get(i).isSelected()) {
                 CommentAnnotation com = (CommentAnnotation) annotations.get(i);
                 com.getBounds(true);
+            }
+        }
+    }
+    
+    public void redrawHandles() {
+        for (int i = 0; i < annotations.size(); i++) {
+            if (annotations.get(i).isSelected()) {
+                if(annotations.get(i) instanceof RectangleAnnotation){
+                    RectangleAnnotation rect = (RectangleAnnotation) annotations.get(i);
+                    rect.resizeHandles();
+                }else if(annotations.get(i) instanceof EllipseAnnotation){
+                    EllipseAnnotation ell = (EllipseAnnotation) annotations.get(i);
+                    ell.resizeHandles();
+                }else if(annotations.get(i) instanceof TriangleAnnotation){
+                    TriangleAnnotation tri = (TriangleAnnotation) annotations.get(i);
+                    tri.resizeHandles();
+                }
             }
         }
     }

@@ -206,7 +206,8 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             yList.setVisible(false);
             pack();
         }
-        Yaxispath.setText(pathT[1]);
+        axisPath.get(1).setText(pathT[1]);
+        previousKey.set(1,axisPath.get(1).getText().toCharArray());
     }//GEN-LAST:event_yListItemStateChanged
 
     private void xListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_xListItemStateChanged
@@ -226,6 +227,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             pack();              
         }
         axisPath.get(0).setText(pathT[0]);
+        previousKey.set(0,axisPath.get(0).getText().toCharArray());
     }//GEN-LAST:event_xListItemStateChanged
 
     private void XaxispathFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_XaxispathFocusGained
@@ -323,6 +325,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
                     updateList(sections[sections.length - 2], pathList.get(v), pathValueIndex[v]);
                 }
                 pathList.get(v).setVisible(true);
+                pathT[v] = axisPath.get(v).getText();
                 pack();
                 
             }

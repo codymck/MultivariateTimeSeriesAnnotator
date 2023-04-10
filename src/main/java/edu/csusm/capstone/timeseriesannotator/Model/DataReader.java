@@ -1,5 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.Model;
 
+import java.util.List;
+
 
 /**
  *

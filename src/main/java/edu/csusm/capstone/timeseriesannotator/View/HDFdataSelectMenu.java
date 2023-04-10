@@ -1,7 +1,12 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5Action;
+import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JTextField;
 
 /**
  *
@@ -10,14 +15,41 @@ import java.awt.event.ActionListener;
 public class HDFdataSelectMenu extends javax.swing.JDialog {
 
     boolean selected = false;
+    HDFReader reader;
+    public static HDFdataSelectMenu HDF;
+    
+    List<String> values;
+    List<List<String>> pathValues; //List 0: first set of data, List x: proceeding sets of data
+    String[] pathT = new String[2]; //0: xPath, 1: yPath
+    List<char[]> previousKey; //0: xKey, 1: yKey
+    int[] pathValueIndex = new int[2]; //0: xIndex, 1: yIndex
+    List<JTextField> axisPath;//0: xAxis, 1: yAxis
+    List<java.awt.List> pathList;//0: xList, 1: yList
+
+    int counter;
 
     /**
      * Creates new form HDFdataSelectMenu
      */
     public HDFdataSelectMenu(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.pathValues = new ArrayList<>();
+        this.axisPath = new ArrayList<>();
+        this.pathList = new ArrayList<>();
+        this.previousKey = new ArrayList<>();
+
+        pathValueIndex[0] = 0;
+        pathValueIndex[1] = 0;
+        previousKey.add(new char['/']);
+        previousKey.add(new char['/']);
         initComponents();
+        axisPath.add(Xaxispath);
+        axisPath.add(Yaxispath);
+        pathList.add(xList);
+        pathList.add(yList);
         setLocationRelativeTo(AppFrame.frame);
+        yList.setVisible(false);        
+        this.HDF = this;
     }
 
     /**
@@ -32,10 +64,12 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        Xaxispath = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        Xaxispath = new javax.swing.JTextField();
         Yaxispath = new javax.swing.JTextField();
         HDF5PathButton = new javax.swing.JButton();
+        yList = new java.awt.List();
+        xList = new java.awt.List();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("HDF5 Axis Selection");
@@ -48,11 +82,37 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         jLabel2.setLabelFor(jLabel2);
         jLabel2.setText("X-Axis File Path:");
 
-        Xaxispath.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
         jLabel3.setText("Y-Axis File Path:");
 
+        Xaxispath.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        Xaxispath.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                XaxispathFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                XaxispathFocusLost(evt);
+            }
+        });
+        Xaxispath.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                XaxispathKeyReleased(evt);
+            }
+        });
+
         Yaxispath.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        Yaxispath.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                YaxispathFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                YaxispathFocusLost(evt);
+            }
+        });
+        Yaxispath.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                YaxispathKeyReleased(evt);
+            }
+        });
 
         HDF5PathButton.setText("Select File Path");
         HDF5PathButton.addActionListener(new java.awt.event.ActionListener() {
@@ -61,53 +121,140 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             }
         });
 
+        yList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        yList.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                yListItemStateChanged(evt);
+            }
+        });
+
+        xList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        xList.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                xListItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Xaxispath, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Yaxispath, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 99, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(102, 102, 102))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(62, 62, 62)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(45, 45, 45))
+                .addGap(54, 54, 54))
             .addGroup(layout.createSequentialGroup()
-                .addGap(101, 101, 101)
-                .addComponent(HDF5PathButton, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(xList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Xaxispath, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(yList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Yaxispath, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(92, 92, 92))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(HDF5PathButton, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(93, 93, 93))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Xaxispath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Yaxispath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(xList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HDF5PathButton)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void yListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_yListItemStateChanged
+        if(pathT[1] != null){
+            pathT[1] = pathT[1] + evt.getItemSelectable().getSelectedObjects()[0].toString();
+        }else{
+            pathT[1] = evt.getItemSelectable().getSelectedObjects()[0].toString();
+        }
+        
+        //update yList selection
+        pathValueIndex[1]++;
+        if(updateList(pathT[1], pathList.get(1), pathValueIndex[1])){
+            pathT[1] = pathT[1] + "/";           
+        }else{
+            //full path set
+            yList.setVisible(false);
+            pack();
+        }
+        Yaxispath.setText(pathT[1]);
+    }//GEN-LAST:event_yListItemStateChanged
+
+    private void xListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_xListItemStateChanged
+        if(pathT[0] != null){
+            pathT[0] = pathT[0] + evt.getItemSelectable().getSelectedObjects()[0].toString();
+        }else{
+            pathT[0] = evt.getItemSelectable().getSelectedObjects()[0].toString();
+        }
+        
+        //update xList selection
+        pathValueIndex[0]++;
+        if(updateList(pathT[0], pathList.get(0), pathValueIndex[0])){
+            pathT[0] = pathT[0] + "/";
+        }else{
+            //full path set
+            pathList.get(0).setVisible(false);
+            pack();              
+        }
+        axisPath.get(0).setText(pathT[0]);
+    }//GEN-LAST:event_xListItemStateChanged
+
+    private void XaxispathFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_XaxispathFocusGained
+        if(xList.getItemCount() > 0)xList.setVisible(true);
+        pack();
+    }//GEN-LAST:event_XaxispathFocusGained
+
+    private void YaxispathFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_YaxispathFocusGained
+        if(yList.getItemCount() > 0)yList.setVisible(true);
+        pack();
+    }//GEN-LAST:event_YaxispathFocusGained
+
+    private void XaxispathFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_XaxispathFocusLost
+        xList.setVisible(false);
+        pack();
+    }//GEN-LAST:event_XaxispathFocusLost
+
+    private void YaxispathFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_YaxispathFocusLost
+        yList.setVisible(false);
+        pack();
+    }//GEN-LAST:event_YaxispathFocusLost
+
+    private void YaxispathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_YaxispathKeyReleased
+        updateTyping(evt, 1);
+    }//GEN-LAST:event_YaxispathKeyReleased
+
+    private void XaxispathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_XaxispathKeyReleased
+        updateTyping(evt, 0);
+    }//GEN-LAST:event_XaxispathKeyReleased
 
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HDF5PathButtonActionPerformed
         ActionListener HDF5Action = new HDF5Action(this, Xaxispath, Yaxispath);
@@ -118,6 +265,118 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     public boolean isSelected() {
         return selected;
     }
+    
+    public void updateTyping(KeyEvent e, int v){
+        //update List selection based on current typing
+        boolean valid = false;
+        boolean equal = false;
+        String compare = null;
+        
+        List<String> tempValues;
+        tempValues = pathValues.get(pathValueIndex[v]);
+        String[] sections = axisPath.get(v).getText().split("/");
+        
+        if(sections.length > 0)compare = sections[sections.length-1];
+        if(compare != null && !tempValues.isEmpty()){
+            
+            for(int x = tempValues.size() - 1; x >= 0; x--){
+                String temp = tempValues.get(x);
+                
+                if(temp.startsWith(compare) && counter <= 20){
+                    for(int t = 0; t < pathList.get(v).getItemCount(); t++){
+                        if(pathList.get(v).getItem(t).equals(temp)){
+                            pathList.get(v).remove(t);
+                        }
+                    }   
+                    pathList.get(v).add(temp, 0);
+                    counter++;
+                }
+                if(temp.equals(compare)){
+                    valid = true;
+                }
+            } 
+            counter = 0;
+        }
+        
+        //check for addition of "/"
+        if(valid){
+            pathList.get(v).setVisible(false);
+            valid = false;
+            if(e.getKeyCode() == KeyEvent.VK_SLASH){
+                pathValueIndex[v]++;
+                if(updateList(axisPath.get(v).getText(), pathList.get(v), pathValueIndex[v]))
+                    pathList.get(v).setVisible(true);
+                pathT[v] = axisPath.get(v).getText();
+            }
+            pack();
+        }
+        
+        //check for removal of "/" 
+        if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousKey.get(v) != null && previousKey.get(v).length > 0){
+            if(previousKey.get(v)[previousKey.get(v).length - 1] == '/'){
+                
+                if(sections.length == 1){
+                    pathValueIndex[v] = 0;
+                    updateList("/", pathList.get(v), pathValueIndex[v]);
+                }else if(sections.length > 1){
+                    pathValueIndex[v]--;
+                    updateList(sections[sections.length - 2], pathList.get(v), pathValueIndex[v]);
+                }
+                pathList.get(v).setVisible(true);
+                pack();
+                
+            }
+        }
+        previousKey.set(v,axisPath.get(v).getText().toCharArray());
+    }
+        
+    public boolean updateList(String p, java.awt.List l, int pathValueIndex){
+      try{
+          l.removeAll();
+          if(pathValueIndex == 0){
+            if(values.size() >= 20){
+                for(int x = 0; x < 20; x++){
+                    l.add(values.get(x));
+                }
+            }else{
+                for(int x = 0; x < values.size(); x++){
+                    l.add(values.get(x));
+              }
+            }
+            return true;
+          }
+          
+          List<String> temp;
+          temp = reader.buildPath(p);
+          pathValues.add(pathValueIndex, temp);
+          
+          for(String t : temp){
+                l.add(t);
+          }
+          return true;
+      }catch (Exception e){
+          System.err.println(e);
+          return false;
+      }
+    }
+    
+    public void setModel(List<String> h, HDFReader hr) {
+        reader = hr;
+        pathValues.add(0, h);
+        values = pathValues.get(0);
+        if(values.size() >= 20){
+            for(int x = 0; x < 20; x++){
+                yList.add(values.get(x));
+                xList.add(values.get(x));
+                //add ...
+            }
+        }else{
+            for(int x = 0; x < values.size(); x++){
+                yList.add(values.get(x));
+                xList.add(values.get(x));
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton HDF5PathButton;
@@ -126,5 +385,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private java.awt.List xList;
+    private java.awt.List yList;
     // End of variables declaration//GEN-END:variables
 }

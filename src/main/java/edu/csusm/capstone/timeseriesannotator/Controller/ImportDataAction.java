@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
@@ -121,6 +122,7 @@ public class ImportDataAction implements ActionListener {
                 if (!select.isSelected()) {
                     return;
                 }
+                
                 chartStruct.setXaxis(cAction.getXAxis());
                 ArrayList<String> labels = new ArrayList<>();
                 labels.add(cAction.getX() + " vs " + cAction.getY());
@@ -131,20 +133,26 @@ public class ImportDataAction implements ActionListener {
                 DataFormatter df = new DataFormatter(dReader);
                 df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
             } else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
-//               System.out.println("ImportDataAction: HDF5 File Imported");
+//               System.out.println("ImportDataAction: HDF5 File Imported");                
+                dReader = new HDFReader();
+                dReader.buildDataList(fileName);//sets file name
+                HDFReader h = (HDFReader) dReader;
+                
+                long startTime = System.currentTimeMillis();
+                List<String> headers = h.buildPath("/");//get initial list of headers
+                long endTime = System.currentTimeMillis();
+                
+//                System.out.println("Time to load: " + (endTime - startTime));
 
                 HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
+                select.setModel(headers, h);
                 select.setVisible(true);
 
-                dReader = new HDFReader();
-                dReader.buildDataList(fileName);
-
                 HDF5Action hAction = HDF5Action.getInstance();
-
                 if (!select.isSelected()) {
                     return;
-                }
-                HDFReader h = (HDFReader) dReader;
+                }                
+                
                 h.setPaths(hAction.getXPath(), hAction.getYPath(), 0);
                 chartStruct.setXpath(hAction.getXPath());
                 String[] tmpX = hAction.getXPath().split("/");

@@ -14,6 +14,7 @@ import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -91,12 +92,18 @@ public class AddSeriesAction implements ActionListener {
         }
         else if ("hdf5".equals(chartStruct.getFileType()) || "h5".equals(chartStruct.getFileType())) {
 //            System.out.println("ImportDataAction: HDF5 File Imported");
+
+            dReader = new HDFReader();
+            dReader.buildDataList(chartStruct.getFileName());//sets file name
+            HDFReader h = (HDFReader) dReader;
+            List<String> headers = h.buildPath("/");//get initial list of headers
       
             HDF5addSeries select = new HDF5addSeries(new javax.swing.JFrame(), true);
+            select.setModel(headers, h);
             select.setVisible(true);
                
-            dReader = new HDFReader();
-            dReader.buildDataList(chartStruct.getFileName());
+//            dReader = new HDFReader();
+//            dReader.buildDataList(chartStruct.getFileName());
                
             HDF5addAction hAction = HDF5addAction.getInstance();
             
@@ -104,10 +111,11 @@ public class AddSeriesAction implements ActionListener {
                return;
             }
             
-            HDFReader h = (HDFReader)dReader;
+//            HDFReader h = (HDFReader)dReader;
             h.setPaths(chartStruct.getXpath(), hAction.getYPath(), 1);
-            labels.add(hAction.getYPath());
-            labels.set(0, labels.get(0) + " vs " + hAction.getYPath());
+            String[] tmpY = hAction.getYPath().split("/");
+            labels.add(tmpY[tmpY.length - 1]);
+            labels.set(0, labels.get(0) + " vs " + tmpY[tmpY.length - 1]);
             chartStruct.setLabels(labels);
             
             DataFormatter df = new DataFormatter(dReader);

@@ -43,6 +43,9 @@ public class StepChart implements ChartsIF {
         XYPlot plot = new XYPlot(data, xAxis, yAxis, stepRenderer);
         chartStruct.setPlot(plot);
         
+        xAxis.setAutoRangeIncludesZero(false);
+        xAxis.setAutoRange(true);
+        
         plot.setDataset(0, data);
         plot.setBackgroundPaint(new java.awt.Color(255, 255, 255));
         plot.setDomainGridlinePaint(new java.awt.Color(0, 0, 0, 70));

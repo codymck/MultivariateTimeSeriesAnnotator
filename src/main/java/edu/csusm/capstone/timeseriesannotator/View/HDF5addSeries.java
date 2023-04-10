@@ -19,6 +19,10 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     String yPath;
     HDFReader reader;
     char[] previousYKey;
+    List<String> values;
+    
+    int pathValueIndex;
+    int counter;
 
    // ChartStruct chartStruct;// = ChartStruct.getInstance();
     //String Xaxis;
@@ -160,6 +164,7 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         }
 
         //update yList selection
+        pathValueIndex++;
         if(updateList(yPath, yList)){
             yPath = yPath + "/";
         }else{
@@ -180,21 +185,25 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         String compare = null;
         String[] sections = Yaxispath.getText().split("/");
         if(sections.length > 0)compare = sections[sections.length-1];
-        if(compare != null){
+        if(compare != null && !values.isEmpty()){
             
-            //System.out.println("Compare : " + compare);
-            for(int x = 0; x < yList.getItemCount(); x++){
-                String temp = yList.getItem(x);
-                if(temp.contains(compare)){
-                    yList.remove(x);
+            for(int x = values.size() - 1; x >= 0; x--){
+                String temp = values.get(x);
+                
+                if(temp.startsWith(compare) && counter <= 20){
+                    for(int t = 0; t < yList.getItemCount(); t++){
+                        if(yList.getItem(t).equals(temp)){
+                            yList.remove(t);
+                        }
+                    }   
                     yList.add(temp, 0);
+                    counter++;
                 }
                 if(temp.equals(compare)){
                     valid = true;
                 }
-            }
-            //check for addition and removal of "/" 
-            
+            } 
+            counter = 0;
         }
 
         //check for addition of "/"
@@ -202,18 +211,22 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
             yList.setVisible(false);
             valid = false;
             if(evt.getKeyCode() == KeyEvent.VK_SLASH){
+                pathValueIndex++;
                 updateList(Yaxispath.getText(), yList);
                 yList.setVisible(true);
             }
             pack();
         }
-        
+
         //check for removal of "/" 
-        if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousYKey != null){
+        if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousYKey != null && previousYKey.length > 0){
             if(previousYKey[previousYKey.length - 1] == '/'){
+                
                 if(sections.length == 1){
+                    pathValueIndex = 0;
                     updateList("/", yList);
                 }else if(sections.length > 1){
+                    pathValueIndex--;
                     updateList(sections[sections.length - 2], yList);
                 }
                 yList.setVisible(true);
@@ -231,20 +244,44 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     public boolean updateList(String p, java.awt.List l){
       try{
           l.removeAll();
-          List<String> h = reader.buildPath(p);
-          for(String t : h){
-                l.add(t);
+          if(pathValueIndex == 0){
+            if(values.size() >= 20){
+                for(int x = 0; x < 20; x++){
+                    l.add(values.get(x));
+                }
+            }else{
+                for(int x = 0; x < values.size(); x++){
+                    l.add(values.get(x));
+              }
             }
+            return true;
+          }
+          
+          List<String> temp;
+          temp = reader.buildPath(p);
+          
+          for(String t : temp){
+                l.add(t);
+          }
           return true;
       }catch (Exception e){
+          System.err.println(e);
           return false;
       }
     }
     
     public void setModel(List<String> h, HDFReader hr) {
         reader = hr;
-        for(String t : h){
-            yList.add(t);
+        values = h;
+        if(h.size() >= 20){
+            for(int x = 0; x < 20; x++){
+                yList.add(h.get(x));
+                //add ...
+            }
+        }else{
+            for(int x = 0; x < h.size(); x++){
+                yList.add(h.get(x));
+            }
         }
     }
 

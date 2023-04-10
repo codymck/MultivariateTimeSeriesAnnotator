@@ -103,6 +103,11 @@ public class EllipseAnnotation extends AbstractAnnotation {
     @Override
     public void delete() {
         plot.removeAnnotation(ellipseAnnotation);
+        if(selected){
+            for(int i = 0; i < 4; i++){
+                handles[i].remove();
+            }
+        }
     }
     
     @Override

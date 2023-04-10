@@ -120,6 +120,12 @@ public class RectangleAnnotation extends AbstractAnnotation {
     @Override
     public void delete() {
         plot.removeAnnotation(rectAnnotation);
+        storeRect = null;
+        if(selected){
+            for(int i = 0; i < 4; i++){
+                handles[i].remove();
+            }
+        }
     }
 
     @Override

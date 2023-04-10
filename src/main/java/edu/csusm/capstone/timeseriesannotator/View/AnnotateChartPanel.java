@@ -78,7 +78,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private HVLineAnnotation vert;
     private boolean dragged = false;
 
-    private AbstractAnnotation currentAnnotation = null;
+    public AbstractAnnotation currentAnnotation = null;
     private boolean clickedInAnnotation = false;
     private boolean alreadySelected = false;
     
@@ -873,6 +873,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     }
 
     private void selectAnnotation(double mouseX, double mouseY) {
+        System.out.println("(select)annotation list size: " + annotations.size());
+        if(annotations.size() == 0){
+            return;
+        }
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(mouseX, mouseY)) {
                 if(annotations.get(i) == currentAnnotation){
@@ -890,6 +894,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
         if(currentAnnotation != null){        
             currentAnnotation.select();
+        }
+    }
+    
+    public void deselectAnnotation() {
+        for (int i = 0; i < annotations.size(); i++) {
+            annotations.get(i).deselect();
         }
     }
     

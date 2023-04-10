@@ -10,6 +10,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
+import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
@@ -147,8 +149,29 @@ public class CommentAnnotation extends AbstractAnnotation {
 
     @Override
     public void delete() {
+        System.out.println("commentAnnotation address: " + commentAnnotation.toString());
+        System.out.println("selectedRect address: " + selectedRect.toString());
+
+        List<XYAnnotation> annotations = plot.getAnnotations();
+        for(XYAnnotation annotation : annotations){
+            System.out.println("Annotations left on plot: " + annotation.toString());
+        }
+        System.out.println("Deleting text");
         plot.removeAnnotation(commentAnnotation);
-        plot.removeAnnotation(selectedRect);
+        if(selected){
+            annotations = plot.getAnnotations();
+            
+            for(XYAnnotation annotation : annotations){
+                System.out.println("Annotations left on plot: " + annotation.toString());
+            }
+            System.out.println("Deleting selectedRect from plot");
+            plot.removeAnnotation(selectedRect);
+            System.out.println("selectedRect address: " + selectedRect.toString());
+            annotations = plot.getAnnotations();
+            for(XYAnnotation annotation : annotations){
+                System.out.println("Annotations left on plot: " + annotation.toString());
+            }
+        }
     }
 
     @Override

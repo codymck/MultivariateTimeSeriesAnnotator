@@ -161,6 +161,11 @@ public class TriangleAnnotation extends AbstractAnnotation {
         if(triangleAnnotation != null){
             plot.removeAnnotation(triangleAnnotation);
         }
+        if(selected){
+            for(int i = 0; i < 3; i++){
+                handles[i].remove();
+            }
+        }
         triClick = 0;
     }
 

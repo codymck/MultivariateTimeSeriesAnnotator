@@ -126,6 +126,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                         }
                     }else{
                         aChartPanel.getChart().setTitle(chartTitle.getComment());
+                        chartStruct.getLabels().set(0, chartTitle.getComment());
                     }
                 }                
             }
@@ -187,9 +188,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         ExportAnnotationsButton = new javax.swing.JButton();
         ImportAnnotationsButton = new javax.swing.JButton();
         restoreAutoBoundsButton = new javax.swing.JButton();
-        SyncButton = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         removeChartButton = new javax.swing.JButton();
+        SyncButton = new javax.swing.JToggleButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         setLayout(new java.awt.BorderLayout());
@@ -206,48 +207,42 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setMinimumSize(new java.awt.Dimension(200, 23));
-        jPanel4.setLayout(new java.awt.GridLayout());
+        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
-        AddSeriesButton.setBackground(new java.awt.Color(153, 255, 153));
-        AddSeriesButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        AddSeriesButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         AddSeriesButton.setText("Add Series");
         AddSeriesButton.setName("AddSeries");
         AddSeriesButton.setToolTipText("Add Series");
         AddSeriesButton.addActionListener(this);
         jPanel4.add(AddSeriesButton);
 
+        ExportAnnotationsButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         ExportAnnotationsButton.setText("Export Annotations");
         ExportAnnotationsButton.setToolTipText("Export Annotations");
         ExportAnnotationsButton.setName("ExportAnnotations");
         ExportAnnotationsButton.addActionListener(this);
         jPanel4.add(ExportAnnotationsButton);
 
+        ImportAnnotationsButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         ImportAnnotationsButton.setText("Import Annotations");
         ImportAnnotationsButton.setToolTipText("Import Annotations");
         ExportAnnotationsButton.setName("ExportAnnotations");
         ImportAnnotationsButton.addActionListener(this);
         jPanel4.add(ImportAnnotationsButton);
 
+        restoreAutoBoundsButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         restoreAutoBoundsButton.setText("Refocus");
         restoreAutoBoundsButton.setToolTipText("Refocus");
         restoreAutoBoundsButton.setName("Refocus");
         restoreAutoBoundsButton.addActionListener(this);
         jPanel4.add(restoreAutoBoundsButton);
-
-        SyncButton.setText("Sync");
-        SyncButton.setToolTipText("Sync Charts");
-        SyncButton.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        SyncButton.setOpaque(true);
-        SyncButton.setName("SyncChart");
-        SyncButton.addActionListener(this);
-        jPanel4.add(SyncButton);
 
         removeChartButton.setBackground(new java.awt.Color(204, 0, 0));
         removeChartButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -259,20 +254,29 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         removeChartButton.setMinimumSize(new java.awt.Dimension(25, 25));
         removeChartButton.addActionListener(this);
 
+        SyncButton.setBackground(new java.awt.Color(255, 255, 204));
+        SyncButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        SyncButton.setText("Sync");
+        SyncButton.addActionListener(this);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(119, Short.MAX_VALUE)
+                .addContainerGap(94, Short.MAX_VALUE)
+                .addComponent(SyncButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeChartButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGap(8, 8, 8))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(removeChartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(removeChartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SyncButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel4.add(jPanel3);
@@ -283,14 +287,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     // Code for dispatching events from components to event handlers.
 
     public void actionPerformed(java.awt.event.ActionEvent evt) {
-        if (evt.getSource() == removeChartButton) {
-            ChartDisplay.this.removeChartButtonActionPerformed(evt);
-        }
-        else if (evt.getSource() == AddSeriesButton) {
+        if (evt.getSource() == AddSeriesButton) {
             ChartDisplay.this.AddSeriesButtonActionPerformed(evt);
-        }
-        else if (evt.getSource() == SyncButton) {
-            ChartDisplay.this.SyncButtonActionPerformed(evt);
         }
         else if (evt.getSource() == ExportAnnotationsButton) {
             ChartDisplay.this.ExportAnnotationsButtonActionPerformed(evt);
@@ -300,6 +298,12 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
         else if (evt.getSource() == restoreAutoBoundsButton) {
             ChartDisplay.this.restoreAutoBoundsButtonActionPerformed(evt);
+        }
+        else if (evt.getSource() == removeChartButton) {
+            ChartDisplay.this.removeChartButtonActionPerformed(evt);
+        }
+        else if (evt.getSource() == SyncButton) {
+            ChartDisplay.this.SyncButtonActionPerformed(evt);
         }
     }// </editor-fold>//GEN-END:initComponents
 
@@ -332,25 +336,6 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         }
     }//GEN-LAST:event_AddSeriesButtonActionPerformed
 
-    private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
-        if(SyncButton.isSelected() && plot != null ){
-            aChartPanel.setSync(true);
-            aChartPanel.setMouseZoomable(false);
-            aChartPanel.setRangeZoomable(false);
-            control.addSync(aChartPanel.getChart(), aChartPanel);
-        }
-        else if(SyncButton.isSelected()){
-            //Throw error "Can't Sync a empty chart!"
-            SyncButton.setSelected(false);
-        }
-        else if(!SyncButton.isSelected()){
-            control.removeSync(aChartPanel.getChart());
-            aChartPanel.setSync(false);
-            plot.setDomainAxis(chartStruct.getDomainAxis());
-            aChartPanel.restoreAutoBounds();
-        }
-    }//GEN-LAST:event_SyncButtonActionPerformed
-
     private void ExportAnnotationsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportAnnotationsButtonActionPerformed
         try {
             aChartPanel.exportAnnotations();
@@ -371,6 +356,25 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         aChartPanel.restoreAutoBounds();
     }//GEN-LAST:event_restoreAutoBoundsButtonActionPerformed
 
+    private void SyncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncButtonActionPerformed
+        if(SyncButton.isSelected() && plot != null ){
+            aChartPanel.setSync(true);
+            aChartPanel.setMouseZoomable(false);
+            aChartPanel.setRangeZoomable(false);
+            control.addSync(aChartPanel.getChart(), aChartPanel);
+        }
+        else if(SyncButton.isSelected()){
+            //Throw error "Can't Sync a empty chart!"
+            SyncButton.setSelected(false);
+        }
+        else if(!SyncButton.isSelected()){
+            control.removeSync(aChartPanel.getChart());
+            aChartPanel.setSync(false);
+            plot.setDomainAxis(chartStruct.getDomainAxis());
+            aChartPanel.restoreAutoBounds();
+        }
+    }//GEN-LAST:event_SyncButtonActionPerformed
+
     public boolean synced(){
         return true;
     }
@@ -379,7 +383,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JButton AddSeriesButton;
     private javax.swing.JButton ExportAnnotationsButton;
     private javax.swing.JButton ImportAnnotationsButton;
-    private javax.swing.JRadioButton SyncButton;
+    private javax.swing.JToggleButton SyncButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

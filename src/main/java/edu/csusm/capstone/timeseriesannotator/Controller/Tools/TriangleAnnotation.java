@@ -23,7 +23,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
     
-    private ResizeHandle[] handles;
+    public ResizeHandle[] handles;
     private double[][] handleCoordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
 
     
@@ -211,7 +211,6 @@ public class TriangleAnnotation extends AbstractAnnotation {
                 double y = coords[1];
                 handleCoordinates[i][0] = x;
                 handleCoordinates[i][1] = y;
-                System.out.println("x: " + x + " - y : " + y);
                 i++;
             }
             iterator.next();

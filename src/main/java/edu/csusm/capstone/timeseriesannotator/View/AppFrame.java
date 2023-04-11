@@ -741,7 +741,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.MARK);
-            charts.get(i).aChartPanel.deselectAnnotation();
         }
     }//GEN-LAST:event_ShapeButtonActionPerformed
 
@@ -826,7 +825,6 @@ public class AppFrame extends javax.swing.JFrame {
                 "Select a color", new Color(0, 100, 255, 60));
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setColor(color);
-            charts.get(i).aChartPanel.deselectAnnotation();
         }
 
     }// GEN-LAST:event_HighlightColorActionPerformed
@@ -856,7 +854,6 @@ public class AppFrame extends javax.swing.JFrame {
             for (int i = 0; i < charts.size(); i++) {
                 charts.get(i).aChartPanel.setZoomOutlinePaint(Color.BLACK);
                 charts.get(i).aChartPanel.setChartState(ToolState.ZOOM);
-                charts.get(i).aChartPanel.deselectAnnotation();
             }
         }
     }
@@ -874,7 +871,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.PAN);
-            charts.get(i).aChartPanel.deselectAnnotation();
         }
     }
 
@@ -892,7 +888,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.HIGHLIGHT);
-            charts.get(i).aChartPanel.deselectAnnotation();
         }
     }
 
@@ -910,7 +905,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.COMMENT);
-            charts.get(i).aChartPanel.deselectAnnotation();
         }
     }
 
@@ -929,7 +923,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.MARK);
-            charts.get(i).aChartPanel.deselectAnnotation();
         }
     }
 

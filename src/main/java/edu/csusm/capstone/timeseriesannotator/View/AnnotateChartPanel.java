@@ -226,6 +226,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         moveTest = point;
                         moved = false;
+                        
                         if(currentAnnotation != null && currentAnnotation.clickedOn(point[0], point[1])){
                             clickedInAnnotation = true;
                             alreadySelected = true;
@@ -722,9 +723,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private void deleteAnnotation(double[] point) {
         for (int i = annotations.size() - 1; i >= 0; i--) {
             if (annotations.get(i).clickedOn(point[0], point[1])) {
-//                System.out.println("CLICKED");
                 annotations.get(i).delete();
+                if(annotations.get(i) == currentAnnotation){
+                    currentAnnotation = null;
+                }
                 annotations.remove(i);
+                
                 break;
             }
         }
@@ -873,7 +877,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     }
 
     private void selectAnnotation(double mouseX, double mouseY) {
-        System.out.println("(select)annotation list size: " + annotations.size());
         if(annotations.size() == 0){
             return;
         }
@@ -904,27 +907,19 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     }
     
     public void redrawCommentBox() {
-        for (int i = 0; i < annotations.size(); i++) {
-            if (annotations.get(i) instanceof CommentAnnotation && annotations.get(i).isSelected()) {
-                CommentAnnotation com = (CommentAnnotation) annotations.get(i);
-                com.getBounds(true);
-            }
+        if(currentAnnotation != null && currentAnnotation instanceof CommentAnnotation com){
+            com.getBounds(true);
         }
     }
     
     public void redrawHandles() {
-        for (int i = 0; i < annotations.size(); i++) {
-            if (annotations.get(i).isSelected()) {
-                if(annotations.get(i) instanceof RectangleAnnotation){
-                    RectangleAnnotation rect = (RectangleAnnotation) annotations.get(i);
-                    rect.resizeHandles();
-                }else if(annotations.get(i) instanceof EllipseAnnotation){
-                    EllipseAnnotation ell = (EllipseAnnotation) annotations.get(i);
-                    ell.resizeHandles();
-                }else if(annotations.get(i) instanceof TriangleAnnotation){
-                    TriangleAnnotation tri = (TriangleAnnotation) annotations.get(i);
-                    tri.resizeHandles();
-                }
+        if(currentAnnotation != null){
+            if(currentAnnotation instanceof RectangleAnnotation rect){
+                rect.resizeHandles();
+            }else if(currentAnnotation instanceof EllipseAnnotation ell){
+                ell.resizeHandles();
+            }else if(currentAnnotation instanceof TriangleAnnotation tri){
+                tri.resizeHandles();
             }
         }
     }

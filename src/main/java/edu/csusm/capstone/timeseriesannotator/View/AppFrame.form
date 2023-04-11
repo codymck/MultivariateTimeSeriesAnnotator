@@ -262,6 +262,9 @@
                 <Property name="toolTipText" type="java.lang.String" value="Select (4)"/>
                 <Property name="verticalTextPosition" type="int" value="1"/>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Highlight (4)"/>
+              </AccessibilityProperties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SelectButtonActionPerformed"/>
               </Events>

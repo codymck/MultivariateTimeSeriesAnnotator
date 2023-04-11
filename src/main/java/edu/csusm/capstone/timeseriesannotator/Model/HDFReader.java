@@ -50,8 +50,8 @@ public class HDFReader implements DataReader {
             //List<String> headers = reader2.getGroupMembers("/user1");
             //System.out.println("Headers: " + headers);
             type = reader.getDataSetInformation(x).getTypeInformation().toString().toUpperCase();
-                        
-            if(type.contains("FLOAT")){
+//            System.out.println("Headers: " + type);
+            if(type.contains("FLOAT") || type.contains("INTEGER")){
                 myXdata = reader.readFloatArray(x);
                 myYdata = reader.readFloatArray(y);
                 type = "FLOAT";

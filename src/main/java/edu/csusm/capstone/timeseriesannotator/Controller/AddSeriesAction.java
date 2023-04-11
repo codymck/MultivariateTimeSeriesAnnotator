@@ -84,7 +84,7 @@ public class AddSeriesAction implements ActionListener {
                return;
             }
             labels.add(cAction.y);
-            labels.set(0, labels.get(0) + " vs " + cAction.y);
+            //labels.set(0, labels.get(0) + " vs " + cAction.y);
             chartStruct.setLabels(labels);
             
             DataFormatter df = new DataFormatter(dReader);
@@ -115,7 +115,7 @@ public class AddSeriesAction implements ActionListener {
             h.setPaths(chartStruct.getXpath(), hAction.getYPath(), 1);
             String[] tmpY = hAction.getYPath().split("/");
             labels.add(tmpY[tmpY.length - 1]);
-            labels.set(0, labels.get(0) + " vs " + tmpY[tmpY.length - 1]);
+            //labels.set(0, labels.get(0) + " vs " + tmpY[tmpY.length - 1]);
             chartStruct.setLabels(labels);
             
             DataFormatter df = new DataFormatter(dReader);

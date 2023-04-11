@@ -136,6 +136,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             private double previousScreenHeight = Double.NaN;
             public void componentResized(ComponentEvent e) {
                 // Get the current screen width and height values
+                
                 Rectangle2D.Double screenDataArea = (Rectangle2D.Double) getScreenDataArea();
                 double currentScreenWidth = screenDataArea.getMaxX() - screenDataArea.getMinX();
                 double currentScreenHeight = screenDataArea.getMaxY() - screenDataArea.getMinY();
@@ -144,7 +145,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 if (Math.abs(previousScreenWidth - currentScreenWidth) > epsilon || Math.abs(previousScreenHeight - currentScreenHeight) > epsilon) {
                     // If the values have changed, set a flag to indicate that the comment box needs to be updated
                     commentBoxNeedsUpdate = true;
-
                     // Schedule a timer to update the comment box after a delay of 10 milliseconds
                     if (timer != null) {
                         timer.cancel();

@@ -125,7 +125,7 @@ public class ImportDataAction implements ActionListener {
                 
                 chartStruct.setXaxis(cAction.getXAxis());
                 ArrayList<String> labels = new ArrayList<>();
-                labels.add(cAction.getX() + " vs " + cAction.getY());
+                labels.add(cAction.getY() + " vs " + cAction.getX());
                 labels.add(cAction.getX());
                 labels.add(cAction.getY());
                 chartStruct.setLabels(labels);
@@ -137,7 +137,12 @@ public class ImportDataAction implements ActionListener {
                 dReader = new HDFReader();
                 dReader.buildDataList(fileName);//sets file name
                 HDFReader h = (HDFReader) dReader;
+                
+                long startTime = System.currentTimeMillis();
                 List<String> headers = h.buildPath("/");//get initial list of headers
+                long endTime = System.currentTimeMillis();
+                
+//                System.out.println("Time to load: " + (endTime - startTime));
 
                 HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
                 select.setModel(headers, h);
@@ -154,7 +159,7 @@ public class ImportDataAction implements ActionListener {
                 String[] tmpY = hAction.getYPath().split("/");
 
                 ArrayList<String> labels = new ArrayList<>();
-                labels.add(tmpX[tmpX.length - 1] + " vs " + tmpY[tmpY.length - 1]);
+                labels.add(tmpY[tmpY.length - 1] + " vs " + tmpX[tmpX.length - 1]);
                 labels.add(tmpX[tmpX.length - 1]);
                 labels.add(tmpY[tmpY.length - 1]);
                 chartStruct.setLabels(labels);

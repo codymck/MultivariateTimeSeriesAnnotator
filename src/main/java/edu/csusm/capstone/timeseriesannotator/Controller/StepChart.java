@@ -95,11 +95,11 @@ public class StepChart implements ChartsIF {
     public void dataSetter(){
         xyChart = chartStruct.getSeries();
         if(chartStruct.getFlag() == 1){
-            xyChart.createDataset("Dataset: " + chartStruct.getLabels().get(1) + " vs " + chartStruct.getLabels().get(2));
+            xyChart.createDataset(chartStruct.getLabels().get(2));
             chartStruct.setFlag(2);
         }
         else if (chartStruct.getFlag() >= 2){
-            String name = "Dataset: " + chartStruct.getLabels().get(1) + " vs " + chartStruct.getLabels().get(chartStruct.getFlag()+1);
+            String name =chartStruct.getLabels().get(chartStruct.getFlag()+1);
             xyChart.addDataset(name);
             chartStruct.setFlag(chartStruct.getFlag()+1);
         }

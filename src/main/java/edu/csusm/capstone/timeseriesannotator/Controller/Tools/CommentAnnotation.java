@@ -86,7 +86,9 @@ public class CommentAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D.Double click = new Point2D.Double(mouseX, mouseY);
-        this.getBounds(false);
+        if(!selected){
+            this.getBounds(false);
+        }
         return hitbox.contains(click);
     }
     
@@ -139,7 +141,12 @@ public class CommentAnnotation extends AbstractAnnotation {
         double hitboxWidth = (commentWidthPx * plotWidth) / screenWidthPx ;
         double hitboxHeight = (commentHeightPx * plotHeight) / screenHeightPx;
         
-        hitbox = new Rectangle2D.Double(x1, y1, hitboxWidth, hitboxHeight);
+        if(hitbox == null){
+           hitbox = new Rectangle2D.Double(x1, y1, hitboxWidth, hitboxHeight); 
+        }else{
+            hitbox.setFrame(x1, y1, hitboxWidth, hitboxHeight);
+        }
+        
         selectedRect = new XYShapeAnnotation(hitbox, new BasicStroke(2), Color.BLACK, new Color(0,0,0,0));
         if(draw){
             plot.addAnnotation(selectedRect);
@@ -158,19 +165,27 @@ public class CommentAnnotation extends AbstractAnnotation {
     @Override
     public void move(double xOffset, double yOffset, boolean set) {
         plot.removeAnnotation(commentAnnotation);
-        plot.removeAnnotation(selectedRect);
+        if(selected){
+            plot.removeAnnotation(selectedRect);
+        }
 
         if(!set){
             commentAnnotation.setX(coordinates[0]-xOffset);
             commentAnnotation.setY(coordinates[1]-yOffset);
+            hitbox.setFrame(coordinates[0]-xOffset, coordinates[1]-yOffset, hitbox.getWidth(), hitbox.getHeight());
         }else{
             coordinates[0] -= xOffset;
             coordinates[1] -= yOffset;
             commentAnnotation.setX(coordinates[0]);
             commentAnnotation.setY(coordinates[1]);
+            hitbox.setFrame(coordinates[0], coordinates[1], hitbox.getWidth(), hitbox.getHeight());
         }
-        this.getBounds(true);
+        
         plot.addAnnotation(commentAnnotation);
+        if(selected){
+            selectedRect = new XYShapeAnnotation(hitbox, new BasicStroke(2), Color.BLACK, new Color(0,0,0,0));
+            plot.addAnnotation(selectedRect);
+        }
     }
     
     @Override

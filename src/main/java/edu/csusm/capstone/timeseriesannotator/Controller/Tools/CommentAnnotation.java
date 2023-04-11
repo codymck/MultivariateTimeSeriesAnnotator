@@ -149,28 +149,9 @@ public class CommentAnnotation extends AbstractAnnotation {
 
     @Override
     public void delete() {
-        System.out.println("commentAnnotation address: " + commentAnnotation.toString());
-        System.out.println("selectedRect address: " + selectedRect.toString());
-
-        List<XYAnnotation> annotations = plot.getAnnotations();
-        for(XYAnnotation annotation : annotations){
-            System.out.println("Annotations left on plot: " + annotation.toString());
-        }
-        System.out.println("Deleting text");
         plot.removeAnnotation(commentAnnotation);
         if(selected){
-            annotations = plot.getAnnotations();
-            
-            for(XYAnnotation annotation : annotations){
-                System.out.println("Annotations left on plot: " + annotation.toString());
-            }
-            System.out.println("Deleting selectedRect from plot");
             plot.removeAnnotation(selectedRect);
-            System.out.println("selectedRect address: " + selectedRect.toString());
-            annotations = plot.getAnnotations();
-            for(XYAnnotation annotation : annotations){
-                System.out.println("Annotations left on plot: " + annotation.toString());
-            }
         }
     }
 

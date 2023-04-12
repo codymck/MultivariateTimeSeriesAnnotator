@@ -188,9 +188,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         ExportAnnotationsButton = new javax.swing.JButton();
         ImportAnnotationsButton = new javax.swing.JButton();
         restoreAutoBoundsButton = new javax.swing.JButton();
+        SyncButton = new javax.swing.JToggleButton();
         jPanel3 = new javax.swing.JPanel();
         removeChartButton = new javax.swing.JButton();
-        SyncButton = new javax.swing.JToggleButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         setLayout(new java.awt.BorderLayout());
@@ -244,6 +244,12 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         restoreAutoBoundsButton.addActionListener(this);
         jPanel4.add(restoreAutoBoundsButton);
 
+        SyncButton.setBackground(new java.awt.Color(255, 255, 222));
+        SyncButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        SyncButton.setText("Sync");
+        SyncButton.addActionListener(this);
+        jPanel4.add(SyncButton);
+
         removeChartButton.setBackground(new java.awt.Color(204, 0, 0));
         removeChartButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         removeChartButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -254,27 +260,18 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         removeChartButton.setMinimumSize(new java.awt.Dimension(25, 25));
         removeChartButton.addActionListener(this);
 
-        SyncButton.setBackground(new java.awt.Color(255, 255, 204));
-        SyncButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        SyncButton.setText("Sync");
-        SyncButton.addActionListener(this);
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(94, Short.MAX_VALUE)
-                .addComponent(SyncButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(125, Short.MAX_VALUE)
                 .addComponent(removeChartButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(removeChartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(SyncButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(removeChartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jPanel4.add(jPanel3);

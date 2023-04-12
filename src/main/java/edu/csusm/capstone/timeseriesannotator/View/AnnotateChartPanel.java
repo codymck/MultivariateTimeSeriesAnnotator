@@ -908,7 +908,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     
     public void redrawCommentBox() {
         if(currentAnnotation != null && currentAnnotation instanceof CommentAnnotation com){
-            com.getBounds(true);
+            try{
+                com.getBounds(true);
+            }catch(Exception e){
+                //System.out.println(e);
+            }
         }
     }
     

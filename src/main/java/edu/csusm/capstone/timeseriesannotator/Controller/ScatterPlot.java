@@ -57,6 +57,7 @@ public class ScatterPlot implements ChartsIF {
         JFreeChart chart = new JFreeChart(chartTitle, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
+        chartStruct.setAnnotateChartPanel(cP);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);
@@ -89,7 +90,8 @@ public class ScatterPlot implements ChartsIF {
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         JFreeChart chart = new JFreeChart(chartStruct.getLabels().get(0), JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
-        AnnotateChartPanel cP = new AnnotateChartPanel(chart);
+        AnnotateChartPanel cP = chartStruct.getAnnotateChartPanel();
+        cP.setChart(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);

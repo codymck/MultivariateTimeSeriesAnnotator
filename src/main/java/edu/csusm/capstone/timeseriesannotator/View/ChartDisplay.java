@@ -247,6 +247,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         SyncButton.setBackground(new java.awt.Color(255, 255, 222));
         SyncButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         SyncButton.setText("Sync");
+        SyncButton.setName("SyncChart"); // NOI18N
+        SyncButton.setName("SyncChart");
         SyncButton.addActionListener(this);
         jPanel4.add(SyncButton);
 
@@ -294,11 +296,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         else if (evt.getSource() == restoreAutoBoundsButton) {
             ChartDisplay.this.restoreAutoBoundsButtonActionPerformed(evt);
         }
-        else if (evt.getSource() == removeChartButton) {
-            ChartDisplay.this.removeChartButtonActionPerformed(evt);
-        }
         else if (evt.getSource() == SyncButton) {
             ChartDisplay.this.SyncButtonActionPerformed(evt);
+        }
+        else if (evt.getSource() == removeChartButton) {
+            ChartDisplay.this.removeChartButtonActionPerformed(evt);
         }
     }// </editor-fold>//GEN-END:initComponents
 

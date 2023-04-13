@@ -52,7 +52,7 @@ public class ChartDisplayTest {
     
     @Test
     public void testSync(){
-        appwindow.radioButton("SyncChart").click();
+        appwindow.toggleButton("SyncChart").click();
     }
     
     @Test

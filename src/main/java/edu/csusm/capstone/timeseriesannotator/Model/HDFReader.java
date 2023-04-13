@@ -21,6 +21,8 @@ public class HDFReader implements DataReader {
 
     private ArrayList<String> dataPaths;
     //String currentPath = "/";
+    int[] intmyXdata;
+    int[] intmyYdata;
     
     float[] myXdata;
     float[] myYdata;
@@ -51,7 +53,12 @@ public class HDFReader implements DataReader {
             //System.out.println("Headers: " + headers);
             type = reader.getDataSetInformation(x).getTypeInformation().toString().toUpperCase();
 //            System.out.println("Headers: " + type);
-            if(type.contains("FLOAT") || type.contains("INTEGER")){
+            if(type.contains("INTEGER")){
+                intmyXdata = reader.readIntArray(x);
+                intmyYdata = reader.readIntArray(y);
+                type = "INTEGER";
+            }
+            if(type.contains("FLOAT")){
                 myXdata = reader.readFloatArray(x);
                 myYdata = reader.readFloatArray(y);
                 type = "FLOAT";
@@ -126,6 +133,13 @@ public class HDFReader implements DataReader {
         return type;
     }
 
+    public int[] getIntXData() {
+        return intmyXdata;
+    }
+
+    public int[] getIntYData() {
+        return intmyYdata;
+    }
     
     public float[] getXData() {
         return myXdata;

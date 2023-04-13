@@ -1,5 +1,9 @@
 package edu.csusm.capstone.timeseriesannotator.Model;
 
+import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
@@ -44,6 +48,10 @@ public class DataFormatter {
         xData = ArrayUtils.toPrimitive(tempX);
         yData = ArrayUtils.toPrimitive(tempY);
         
+        if(CSVdataSelectMenu.CSV.getTimeStamp()){
+            System.out.println("Cody is sexy");
+        }
+        
 //        for(float f : xData){
 //            System.out.print(f + " ");
 //        }
@@ -59,6 +67,29 @@ public class DataFormatter {
 //        System.out.println(xPath+ " " + yPath);
         
         switch(((HDFReader)dReader).getType()){
+            case "INTEGER" -> {
+                int[] t = ((HDFReader)dReader).getIntXData();
+                int[] t2 = ((HDFReader)dReader).getIntYData();
+                
+                if(HDFdataSelectMenu.HDF.getTimeStamp()){
+                    for(int x = 0; x < t.length; x++ ){
+                        Date d = new java.util.Date(x);
+                        xData[x] = d.getHours() + d.getMinutes() / 10000;
+                    }
+                    for(int x = 0; x < t2.length; x++ ){
+                        Date d = new java.util.Date(x);
+                        yData[x] = d.getHours() + d.getMinutes() / 10000;
+                    }
+                }
+                else{
+                    for(int x = 0; x < t.length; x++ ){
+                        xData[x] = (float)t[x];
+                    }
+                    for(int x = 0; x < t2.length; x++ ){
+                        yData[x] = (float)t2[x];
+                    }
+                }
+            }
             case "FLOAT" -> {
                 xData = ((HDFReader)dReader).getXData();
                 yData = ((HDFReader)dReader).getYData();

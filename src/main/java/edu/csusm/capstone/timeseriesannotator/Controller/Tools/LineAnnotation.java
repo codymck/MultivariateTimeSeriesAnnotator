@@ -20,7 +20,7 @@ public class LineAnnotation extends AbstractAnnotation {
 
     private Line2D.Double storeLine = null;
     private Rectangle2D.Double intersectRect;
-    Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
+    private Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
                                   0, new float[]{9}, 0);
 
     private double[] minMax = {0.0, 0.0, 0.0, 0.0}; // minX, minY, maxX, maxY

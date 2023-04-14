@@ -8,6 +8,7 @@ import java.awt.BasicStroke;
 import org.jfree.chart.ui.RectangleAnchor;
 
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
@@ -18,13 +19,16 @@ public class HVLineAnnotation extends AbstractAnnotation {
     public Color color;
     public XYPlot plot;
     public String type;
-    private double coordinate;
+    private double[] coordinate = {0.0, 0.0};
 
     private ValueMarker drawMarker;
     private ValueMarker traceMarker = null;
-    private Line2D.Double storeLine = null;
+    private Line2D.Double storeLine = new Line2D.Double(0.0, 0.0, 0.0, 0.0);
     private Rectangle2D.Double intersectRect;
     private AnnotateChartPanel chartPanel;
+    
+    private Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
+                                  0, new float[]{9}, 0);
     
     private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
     
@@ -46,24 +50,21 @@ public class HVLineAnnotation extends AbstractAnnotation {
 
     public void createLine(double[] point) {
         if (type.equals("horizontal")) {
-            coordinate = point[1];
+            coordinate[1] = point[1];
             drawMarker = new ValueMarker(point[1]);
             drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
             drawMarker.setPaint(color);
             drawMarker.setStroke(new BasicStroke(2.0f));
             plot.addRangeMarker(drawMarker);
-            double lengthX = minMax[2] - minMax[0];
-            storeLine = new Line2D.Double(minMax[0] + lengthX*3, point[1], minMax[2] - lengthX*3, point[1]);
         } else if (type.equals("vertical")) {
-            coordinate = point[0];
+            coordinate[0] = point[0];
             drawMarker = new ValueMarker(point[0]);
             drawMarker.setLabelAnchor(RectangleAnchor.CENTER);
             drawMarker.setPaint(color);
             drawMarker.setStroke(new BasicStroke(2.0f));
             plot.addDomainMarker(drawMarker);
-            double lengthY = minMax[3] - minMax[1];
-            storeLine = new Line2D.Double(point[0], minMax[1] - lengthY*3, point[0], minMax[3] + lengthY*3);
         }
+        calculateLine();
     }
 
     public void drawTrace(double[] point) {
@@ -83,7 +84,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
             traceMarker = new ValueMarker(point[0]);
             traceMarker.setLabelAnchor(RectangleAnchor.CENTER);
             traceMarker.setPaint(AppFrame.getAbsoluteColor());
-            traceMarker.setStroke(new BasicStroke(2.0f));
+            traceMarker.setStroke(new BasicStroke(2));
             plot.addDomainMarker(traceMarker);
         }
     }
@@ -126,10 +127,26 @@ public class HVLineAnnotation extends AbstractAnnotation {
     
     @Override
     public void select(){
+        if(!selected){
+            if (type.equals("horizontal")) {
+                plot.removeRangeMarker(drawMarker);
+                drawMarker.setStroke(dashed);
+                plot.addRangeMarker(drawMarker);
+            } else if (type.equals("vertical")) {
+                plot.removeDomainMarker(drawMarker);
+                drawMarker.setStroke(dashed);
+                plot.addDomainMarker(drawMarker);
+            }
+            selected = true;
+        }
     }
     
     @Override
     public void deselect(){
+        if(selected){
+            drawMarker.setStroke(new BasicStroke(2));
+            selected = false;
+        }
     }
 
     @Override
@@ -142,8 +159,38 @@ public class HVLineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void move(double newX, double newY, boolean set) {
+    public void move(double xOffset, double yOffset, boolean set) {
+        double[] tempLocation = {0.0, 0.0};
+        if(!set){
+            tempLocation[0] = coordinate[0] - xOffset;
+            tempLocation[1] = coordinate[1] - yOffset;
+        }else{
+            tempLocation[0] = coordinate[0] - xOffset;
+            tempLocation[1] = coordinate[1] - yOffset;
+            coordinate[0] = tempLocation[0];
+            coordinate[1] = tempLocation[1];
+            calculateLine();
+        }
+        if (type.equals("horizontal")) {
+            plot.removeRangeMarker(drawMarker);
+            drawMarker.setValue(tempLocation[1]);
+            plot.addRangeMarker(drawMarker);
+        } else if (type.equals("vertical")) {
+            plot.removeDomainMarker(drawMarker);
+            drawMarker.setValue(tempLocation[0]);
+            plot.addDomainMarker(drawMarker);
+        }
 
+    }
+    
+    private void calculateLine(){
+        if (type.equals("horizontal")) {
+            double lengthX = minMax[2] - minMax[0];
+            storeLine = new Line2D.Double(minMax[0] + lengthX*3, coordinate[1], minMax[2] - lengthX*3, coordinate[1]);
+        } else if (type.equals("vertical")) {
+            double lengthY = minMax[3] - minMax[1];
+            storeLine = new Line2D.Double(coordinate[0], minMax[1] - lengthY*3, coordinate[0], minMax[3] + lengthY*3);
+        }
     }
 
     @Override

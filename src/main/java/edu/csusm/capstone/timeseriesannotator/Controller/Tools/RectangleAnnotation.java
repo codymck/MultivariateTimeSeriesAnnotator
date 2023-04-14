@@ -21,6 +21,10 @@ public class RectangleAnnotation extends AbstractAnnotation {
 
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
 
+    private double[][] handleCoordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
+    private boolean dragHandle = false;
+    private int handleNumber = 0;
+    
     private double x, y, width, height;
 
     private XYShapeAnnotation rectAnnotation = null;
@@ -85,7 +89,18 @@ public class RectangleAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);
-        return storeRect.contains(p);
+        boolean clicked = false;
+        clicked = storeRect.contains(p);
+        if(selected){
+            for(int i = 0; i < 4; i++){
+                if(handles[i].contains(mouseX, mouseY)){
+                    dragHandle = true;
+                    handleNumber = i;
+                    return true;
+                }
+            }
+        }
+        return clicked;
     }
     
     @Override
@@ -96,7 +111,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
                 new Color(0, 0, 0), color);
             plot.addAnnotation(rectAnnotation);
             selected = true;
-            updateCoords();
+            updateHandleCoords();
             for(int i = 0; i < 4; i++){
                 handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
             }
@@ -132,21 +147,49 @@ public class RectangleAnnotation extends AbstractAnnotation {
     public void move(double xOffset, double yOffset, boolean set) {
         plot.removeAnnotation(rectAnnotation);
         if(!set){
-            storeRect.setFrame(x-xOffset, y-yOffset, width, height);
+            if(!dragHandle){
+                storeRect.setFrame(x-xOffset, y-yOffset, width, height);
+            }else{
+                double[] draggedPoint = {coordinates[handleNumber][0]-xOffset, coordinates[handleNumber][1]-yOffset};
+                int oppositePoint = (handleNumber + 2 + 4) % 4;
+                redrawRect(draggedPoint, coordinates[oppositePoint], false);
+            }
         }else{
-            x -= xOffset;
-            y -= yOffset;
-            storeRect.setFrame(x, y, width, height);
+            if(!dragHandle){
+                x -= xOffset;
+                y -= yOffset;
+                storeRect.setFrame(x, y, width, height);
+            }else{
+                double[] draggedPoint = {coordinates[handleNumber][0]-xOffset, coordinates[handleNumber][1]-yOffset};
+                int oppositePoint = (handleNumber + 2 + 4) % 4;
+                redrawRect(draggedPoint, coordinates[oppositePoint], true);
+            }
+            dragHandle = false;
+            updateCoords();
         }
-        updateCoords();
+        updateHandleCoords();
         
         for(int i = 0; i < 4; i++){
-            handles[i].changeCoords(coordinates[i]);
+            handles[i].changeCoords(handleCoordinates[i]);
             handles[i].draw();
         }
         rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(2),
             new Color(0, 0, 0), color);
         plot.addAnnotation(rectAnnotation);
+    }
+    
+    public void redrawRect(double[] p1, double[] p2, boolean set){
+        double tempX = Math.min(p1[0], p2[0]);
+        double tempY = Math.min(p1[1], p2[1]);
+        double tempWidth = Math.abs(p2[0] - p1[0]);
+        double tempHeight = Math.abs(p2[1] - p1[1]);
+        storeRect.setFrame(tempX, tempY, tempWidth, tempHeight);
+        if(set){
+            x = tempX;
+            y = tempY;
+            width = tempWidth;
+            height = tempHeight;
+        }
     }
     
     private void updateCoords(){
@@ -162,6 +205,21 @@ public class RectangleAnnotation extends AbstractAnnotation {
         coordinates[3][0] = storeRect.getX();
         coordinates[3][1] = storeRect.getY();
     }
+    
+    private void updateHandleCoords(){
+        handleCoordinates[0][0] = storeRect.getX();
+        handleCoordinates[0][1] = storeRect.getY() + storeRect.getHeight();
+
+        handleCoordinates[1][0] = storeRect.getX() + storeRect.getWidth();
+        handleCoordinates[1][1] = storeRect.getY() + storeRect.getHeight();
+
+        handleCoordinates[2][0] = storeRect.getX() + storeRect.getWidth();
+        handleCoordinates[2][1] = storeRect.getY();
+
+        handleCoordinates[3][0] = storeRect.getX();
+        handleCoordinates[3][1] = storeRect.getY();
+    }
+    
     
     public void resizeHandles(){
         for(int i = 0; i < 4; i++){

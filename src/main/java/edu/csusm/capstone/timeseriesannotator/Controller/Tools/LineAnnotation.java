@@ -3,6 +3,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
@@ -19,6 +20,8 @@ public class LineAnnotation extends AbstractAnnotation {
 
     private Line2D.Double storeLine = null;
     private Rectangle2D.Double intersectRect;
+    Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
+                                  0, new float[]{9}, 0);
 
     private double[] minMax = {0.0, 0.0, 0.0, 0.0}; // minX, minY, maxX, maxY
 
@@ -111,10 +114,22 @@ public class LineAnnotation extends AbstractAnnotation {
     
     @Override
     public void select(){
+        if(!selected){
+            plot.removeAnnotation(lineAnnotation);
+            lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+            plot.addAnnotation(lineAnnotation);
+            selected = true;
+        }
     }
     
     @Override
     public void deselect(){
+        if(selected){
+            plot.removeAnnotation(lineAnnotation);
+            lineAnnotation = new XYShapeAnnotation(storeLine, new BasicStroke(2), color);
+            plot.addAnnotation(lineAnnotation);
+            selected = false;
+        }
     }
 
     @Override
@@ -125,8 +140,19 @@ public class LineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void move(double newX, double newY, boolean set) {
+    public void move(double xOffset, double yOffset, boolean set) {
+        plot.removeAnnotation(lineAnnotation);
+        if(!set){
+            storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
 
+        }else{
+            coordinates[0][0] -= xOffset;
+            coordinates[0][1] -= yOffset;
+            coordinates[1][0] -= xOffset;
+            coordinates[1][1] -= yOffset;
+        }
+        lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+        plot.addAnnotation(lineAnnotation);
     }
 
     @Override

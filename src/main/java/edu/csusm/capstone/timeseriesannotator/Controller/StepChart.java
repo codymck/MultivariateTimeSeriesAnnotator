@@ -54,8 +54,9 @@ public class StepChart implements ChartsIF {
         plot.setOutlineStroke(new BasicStroke(3));
         
         JFreeChart chart = new JFreeChart(chartTitle, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
-
+        
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
+        chartStruct.setAnnotateChartPanel(cP);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);
@@ -81,7 +82,8 @@ public class StepChart implements ChartsIF {
         //plotter.getRangeAxis().setAttributedLabel(chartStruct.getLabels().get(2) + " & " + chartStruct.getLabels().get(chartStruct.getFlag()+1));
         
         JFreeChart chart = new JFreeChart(chartStruct.getLabels().get(0), JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
-        AnnotateChartPanel cP = new AnnotateChartPanel(chart);
+        AnnotateChartPanel cP = chartStruct.getAnnotateChartPanel();
+        cP.setChart(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);

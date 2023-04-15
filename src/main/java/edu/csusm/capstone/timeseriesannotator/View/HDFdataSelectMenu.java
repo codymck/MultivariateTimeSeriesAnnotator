@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 public class HDFdataSelectMenu extends javax.swing.JDialog {
 
     boolean selected = false;
+    boolean timeStamp = false;
     HDFReader reader;
     public static HDFdataSelectMenu HDF;
     
@@ -25,6 +26,8 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     int[] pathValueIndex = new int[2]; //0: xIndex, 1: yIndex
     List<JTextField> axisPath;//0: xAxis, 1: yAxis
     List<java.awt.List> pathList;//0: xList, 1: yList
+    boolean[] finalized = new boolean[2];
+    //create a boolean for finalized x and y axis paths for backspacing
 
     int counter;
 
@@ -70,6 +73,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         HDF5PathButton = new javax.swing.JButton();
         yList = new java.awt.List();
         xList = new java.awt.List();
+        jRadioButton1 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("HDF5 Axis Selection");
@@ -135,6 +139,13 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             }
         });
 
+        jRadioButton1.setText("TimeStampData");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,9 +153,18 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(62, 62, 62)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(54, 54, 54))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(92, 92, 92))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(HDF5PathButton, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(93, 93, 93))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,15 +175,10 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
                     .addComponent(yList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Yaxispath, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(92, 92, 92))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(HDF5PathButton, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(93, 93, 93))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addComponent(jRadioButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,6 +197,8 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(xList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(yList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addComponent(jRadioButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HDF5PathButton)
                 .addContainerGap())
@@ -191,7 +208,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void yListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_yListItemStateChanged
-        if(pathT[1] != null){
+        if(pathT[1] != null && pathT[1].endsWith("/")){
             pathT[1] = pathT[1] + evt.getItemSelectable().getSelectedObjects()[0].toString();
         }else{
             pathT[1] = evt.getItemSelectable().getSelectedObjects()[0].toString();
@@ -200,18 +217,20 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         //update yList selection
         pathValueIndex[1]++;
         if(updateList(pathT[1], pathList.get(1), pathValueIndex[1])){
-            pathT[1] = pathT[1] + "/";           
+            pathT[1] = pathT[1] + "/"; 
+            finalized[1] = false;
         }else{
             //full path set
+            finalized[1] = true;
             yList.setVisible(false);
             pack();
         }
         axisPath.get(1).setText(pathT[1]);
-        previousKey.set(1,axisPath.get(1).getText().toCharArray());
+        previousKey.set(1,pathT[1].toCharArray());
     }//GEN-LAST:event_yListItemStateChanged
 
     private void xListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_xListItemStateChanged
-        if(pathT[0] != null){
+        if(pathT[0] != null && pathT[0].endsWith("/")){
             pathT[0] = pathT[0] + evt.getItemSelectable().getSelectedObjects()[0].toString();
         }else{
             pathT[0] = evt.getItemSelectable().getSelectedObjects()[0].toString();
@@ -221,13 +240,15 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         pathValueIndex[0]++;
         if(updateList(pathT[0], pathList.get(0), pathValueIndex[0])){
             pathT[0] = pathT[0] + "/";
+            finalized[0] = false;
         }else{
             //full path set
+            finalized[0] = true;
             pathList.get(0).setVisible(false);
             pack();              
         }
         axisPath.get(0).setText(pathT[0]);
-        previousKey.set(0,axisPath.get(0).getText().toCharArray());
+        previousKey.set(0,pathT[0].toCharArray());
     }//GEN-LAST:event_xListItemStateChanged
 
     private void XaxispathFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_XaxispathFocusGained
@@ -258,6 +279,10 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         updateTyping(evt, 0);
     }//GEN-LAST:event_XaxispathKeyReleased
 
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        timeStamp = true;
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HDF5PathButtonActionPerformed
         ActionListener HDF5Action = new HDF5Action(this, Xaxispath, Yaxispath);
         HDF5Action.actionPerformed(evt);
@@ -279,7 +304,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         String[] sections = axisPath.get(v).getText().split("/");
         
         if(sections.length > 0)compare = sections[sections.length-1];
-        if(compare != null && !tempValues.isEmpty()){
+        if(compare != null && tempValues != null){
             
             for(int x = tempValues.size() - 1; x >= 0; x--){
                 String temp = tempValues.get(x);
@@ -308,6 +333,9 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
                 pathValueIndex[v]++;
                 if(updateList(axisPath.get(v).getText(), pathList.get(v), pathValueIndex[v]))
                     pathList.get(v).setVisible(true);
+                else{
+                    finalized[v] = true;
+                }
                 pathT[v] = axisPath.get(v).getText();
             }
             pack();
@@ -324,11 +352,10 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
                     pathValueIndex[v]--;
                     updateList(sections[sections.length - 2], pathList.get(v), pathValueIndex[v]);
                 }
-                pathList.get(v).setVisible(true);
-                pathT[v] = axisPath.get(v).getText();
-                pack();
-                
             }
+            pathT[v] = axisPath.get(v).getText();
+            pathList.get(v).setVisible(true);
+            pack();
         }
         previousKey.set(v,axisPath.get(v).getText().toCharArray());
     }
@@ -380,6 +407,10 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             }
         }
     }
+    
+    public boolean getTimeStamp(){
+        return timeStamp;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton HDF5PathButton;
@@ -388,6 +419,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JRadioButton jRadioButton1;
     private java.awt.List xList;
     private java.awt.List yList;
     // End of variables declaration//GEN-END:variables

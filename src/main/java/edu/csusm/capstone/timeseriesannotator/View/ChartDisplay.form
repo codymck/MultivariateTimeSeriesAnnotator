@@ -131,15 +131,31 @@
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="restoreAutoBoundsButton.setName(&quot;Refocus&quot;);"/>
           </AuxValues>
         </Component>
+        <Component class="javax.swing.JToggleButton" name="SyncButton">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="de" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="12" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Sync"/>
+            <Property name="name" type="java.lang.String" value="SyncChart" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SyncButtonActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="SyncButton.setName(&quot;SyncChart&quot;);"/>
+          </AuxValues>
+        </Component>
         <Container class="javax.swing.JPanel" name="jPanel3">
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="94" max="32767" attributes="0"/>
-                      <Component id="SyncButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace pref="125" max="32767" attributes="0"/>
                       <Component id="removeChartButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   </Group>
@@ -147,10 +163,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="removeChartButton" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="SyncButton" alignment="3" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="removeChartButton" alignment="0" min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -177,20 +190,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeChartButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JToggleButton" name="SyncButton">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="SansSerif" size="12" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Sync"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SyncButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

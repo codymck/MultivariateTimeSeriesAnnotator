@@ -10,6 +10,8 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class CSVdataSelectMenu extends javax.swing.JDialog {
     boolean selected = false;
+    boolean timeStamp = false;
+    public static CSVdataSelectMenu CSV;
     /**
      * Creates new form CSVdataSelectMenu
      */
@@ -17,6 +19,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(AppFrame.frame);
+        this.CSV = this;
     }
 
     /**
@@ -35,6 +38,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         YAxisList = new javax.swing.JList<>();
         csvCoordinateButton = new javax.swing.JToggleButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CSV Axis Selection");
@@ -62,6 +66,13 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
             }
         });
 
+        jRadioButton1.setText("TimeStampData");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,14 +82,18 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(20, 20, 20))
             .addGroup(layout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addComponent(csvCoordinateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(129, 129, 129)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(csvCoordinateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jRadioButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,8 +105,10 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE))
+                .addGap(2, 2, 2)
+                .addComponent(jRadioButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(csvCoordinateButton)
                 .addContainerGap())
@@ -105,6 +122,10 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
           csvAction.actionPerformed(evt);
           selected = true;
     }//GEN-LAST:event_csvCoordinateButtonActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        timeStamp = true;
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
     
     public void setModel(String[] h) {
         XAxisList.setModel(new DefaultComboBoxModel<>(h));
@@ -114,6 +135,10 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     public boolean isSelected(){
         return selected;
     }
+    
+    public boolean getTimeStamp(){
+        return timeStamp;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> XAxisList;
@@ -121,6 +146,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     private javax.swing.JToggleButton csvCoordinateButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables

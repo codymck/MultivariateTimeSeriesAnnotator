@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.CSVaddAction;
+import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 
@@ -9,14 +10,15 @@ import javax.swing.DefaultComboBoxModel;
  * @author josef
  */
 public class CSVaddSeries extends javax.swing.JDialog implements ActionListener {
-     boolean selected = false;
+     ChartStruct chartStruct;
     /**
      * Creates new form CSVaddSeries
      */
-    public CSVaddSeries(java.awt.Frame parent, boolean modal) {
+    public CSVaddSeries(java.awt.Frame parent, boolean modal, ChartStruct c) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(AppFrame.frame);
+        this.chartStruct = c;
     }
     
     public void setModel(String[] h) {
@@ -38,7 +40,6 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
         csvCoordinateButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel2.setText("Select Y-Axis ");
@@ -90,14 +91,10 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
     }// </editor-fold>//GEN-END:initComponents
 
     private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
-        ActionListener csvAddAction = new CSVaddAction(this, YAxisList);
+        ActionListener csvAddAction = new CSVaddAction(this, YAxisList, chartStruct);
         csvAddAction.actionPerformed(evt);
-        selected = true;
     }//GEN-LAST:event_csvCoordinateButtonActionPerformed
 
-    public boolean isSelected(){
-        return selected;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> YAxisList;

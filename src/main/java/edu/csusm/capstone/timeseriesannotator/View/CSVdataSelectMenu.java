@@ -9,7 +9,6 @@ import javax.swing.DefaultComboBoxModel;
  * @author josef
  */
 public class CSVdataSelectMenu extends javax.swing.JDialog {
-    boolean selected = false;
     boolean timeStamp = false;
     public static CSVdataSelectMenu CSV;
     /**
@@ -42,7 +41,6 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CSV Axis Selection");
-        setAlwaysOnTop(true);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
@@ -120,7 +118,6 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
           ActionListener csvAction = new CSVAction(this, XAxisList, YAxisList);
           csvAction.actionPerformed(evt);
-          selected = true;
     }//GEN-LAST:event_csvCoordinateButtonActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
@@ -132,9 +129,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         YAxisList.setModel(new DefaultComboBoxModel<>(h));
     }
     
-    public boolean isSelected(){
-        return selected;
-    }
+    
     
     public boolean getTimeStamp(){
         return timeStamp;

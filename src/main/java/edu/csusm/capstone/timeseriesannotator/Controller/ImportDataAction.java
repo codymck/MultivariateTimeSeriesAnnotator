@@ -41,7 +41,7 @@ public class ImportDataAction implements ActionListener {
     /**
      *
      * @param file - name of the file we are parsing
-     * @return - returns a string of the file type
+     * @return - returns a string of the file typeX
      */
     public String findFileType(String file) {
         String fileType = "";
@@ -50,7 +50,7 @@ public class ImportDataAction implements ActionListener {
         // loop through file name from the end
         for (int i = file.length() - 1; i >= 0; i--) {
             c = file.charAt(i);
-            // when we reach a '.' it is the end of file type
+            // when we reach a '.' it is the end of file typeX
             if (c == '.') {
                 break;
             }
@@ -119,7 +119,7 @@ public class ImportDataAction implements ActionListener {
                 select.setVisible(true);
 
                 CSVAction cAction = CSVAction.getInstance();
-                if (!select.isSelected()) {
+                if (!cAction.isSelected()) {
                     return;
                 }
                 

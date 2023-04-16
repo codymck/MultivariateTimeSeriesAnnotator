@@ -34,7 +34,8 @@ public class HDFReader implements DataReader {
     Date[] datemyYdata;
     
     String file;
-    String type;
+    String typeX;
+    String typeY;
     public static String xP;
     public static String yP;
     ChartStruct chartStruct;// = ChartStruct.getInstance();
@@ -51,27 +52,46 @@ public class HDFReader implements DataReader {
         try (IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
             //List<String> headers = reader2.getGroupMembers("/user1");
             //System.out.println("Headers: " + headers);
-            type = reader.getDataSetInformation(x).getTypeInformation().toString().toUpperCase();
-//            System.out.println("Headers: " + type);
-            if(type.contains("INTEGER")){
+            typeX = reader.getDataSetInformation(x).getTypeInformation().toString().toUpperCase();
+            typeY = reader.getDataSetInformation(y).getTypeInformation().toString().toUpperCase();
+            
+            //System.out.println("Headers: " + typeX);
+
+            //X is the only one that will be a timestamp
+            if(typeX.contains("INTEGER")){
                 intmyXdata = reader.readIntArray(x);
+                typeX = "INTEGER";
+            }
+            if(typeY.contains("INTEGER")){
                 intmyYdata = reader.readIntArray(y);
-                type = "INTEGER";
+                typeY = "INTEGER";
             }
-            if(type.contains("FLOAT")){
+            
+            if(typeX.contains("FLOAT")){
                 myXdata = reader.readFloatArray(x);
+                typeX = "FLOAT";
+            }
+            if(typeY.contains("FLOAT")){
                 myYdata = reader.readFloatArray(y);
-                type = "FLOAT";
+                typeY = "FLOAT";
             }
-            if(type.contains("DOUBLE")){
+            
+            if(typeX.contains("DOUBLE")){
                 doublemyXdata = reader.readDoubleArray(x);
-                doublemyYdata = reader.readDoubleArray(y);
-                type = "DOUBLE";
+                typeX = "DOUBLE";
             }
-            if(type.contains("DATE")){
+            if(typeY.contains("DOUBLE")){
+                doublemyYdata = reader.readDoubleArray(y);
+                typeY = "DOUBLE";
+            }
+            
+            if(typeX.contains("DATE")){
                 datemyXdata = reader.readDateArray(x);
+                typeX = "DATE";
+            }
+            if(typeY.contains("DATE")){
                 datemyYdata = reader.readDateArray(y);
-                type = "DATE";
+                typeY = "DATE";
             }
             
             
@@ -129,8 +149,11 @@ public class HDFReader implements DataReader {
 
     }
     
-    public String getType(){
-        return type;
+    public String getXType(){
+        return typeX;
+    }
+    public String getYType(){
+        return typeY;
     }
 
     public int[] getIntXData() {

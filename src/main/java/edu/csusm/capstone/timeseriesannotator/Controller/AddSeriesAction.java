@@ -74,13 +74,13 @@ public class AddSeriesAction implements ActionListener {
             CSVReader c = (CSVReader)dReader;
             String[] headers = c.getHeaders();
                
-            CSVaddSeries series = new CSVaddSeries(new javax.swing.JFrame(), true);
+            CSVaddSeries series = new CSVaddSeries(new javax.swing.JFrame(), true, chartStruct);
             series.setModel(headers);
             series.setVisible(true);  
             
                
             CSVaddAction cAction = CSVaddAction.getInstance();
-            if(!series.isSelected()){
+            if(!cAction.isSelected()){
                return;
             }
             labels.add(cAction.y);

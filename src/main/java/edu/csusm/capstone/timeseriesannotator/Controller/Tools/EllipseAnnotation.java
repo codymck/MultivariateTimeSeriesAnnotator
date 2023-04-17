@@ -16,13 +16,16 @@ public class EllipseAnnotation extends AbstractAnnotation {
 
     private Ellipse2D.Double storeEllipse = null;
 
-    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 } };
+    private ResizeHandle[] handles;
+    
+    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
     
     private double x, y, width, height;
 
     private XYShapeAnnotation ellipseAnnotation = null;
 
     public EllipseAnnotation(XYPlot p, Color c, double[] point, AnnotateChartPanel cP) {
+        this.handles = new ResizeHandle[]{null, null, null, null};
         this.plot = p;
         this.color = c;
         this.chartPanel = cP;
@@ -31,6 +34,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
     }
     
     public EllipseAnnotation(XYPlot p, int[] c, double[][] coords) {
+        this.handles = new ResizeHandle[]{null, null, null, null};
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
         x = coords[0][0];
@@ -75,6 +79,10 @@ public class EllipseAnnotation extends AbstractAnnotation {
                 new Color(0, 0, 0), color);
             plot.addAnnotation(ellipseAnnotation);
             selected = true;
+            updateCoords();
+            for(int i = 0; i < 4; i++){
+                handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
+            }
         }
     }
     
@@ -82,6 +90,9 @@ public class EllipseAnnotation extends AbstractAnnotation {
     public void deselect(){
         if(selected){
             plot.removeAnnotation(ellipseAnnotation);
+            for(int i = 0; i < 4; i++){
+                handles[i].remove();
+            }
             ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(0),
                 new Color(0, 0, 0, 0), color);
             plot.addAnnotation(ellipseAnnotation);
@@ -92,6 +103,11 @@ public class EllipseAnnotation extends AbstractAnnotation {
     @Override
     public void delete() {
         plot.removeAnnotation(ellipseAnnotation);
+        if(selected){
+            for(int i = 0; i < 4; i++){
+                handles[i].remove();
+            }
+        }
     }
     
     @Override
@@ -104,9 +120,36 @@ public class EllipseAnnotation extends AbstractAnnotation {
             y -= yOffset;
             storeEllipse.setFrame(x, y, width, height);
         }
+        updateCoords();
+        
+        for(int i = 0; i < 4; i++){
+            handles[i].changeCoords(coordinates[i]);
+            handles[i].draw();
+        }
         ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(2),
             new Color(0, 0, 0), color);
         plot.addAnnotation(ellipseAnnotation);
+    }
+    
+    private void updateCoords(){
+        coordinates[0][0] = storeEllipse.getX();
+        coordinates[0][1] = storeEllipse.getY() + storeEllipse.getHeight()/2;
+
+        coordinates[1][0] = storeEllipse.getX() + storeEllipse.getWidth()/2;
+        coordinates[1][1] = storeEllipse.getY() + storeEllipse.getHeight();
+
+        coordinates[2][0] = storeEllipse.getX() + storeEllipse.getWidth();
+        coordinates[2][1] = storeEllipse.getY() + storeEllipse.getHeight()/2;
+
+        coordinates[3][0] = storeEllipse.getX() + storeEllipse.getWidth()/2;
+        coordinates[3][1] = storeEllipse.getY();
+    }
+    
+    public void resizeHandles(){
+        for(int i = 0; i < 4; i++){
+            handles[i].recalculate();
+            handles[i].draw();
+        }
     }
 
     @Override

@@ -10,6 +10,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
+import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;

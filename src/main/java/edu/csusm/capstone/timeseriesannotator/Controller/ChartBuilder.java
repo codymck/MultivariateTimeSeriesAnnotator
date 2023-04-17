@@ -33,22 +33,25 @@ public class ChartBuilder {
         }
     }
     
-        public static AnnotateChartPanel addSeries(ChartTypes c, ChartStruct cS) {
+    public static AnnotateChartPanel addSeries(ChartTypes c, ChartStruct cS) {
+        AnnotateChartPanel cp;
         switch (c) {
             case LineChart -> {
                 LineChart l = new LineChart();
-                return l.addSeries(cS);
+
+                cp = l.addSeries(cS);
             }
             case StepChart -> {
                 StepChart s = new StepChart();
-                return s.addSeries(cS);
+                cp = s.addSeries(cS);
             }
             case ScatterPlot -> {
                 ScatterPlot sP = new ScatterPlot();
-                return sP.addSeries(cS);
-                
+                cp = sP.addSeries(cS);
+
             }
             default -> throw new IllegalArgumentException("Invalid Chart");
         }
+        return cp;
     }
 }

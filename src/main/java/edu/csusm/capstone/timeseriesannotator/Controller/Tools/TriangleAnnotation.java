@@ -9,6 +9,7 @@ import org.jfree.chart.plot.XYPlot;
 import java.awt.geom.Path2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import java.awt.BasicStroke;
+import java.awt.geom.PathIterator;
 import org.jfree.chart.annotations.XYLineAnnotation;
 
 public class TriangleAnnotation extends AbstractAnnotation {
@@ -21,19 +22,27 @@ public class TriangleAnnotation extends AbstractAnnotation {
     private Path2D.Double storeTriangle = null;
 
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
+    
+    public ResizeHandle[] handles;
+    private double[][] handleCoordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
+    private boolean dragHandle = false;
+    private int handleNumber = 0;
 
+    
     private XYShapeAnnotation triangleAnnotation = null;
     private XYLineAnnotation line = null;
 
     private int triClick = 0;
 
     public TriangleAnnotation(XYPlot p, Color c, AnnotateChartPanel cP) {
+        this.handles = new ResizeHandle[]{null, null, null};
         this.plot = p;
         this.color = c;
         this.chartPanel = cP;
     }
 
     public TriangleAnnotation(XYPlot p, int[] c, double[][] coords) {
+        this.handles = new ResizeHandle[]{null, null, null};
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
         this.coordinates = coords;
@@ -112,7 +121,18 @@ public class TriangleAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);
-        return storeTriangle.contains(p);
+        boolean clicked = false;
+        clicked = storeTriangle.contains(p);
+        if(selected){
+            for(int i = 0; i < 3; i++){
+                if(handles[i].contains(mouseX, mouseY)){
+                    dragHandle = true;
+                    handleNumber = i;
+                    return true;
+                }
+            }
+        }
+        return clicked;
     }
     
     @Override
@@ -123,6 +143,10 @@ public class TriangleAnnotation extends AbstractAnnotation {
                     new Color(0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
             selected = true;
+            updateCoords();
+            for(int i = 0; i < 3; i++){
+                handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
+            }
         }
     }
     
@@ -130,6 +154,9 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public void deselect(){
         if(selected){
             plot.removeAnnotation(triangleAnnotation);
+            for(int i = 0; i < 3; i++){
+                handles[i].remove();
+            }
             triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(0),
                     new Color(0, 0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
@@ -147,6 +174,11 @@ public class TriangleAnnotation extends AbstractAnnotation {
         if(triangleAnnotation != null){
             plot.removeAnnotation(triangleAnnotation);
         }
+        if(selected){
+            for(int i = 0; i < 3; i++){
+                handles[i].remove();
+            }
+        }
         triClick = 0;
     }
 
@@ -154,25 +186,75 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public void move(double xOffset, double yOffset, boolean set) {
         plot.removeAnnotation(triangleAnnotation);
         if (!set) {
-            storeTriangle = new Path2D.Double();
-            storeTriangle.moveTo(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset);
-            storeTriangle.lineTo(coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
-            storeTriangle.lineTo(coordinates[2][0] - xOffset, coordinates[2][1] - yOffset);
-            storeTriangle.closePath();
+            double[][] tempCoords = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
+            for(int i = 0; i < 3; i++){
+                if(!dragHandle){
+                    tempCoords[i][0] = coordinates[i][0] - xOffset;
+                    tempCoords[i][1] = coordinates[i][1] - yOffset;
+                }else{
+                    tempCoords[i][0] = coordinates[i][0];
+                    tempCoords[i][1] = coordinates[i][1];
+                    if(i == handleNumber){
+                        tempCoords[i][0] = coordinates[i][0] - xOffset;
+                        tempCoords[i][1] = coordinates[i][1] - yOffset;
+                    }
+                }
+            }
+            redrawTriangle(tempCoords);
         } else {
             for (int i = 0; i < 3; i++) {
-                coordinates[i][0] -= xOffset;
-                coordinates[i][1] -= yOffset;
+                if(!dragHandle){
+                    coordinates[i][0] -= xOffset;
+                    coordinates[i][1] -= yOffset;
+                }else if(i == handleNumber){
+                    coordinates[i][0] -= xOffset;
+                    coordinates[i][1] -= yOffset;
+                }
             }
-            storeTriangle = new Path2D.Double();
-            storeTriangle.moveTo(coordinates[0][0], coordinates[0][1]);
-            storeTriangle.lineTo(coordinates[1][0], coordinates[1][1]);
-            storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
-            storeTriangle.closePath();
+            redrawTriangle(coordinates);
+            dragHandle = false;
+        }
+        updateCoords();
+        
+        for(int i = 0; i < 3; i++){
+            handles[i].changeCoords(handleCoordinates[i]);
+            handles[i].draw();
         }
         triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(2),
                 new Color(0, 0, 0), color);
         plot.addAnnotation(triangleAnnotation);
+    }
+    
+    private void redrawTriangle(double[][] c){
+        storeTriangle = new Path2D.Double();
+        storeTriangle.moveTo(c[0][0], c[0][1]);
+        storeTriangle.lineTo(c[1][0], c[1][1]);
+        storeTriangle.lineTo(c[2][0], c[2][1]);
+        storeTriangle.closePath();
+    }
+    
+    private void updateCoords(){
+        PathIterator iterator = storeTriangle.getPathIterator(null);
+        int i = 0;
+        double[] coords = new double[2];
+        while (!iterator.isDone()) {
+            int type = iterator.currentSegment(coords);
+            if (type == PathIterator.SEG_MOVETO || type == PathIterator.SEG_LINETO) {
+                double x = coords[0];
+                double y = coords[1];
+                handleCoordinates[i][0] = x;
+                handleCoordinates[i][1] = y;
+                i++;
+            }
+            iterator.next();
+        }
+    }
+    
+    public void resizeHandles(){
+        for(int i = 0; i < 3; i++){
+            handles[i].recalculate();
+            handles[i].draw();
+        }
     }
 
     @Override

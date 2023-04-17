@@ -3,6 +3,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
@@ -19,15 +20,15 @@ public class LineAnnotation extends AbstractAnnotation {
 
     private Line2D.Double storeLine = null;
     private Rectangle2D.Double intersectRect;
-
-    private double[] minMax = {0.0, 0.0, 0.0, 0.0}; // minX, minY, maxX, maxY
+    private Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
+                                  0, new float[]{9}, 0);
 
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}};
     private double[] startPoint = {0.0, 0.0};
 
     private XYShapeAnnotation lineAnnotation = null;
 
-    public LineAnnotation(XYPlot p, Color c, double[] point, String t, double[] m, AnnotateChartPanel cP) {
+    public LineAnnotation(XYPlot p, Color c, double[] point, String t, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
         this.type = t;
@@ -35,7 +36,6 @@ public class LineAnnotation extends AbstractAnnotation {
         coordinates[0] = point;
         startPoint[0] = point[0];
         startPoint[1] = point[1];
-        this.minMax = m;
     }
 
     public LineAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
@@ -62,7 +62,7 @@ public class LineAnnotation extends AbstractAnnotation {
                 dx = startPoint[0] - point[0]; // change in x
                 dy = startPoint[1] - point[1]; // change in y
                 angle = Math.atan2(dy, dx); // angle of line
-                length = Math.max(minMax[2] - minMax[0], minMax[3] - minMax[1]) * 3; // length of line
+                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 3; // length of line
                 coordinates[1][0] = startPoint[0] - length * Math.cos(angle);
                 coordinates[1][1] = startPoint[1] - length * Math.sin(angle);
             }
@@ -70,7 +70,7 @@ public class LineAnnotation extends AbstractAnnotation {
                 dx = startPoint[0] - point[0]; // change in x
                 dy = startPoint[1] - point[1]; // change in y
                 angle = Math.atan2(dy, dx); // angle of line
-                length = Math.max(minMax[2] - minMax[0], minMax[3] - minMax[1]) * 3; // length of line
+                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 3; // length of line
                 coordinates[0][0] = startPoint[0] - length * Math.cos(angle);
                 coordinates[0][1] = startPoint[1] - length * Math.sin(angle);
 
@@ -89,13 +89,17 @@ public class LineAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         ValueAxis domainAxis = plot.getDomainAxis();
-        double domainMin = domainAxis.getLowerBound();
-        double domainMax = domainAxis.getUpperBound();
+        double plotDomain = domainAxis.getUpperBound() - domainAxis.getLowerBound();
         ValueAxis rangeAxis = plot.getRangeAxis();
-        double rangeMin = rangeAxis.getLowerBound();
-        double rangeMax = rangeAxis.getUpperBound();
-        double xSize = (domainMax - domainMin) / 50.0;
-        double ySize = (rangeMax - rangeMin) / 50.0;
+        double plotRange = rangeAxis.getUpperBound() - rangeAxis.getLowerBound();
+        
+        Rectangle2D.Double screenDataArea = (Rectangle2D.Double) chartPanel.getScreenDataArea();
+        double screenWidthPx = screenDataArea.getMaxX() - screenDataArea.getMinX();
+        double screenHeightPx = screenDataArea.getMaxY() - screenDataArea.getMinY();
+
+        double xSize = plotDomain*10 / screenWidthPx;
+        double ySize = plotRange*10 / screenHeightPx;
+
         double xOffset = xSize / 2.0;
         double yOffset = ySize / 2.0;
         intersectRect = new Rectangle2D.Double(mouseX - xOffset, mouseY - yOffset, xSize, ySize);
@@ -107,10 +111,22 @@ public class LineAnnotation extends AbstractAnnotation {
     
     @Override
     public void select(){
+        if(!selected){
+            plot.removeAnnotation(lineAnnotation);
+            lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+            plot.addAnnotation(lineAnnotation);
+            selected = true;
+        }
     }
     
     @Override
     public void deselect(){
+        if(selected){
+            plot.removeAnnotation(lineAnnotation);
+            lineAnnotation = new XYShapeAnnotation(storeLine, new BasicStroke(2), color);
+            plot.addAnnotation(lineAnnotation);
+            selected = false;
+        }
     }
 
     @Override
@@ -121,8 +137,19 @@ public class LineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public void move(double newX, double newY, boolean set) {
+    public void move(double xOffset, double yOffset, boolean set) {
+        plot.removeAnnotation(lineAnnotation);
+        if(!set){
+            storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
 
+        }else{
+            coordinates[0][0] -= xOffset;
+            coordinates[0][1] -= yOffset;
+            coordinates[1][0] -= xOffset;
+            coordinates[1][1] -= yOffset;
+        }
+        lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+        plot.addAnnotation(lineAnnotation);
     }
 
     @Override

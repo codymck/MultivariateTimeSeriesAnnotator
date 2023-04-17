@@ -102,6 +102,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         popupMenu.setEnabled(false);
         
         aChartPanel.setZoomOutlinePaint(Color.BLACK);
+        
+        aChartPanel.addMouseMotionListener(p);
 
         aChartPanel.addChartMouseListener(new ChartMouseListener() {
             @Override

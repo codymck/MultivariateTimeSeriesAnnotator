@@ -15,6 +15,7 @@ public class CSVAction implements ActionListener {
     int xaxis;
     int yaxis;
     String Sx, Sy;
+    boolean selected = false;
     private javax.swing.JList<String> XAxisList;
     private javax.swing.JList<String> YAxisList;
 
@@ -45,10 +46,15 @@ public class CSVAction implements ActionListener {
 //        System.out.println("CSVAction: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
         if (yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
             ErrorDialog.badIndex();
+            selected = false;
         } else {
             dialog.dispose();
-            
+            selected = true;
         }
+    }
+    
+    public boolean isSelected(){
+        return selected;
     }
 
 

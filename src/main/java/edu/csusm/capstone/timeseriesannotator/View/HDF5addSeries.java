@@ -53,7 +53,6 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         yList = new java.awt.List();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel1.setText("Enter HDF5 File Path");

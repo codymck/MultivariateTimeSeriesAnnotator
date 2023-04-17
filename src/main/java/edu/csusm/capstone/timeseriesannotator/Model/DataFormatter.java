@@ -2,7 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.Model;
 
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -14,6 +14,8 @@ public class DataFormatter {
     
     DataReader dReader;
     public static DataFormatter dF;
+    static final long EPOCH = new java.util.Date(2015 - 1900, Calendar.JANUARY, 1).getTime(); // 2015/1/1 in GMT
+
     
     float[] xData;
     float[] yData;
@@ -66,39 +68,85 @@ public class DataFormatter {
     public void formatHDF5(String xPath, String yPath) {
 //        System.out.println(xPath+ " " + yPath);
         
-        switch(((HDFReader)dReader).getType()){
+        switch(((HDFReader)dReader).getXType()){
             case "INTEGER" -> {
+
                 int[] t = ((HDFReader)dReader).getIntXData();
-                int[] t2 = ((HDFReader)dReader).getIntYData();
+                xData = new float[t.length];
+                 System.out.println(EPOCH);
                 
                 if(HDFdataSelectMenu.HDF.getTimeStamp()){
                     for(int x = 0; x < t.length; x++ ){
-                        Date d = new java.util.Date(x);
-                        xData[x] = d.getHours() + d.getMinutes() / 10000;
-                    }
-                    for(int x = 0; x < t2.length; x++ ){
-                        Date d = new java.util.Date(x);
-                        yData[x] = d.getHours() + d.getMinutes() / 10000;
+                        Date d = new java.util.Date(x * 1000 + EPOCH);
+
+                        int firstPart = d.getMinutes();
+                        int secondPart = d.getSeconds(); // or whatever
+                        float f = secondPart;
+
+                        while (f >= 1) {
+                            f /= 10;
+                        }
+
+                        f += firstPart;
+
+                        xData[x] = f;
+                        System.out.println(d);
+                        System.out.println(xData[x]);
                     }
                 }
                 else{
                     for(int x = 0; x < t.length; x++ ){
                         xData[x] = (float)t[x];
                     }
-                    for(int x = 0; x < t2.length; x++ ){
-                        yData[x] = (float)t2[x];
-                    }
                 }
             }
             case "FLOAT" -> {
                 xData = ((HDFReader)dReader).getXData();
-                yData = ((HDFReader)dReader).getYData();
             }
             case "DOUBLE" -> {
                 double[] t = ((HDFReader)dReader).getDoubleXData();
                 for(int x = 0; x < t.length; x++ ){
                     xData[x] = (float)t[x];
                 }
+            }
+            case "DATE" -> {
+                //have to make the dataset into a TimeSeriesCollection
+                //https://stackoverflow.com/questions/12837986/how-to-display-date-in-a-x-axis-of-line-graph-using-jfreechart
+            }
+        }
+        switch(((HDFReader)dReader).getYType()){
+            case "INTEGER" -> {
+
+                int[] t2 = ((HDFReader)dReader).getIntYData();
+                yData = new float[t2.length];
+                
+                if(HDFdataSelectMenu.HDF.getTimeStamp()){
+                    for(int x = 0; x < t2.length; x++ ){
+                        Date d = new java.util.Date(x * 1000 + EPOCH);
+
+                        int firstPart = d.getMinutes();
+                        int secondPart = d.getSeconds(); // or whatever
+                        float f = secondPart;
+
+                        while (f >= 1) {
+                            f /= 10;
+                        }
+
+                        f += firstPart;
+
+                        xData[x] = f;
+                    }
+                }
+                else{
+                    for(int x = 0; x < t2.length; x++ ){
+                        yData[x] = (float)t2[x];
+                    }
+                }
+            }
+            case "FLOAT" -> {
+                yData = ((HDFReader)dReader).getYData();
+            }
+            case "DOUBLE" -> {
                 double[] t2 = ((HDFReader)dReader).getDoubleYData();
                 for(int x = 0; x < t2.length; x++ ){
                     yData[x] = (float)t2[x];

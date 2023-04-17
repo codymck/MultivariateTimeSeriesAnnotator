@@ -23,14 +23,12 @@ public class LineAnnotation extends AbstractAnnotation {
     private Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
                                   0, new float[]{9}, 0);
 
-    private double[] minMax = {0.0, 0.0, 0.0, 0.0}; // minX, minY, maxX, maxY
-
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}};
     private double[] startPoint = {0.0, 0.0};
 
     private XYShapeAnnotation lineAnnotation = null;
 
-    public LineAnnotation(XYPlot p, Color c, double[] point, String t, double[] m, AnnotateChartPanel cP) {
+    public LineAnnotation(XYPlot p, Color c, double[] point, String t, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
         this.type = t;
@@ -38,7 +36,6 @@ public class LineAnnotation extends AbstractAnnotation {
         coordinates[0] = point;
         startPoint[0] = point[0];
         startPoint[1] = point[1];
-        this.minMax = m;
     }
 
     public LineAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
@@ -65,7 +62,7 @@ public class LineAnnotation extends AbstractAnnotation {
                 dx = startPoint[0] - point[0]; // change in x
                 dy = startPoint[1] - point[1]; // change in y
                 angle = Math.atan2(dy, dx); // angle of line
-                length = Math.max(minMax[2] - minMax[0], minMax[3] - minMax[1]) * 3; // length of line
+                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 3; // length of line
                 coordinates[1][0] = startPoint[0] - length * Math.cos(angle);
                 coordinates[1][1] = startPoint[1] - length * Math.sin(angle);
             }
@@ -73,7 +70,7 @@ public class LineAnnotation extends AbstractAnnotation {
                 dx = startPoint[0] - point[0]; // change in x
                 dy = startPoint[1] - point[1]; // change in y
                 angle = Math.atan2(dy, dx); // angle of line
-                length = Math.max(minMax[2] - minMax[0], minMax[3] - minMax[1]) * 3; // length of line
+                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 3; // length of line
                 coordinates[0][0] = startPoint[0] - length * Math.cos(angle);
                 coordinates[0][1] = startPoint[1] - length * Math.sin(angle);
 

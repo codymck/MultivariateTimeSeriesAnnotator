@@ -28,16 +28,14 @@ public class RectangleAnnotation extends AbstractAnnotation {
     private double x, y, width, height;
 
     private XYShapeAnnotation rectAnnotation = null;
-    private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
     
-    public RectangleAnnotation(XYPlot p, Color c, double[] point, String t, double[] m, AnnotateChartPanel cP) {
+    public RectangleAnnotation(XYPlot p, Color c, double[] point, String t, AnnotateChartPanel cP) {
         this.handles = new ResizeHandle[]{null, null, null, null};
         this.plot = p;
         this.color = c;
         coordinates[0][0] = point[0];
         coordinates[0][1] = point[1];
         this.type = t;
-        this.minMax = m;
         this.chartPanel = cP;
     }
     
@@ -72,10 +70,10 @@ public class RectangleAnnotation extends AbstractAnnotation {
             height = Math.abs(coordinates[1][1] - coordinates[0][1]);
             
         }else if(type.equals("region")){
-            double rectHeight = 10 * (minMax[3] - minMax[1]);
+            double rectHeight = 10 * (chartPanel.minMax[3] - chartPanel.minMax[1]);
             coordinates[1][0] = point[0];
             x = Math.min(coordinates[0][0], coordinates[1][0]);
-            y = minMax[3] - (rectHeight/2);
+            y = chartPanel.minMax[3] - (rectHeight/2);
             width = Math.abs(coordinates[1][0] - coordinates[0][0]);
             height = rectHeight;
         }
@@ -189,6 +187,26 @@ public class RectangleAnnotation extends AbstractAnnotation {
             y = tempY;
             width = tempWidth;
             height = tempHeight;
+        }
+    }
+    
+    public void redrawRegion(){
+        if(type.equals("region")){
+            plot.removeAnnotation(rectAnnotation);
+            double rectHeight = 10 * (chartPanel.minMax[3] - chartPanel.minMax[1]);
+            x = Math.min(coordinates[0][0], coordinates[1][0]);
+            y = chartPanel.minMax[3] - (rectHeight/2);
+            width = Math.abs(coordinates[1][0] - coordinates[0][0]);
+            height = rectHeight;
+
+            storeRect.setFrame(x, y, width, height);
+            rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
+                    new Color(0, 0, 0, 0), color);
+            plot.addAnnotation(rectAnnotation);
+            if(selected){
+                selected = false;
+                select();
+            }
         }
     }
     

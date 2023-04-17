@@ -29,22 +29,18 @@ public class HVLineAnnotation extends AbstractAnnotation {
     
     private Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
                                   0, new float[]{9}, 0);
-    
-    private double[] minMax = { 0.0, 0.0, 0.0, 0.0 }; // minX, minY, maxX, maxY
-    
-    public HVLineAnnotation(XYPlot p, Color c, String t, double[] m, AnnotateChartPanel cP) {
+        
+    public HVLineAnnotation(XYPlot p, Color c, String t, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
         this.type = t;
-        this.minMax = m;
         this.chartPanel = cP;
     }
-    public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] m, double[] point) {
+    public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] point) {
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
         String tempType = t[0];
         this.type = tempType.substring(1, tempType.length() - 1);
-        this.minMax = m;
         this.createLine(point);
     }
 
@@ -185,11 +181,11 @@ public class HVLineAnnotation extends AbstractAnnotation {
     
     private void calculateLine(){
         if (type.equals("horizontal")) {
-            double lengthX = minMax[2] - minMax[0];
-            storeLine = new Line2D.Double(minMax[0] + lengthX*3, coordinate[1], minMax[2] - lengthX*3, coordinate[1]);
+            double lengthX = chartPanel.minMax[2] - chartPanel.minMax[0];
+            storeLine = new Line2D.Double(chartPanel.minMax[0] + lengthX*3, coordinate[1], chartPanel.minMax[2] - lengthX*3, coordinate[1]);
         } else if (type.equals("vertical")) {
-            double lengthY = minMax[3] - minMax[1];
-            storeLine = new Line2D.Double(coordinate[0], minMax[1] - lengthY*3, coordinate[0], minMax[3] + lengthY*3);
+            double lengthY = chartPanel.minMax[3] - chartPanel.minMax[1];
+            storeLine = new Line2D.Double(coordinate[0], chartPanel.minMax[1] - lengthY*3, coordinate[0], chartPanel.minMax[3] + lengthY*3);
         }
     }
 

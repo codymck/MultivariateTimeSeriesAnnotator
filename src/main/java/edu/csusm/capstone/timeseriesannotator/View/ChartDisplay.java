@@ -236,7 +236,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         ImportAnnotationsButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         ImportAnnotationsButton.setText("Import Annotations");
         ImportAnnotationsButton.setToolTipText("Import Annotations");
-        ExportAnnotationsButton.setName("ExportAnnotations");
+        ExportAnnotationsButton.setName("ImportAnnotations");
         ImportAnnotationsButton.addActionListener(this);
         jPanel4.add(ImportAnnotationsButton);
 

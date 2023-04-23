@@ -19,6 +19,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(AppFrame.frame);
         this.CSV = this;
+        this.getRootPane().setDefaultButton(csvCoordinateButton);
     }
 
     /**
@@ -36,8 +37,8 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         YAxisList = new javax.swing.JList<>();
-        csvCoordinateButton = new javax.swing.JToggleButton();
         jRadioButton1 = new javax.swing.JRadioButton();
+        csvCoordinateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CSV Axis Selection");
@@ -56,18 +57,17 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         YAxisList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(YAxisList);
 
-        csvCoordinateButton.setText("Select Coordinates");
-        csvCoordinateButton.setName("SelectCoordinates");
-        csvCoordinateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                csvCoordinateButtonActionPerformed(evt);
-            }
-        });
-
         jRadioButton1.setText("TimeStampData");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        csvCoordinateButton.setText("Select Axis");
+        csvCoordinateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                csvCoordinateButtonActionPerformed(evt);
             }
         });
 
@@ -86,12 +86,10 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
                     .addComponent(jLabel2))
                 .addGap(20, 20, 20))
             .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(csvCoordinateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jRadioButton1)))
+                .addGap(145, 145, 145)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(csvCoordinateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -115,14 +113,15 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
-          ActionListener csvAction = new CSVAction(this, XAxisList, YAxisList);
-          csvAction.actionPerformed(evt);
-    }//GEN-LAST:event_csvCoordinateButtonActionPerformed
-
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         timeStamp = true;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
+        // TODO add your handling code here:
+        ActionListener csvAction = new CSVAction(this, XAxisList, YAxisList);
+        csvAction.actionPerformed(evt);
+    }//GEN-LAST:event_csvCoordinateButtonActionPerformed
     
     public void setModel(String[] h) {
         XAxisList.setModel(new DefaultComboBoxModel<>(h));
@@ -138,7 +137,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> XAxisList;
     private javax.swing.JList<String> YAxisList;
-    private javax.swing.JToggleButton csvCoordinateButton;
+    private javax.swing.JButton csvCoordinateButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;

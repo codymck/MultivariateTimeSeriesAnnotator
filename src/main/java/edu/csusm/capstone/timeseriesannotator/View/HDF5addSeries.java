@@ -35,6 +35,7 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         setLocationRelativeTo(AppFrame.frame);
         //Xaxis = chartStruct.getXpath().split("/")[0];
         //System.out.print(Xaxis);
+        this.getRootPane().setDefaultButton(HDF5PathButton);
     }
 
     /**

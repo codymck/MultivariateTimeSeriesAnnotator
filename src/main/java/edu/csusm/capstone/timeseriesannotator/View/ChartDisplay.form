@@ -76,6 +76,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="AddSeriesButton">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="69" green="c4" red="66" type="rgb"/>
+            </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="SansSerif" size="12" style="1"/>
             </Property>
@@ -133,13 +136,11 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="SyncButton">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="de" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="SansSerif" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Sync"/>
+            <Property name="toolTipText" type="java.lang.String" value="Sync Charts"/>
             <Property name="name" type="java.lang.String" value="SyncChart" noResource="true"/>
           </Properties>
           <Events>

@@ -37,6 +37,8 @@ public abstract class AbstractAnnotation {
     
     public abstract String getData();
     
+    public abstract void changeColor(Color c);
+    
     public String getRGBA(){
         String R = String.valueOf(color.getRed());
         String G = String.valueOf(color.getGreen());

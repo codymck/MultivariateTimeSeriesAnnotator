@@ -7,6 +7,7 @@ import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
 import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.ELLIPSE;
 import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.SQUARE;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
+import static edu.csusm.capstone.timeseriesannotator.Model.ToolState.SELECT;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
@@ -691,6 +692,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         int b = c.getBlue();
 
         color = new Color(r, g, b, 60);
+        
+        if(currentAnnotation != null && state == SELECT){
+            currentAnnotation.changeColor(color);
+        }
     }
 
     public void setSync(boolean s) {

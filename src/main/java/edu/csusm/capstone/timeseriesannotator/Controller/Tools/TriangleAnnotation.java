@@ -247,6 +247,15 @@ public class TriangleAnnotation extends AbstractAnnotation {
             iterator.next();
         }
     }
+    
+    @Override
+    public void changeColor(Color c){
+        color = c;
+        plot.removeAnnotation(triangleAnnotation);
+        triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
+                    new Color(0, 0, 0), color);
+        plot.addAnnotation(triangleAnnotation);
+    }
 
     @Override
     public String getType() {

@@ -184,6 +184,10 @@ public class HVLineAnnotation extends AbstractAnnotation {
     }
     
     @Override
+    public void changeColor(Color c){
+    }
+    
+    @Override
     public String getType(){
         return "hvline";
     }

@@ -773,7 +773,7 @@ public class AppFrame extends javax.swing.JFrame {
     private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
         selectedButton = EditButton;
         setAppState(ToolState.SELECT);
-        ColorPanel.setVisible(false);
+        ColorPanel.setVisible(true);
 
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);

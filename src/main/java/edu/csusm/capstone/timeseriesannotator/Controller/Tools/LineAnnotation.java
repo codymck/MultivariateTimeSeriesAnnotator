@@ -146,6 +146,14 @@ public class LineAnnotation extends AbstractAnnotation {
         lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
         plot.addAnnotation(lineAnnotation);
     }
+    
+    @Override
+    public void changeColor(Color c){
+        color = c;
+        plot.removeAnnotation(lineAnnotation);
+        lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+        plot.addAnnotation(lineAnnotation);
+    }
 
     @Override
     public String getType() {

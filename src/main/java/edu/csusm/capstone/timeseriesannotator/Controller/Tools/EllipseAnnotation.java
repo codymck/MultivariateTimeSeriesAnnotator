@@ -145,6 +145,15 @@ public class EllipseAnnotation extends AbstractAnnotation {
     }
     
     @Override
+    public void changeColor(Color c){
+        color = c;
+        plot.removeAnnotation(ellipseAnnotation);
+        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
+                    new Color(0, 0, 0), color);
+        plot.addAnnotation(ellipseAnnotation);
+    }
+    
+    @Override
     public String getType(){
         return "ellipse";
     }

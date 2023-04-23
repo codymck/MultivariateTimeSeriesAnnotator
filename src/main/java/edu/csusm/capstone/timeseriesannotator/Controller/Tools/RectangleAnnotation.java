@@ -197,8 +197,8 @@ public class RectangleAnnotation extends AbstractAnnotation {
             height = rectHeight;
 
             storeRect.setFrame(x, y, width, height);
-            rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(0),
-                    new Color(0, 0, 0, 0), color);
+            rectAnnotation = new XYShapeAnnotation(storeRect, dashed,
+                    new Color(0, 0, 0), color);
             plot.addAnnotation(rectAnnotation);
             if(selected){
                 selected = false;
@@ -233,6 +233,15 @@ public class RectangleAnnotation extends AbstractAnnotation {
 
         handleCoordinates[3][0] = storeRect.getX();
         handleCoordinates[3][1] = storeRect.getY();
+    }
+    
+    @Override
+    public void changeColor(Color c){
+        color = c;
+        plot.removeAnnotation(rectAnnotation);
+        rectAnnotation = new XYShapeAnnotation(storeRect, dashed,
+                    new Color(0, 0, 0), color);
+        plot.addAnnotation(rectAnnotation);
     }
 
     @Override

@@ -187,6 +187,10 @@ public class CommentAnnotation extends AbstractAnnotation {
     }
     
     @Override
+    public void changeColor(Color c){
+    }
+    
+    @Override
     public String getType(){
         return "comment";
     }

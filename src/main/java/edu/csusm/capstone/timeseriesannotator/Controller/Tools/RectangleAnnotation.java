@@ -8,17 +8,9 @@ import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.plot.XYPlot;
 
-public class RectangleAnnotation extends AbstractAnnotation {
-    public boolean selected;
-    public Color color;
-    public XYPlot plot;
-    private String type;
-    private AnnotateChartPanel chartPanel;
-    
+public class RectangleAnnotation extends AbstractAnnotation {    
     private Rectangle2D.Double storeRect = null;
     
-    private ResizeHandle[] handles;
-
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
 
     private double[][] handleCoordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
@@ -105,7 +97,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
     public void select(){
         if(!selected){
             plot.removeAnnotation(rectAnnotation);
-            rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(2),
+            rectAnnotation = new XYShapeAnnotation(storeRect, dashed,
                 new Color(0, 0, 0), color);
             plot.addAnnotation(rectAnnotation);
             selected = true;
@@ -171,7 +163,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
             handles[i].changeCoords(handleCoordinates[i]);
             handles[i].draw();
         }
-        rectAnnotation = new XYShapeAnnotation(storeRect, new BasicStroke(2),
+        rectAnnotation = new XYShapeAnnotation(storeRect, dashed,
             new Color(0, 0, 0), color);
         plot.addAnnotation(rectAnnotation);
     }
@@ -245,26 +237,10 @@ public class RectangleAnnotation extends AbstractAnnotation {
             handles[i].draw();
         }
     }
-    
-
-    @Override
-    public boolean isSelected() {
-        return selected;
-    }
 
     @Override
     public String getType(){
         return "rectangle";
-    }
-    
-    @Override
-    public String getRGBA() {
-        String R = String.valueOf(color.getRed());
-        String G = String.valueOf(color.getGreen());
-        String B = String.valueOf(color.getBlue());
-        String A = String.valueOf(color.getAlpha());
-
-        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
 
     @Override

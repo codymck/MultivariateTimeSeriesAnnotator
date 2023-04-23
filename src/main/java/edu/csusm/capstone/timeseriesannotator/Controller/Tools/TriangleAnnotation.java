@@ -14,16 +14,10 @@ import org.jfree.chart.annotations.XYLineAnnotation;
 
 public class TriangleAnnotation extends AbstractAnnotation {
 
-    public boolean selected;
-    public Color color;
-    public XYPlot plot;
-    private AnnotateChartPanel chartPanel;
-
     private Path2D.Double storeTriangle = null;
 
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
     
-    public ResizeHandle[] handles;
     private double[][] handleCoordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
     private boolean dragHandle = false;
     private int handleNumber = 0;
@@ -53,7 +47,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
         storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
         storeTriangle.closePath();
         triangleAnnotation = new XYShapeAnnotation(storeTriangle,
-                new BasicStroke(0), new Color(0, 0, 0, 0), color);
+                dashed, color);
         plot.addAnnotation(triangleAnnotation);
     }
 
@@ -139,7 +133,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public void select(){
         if(!selected){
             plot.removeAnnotation(triangleAnnotation);
-            triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(2),
+            triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
                     new Color(0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
             selected = true;
@@ -220,7 +214,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
             handles[i].changeCoords(handleCoordinates[i]);
             handles[i].draw();
         }
-        triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(2),
+        triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
                 new Color(0, 0, 0), color);
         plot.addAnnotation(triangleAnnotation);
     }
@@ -258,23 +252,8 @@ public class TriangleAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public boolean isSelected() {
-        return selected;
-    }
-
-    @Override
     public String getType() {
         return "triangle";
-    }
-
-    @Override
-    public String getRGBA() {
-        String R = String.valueOf(color.getRed());
-        String G = String.valueOf(color.getGreen());
-        String B = String.valueOf(color.getBlue());
-        String A = String.valueOf(color.getAlpha());
-
-        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
 
     @Override

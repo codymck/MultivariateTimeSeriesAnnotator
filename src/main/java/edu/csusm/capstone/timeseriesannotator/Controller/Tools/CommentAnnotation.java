@@ -3,15 +3,12 @@ package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.CommentMenu;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
-import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
@@ -22,11 +19,7 @@ import org.jfree.chart.ui.TextAnchor;
 public class CommentAnnotation extends AbstractAnnotation {
 
     private double[] coordinates = {0.0, 0.0};
-    private boolean selected;
-    private Color color;
-    private XYPlot plot;
     private Font font;
-    private AnnotateChartPanel chartPanel;
     private XYTextAnnotation commentAnnotation = null;
     private XYShapeAnnotation selectedRect = null;
     private Rectangle2D.Double hitbox = null;
@@ -147,7 +140,7 @@ public class CommentAnnotation extends AbstractAnnotation {
             hitbox.setFrame(x1, y1, hitboxWidth, hitboxHeight);
         }
         
-        selectedRect = new XYShapeAnnotation(hitbox, new BasicStroke(2), Color.BLACK, new Color(0,0,0,0));
+        selectedRect = new XYShapeAnnotation(hitbox, dashed, Color.BLACK, new Color(0,0,0,0));
         if(draw){
             plot.addAnnotation(selectedRect);
         }
@@ -183,7 +176,7 @@ public class CommentAnnotation extends AbstractAnnotation {
         
         plot.addAnnotation(commentAnnotation);
         if(selected){
-            selectedRect = new XYShapeAnnotation(hitbox, new BasicStroke(2), Color.BLACK, new Color(0,0,0,0));
+            selectedRect = new XYShapeAnnotation(hitbox, dashed, Color.BLACK, new Color(0,0,0,0));
             plot.addAnnotation(selectedRect);
         }
     }
@@ -192,18 +185,7 @@ public class CommentAnnotation extends AbstractAnnotation {
     public String getType(){
         return "comment";
     }
-    
-    @Override
-    public String getRGBA() {
-        String R = String.valueOf(color.getRed());
-        String G = String.valueOf(color.getGreen());
-        String B = String.valueOf(color.getBlue());
-        String A = String.valueOf(color.getAlpha());
 
-        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
-    }
-
-    
     @Override
     public String getData() {
         String FONT = font.getFamily();

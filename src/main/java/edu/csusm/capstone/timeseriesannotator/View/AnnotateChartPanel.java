@@ -23,7 +23,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,13 +32,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.jfree.chart.ChartMouseEvent;
-import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.annotations.XYAnnotation;
-import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
@@ -99,7 +94,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private int triClick = 0;
     
     private Timer timer;
-    private boolean commentBoxNeedsUpdate = false;
+    private boolean annotationNeedsUpdate = false;
 
     public void setChartState(ToolState s) {
         this.state = s;
@@ -143,8 +138,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 // Check if the domain or range values have changed by more than a small threshold value
                 double epsilon = 0.00001;
                 if (Math.abs(previousScreenWidth - currentScreenWidth) > epsilon || Math.abs(previousScreenHeight - currentScreenHeight) > epsilon) {
-                    // If the values have changed, set a flag to indicate that the comment box needs to be updated
-                    commentBoxNeedsUpdate = true;
+                    // If the values have changed, set a flag to indicate that the selected annotation needs to be updated
+                    annotationNeedsUpdate = true;
                     // Schedule a timer to update the comment box after a delay of 10 milliseconds
                     if (timer != null) {
                         timer.cancel();
@@ -152,10 +147,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
                         public void run() {
-                            if (commentBoxNeedsUpdate) {
-                                redrawCommentBox();
-                                redrawHandles();
-                                commentBoxNeedsUpdate = false;
+                            if (annotationNeedsUpdate) {
+                                scaleAnnotation();
+                                annotationNeedsUpdate = false;
                             }
                         }
                     }, 5);
@@ -180,8 +174,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 // Check if the domain or range values have changed by more than a small threshold value
                 double epsilon = 0.00001;
                 if (Math.abs(previousDomain - currentDomain) > epsilon || Math.abs(previousRange - currentRange) > epsilon) {
-                    // If the values have changed, set a flag to indicate that the comment box needs to be updated
-                    commentBoxNeedsUpdate = true;
+                    // If the values have changed, set a flag to indicate that the that the selected annotation needs to be updated
+                    annotationNeedsUpdate = true;
 
                     // Schedule a timer to update the comment box after a delay of 10 milliseconds
                     if (timer != null) {
@@ -190,10 +184,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
                         public void run() {
-                            if (commentBoxNeedsUpdate) {
-                                redrawCommentBox();
-                                redrawHandles();
-                                commentBoxNeedsUpdate = false;
+                            if (annotationNeedsUpdate) {
+                                scaleAnnotation();
+                                annotationNeedsUpdate = false;
                             }
                         }
                     }, 5);
@@ -890,25 +883,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
     }
     
-    public void redrawCommentBox() {
-        if(currentAnnotation != null && currentAnnotation instanceof CommentAnnotation com){
-            try{
-                com.getBounds(true);
-            }catch(Exception e){
-                //System.out.println(e);
-            }
-        }
-    }
-    
-    public void redrawHandles() {
+    public void scaleAnnotation() {
         if(currentAnnotation != null){
-            if(currentAnnotation instanceof RectangleAnnotation rect){
-                rect.resizeHandles();
-            }else if(currentAnnotation instanceof EllipseAnnotation ell){
-                ell.resizeHandles();
-            }else if(currentAnnotation instanceof TriangleAnnotation tri){
-                tri.resizeHandles();
-            }
+            currentAnnotation.scale();
         }
     }
 
@@ -936,9 +913,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         System.out.println(minMax[0] + ", " + minMax[1] + ", " + minMax[2] + ", " + minMax[3]);
     }
     
-    public void redrawNewMM(XYPlot p) {
+    public void redrawNewMM() {
         System.out.println("redraw");
-        plot = p;
         getMinAndMax();
         for (int i = 0; i < annotations.size(); i++) {
             if(annotations.get(i) instanceof RectangleAnnotation r){

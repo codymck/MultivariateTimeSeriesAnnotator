@@ -8,15 +8,14 @@ import java.awt.BasicStroke;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.plot.XYPlot;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class EllipseAnnotation extends AbstractAnnotation {
-    public boolean selected;
-    public Color color;
-    public XYPlot plot;
-    private AnnotateChartPanel chartPanel;
 
     private Ellipse2D.Double storeEllipse = null;
-
-    private ResizeHandle[] handles;
     
     private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
     
@@ -42,7 +41,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
         width = coords[0][2];
         height = coords[0][3];
         storeEllipse = new Ellipse2D.Double(x, y, width, height);
-        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(0),
+        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
                 new Color(0, 0, 0, 0), color);
         plot.addAnnotation(ellipseAnnotation);
     }
@@ -59,7 +58,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
         width = Math.abs(coordinates[1][0] - coordinates[0][0]);
         height = Math.abs(coordinates[1][1] - coordinates[0][1]);
         storeEllipse = new Ellipse2D.Double(x, y, width, height);
-        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(0),
+        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
                 new Color(0, 0, 0, 0), color);
         plot.addAnnotation(ellipseAnnotation);
         chartPanel.addAbstractAnnotation(this);
@@ -75,7 +74,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
     public void select(){
         if(!selected){
             plot.removeAnnotation(ellipseAnnotation);
-            ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(2),
+            ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
                 new Color(0, 0, 0), color);
             plot.addAnnotation(ellipseAnnotation);
             selected = true;
@@ -126,7 +125,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
             handles[i].changeCoords(coordinates[i]);
             handles[i].draw();
         }
-        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(2),
+        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
             new Color(0, 0, 0), color);
         plot.addAnnotation(ellipseAnnotation);
     }
@@ -145,31 +144,9 @@ public class EllipseAnnotation extends AbstractAnnotation {
         coordinates[3][1] = storeEllipse.getY();
     }
     
-    public void resizeHandles(){
-        for(int i = 0; i < 4; i++){
-            handles[i].recalculate();
-            handles[i].draw();
-        }
-    }
-
-    @Override
-    public boolean isSelected() {
-        return selected;
-    }
-    
     @Override
     public String getType(){
         return "ellipse";
-    }
-    
-    @Override
-    public String getRGBA() {
-        String R = String.valueOf(color.getRed());
-        String G = String.valueOf(color.getGreen());
-        String B = String.valueOf(color.getBlue());
-        String A = String.valueOf(color.getAlpha());
-
-        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
     
     @Override

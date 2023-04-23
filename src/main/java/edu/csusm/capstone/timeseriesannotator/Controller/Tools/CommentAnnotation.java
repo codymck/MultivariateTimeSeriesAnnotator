@@ -16,6 +16,11 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.text.TextUtils;
 import org.jfree.chart.ui.TextAnchor;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class CommentAnnotation extends AbstractAnnotation {
 
     private double[] coordinates = {0.0, 0.0};
@@ -72,11 +77,6 @@ public class CommentAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public boolean isSelected() {
-        return selected;
-    }
-
-    @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D.Double click = new Point2D.Double(mouseX, mouseY);
         if(!selected){
@@ -101,7 +101,12 @@ public class CommentAnnotation extends AbstractAnnotation {
         }
     }
     
-    public void getBounds(boolean draw){
+    @Override
+    public void scale(){
+        getBounds(true);
+    }
+    
+    private void getBounds(boolean draw){
         if(draw){
             plot.removeAnnotation(selectedRect);
         }

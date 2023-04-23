@@ -6,11 +6,16 @@ import java.awt.Color;
 import java.awt.Stroke;
 import org.jfree.chart.plot.XYPlot;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public abstract class AbstractAnnotation {
     
     public boolean isSelected(){
         return selected;
-    };
+    }
     
     public abstract boolean clickedOn(double mouseX, double mouseY);
 
@@ -31,7 +36,14 @@ public abstract class AbstractAnnotation {
         String A = String.valueOf(color.getAlpha());
 
         return "[" + R + ", " + G + ", " + B + ", " + A + "]";
-    };
+    }
+    
+    public void scale(){
+        for(int i = 0; i < handles.length; i++){
+            handles[i].recalculate();
+            handles[i].draw();
+        }
+    }
     
     public abstract String getCoords();
     

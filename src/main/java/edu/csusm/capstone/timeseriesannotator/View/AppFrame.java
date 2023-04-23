@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.*;
 import java.util.ArrayList;
-
 import javax.swing.AbstractButton;
 import javax.swing.JColorChooser;
 import java.awt.KeyboardFocusManager;
@@ -128,7 +127,7 @@ public class AppFrame extends javax.swing.JFrame {
         this.charts = c;
         for (int i = 0; i < charts.size(); i++) {
             System.out.println("test " + i);
-            charts.get(i).aChartPanel.redrawCommentBox();
+            charts.get(i).aChartPanel.scaleAnnotation();
             charts.get(i).aChartPanel.repaint();
         }
         chartDisplay = charts.get(charts.size() - 1);

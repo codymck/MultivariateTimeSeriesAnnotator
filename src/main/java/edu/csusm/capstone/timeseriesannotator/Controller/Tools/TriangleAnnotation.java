@@ -2,7 +2,6 @@ package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
-
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import org.jfree.chart.plot.XYPlot;
@@ -12,6 +11,11 @@ import java.awt.BasicStroke;
 import java.awt.geom.PathIterator;
 import org.jfree.chart.annotations.XYLineAnnotation;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class TriangleAnnotation extends AbstractAnnotation {
 
     private Path2D.Double storeTriangle = null;
@@ -196,14 +200,14 @@ public class TriangleAnnotation extends AbstractAnnotation {
             }
             redrawTriangle(tempCoords);
         } else {
-            for (int i = 0; i < 3; i++) {
-                if(!dragHandle){
-                    coordinates[i][0] -= xOffset;
-                    coordinates[i][1] -= yOffset;
-                }else if(i == handleNumber){
+            if(!dragHandle){
+                for (int i = 0; i < 3; i++) {
                     coordinates[i][0] -= xOffset;
                     coordinates[i][1] -= yOffset;
                 }
+            }else{
+                coordinates[handleNumber][0] -= xOffset;
+                coordinates[handleNumber][1] -= yOffset;
             }
             redrawTriangle(coordinates);
             dragHandle = false;
@@ -241,13 +245,6 @@ public class TriangleAnnotation extends AbstractAnnotation {
                 i++;
             }
             iterator.next();
-        }
-    }
-    
-    public void resizeHandles(){
-        for(int i = 0; i < 3; i++){
-            handles[i].recalculate();
-            handles[i].draw();
         }
     }
 

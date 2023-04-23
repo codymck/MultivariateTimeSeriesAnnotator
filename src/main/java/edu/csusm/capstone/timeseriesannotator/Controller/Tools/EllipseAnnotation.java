@@ -8,6 +8,11 @@ import java.awt.BasicStroke;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.plot.XYPlot;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class EllipseAnnotation extends AbstractAnnotation {
 
     private Ellipse2D.Double storeEllipse = null;
@@ -137,13 +142,6 @@ public class EllipseAnnotation extends AbstractAnnotation {
 
         coordinates[3][0] = storeEllipse.getX() + storeEllipse.getWidth()/2;
         coordinates[3][1] = storeEllipse.getY();
-    }
-    
-    public void resizeHandles(){
-        for(int i = 0; i < 4; i++){
-            handles[i].recalculate();
-            handles[i].draw();
-        }
     }
     
     @Override

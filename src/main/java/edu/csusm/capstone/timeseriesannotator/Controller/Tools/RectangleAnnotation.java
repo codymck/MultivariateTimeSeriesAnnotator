@@ -8,6 +8,11 @@ import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.plot.XYPlot;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class RectangleAnnotation extends AbstractAnnotation {    
     private Rectangle2D.Double storeRect = null;
     
@@ -228,14 +233,6 @@ public class RectangleAnnotation extends AbstractAnnotation {
 
         handleCoordinates[3][0] = storeRect.getX();
         handleCoordinates[3][1] = storeRect.getY();
-    }
-    
-    
-    public void resizeHandles(){
-        for(int i = 0; i < 4; i++){
-            handles[i].recalculate();
-            handles[i].draw();
-        }
     }
 
     @Override

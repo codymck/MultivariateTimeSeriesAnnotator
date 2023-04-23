@@ -6,12 +6,16 @@ import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import java.awt.BasicStroke;
 import org.jfree.chart.ui.RectangleAnchor;
-
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.axis.ValueAxis;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class HVLineAnnotation extends AbstractAnnotation {
     private double[] coordinate = {0.0, 0.0};
 

@@ -9,6 +9,11 @@ import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class LineAnnotation extends AbstractAnnotation {
     private Line2D.Double storeLine = null;
     private Rectangle2D.Double intersectRect;

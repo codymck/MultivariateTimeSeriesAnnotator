@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import org.jfree.chart.JFreeChart;
@@ -35,7 +36,7 @@ public class StepChart implements ChartsIF {
         NumberAxis yAxis = new NumberAxis(chartStruct.getLabels().get(2));   
         String chartTitle = chartStruct.getLabels().get(0);
         
-        stepRenderer.setSeriesPaint(0, new java.awt.Color(0, 100, 0));
+        stepRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
         stepRenderer.setSeriesShapesVisible(0,  false);
 
         XYDataset data = xyChart.getDataset();
@@ -75,6 +76,8 @@ public class StepChart implements ChartsIF {
         
         XYPlot plotter = chartStruct.getPlot();
         XYDataset data = xyChart.getDataset2();
+        
+        stepRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
         
         plotter.setDataset(chartStruct.getFlag()-1, data);
         plotter.setRenderer(chartStruct.getFlag()-1,stepRenderer);

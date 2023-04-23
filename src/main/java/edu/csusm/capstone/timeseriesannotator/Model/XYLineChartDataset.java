@@ -35,7 +35,6 @@ public class XYLineChartDataset implements ChartData {
                 break;
             }
         }
-
         this.dataset.addSeries(series1);
 
     }

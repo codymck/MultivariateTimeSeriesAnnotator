@@ -2,6 +2,7 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import org.jfree.chart.JFreeChart;
@@ -37,6 +38,7 @@ public class LineChart implements ChartsIF {
         
 
         XYDataset data = xyChart.getDataset();
+        lineRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
         
         XYPlot plot = new XYPlot(data, xAxis, yAxis, lineRenderer);
         chartStruct.setPlot(plot);
@@ -75,6 +77,8 @@ public class LineChart implements ChartsIF {
         
         XYPlot plotter = chartStruct.getPlot();
         XYDataset data = xyChart.getDataset2();
+        
+        lineRenderer.setSeriesPaint(1, ChartSelectMenu.getColor());
         
         plotter.setDataset(chartStruct.getFlag()-1, data);
         plotter.setRenderer(chartStruct.getFlag()-1,lineRenderer);

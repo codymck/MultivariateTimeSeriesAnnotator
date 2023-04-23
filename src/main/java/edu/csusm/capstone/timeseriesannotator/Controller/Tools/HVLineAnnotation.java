@@ -6,30 +6,24 @@ import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import java.awt.BasicStroke;
 import org.jfree.chart.ui.RectangleAnchor;
-
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
-import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class HVLineAnnotation extends AbstractAnnotation {
-    public boolean selected;
-    public Color color;
-    public XYPlot plot;
-    public String type;
     private double[] coordinate = {0.0, 0.0};
 
     private ValueMarker drawMarker;
     private ValueMarker traceMarker = null;
     private Line2D.Double storeLine = new Line2D.Double(0.0, 0.0, 0.0, 0.0);
     private Rectangle2D.Double intersectRect;
-    private AnnotateChartPanel chartPanel;
     
-    private Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
-                                  0, new float[]{9}, 0);
-        
     public HVLineAnnotation(XYPlot p, Color c, String t, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
@@ -188,25 +182,10 @@ public class HVLineAnnotation extends AbstractAnnotation {
             storeLine = new Line2D.Double(coordinate[0], chartPanel.minMax[1] - lengthY*3, coordinate[0], chartPanel.minMax[3] + lengthY*3);
         }
     }
-
-    @Override
-    public boolean isSelected() {
-        return selected;
-    }
     
     @Override
     public String getType(){
         return "hvline";
-    }
-
-   @Override
-    public String getRGBA() {
-        String R = String.valueOf(color.getRed());
-        String G = String.valueOf(color.getGreen());
-        String B = String.valueOf(color.getBlue());
-        String A = String.valueOf(color.getAlpha());
-
-        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
     
     @Override

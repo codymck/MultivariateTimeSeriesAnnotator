@@ -53,6 +53,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         setLocationRelativeTo(AppFrame.frame);
         yList.setVisible(false);        
         this.HDF = this;
+        this.getRootPane().setDefaultButton(HDF5PathButton);
     }
 
     /**

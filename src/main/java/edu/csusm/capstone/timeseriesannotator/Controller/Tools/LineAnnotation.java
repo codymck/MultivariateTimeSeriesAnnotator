@@ -3,25 +3,20 @@ package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 
+/**
+ *
+ * @author Ben Theurich
+ * @author Cody McKinney
+ */
 public class LineAnnotation extends AbstractAnnotation {
-
-    public boolean selected;
-    public Color color;
-    public XYPlot plot;
-    private String type;
-    private AnnotateChartPanel chartPanel;
-
     private Line2D.Double storeLine = null;
     private Rectangle2D.Double intersectRect;
-    private Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
-                                  0, new float[]{9}, 0);
 
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}};
     private double[] startPoint = {0.0, 0.0};
@@ -153,23 +148,8 @@ public class LineAnnotation extends AbstractAnnotation {
     }
 
     @Override
-    public boolean isSelected() {
-        return selected;
-    }
-
-    @Override
     public String getType() {
         return "line";
-    }
-
-    @Override
-    public String getRGBA() {
-        String R = String.valueOf(color.getRed());
-        String G = String.valueOf(color.getGreen());
-        String B = String.valueOf(color.getBlue());
-        String A = String.valueOf(color.getAlpha());
-
-        return "[" + R + ", " + G + ", " + B + ", " + A + "]";
     }
 
     @Override

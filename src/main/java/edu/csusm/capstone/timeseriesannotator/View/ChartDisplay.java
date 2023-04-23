@@ -218,6 +218,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         jPanel4.setMinimumSize(new java.awt.Dimension(200, 23));
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
+        AddSeriesButton.setBackground(new java.awt.Color(102, 196, 105));
         AddSeriesButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         AddSeriesButton.setText("Add Series");
         AddSeriesButton.setName("AddSeries");
@@ -246,9 +247,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         restoreAutoBoundsButton.addActionListener(this);
         jPanel4.add(restoreAutoBoundsButton);
 
-        SyncButton.setBackground(new java.awt.Color(255, 255, 222));
         SyncButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         SyncButton.setText("Sync");
+        SyncButton.setToolTipText("Sync Charts");
         SyncButton.setName("SyncChart"); // NOI18N
         SyncButton.setName("SyncChart");
         SyncButton.addActionListener(this);

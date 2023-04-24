@@ -1,3 +1,5 @@
+package edu.csusm.capstone.timeseriesannotator.View;
+
 
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import org.assertj.swing.edt.GuiActionRunner;
@@ -15,7 +17,7 @@ import org.junit.Test;
  *
  * @author Ramon Duran
  */
-public class ButtonAutomateTest {
+public class ToolButtonAutomateTest {
     private FrameFixture window;
     private AppFrame frame;
     @Before
@@ -31,7 +33,10 @@ public class ButtonAutomateTest {
     
     @Test
     public void testButtons() throws InterruptedException{
-        window.button("AddChartButton").click();
+        
+        for(int i = 0; i < 5;i++){
+            window.button("AddChartButton").click();
+        }
         window.toggleButton("ZoomButton").click();
         window.toggleButton("PanButton").click();
         window.toggleButton("EditButton").click();

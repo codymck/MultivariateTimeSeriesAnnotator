@@ -116,7 +116,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImportAnnotationsButtonActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ExportAnnotationsButton.setName(&quot;ImportAnnotations&quot;);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ImportAnnotationsButton.setName(&quot;ImportAnnotations&quot;);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="restoreAutoBoundsButton">

@@ -18,6 +18,7 @@ public abstract class AbstractAnnotation {
     protected XYPlot plot;
     protected AnnotateChartPanel chartPanel;
     protected String type;
+    protected int fillAlpha = 60;
     protected Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, 
             BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
     

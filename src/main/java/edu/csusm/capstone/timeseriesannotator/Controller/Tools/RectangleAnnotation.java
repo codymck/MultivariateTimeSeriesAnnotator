@@ -29,7 +29,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
     public RectangleAnnotation(XYPlot p, Color c, double[] point, String t, AnnotateChartPanel cP) {
         this.handles = new ResizeHandle[]{null, null, null, null};
         this.plot = p;
-        this.color = c;
+        this.color = new Color(c.getRed(), c.getGreen(), c.getBlue(), fillAlpha);
         coordinates[0][0] = point[0];
         coordinates[0][1] = point[1];
         this.type = t;
@@ -237,7 +237,7 @@ public class RectangleAnnotation extends AbstractAnnotation {
     
     @Override
     public void changeColor(Color c){
-        color = c;
+        color = new Color(c.getRed(), c.getGreen(), c.getBlue(), fillAlpha);
         plot.removeAnnotation(rectAnnotation);
         rectAnnotation = new XYShapeAnnotation(storeRect, dashed,
                     new Color(0, 0, 0), color);

@@ -1,7 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
-import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import org.jfree.chart.plot.XYPlot;
@@ -35,7 +34,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public TriangleAnnotation(XYPlot p, Color c, AnnotateChartPanel cP) {
         this.handles = new ResizeHandle[]{null, null, null};
         this.plot = p;
-        this.color = c;
+        this.color = new Color(c.getRed(), c.getGreen(), c.getBlue(), fillAlpha);
         this.chartPanel = cP;
     }
 
@@ -66,7 +65,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
                     point[1],
                     point[0],
                     point[1],
-                    new BasicStroke(2.0f), AppFrame.getAbsoluteColor());
+                    new BasicStroke(2.0f), color);
             plot.addAnnotation(line);
             triClick++;
         } else {
@@ -250,7 +249,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
     
     @Override
     public void changeColor(Color c){
-        color = c;
+        color = new Color(c.getRed(), c.getGreen(), c.getBlue(), fillAlpha);
         plot.removeAnnotation(triangleAnnotation);
         triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
                     new Color(0, 0, 0), color);

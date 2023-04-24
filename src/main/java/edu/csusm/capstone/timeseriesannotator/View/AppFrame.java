@@ -802,15 +802,6 @@ public class AppFrame extends javax.swing.JFrame {
         return style;
     }
 
-    public static Color getAbsoluteColor() {
-        Color c = Color.BLACK;
-        if (color != null) {
-            c = color;
-        }
-
-        return c;
-    }
-
     public static int getFontSize() {
         return fontSize;
     }

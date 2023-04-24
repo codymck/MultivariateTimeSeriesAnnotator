@@ -31,6 +31,6 @@ public class CSVdataSelectMenuTest {
     
     @Test
     public void testDataSelect(){
-        dialog.toggleButton("SelectCoordinates").click();
+        dialog.button("SubmitAxis").click();
     }
 }

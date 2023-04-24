@@ -65,6 +65,7 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
         });
 
         csvCoordinateButton.setText("Select Axis");
+        csvCoordinateButton.setName("SubmitAxis");
         csvCoordinateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 csvCoordinateButtonActionPerformed(evt);

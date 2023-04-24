@@ -47,6 +47,7 @@ public class CommentMenu extends javax.swing.JDialog {
 
         SubmitButton.setText("OK");
         SubmitButton.setToolTipText("Submit entry and selections (Press Enter)");
+        SubmitButton.setName("CommentSubmit");
         SubmitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SubmitButtonActionPerformed(evt);
@@ -54,6 +55,7 @@ public class CommentMenu extends javax.swing.JDialog {
         });
 
         TextField.setText("Enter text here...");
+        TextField.setName("Comment");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

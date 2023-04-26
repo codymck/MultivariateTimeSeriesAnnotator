@@ -2,8 +2,11 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.util.EventListener;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.DatasetRenderingOrder;
@@ -35,7 +38,7 @@ public class StepChart implements ChartsIF {
         NumberAxis yAxis = new NumberAxis(chartStruct.getLabels().get(2));   
         String chartTitle = chartStruct.getLabels().get(0);
         
-        stepRenderer.setSeriesPaint(0, new java.awt.Color(0, 100, 0));
+        stepRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
         stepRenderer.setSeriesShapesVisible(0,  false);
 
         XYDataset data = xyChart.getDataset();
@@ -76,13 +79,20 @@ public class StepChart implements ChartsIF {
         XYPlot plotter = chartStruct.getPlot();
         XYDataset data = xyChart.getDataset2();
         
-        plotter.setDataset(chartStruct.getFlag()-1, data);
-        plotter.setRenderer(chartStruct.getFlag()-1,stepRenderer);
+        stepRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
+        
+        plotter.setDataset(chartStruct.getFlag()-2, data);
+        plotter.setRenderer(chartStruct.getFlag()-2,stepRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         //plotter.getRangeAxis().setAttributedLabel(chartStruct.getLabels().get(2) + " & " + chartStruct.getLabels().get(chartStruct.getFlag()+1));
         
         JFreeChart chart = new JFreeChart(chartStruct.getLabels().get(0), JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = chartStruct.getAnnotateChartPanel();
+        EventListener[] t = cP.getListeners(ChartMouseListener.class);
+        for(EventListener x : t){
+            cP.removeChartMouseListener((ChartMouseListener) x);
+        } 
+        
         cP.setChart(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);

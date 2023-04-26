@@ -5,6 +5,8 @@ import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.util.EventListener;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.DatasetRenderingOrder;
@@ -82,16 +84,21 @@ public class ScatterPlot implements ChartsIF {
         dotRenderer.setDotWidth(5);
         dotRenderer.setDotHeight(5);
         
-        plotter.setDataset(chartStruct.getFlag()-1, data);
+        plotter.setDataset(chartStruct.getFlag()-2, data);
 //        plotter.setBackgroundPaint(new java.awt.Color(204, 204, 204));
 //        plotter.setDomainGridlinePaint(Color.WHITE);
 //        plotter.setRangeGridlinePaint(Color.WHITE);
         
-        plotter.setRenderer(chartStruct.getFlag()-1,dotRenderer);
+        plotter.setRenderer(chartStruct.getFlag()-2,dotRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         JFreeChart chart = new JFreeChart(chartStruct.getLabels().get(0), JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = chartStruct.getAnnotateChartPanel();
+        EventListener[] t = cP.getListeners(ChartMouseListener.class);
+        for(EventListener x : t){
+            cP.removeChartMouseListener((ChartMouseListener) x);
+        } 
+        
         cP.setChart(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);

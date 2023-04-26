@@ -5,6 +5,8 @@ import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.util.EventListener;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.DatasetRenderingOrder;
@@ -79,13 +81,18 @@ public class StepChart implements ChartsIF {
         
         stepRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
         
-        plotter.setDataset(chartStruct.getFlag()-1, data);
-        plotter.setRenderer(chartStruct.getFlag()-1,stepRenderer);
+        plotter.setDataset(chartStruct.getFlag()-2, data);
+        plotter.setRenderer(chartStruct.getFlag()-2,stepRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         //plotter.getRangeAxis().setAttributedLabel(chartStruct.getLabels().get(2) + " & " + chartStruct.getLabels().get(chartStruct.getFlag()+1));
         
         JFreeChart chart = new JFreeChart(chartStruct.getLabels().get(0), JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = chartStruct.getAnnotateChartPanel();
+        EventListener[] t = cP.getListeners(ChartMouseListener.class);
+        for(EventListener x : t){
+            cP.removeChartMouseListener((ChartMouseListener) x);
+        } 
+        
         cP.setChart(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);

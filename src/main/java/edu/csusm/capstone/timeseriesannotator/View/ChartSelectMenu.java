@@ -1,7 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartAction;
-import static edu.csusm.capstone.timeseriesannotator.View.AppFrame.color;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import javax.swing.JColorChooser;
@@ -12,7 +11,8 @@ import javax.swing.JColorChooser;
  */
 public class ChartSelectMenu extends javax.swing.JDialog {
     boolean selected = false;
-    static Color color;
+    boolean newColor = false;
+    static Color color = Color.red;
     /**
      * Creates new form ChartSelectMenu
      */
@@ -20,6 +20,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(AppFrame.frame);
+        colorSelect.setBackground(Color.red);
     }
 
     /**
@@ -119,18 +120,30 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         ActionListener chartAction = new ChartAction(this, 1);
         chartAction.actionPerformed(evt);
         selected = true;
+        if(!newColor){
+            color = Color.RED;
+            colorSelect.setBackground(Color.RED);
+        }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         ActionListener chartAction = new ChartAction(this, 2);
         chartAction.actionPerformed(evt);
         selected = true;
+        if(!newColor){
+            color = Color.BLUE;
+            colorSelect.setBackground(Color.BLUE);
+        }
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
         ActionListener chartAction = new ChartAction(this, 3);
         chartAction.actionPerformed(evt);
         selected = true;
+        if(!newColor){
+            color = Color.GREEN;
+            colorSelect.setBackground(Color.GREEN);
+        }
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private void colorSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorSelectActionPerformed

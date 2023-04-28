@@ -130,7 +130,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         this.chart = chart;
         originalDatasets = new ArrayList<>(chart.getXYPlot().getDatasetCount());
         this.plot = (XYPlot) chart.getPlot();
-        this.getMinAndMax();
+        //this.getMinAndMax();
         setChartState(AppFrame.getAppState());
         chart.setBackgroundPaint(new java.awt.Color(242, 242, 242));
 
@@ -900,12 +900,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     }
 
     private void getMinAndMax() {
-        XYDataset dataset = plot.getDataset();
-        for (int i = 0; i < dataset.getSeriesCount(); i++) {
-            System.out.println(i);
-            for (int j = 0; j < dataset.getItemCount(i); j++) {
-                double xTemp = dataset.getXValue(i, j);
-                double yTemp = dataset.getYValue(i, j);
+        XYDataset dataset;
+        for (int i = 0; i < plot.getDatasetCount(); i++) {
+            dataset = plot.getDataset(i);
+            for (int j = 0; j < dataset.getItemCount(0); j++) {
+                double xTemp = dataset.getXValue(0, j);
+                double yTemp = dataset.getYValue(0, j);
                 if (xTemp < minMax[0]) {
                     minMax[0] = xTemp;
                 }
@@ -920,11 +920,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 }
             }
         }
-        System.out.println(minMax[0] + ", " + minMax[1] + ", " + minMax[2] + ", " + minMax[3]);
+        //System.out.println(minMax[0] + ", " + minMax[1] + ", " + minMax[2] + ", " + minMax[3]);
     }
     
     public void redrawNewMM() {
-        System.out.println("redraw");
+        //System.out.println("redraw");
         getMinAndMax();
         for (int i = 0; i < annotations.size(); i++) {
             if(annotations.get(i) instanceof RectangleAnnotation r){

@@ -101,6 +101,7 @@ public class LineChart implements ChartsIF {
         cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
         cP.redrawNewMM();
+        cP.restoreAutoBounds();
         
         plotter.setRangePannable(true);
         plotter.setDomainPannable(true);

@@ -106,6 +106,7 @@ public class ScatterPlot implements ChartsIF {
         cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
         cP.redrawNewMM();
+        cP.restoreAutoBounds();
         
         plotter.setRangePannable(true);
         plotter.setDomainPannable(true);

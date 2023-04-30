@@ -497,6 +497,9 @@
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CustomColorButtonMouseClicked"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="CustomColorButton.setName(&quot;CustomColorButton1&quot;);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

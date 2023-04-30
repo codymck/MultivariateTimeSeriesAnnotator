@@ -393,7 +393,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         buttonGroup2.add(CustomColorButton2);
         CustomColorButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/colorpicker.png"))); // NOI18N
-        CustomColorButton2.setToolTipText("Set custom color, double click to change once set");
+        CustomColorButton2.setToolTipText("Set custom color, double click to change");
         CustomColorButton2.setDoubleBuffered(true);
         CustomColorButton2.setName("CustomColorButton2"); // NOI18N
         CustomColorButton2.setPreferredSize(new java.awt.Dimension(20, 20));
@@ -445,7 +445,7 @@ public class AppFrame extends javax.swing.JFrame {
         ColorPanel.add(PurpleButton);
 
         CustomColorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/colorpicker.png"))); // NOI18N
-        CustomColorButton.setToolTipText("Set custom color, double click to change once set");
+        CustomColorButton.setToolTipText("Set custom color, double click to change");
         CustomColorButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CustomColorButtonMouseClicked(evt);

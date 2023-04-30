@@ -65,6 +65,7 @@ public class LineChart implements ChartsIF {
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
+        cP.redrawNewMM();
         
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
@@ -99,6 +100,8 @@ public class LineChart implements ChartsIF {
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
+        cP.redrawNewMM();
+        cP.restoreAutoBounds();
         
         plotter.setRangePannable(true);
         plotter.setDomainPannable(true);

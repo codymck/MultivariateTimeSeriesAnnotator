@@ -173,7 +173,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
 
     }
     
-    private void calculateLine(){
+    public void calculateLine(){
         if (type.equals("horizontal")) {
             double lengthX = chartPanel.minMax[2] - chartPanel.minMax[0];
             storeLine = new Line2D.Double(chartPanel.minMax[0] + lengthX*3, coordinate[1], chartPanel.minMax[2] - lengthX*3, coordinate[1]);

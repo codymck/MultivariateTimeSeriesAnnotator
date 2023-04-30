@@ -150,6 +150,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         color = JColorChooser.showDialog(this,
                 "Select a color", new Color(0, 100, 255, 60));
         colorSelect.setBackground(color);
+        newColor = true;
     }//GEN-LAST:event_colorSelectActionPerformed
 
     public boolean isSelected(){

@@ -929,7 +929,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         for (int i = 0; i < annotations.size(); i++) {
             if(annotations.get(i) instanceof RectangleAnnotation r){
                 r.newBounds();
-            }if(annotations.get(i) instanceof HVLineAnnotation l){
+            }else if(annotations.get(i) instanceof HVLineAnnotation l){
                 l.calculateLine();
             }
         }

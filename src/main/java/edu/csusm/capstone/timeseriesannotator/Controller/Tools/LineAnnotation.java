@@ -57,7 +57,7 @@ public class LineAnnotation extends AbstractAnnotation {
                 dx = startPoint[0] - point[0]; // change in x
                 dy = startPoint[1] - point[1]; // change in y
                 angle = Math.atan2(dy, dx); // angle of line
-                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 3; // length of line
+                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 10; // length of line
                 coordinates[1][0] = startPoint[0] - length * Math.cos(angle);
                 coordinates[1][1] = startPoint[1] - length * Math.sin(angle);
             }
@@ -65,12 +65,12 @@ public class LineAnnotation extends AbstractAnnotation {
                 dx = startPoint[0] - point[0]; // change in x
                 dy = startPoint[1] - point[1]; // change in y
                 angle = Math.atan2(dy, dx); // angle of line
-                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 3; // length of line
-                coordinates[0][0] = startPoint[0] - length * Math.cos(angle);
-                coordinates[0][1] = startPoint[1] - length * Math.sin(angle);
+                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 10; // length of line
+                coordinates[1][0] = startPoint[0] - length * Math.cos(angle);
+                coordinates[1][1] = startPoint[1] - length * Math.sin(angle);
 
-                coordinates[1][0] = point[0] + length * Math.cos(angle);
-                coordinates[1][1] = point[1] + length * Math.sin(angle);
+                coordinates[0][0] = point[0] + length * Math.cos(angle);
+                coordinates[0][1] = point[1] + length * Math.sin(angle);
             }
             default -> {
             }
@@ -146,7 +146,7 @@ public class LineAnnotation extends AbstractAnnotation {
         lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
         plot.addAnnotation(lineAnnotation);
     }
-
+    
     @Override
     public String getType() {
         return "line";

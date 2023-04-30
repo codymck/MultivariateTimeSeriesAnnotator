@@ -33,9 +33,7 @@ public class AppFrame extends javax.swing.JFrame {
     private static String[] textFontArray;
     public static Color color = Color.BLACK;
     public Color customColor1 = null;
-
-    private int customColorClickCount = 0;
-    private Timer clickTimer = null;
+    public Color customColor2 = null;
 
     /* FONT variables */
     public static String font = "Arial";
@@ -183,7 +181,7 @@ public class AppFrame extends javax.swing.JFrame {
         BlackButton = new javax.swing.JToggleButton();
         RedButton = new javax.swing.JToggleButton();
         OrangeButton = new javax.swing.JToggleButton();
-        YellowButton = new javax.swing.JToggleButton();
+        CustomColorButton2 = new javax.swing.JToggleButton();
         GreenButton = new javax.swing.JToggleButton();
         BlueButton = new javax.swing.JToggleButton();
         PurpleButton = new javax.swing.JToggleButton();
@@ -393,18 +391,19 @@ public class AppFrame extends javax.swing.JFrame {
         });
         ColorPanel.add(OrangeButton);
 
-        YellowButton.setBackground(new java.awt.Color(255, 255, 51));
-        buttonGroup2.add(YellowButton);
-        YellowButton.setDoubleBuffered(true);
-        YellowButton.setName("YellowButton"); // NOI18N
-        YellowButton.setPreferredSize(new java.awt.Dimension(20, 20));
-        YellowButton.setName("YellowButton");
-        YellowButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                YellowButtonActionPerformed(evt);
+        buttonGroup2.add(CustomColorButton2);
+        CustomColorButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/colorpicker.png"))); // NOI18N
+        CustomColorButton2.setToolTipText("Set custom color, double click to change once set");
+        CustomColorButton2.setDoubleBuffered(true);
+        CustomColorButton2.setName("CustomColorButton2"); // NOI18N
+        CustomColorButton2.setPreferredSize(new java.awt.Dimension(20, 20));
+        CustomColorButton2.setName("CustomColorButton2");
+        CustomColorButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CustomColorButton2MouseClicked(evt);
             }
         });
-        ColorPanel.add(YellowButton);
+        ColorPanel.add(CustomColorButton2);
 
         GreenButton.setBackground(new java.awt.Color(0, 255, 0));
         buttonGroup2.add(GreenButton);
@@ -446,9 +445,10 @@ public class AppFrame extends javax.swing.JFrame {
         ColorPanel.add(PurpleButton);
 
         CustomColorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/colorpicker.png"))); // NOI18N
-        CustomColorButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CustomColorButtonActionPerformed(evt);
+        CustomColorButton.setToolTipText("Set custom color, double click to change once set");
+        CustomColorButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CustomColorButtonMouseClicked(evt);
             }
         });
         ColorPanel.add(CustomColorButton);
@@ -677,13 +677,6 @@ public class AppFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_OrangeButtonActionPerformed
 
-    private void YellowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YellowButtonActionPerformed
-        color = Color.YELLOW;
-        for (int i = 0; i < charts.size(); i++) {
-            charts.get(i).aChartPanel.setColor(color);
-        }
-    }//GEN-LAST:event_YellowButtonActionPerformed
-
     private void GreenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GreenButtonActionPerformed
         color = Color.GREEN;
         for (int i = 0; i < charts.size(); i++) {
@@ -792,31 +785,31 @@ public class AppFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_EditButtonActionPerformed
 
-    private void CustomColorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomColorButtonActionPerformed
-        customColorClickCount++;
-        if (customColor1 == null || customColorClickCount % 2 == 0) {
+    private void CustomColorButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomColorButton2MouseClicked
+        if (customColor2 == null || evt.getClickCount() == 2) {
+            customColor2 = JColorChooser.showDialog(this,
+                    "Select a color", new Color(0, 100, 255, 60));
+            CustomColorButton2.setBackground(customColor2);
+        }
+        
+        color = customColor2;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).aChartPanel.setColor(color);
+        }
+    }//GEN-LAST:event_CustomColorButton2MouseClicked
+
+    private void CustomColorButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomColorButtonMouseClicked
+        if (customColor1 == null || evt.getClickCount() == 2) {
             customColor1 = JColorChooser.showDialog(this,
                     "Select a color", new Color(0, 100, 255, 60));
             CustomColorButton.setBackground(customColor1);
         }
-
-        if (clickTimer != null) {
-            clickTimer.restart();
-        } else {
-            clickTimer = new Timer(200, new ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    customColorClickCount = 0;
-                    color = customColor1;
-                    for (int i = 0; i < charts.size(); i++) {
-                        charts.get(i).aChartPanel.setColor(color);
-                    }
-                }
-            });
-            clickTimer.setRepeats(false);
-            clickTimer.start();
+        
+        color = customColor1;
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).aChartPanel.setColor(color);
         }
-    }//GEN-LAST:event_CustomColorButtonActionPerformed
+    }//GEN-LAST:event_CustomColorButtonMouseClicked
 
     public static int getFontStyle() {
         int style = Font.PLAIN;
@@ -976,6 +969,7 @@ public class AppFrame extends javax.swing.JFrame {
     private java.awt.Panel ColorPanel;
     private javax.swing.JToggleButton CommentButton;
     private javax.swing.JButton CustomColorButton;
+    private javax.swing.JToggleButton CustomColorButton2;
     private javax.swing.JToggleButton DiagonalButton;
     public javax.swing.JToggleButton EditButton;
     private javax.swing.JToggleButton EllipseButton;
@@ -1006,7 +1000,6 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JPanel ToolSelectPanel;
     private javax.swing.JToggleButton TriangleButton;
     private javax.swing.JToggleButton VerticalButton;
-    private javax.swing.JToggleButton YellowButton;
     public javax.swing.JToggleButton ZoomButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;

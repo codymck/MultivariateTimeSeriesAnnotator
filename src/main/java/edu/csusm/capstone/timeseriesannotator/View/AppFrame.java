@@ -209,7 +209,7 @@ public class AppFrame extends javax.swing.JFrame {
         importDataMenuItem = new javax.swing.JMenuItem();
         AddChartMenuItem = new javax.swing.JMenuItem();
         optionsMenuItem = new javax.swing.JMenu();
-        HighlightColor = new javax.swing.JMenuItem();
+        OpenColorChooser = new javax.swing.JMenuItem();
 
         importChooser.setCurrentDirectory(new java.io.File("./dataFiles"));
         importChooser.setName("importChooser"); // NOI18N
@@ -648,13 +648,13 @@ public class AppFrame extends javax.swing.JFrame {
 
         optionsMenuItem.setText("Options");
 
-        HighlightColor.setText("Change Highlight Color");
-        HighlightColor.addActionListener(new java.awt.event.ActionListener() {
+        OpenColorChooser.setText("Select from Color Chooser");
+        OpenColorChooser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HighlightColorActionPerformed(evt);
+                OpenColorChooserActionPerformed(evt);
             }
         });
-        optionsMenuItem.add(HighlightColor);
+        optionsMenuItem.add(OpenColorChooser);
 
         menuBar.add(optionsMenuItem);
 
@@ -837,7 +837,7 @@ public class AppFrame extends javax.swing.JFrame {
         return font;
     }
 
-    private void HighlightColorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
+    private void OpenColorChooserActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed
         color = JColorChooser.showDialog(this,
                 "Select a color", new Color(0, 100, 255, 60));
         for (int i = 0; i < charts.size(); i++) {
@@ -928,7 +928,7 @@ public class AppFrame extends javax.swing.JFrame {
     private void LineButtonActionPerformed(java.awt.event.ActionEvent evt) {
         selectedButton = LineButton;
         if (!ctrlPressed) {
-            BlackButton.doClick();
+//            BlackButton.doClick();
             VerticalButton.doClick();
         }
         setAppState(ToolState.MARK);
@@ -981,10 +981,10 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> FontStyleComboBox;
     private javax.swing.JLabel FontStyleLabel;
     private javax.swing.JToggleButton GreenButton;
-    private javax.swing.JMenuItem HighlightColor;
     private javax.swing.JToggleButton HorizontalButton;
     private javax.swing.JToggleButton LineButton;
     private java.awt.Panel LinesPanel;
+    private javax.swing.JMenuItem OpenColorChooser;
     private javax.swing.JToggleButton OrangeButton;
     private javax.swing.JToggleButton PanButton;
     private javax.swing.JToggleButton PurpleButton;

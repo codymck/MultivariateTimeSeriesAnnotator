@@ -66,12 +66,12 @@
             <Property name="text" type="java.lang.String" value="Options"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="HighlightColor">
+            <MenuItem class="javax.swing.JMenuItem" name="OpenColorChooser">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Change Highlight Color"/>
+                <Property name="text" type="java.lang.String" value="Select from Color Chooser"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HighlightColorActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OpenColorChooserActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

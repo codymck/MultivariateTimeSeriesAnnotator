@@ -1,7 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Controller.Tools;
 
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
-import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import edu.csusm.capstone.timeseriesannotator.View.CommentMenu;
 import java.awt.Color;
 import java.awt.Font;
@@ -46,7 +45,7 @@ public class CommentAnnotation extends AbstractAnnotation {
         text = cMenu.getComment();
         commentAnnotation = new XYTextAnnotation(text, coordinates[0], coordinates[1]);
         commentAnnotation.setFont(f);
-        commentAnnotation.setPaint(AppFrame.getAbsoluteColor());
+        commentAnnotation.setPaint(color);
         commentAnnotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
         plot.addAnnotation(commentAnnotation);
         chartPanel.addAbstractAnnotation(this);
@@ -184,6 +183,14 @@ public class CommentAnnotation extends AbstractAnnotation {
             selectedRect = new XYShapeAnnotation(hitbox, dashed, Color.BLACK, new Color(0,0,0,0));
             plot.addAnnotation(selectedRect);
         }
+    }
+    
+    @Override
+    public void changeColor(Color c){
+        color = c;
+        plot.removeAnnotation(commentAnnotation);
+        commentAnnotation.setPaint(color);
+        plot.addAnnotation(commentAnnotation);
     }
     
     @Override

@@ -26,7 +26,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
     public EllipseAnnotation(XYPlot p, Color c, double[] point, AnnotateChartPanel cP) {
         this.handles = new ResizeHandle[]{null, null, null, null};
         this.plot = p;
-        this.color = c;
+        this.color = new Color(c.getRed(), c.getGreen(), c.getBlue(), fillAlpha);
         this.chartPanel = cP;
         coordinates[0][0] = point[0];
         coordinates[0][1] = point[1];
@@ -142,6 +142,15 @@ public class EllipseAnnotation extends AbstractAnnotation {
 
         coordinates[3][0] = storeEllipse.getX() + storeEllipse.getWidth()/2;
         coordinates[3][1] = storeEllipse.getY();
+    }
+    
+    @Override
+    public void changeColor(Color c){
+        color = new Color(c.getRed(), c.getGreen(), c.getBlue(), fillAlpha);
+        plot.removeAnnotation(ellipseAnnotation);
+        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
+                    new Color(0, 0, 0), color);
+        plot.addAnnotation(ellipseAnnotation);
     }
     
     @Override

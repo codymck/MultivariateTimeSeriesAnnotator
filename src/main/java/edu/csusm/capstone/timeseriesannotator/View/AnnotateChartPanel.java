@@ -7,6 +7,7 @@ import edu.csusm.capstone.timeseriesannotator.Controller.Tools.*;
 import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.ELLIPSE;
 import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.SQUARE;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
+import static edu.csusm.capstone.timeseriesannotator.Model.ToolState.SELECT;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
@@ -63,7 +64,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     private ToolState state;
     private JFreeChart chart = null;
-    Color color = new Color(0, 0, 0, 60);
+    Color color = new Color(0, 0, 0);
     private XYPlot plot;
     final List<XYDataset> originalDatasets;
     private boolean syncing = false;
@@ -278,7 +279,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     switch (AppFrame.getMarkerType()) {
                         case VERTICAL -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                vert = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "vertical", this);
+                                vert = new HVLineAnnotation(plot, color, "vertical", this);
                                 vert.createLine(point);
                                 shapeIndex = annotations.size();
                                 annotations.add(vert);
@@ -295,7 +296,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         }
                         case HORIZONTAL -> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
-                                horiz = new HVLineAnnotation(plot, AppFrame.getAbsoluteColor(), "horizontal", this);
+                                horiz = new HVLineAnnotation(plot, color, "horizontal", this);
                                 horiz.createLine(point);
                                 shapeIndex = annotations.size();
                                 annotations.add(horiz);
@@ -314,7 +315,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    dl = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "diagonal", this);
+                                    dl = new LineAnnotation(plot, color, point, "diagonal", this);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -332,7 +333,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    lr = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "ray", this);
+                                    lr = new LineAnnotation(plot, color, point, "ray", this);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -350,7 +351,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!clickedOnce) {
                                     clickedOnce = true;
-                                    sl = new LineAnnotation(plot, AppFrame.getAbsoluteColor(), point, "segment", this);
+                                    sl = new LineAnnotation(plot, color, point, "segment", this);
                                 } else {
                                     clickedOnce = false;
                                 }
@@ -696,11 +697,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     }
 
     public void setColor(Color c) {
-        int r = c.getRed();
-        int g = c.getGreen();
-        int b = c.getBlue();
-
-        color = new Color(r, g, b, 60);
+        color = c;
+        hTrace = new HVLineAnnotation(plot, color, "horizontal", this);
+        vTrace = new HVLineAnnotation(plot, color, "vertical", this);
+        if(currentAnnotation != null && state == SELECT){
+            currentAnnotation.changeColor(color);
+        }
     }
 
     public void setSync(boolean s) {

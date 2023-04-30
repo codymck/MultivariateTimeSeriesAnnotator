@@ -157,6 +157,11 @@ public class LineAnnotation extends AbstractAnnotation {
     public void delete() {
         if (lineAnnotation != null) {
             plot.removeAnnotation(lineAnnotation);
+            if(selected){
+            for(int i = 0; i < 2; i++){
+                handles[i].remove();
+            }
+        }
         }
     }
 

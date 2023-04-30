@@ -4,6 +4,7 @@ import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
@@ -19,11 +20,15 @@ public class LineAnnotation extends AbstractAnnotation {
     private Rectangle2D.Double intersectRect;
 
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}};
+    private double[][] handleCoordinates = { { 0.0, 0.0 }, { 0.0, 0.0 } };
+    private boolean dragHandle = false;
+    private int handleNumber = 0;
     private double[] startPoint = {0.0, 0.0};
 
     private XYShapeAnnotation lineAnnotation = null;
 
     public LineAnnotation(XYPlot p, Color c, double[] point, String t, AnnotateChartPanel cP) {
+        this.handles = new ResizeHandle[]{null, null};
         this.plot = p;
         this.color = c;
         this.type = t;
@@ -34,6 +39,7 @@ public class LineAnnotation extends AbstractAnnotation {
     }
 
     public LineAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
+        this.handles = new ResizeHandle[]{null, null};
         this.plot = p;
         String tempType = t[0];
         this.type = tempType.substring(1, tempType.length() - 1);
@@ -100,8 +106,19 @@ public class LineAnnotation extends AbstractAnnotation {
         intersectRect = new Rectangle2D.Double(mouseX - xOffset, mouseY - yOffset, xSize, ySize);
         //XYShapeAnnotation hitbox = new XYShapeAnnotation(intersectRect, new BasicStroke(0), color, color);
         //plot.addAnnotation(hitbox);
-        boolean r = storeLine.intersects(intersectRect);
-        return r;
+        
+        Point2D p = new Point2D.Double(mouseX, mouseY);
+        boolean clicked = storeLine.intersects(intersectRect);
+        if(selected){
+            for(int i = 0; i < 2; i++){
+                if(handles[i].contains(mouseX, mouseY)){
+                    dragHandle = true;
+                    handleNumber = i;
+                    return true;
+                }
+            }
+        }
+        return clicked;
     }
     
     @Override
@@ -111,6 +128,15 @@ public class LineAnnotation extends AbstractAnnotation {
             lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
             plot.addAnnotation(lineAnnotation);
             selected = true;
+            updateHandleCoords();
+            for(int i = 0; i < 2; i++){
+                switch (type) {
+                    case "segment" ->
+                        handles[i] = new ResizeHandle(plot, handleCoordinates[i], chartPanel);
+                    default -> {
+                    }
+                }
+            }
         }
     }
     
@@ -118,6 +144,9 @@ public class LineAnnotation extends AbstractAnnotation {
     public void deselect(){
         if(selected){
             plot.removeAnnotation(lineAnnotation);
+            for(int i = 0; i < 2; i++){
+                handles[i].remove();
+            }
             lineAnnotation = new XYShapeAnnotation(storeLine, new BasicStroke(2), color);
             plot.addAnnotation(lineAnnotation);
             selected = false;
@@ -135,16 +164,55 @@ public class LineAnnotation extends AbstractAnnotation {
     public void move(double xOffset, double yOffset, boolean set) {
         plot.removeAnnotation(lineAnnotation);
         if(!set){
-            storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
-
+            if(!dragHandle){
+                storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
+            }else{
+                if(handleNumber == 0){
+                    storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0], coordinates[1][1]);
+                }
+                if(handleNumber == 1){
+                    storeLine.setLine(coordinates[0][0], coordinates[0][1], coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
+                }
+            }
         }else{
-            coordinates[0][0] -= xOffset;
-            coordinates[0][1] -= yOffset;
-            coordinates[1][0] -= xOffset;
-            coordinates[1][1] -= yOffset;
+            if(!dragHandle){
+                coordinates[0][0] -= xOffset;
+                coordinates[0][1] -= yOffset;
+                coordinates[1][0] -= xOffset;
+                coordinates[1][1] -= yOffset;
+            }else{
+                if(handleNumber == 0){
+                    coordinates[0][0] -= xOffset;
+                    coordinates[0][1] -= yOffset;
+                }
+                if(handleNumber == 1){
+                    coordinates[1][0] -= xOffset;
+                    coordinates[1][1] -= yOffset;
+                }
+            }
+            dragHandle = false;
         }
         lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
         plot.addAnnotation(lineAnnotation);
+        updateHandleCoords();
+        for(int i = 0; i < 2; i++){
+            handles[i].changeCoords(handleCoordinates[i]);
+            handles[i].draw();
+        }
+    }
+    
+    private void updateHandleCoords(){
+        switch (type) {
+            case "segment" ->{
+                handleCoordinates[0][0] = storeLine.getX1();
+                handleCoordinates[0][1] = storeLine.getY1();
+                handleCoordinates[1][0] = storeLine.getX2();
+                handleCoordinates[1][1] = storeLine.getY2();
+            }
+            default -> {
+            }
+        }
+
     }
     
     @Override

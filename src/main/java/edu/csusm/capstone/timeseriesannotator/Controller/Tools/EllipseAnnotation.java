@@ -131,40 +131,40 @@ public class EllipseAnnotation extends AbstractAnnotation {
                 storeEllipse.setFrame(x-xOffset, y-yOffset, width, height);
             }else{
                 switch (handleNumber) {
-                    case 0:
+                    case 0 -> {
                         tempWidth = width+xOffset;
                         if(tempWidth > 0){
                             storeEllipse.setFrame(x-xOffset, y, width+xOffset, height);
                         }else{
                             storeEllipse.setFrame(x-xOffset+tempWidth, y, abs(tempWidth), height);
                         }
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         tempWidth = width-xOffset;
                         if(tempWidth > 0){
                             storeEllipse.setFrame(x, y, width-xOffset, height);
                         }else{
                             storeEllipse.setFrame(x-xOffset+width, y, abs(tempWidth), height);
                         }
-                        break;
-                    case 1:
+                    }
+                    case 1 -> {
                         tempHeight = height-yOffset;
                         if(tempHeight > 0){
                             storeEllipse.setFrame(x, y, width, height-yOffset);
                         }else{
                             storeEllipse.setFrame(x, y-yOffset+height, width, abs(tempHeight));
                         }
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         tempHeight = height+yOffset;
                         if(tempHeight > 0){
                             storeEllipse.setFrame(x, y-yOffset, width, height+yOffset);
                         }else{
                             storeEllipse.setFrame(x, y-yOffset+tempHeight, width, abs(tempHeight));
                         }
-                        break;
-                    default:
-                        break;
+                    }
+                    default -> {
+                    }
                 }
             }
         }else{
@@ -173,7 +173,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
                 y -= yOffset;
             }else{
                 switch (handleNumber) {
-                    case 0:
+                    case 0 -> {
                         tempWidth = width+xOffset;
                         if(tempWidth > 0){
                             x -= xOffset;
@@ -182,8 +182,8 @@ public class EllipseAnnotation extends AbstractAnnotation {
                             x = x-xOffset+tempWidth;
                             width = abs(tempWidth);
                         }
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         tempWidth = width-xOffset;
                         if(tempWidth > 0){
                             width -= xOffset;
@@ -191,8 +191,8 @@ public class EllipseAnnotation extends AbstractAnnotation {
                             x = x-xOffset+width;
                             width = abs(tempWidth);
                         }
-                        break;
-                    case 1:
+                    }
+                    case 1 -> {
                         tempHeight = height-yOffset;
                         if(tempHeight > 0){
                             height -= yOffset;
@@ -200,8 +200,8 @@ public class EllipseAnnotation extends AbstractAnnotation {
                             y = y-yOffset+height;
                             height = abs(tempHeight);
                         }
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         tempHeight = height+yOffset;
                         if(tempHeight > 0){
                             y -= yOffset;
@@ -210,9 +210,9 @@ public class EllipseAnnotation extends AbstractAnnotation {
                             y = y-yOffset+tempHeight;
                             height = abs(tempHeight);
                         }
-                        break;
-                    default:
-                        break;
+                    }
+                    default -> {
+                    }
                 }
             }
             storeEllipse.setFrame(x, y, width, height);

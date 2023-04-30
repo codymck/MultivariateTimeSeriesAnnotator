@@ -61,11 +61,6 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="editMenuItem">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
-          </Properties>
-        </Menu>
         <Menu class="javax.swing.JMenu" name="optionsMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="Options"/>
@@ -340,7 +335,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                 <Property name="columns" type="int" value="0"/>
-                <Property name="rows" type="int" value="1"/>
+                <Property name="rows" type="int" value="2"/>
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JToggleButton" name="BlackButton">
@@ -407,25 +402,26 @@
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="OrangeButton.setName(&quot;OrangeButton&quot;);"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JToggleButton" name="YellowButton">
+                <Component class="javax.swing.JToggleButton" name="CustomColorButton2">
                   <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="33" green="ff" red="ff" type="rgb"/>
-                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="buttonGroup2"/>
                     </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/icons/colorpicker.png"/>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Set custom color, double click to change"/>
                     <Property name="doubleBuffered" type="boolean" value="true"/>
-                    <Property name="name" type="java.lang.String" value="YellowButton" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="CustomColorButton2" noResource="true"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[20, 20]"/>
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="YellowButtonActionPerformed"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CustomColorButton2MouseClicked"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="YellowButton.setName(&quot;YellowButton&quot;);"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="CustomColorButton2.setName(&quot;CustomColorButton2&quot;);"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="GreenButton">
@@ -490,6 +486,17 @@
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="PurpleButton.setName(&quot;PurpleButton&quot;);"/>
                   </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="CustomColorButton">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/icons/colorpicker.png"/>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Set custom color, double click to change"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CustomColorButtonMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

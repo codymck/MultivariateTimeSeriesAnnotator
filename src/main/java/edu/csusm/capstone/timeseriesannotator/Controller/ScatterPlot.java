@@ -2,8 +2,11 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.util.EventListener;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.DatasetRenderingOrder;
@@ -35,7 +38,7 @@ public class ScatterPlot implements ChartsIF {
         NumberAxis yAxis = new NumberAxis(chartStruct.getLabels().get(2));   
         String chartTitle = chartStruct.getLabels().get(0);
         
-        dotRenderer.setSeriesPaint(0, java.awt.Color.blue);
+        dotRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
         dotRenderer.setDotWidth(5);
         dotRenderer.setDotHeight(5);
 
@@ -62,6 +65,7 @@ public class ScatterPlot implements ChartsIF {
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
+        cP.redrawNewMM();
         
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
@@ -77,25 +81,32 @@ public class ScatterPlot implements ChartsIF {
         XYPlot plotter = chartStruct.getPlot();
         XYDataset data = xyChart.getDataset2();
         
-        dotRenderer.setSeriesPaint(0, java.awt.Color.blue);//possibly update later for user selection
+        dotRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());//possibly update later for user selection
         dotRenderer.setDotWidth(5);
         dotRenderer.setDotHeight(5);
         
-        plotter.setDataset(chartStruct.getFlag()-1, data);
+        plotter.setDataset(chartStruct.getFlag()-2, data);
 //        plotter.setBackgroundPaint(new java.awt.Color(204, 204, 204));
 //        plotter.setDomainGridlinePaint(Color.WHITE);
 //        plotter.setRangeGridlinePaint(Color.WHITE);
         
-        plotter.setRenderer(chartStruct.getFlag()-1,dotRenderer);
+        plotter.setRenderer(chartStruct.getFlag()-2,dotRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         JFreeChart chart = new JFreeChart(chartStruct.getLabels().get(0), JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = chartStruct.getAnnotateChartPanel();
+        EventListener[] t = cP.getListeners(ChartMouseListener.class);
+        for(EventListener x : t){
+            cP.removeChartMouseListener((ChartMouseListener) x);
+        } 
+        
         cP.setChart(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
+        cP.redrawNewMM();
+        cP.restoreAutoBounds();
         
         plotter.setRangePannable(true);
         plotter.setDomainPannable(true);

@@ -4,6 +4,7 @@ import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
+import static edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu.color;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
@@ -17,6 +18,7 @@ import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JColorChooser;
 import javax.swing.JPopupMenu;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
@@ -25,8 +27,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.entity.AxisEntity;
 import org.jfree.chart.entity.ChartEntity;
+import org.jfree.chart.entity.LegendItemEntity;
 import org.jfree.chart.entity.TitleEntity;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -113,6 +117,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                     aChartPanel.setDomainZoomable(true);
                     aChartPanel.setRangeZoomable(true);
                 }
+//                System.out.println(event.getEntity());
                 if(event.getEntity().toString().contains("AxisEntity") || event.getEntity().toString().contains("TitleEntity")){
                     LabelsMenu chartTitle = new LabelsMenu(new javax.swing.JFrame(), true);
                     chartTitle.setVisible(true);
@@ -130,7 +135,26 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                         aChartPanel.getChart().setTitle(chartTitle.getComment());
                         chartStruct.getLabels().set(0, chartTitle.getComment());
                     }
-                }                
+                }   
+                if(event.getEntity().toString().contains("LegendItemEntity") && event.getTrigger().getClickCount() == 1){
+//                    System.out.println(plot.getDatasetCount());
+                    ChartEntity e = event.getEntity();
+                    LegendItemEntity entity = (LegendItemEntity) e;
+                    Comparable seriesKey = entity.getSeriesKey();
+                    XYDataset dataset;
+                    XYItemRenderer renderer;
+                    
+                    for (int i = 0; i < plot.getDatasetCount(); i++) {
+//                        System.out.println(plot.getDataset(i));
+                        dataset = plot.getDataset(i);
+                        renderer = plot.getRenderer(i);
+//                        System.out.println(dataset.getSeriesKey(0));
+                        if (dataset.getSeriesKey(0).equals(seriesKey)) {
+                            color = JColorChooser.showDialog(aChartPanel, "Select a color", new Color(0, 100, 255, 60));
+                            renderer.setSeriesPaint(0, color);
+                        }
+                    }
+                }
             }
 
             @Override
@@ -236,7 +260,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         ImportAnnotationsButton.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         ImportAnnotationsButton.setText("Import Annotations");
         ImportAnnotationsButton.setToolTipText("Import Annotations");
-        ExportAnnotationsButton.setName("ExportAnnotations");
+        ImportAnnotationsButton.setName("ImportAnnotations");
         ImportAnnotationsButton.addActionListener(this);
         jPanel4.add(ImportAnnotationsButton);
 

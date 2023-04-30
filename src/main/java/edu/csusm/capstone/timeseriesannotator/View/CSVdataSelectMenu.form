@@ -137,6 +137,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="csvCoordinateButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="csvCoordinateButton.setName(&quot;SubmitAxis&quot;);"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

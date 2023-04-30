@@ -698,7 +698,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 
     public void setColor(Color c) {
         color = c;
-        
+        hTrace = new HVLineAnnotation(plot, color, "horizontal", this);
+        vTrace = new HVLineAnnotation(plot, color, "vertical", this);
         if(currentAnnotation != null && state == SELECT){
             currentAnnotation.changeColor(color);
         }

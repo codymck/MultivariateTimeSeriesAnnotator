@@ -51,7 +51,7 @@ public class DataFormatter {
         yData = ArrayUtils.toPrimitive(tempY);
         
         if(CSVdataSelectMenu.CSV.getTimeStamp()){
-            System.out.println("Cody is sexy");
+            System.out.println("Cody is sexy and hot");
         }
         
 //        for(float f : xData){

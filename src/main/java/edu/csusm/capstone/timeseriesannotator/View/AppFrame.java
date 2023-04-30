@@ -446,6 +446,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         CustomColorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/colorpicker.png"))); // NOI18N
         CustomColorButton.setToolTipText("Set custom color, double click to change");
+        CustomColorButton.setName("CustomColorButton1");
         CustomColorButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CustomColorButtonMouseClicked(evt);

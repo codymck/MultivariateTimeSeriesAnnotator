@@ -16,6 +16,7 @@ public class DataFormatter {
     public static DataFormatter dF;
     static final long EPOCH = new java.util.Date(2015 - 1900, Calendar.JANUARY, 1).getTime(); // 2015/1/1 in GMT
 
+    boolean time = false;
     
     float[] xData;
     float[] yData;
@@ -55,6 +56,7 @@ public class DataFormatter {
         
         if(CSVdataSelectMenu.CSV.getTimeStamp()){
             System.out.println("Cody is sexy and hot");
+            time = true;
         }
         
 //        for(float f : xData){
@@ -84,6 +86,7 @@ public class DataFormatter {
                         xDateData[x] = new java.util.Date(t[x] * 1000 + EPOCH);
 //                        System.out.println(xDateData[x]);
                     }
+                    time = true;
                 }
                 else{
                     xData = new float[t.length];

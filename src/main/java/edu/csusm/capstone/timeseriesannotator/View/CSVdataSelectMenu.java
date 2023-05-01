@@ -9,8 +9,10 @@ import javax.swing.DefaultComboBoxModel;
  * @author josef
  */
 public class CSVdataSelectMenu extends javax.swing.JDialog {
+
     boolean timeStamp = false;
     public static CSVdataSelectMenu CSV;
+
     /**
      * Creates new form CSVdataSelectMenu
      */
@@ -114,21 +116,19 @@ public class CSVdataSelectMenu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
-        if(Xts.getState()){
+        if (Xts.getState()) {
             timeStamp = true;
         }
         ActionListener csvAction = new CSVAction(this, XAxisList, YAxisList);
         csvAction.actionPerformed(evt);
     }//GEN-LAST:event_csvCoordinateButtonActionPerformed
-    
+
     public void setModel(String[] h) {
         XAxisList.setModel(new DefaultComboBoxModel<>(h));
         YAxisList.setModel(new DefaultComboBoxModel<>(h));
     }
-    
-    
-    
-    public boolean getTimeStamp(){
+
+    public boolean getTimeStamp() {
         return timeStamp;
     }
 

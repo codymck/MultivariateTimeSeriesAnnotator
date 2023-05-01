@@ -1,6 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.Model;
 
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.util.Date;
 import org.jfree.data.general.SeriesException;
@@ -31,7 +32,7 @@ public class XYLineChartDataset implements ChartData {
 
         if (HDFdataSelectMenu.HDF == null) {
             //CSV process
-            if (CSVdataSelectMenu.CSV.getTimeStamp()) {
+            if (CSVdataSelectMenu.CSV.getTimeStamp() && dFormat.time) {
                 timeDataset(name);
             } else {
                 basicDataset(name);
@@ -39,7 +40,7 @@ public class XYLineChartDataset implements ChartData {
 
         } else if (CSVdataSelectMenu.CSV == null) {
             //HDF5 process
-            if (HDFdataSelectMenu.HDF.getTimeStamp()) {
+            if (HDFdataSelectMenu.HDF.getTimeStamp() && dFormat.time) {
                 timeDataset(name);
             } else {
                 basicDataset(name);
@@ -49,7 +50,7 @@ public class XYLineChartDataset implements ChartData {
 
     @Override
     public void addDataset(String name) {
-        dFormat = DataFormatter.getInstance();        
+        dFormat = DataFormatter.getInstance();
 
         if (dFormat.getXDataset() == null) {
             this.d2 = new TimeSeriesCollection();
@@ -85,21 +86,6 @@ public class XYLineChartDataset implements ChartData {
             }
             this.dataset2.addSeries(series2);
         }
-
-//        float[] x = dFormat.getXDataset();
-//        float[] y = dFormat.getYDataset();
-//
-//        for (int i = 0; i < x.length; i++) {
-//            try {
-//                series2.add(x[i], y[i]);
-//            } catch (SeriesException e) {
-//                System.err.println("Error adding to series");
-//                e.printStackTrace();
-//                break;
-//            }
-//        }
-//
-//        this.dataset2.addSeries(series2);
     }
 
     private void basicDataset(String name) {
@@ -126,17 +112,23 @@ public class XYLineChartDataset implements ChartData {
         this.d = new TimeSeriesCollection();
         TimeSeries series1 = new TimeSeries(name);
 
-        Date[] x = dFormat.getXDateDataset();
-        float[] y = dFormat.getYDataset();
+        Date[] x;
+        try {
+            x = dFormat.getXDateDataset();
+            float[] y = dFormat.getYDataset();
 
-        for (int i = 0; i < x.length; i++) {
-            try {
-                series1.addOrUpdate(new Second(x[i]), y[i]);
-            } catch (SeriesException e) {
-                System.err.println("Error adding to series");
-                e.printStackTrace();
-                break;
-            }
+            for (int i = 0; i < x.length; i++) {
+                try {
+                    series1.addOrUpdate(new Second(x[i]), y[i]);
+                } catch (SeriesException e) {
+                    System.err.println("Error adding to series");
+                    e.printStackTrace();
+                    break;
+                }
+            }   
+        } catch (Exception e) {
+            System.err.println(e);
+            ErrorDialog.wrongData();
         }
         this.d.addSeries(series1);
     }
@@ -152,7 +144,7 @@ public class XYLineChartDataset implements ChartData {
     public TimeSeriesCollection getDateDataset() {
         return d;
     }
-    
+
     public TimeSeriesCollection getDateDataset2() {
         return d2;
     }

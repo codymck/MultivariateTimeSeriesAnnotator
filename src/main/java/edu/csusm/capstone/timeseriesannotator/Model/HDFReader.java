@@ -55,7 +55,7 @@ public class HDFReader implements DataReader {
             typeX = reader.getDataSetInformation(x).getTypeInformation().toString().toUpperCase();
             typeY = reader.getDataSetInformation(y).getTypeInformation().toString().toUpperCase();
             
-            //System.out.println("Headers: " + typeX);
+            System.out.println("Headers: " + typeX + " " + typeY);
 
             //X is the only one that will be a timestamp
             if(typeX.contains("INTEGER")){

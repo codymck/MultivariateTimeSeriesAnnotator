@@ -2,13 +2,17 @@ package edu.csusm.capstone.timeseriesannotator.Controller;
 
 import edu.csusm.capstone.timeseriesannotator.Model.XYLineChartDataset;
 import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
+import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu;
+import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.EventListener;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -23,6 +27,9 @@ public class LineChart implements ChartsIF {
     XYLineChartDataset xyChart;
     ChartStruct chartStruct;// = ChartStruct.getInstance();
     XYLineAndShapeRenderer lineRenderer = new XYLineAndShapeRenderer();
+    ValueAxis xAxis;
+    NumberAxis yAxis;
+    XYDataset data;
     
     LineChart() {
         
@@ -34,19 +41,46 @@ public class LineChart implements ChartsIF {
         chartStruct = c;
         dataSetter();
         
-        NumberAxis xAxis = new NumberAxis(chartStruct.getLabels().get(1));
-        NumberAxis yAxis = new NumberAxis(chartStruct.getLabels().get(2));   
-        String chartTitle = chartStruct.getLabels().get(0);
+        if(HDFdataSelectMenu.HDF == null){
+            //CSV process
+            if(CSVdataSelectMenu.CSV.getTimeStamp()){
+                DateAxis Axis = new DateAxis(chartStruct.getLabels().get(1));
+                xAxis = (DateAxis)Axis;
+                data = xyChart.getDateDataset();
+            }else{
+                NumberAxis Axis = new NumberAxis(chartStruct.getLabels().get(1));
+                Axis.setAutoRangeIncludesZero(false);
+                Axis.setAutoRange(true);
+                xAxis = (NumberAxis)Axis;
+                data = xyChart.getDataset();
+            }
+        }
+        else if(CSVdataSelectMenu.CSV == null){
+            //HDF process
+            if(HDFdataSelectMenu.HDF.getTimeStamp()){
+                DateAxis Axis = new DateAxis(chartStruct.getLabels().get(1));
+                xAxis = (DateAxis)Axis;
+                data = xyChart.getDateDataset();
+            }else{
+                NumberAxis Axis = new NumberAxis(chartStruct.getLabels().get(1));
+                Axis.setAutoRangeIncludesZero(false);
+                Axis.setAutoRange(true);
+                xAxis = (NumberAxis)Axis;
+                data = xyChart.getDataset();
+            }
+        }
+        yAxis = new NumberAxis(chartStruct.getLabels().get(2));
+        yAxis.setAutoRangeIncludesZero(false);
+        yAxis.setAutoRange(true);
         
+        String chartTitle = chartStruct.getLabels().get(0);
 
-        XYDataset data = xyChart.getDataset();
         lineRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
         
         XYPlot plot = new XYPlot(data, xAxis, yAxis, lineRenderer);
         chartStruct.setPlot(plot);
         
-        xAxis.setAutoRangeIncludesZero(false);
-        xAxis.setAutoRange(true);
+        
         
         plot.setDataset(0, data);
         plot.setBackgroundPaint(new java.awt.Color(255, 255, 255));
@@ -79,11 +113,16 @@ public class LineChart implements ChartsIF {
         dataSetter();
         
         XYPlot plotter = chartStruct.getPlot();
-        XYDataset data = xyChart.getDataset2();
+        XYDataset data2;
+        if(xyChart.getDataset2() == null){
+            data2 = xyChart.getDateDataset2();
+        }else{
+            data2 = xyChart.getDataset2();
+        }
         
-        lineRenderer.setSeriesPaint(1, ChartSelectMenu.getColor());
+        lineRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
         
-        plotter.setDataset(chartStruct.getFlag()-2, data);
+        plotter.setDataset(chartStruct.getFlag()-2, data2);
         plotter.setRenderer(chartStruct.getFlag()-2,lineRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
@@ -95,7 +134,6 @@ public class LineChart implements ChartsIF {
         } 
         
         cP.setChart(chart);
-//        cP.setBackground(Color.WHITE);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
         cP.setRangeZoomable(true);

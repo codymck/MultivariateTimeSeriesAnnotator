@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import static java.lang.Math.abs;
 import org.jfree.chart.annotations.XYShapeAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -130,12 +131,7 @@ public class LineAnnotation extends AbstractAnnotation {
             selected = true;
             updateHandleCoords();
             for(int i = 0; i < 2; i++){
-                switch (type) {
-                    case "segment" ->
-                        handles[i] = new ResizeHandle(plot, handleCoordinates[i], chartPanel);
-                    default -> {
-                    }
-                }
+                handles[i] = new ResizeHandle(plot, handleCoordinates[i], chartPanel);
             }
         }
     }
@@ -158,10 +154,10 @@ public class LineAnnotation extends AbstractAnnotation {
         if (lineAnnotation != null) {
             plot.removeAnnotation(lineAnnotation);
             if(selected){
-            for(int i = 0; i < 2; i++){
-                handles[i].remove();
+                for(int i = 0; i < 2; i++){
+                    handles[i].remove();
+                }
             }
-        }
         }
     }
 
@@ -171,13 +167,30 @@ public class LineAnnotation extends AbstractAnnotation {
         if(!set){
             if(!dragHandle){
                 storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
+                updateHandleCoords();
+                redrawHandles();
             }else{
-                if(handleNumber == 0){
-                    storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0], coordinates[1][1]);
-                }
-                if(handleNumber == 1){
-                    storeLine.setLine(coordinates[0][0], coordinates[0][1], coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
-                }
+                switch (type) {
+                    case "segment" ->{
+                        if(handleNumber == 0){
+                            storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0], coordinates[1][1]);
+                        }
+                        if(handleNumber == 1){
+                            storeLine.setLine(coordinates[0][0], coordinates[0][1], coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
+                        }
+                        updateHandleCoords();
+                        redrawHandles();
+                    }
+                    case "diagonal" ->{
+                        int oppHandle = abs(handleNumber - 1);
+                        double[] newPoint = {handleCoordinates[handleNumber][0]-xOffset, handleCoordinates[handleNumber][1]-yOffset};
+                        rotateLine(handleCoordinates[oppHandle], newPoint);
+                        handles[handleNumber].changeCoords(newPoint);
+                        handles[handleNumber].draw();
+                    }
+                    default -> {
+                    }
+            }
             }
         }else{
             if(!dragHandle){
@@ -186,24 +199,15 @@ public class LineAnnotation extends AbstractAnnotation {
                 coordinates[1][0] -= xOffset;
                 coordinates[1][1] -= yOffset;
             }else{
-                if(handleNumber == 0){
-                    coordinates[0][0] -= xOffset;
-                    coordinates[0][1] -= yOffset;
-                }
-                if(handleNumber == 1){
-                    coordinates[1][0] -= xOffset;
-                    coordinates[1][1] -= yOffset;
-                }
+                coordinates[handleNumber][0] -= xOffset;
+                coordinates[handleNumber][1] -= yOffset;
             }
+            updateHandleCoords();
+            redrawHandles();
             dragHandle = false;
         }
         lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
         plot.addAnnotation(lineAnnotation);
-        updateHandleCoords();
-        for(int i = 0; i < 2; i++){
-            handles[i].changeCoords(handleCoordinates[i]);
-            handles[i].draw();
-        }
     }
     
     private void updateHandleCoords(){
@@ -214,10 +218,113 @@ public class LineAnnotation extends AbstractAnnotation {
                 handleCoordinates[1][0] = storeLine.getX2();
                 handleCoordinates[1][1] = storeLine.getY2();
             }
+            case "diagonal" ->{
+                // Get the x and y axis ranges of the chart
+                ValueAxis domainAxis = plot.getDomainAxis();
+                ValueAxis rangeAxis = plot.getRangeAxis();
+                double xmin = domainAxis.getLowerBound();
+                double xmax = domainAxis.getUpperBound();
+                double ymin = rangeAxis.getLowerBound();
+                double ymax = rangeAxis.getUpperBound();
+
+                // Calculate the slope of the line
+                double deltaX = storeLine.getX2() - storeLine.getX1();
+                double deltaY = storeLine.getY2() - storeLine.getY1();
+                double slope = deltaY / deltaX;
+
+                // Calculate the y-intercept of the line using either endpoint of the line
+                double yIntercept = storeLine.getY1() - slope * storeLine.getX1();
+
+                // Calculate the x-coordinates of the two points where the line intersects the left and right edges of the screen
+                double xLeft = (ymin - yIntercept) / slope;
+                double xRight = (ymax - yIntercept) / slope;
+
+                // Calculate the y-coordinates of the two points where the line intersects the top and bottom edges of the screen
+                double yTop = ymin;
+                double yBottom = ymax;
+
+                // Check if the line is vertical
+                if (Double.isInfinite(slope)) {
+                    xLeft = storeLine.getX1();
+                    xRight = storeLine.getX1();
+
+                    // Check if the line is above the screen or below the screen
+                    if (storeLine.getY1() < ymin) {
+                        yTop = ymin;
+                        yBottom = ymin;
+                    } else if (storeLine.getY1() > ymax) {
+                        yTop = ymax;
+                        yBottom = ymax;
+                    } else {
+                        // Line is within the screen, so we don't need to adjust the y coordinates
+                        yTop = storeLine.getY1();
+                        yBottom = storeLine.getY2();
+                    }
+                } else {
+                    // Check if the line is outside the left or right bounds of the screen
+                    if (xLeft < xmin) {
+                        // Adjust the x-coordinate and y-coordinate of the left intersection point
+                        xLeft = xmin;
+                        yTop = slope * xmin + yIntercept;
+                    } else if (xLeft > xmax) {
+                        // Adjust the x-coordinate and y-coordinate of the left intersection point
+                        xLeft = xmax;
+                        yTop = slope * xmax + yIntercept;
+                    }
+                    if (xRight < xmin) {
+                        // Adjust the x-coordinate and y-coordinate of the right intersection point
+                        xRight = xmin;
+                        yBottom = slope * xmin + yIntercept;
+                    } else if (xRight > xmax) {
+                        // Adjust the x-coordinate and y-coordinate of the right intersection point
+                        xRight = xmax;
+                        yBottom = slope * xmax + yIntercept;
+                    }
+                }
+
+                // Calculate the x and y coordinates of the two points where the circles will be drawn
+                handleCoordinates[0][0] = xLeft + 0.25 * (xRight - xLeft);
+                handleCoordinates[0][1] = yTop + 0.25 * (yBottom - yTop);
+                handleCoordinates[1][0] = xLeft + 0.75 * (xRight - xLeft);
+                handleCoordinates[1][1] = yTop + 0.75 * (yBottom - yTop);
+            }
             default -> {
             }
         }
-
+    }
+    
+    public void rotateLine(double[] axis, double[] move){
+        double dx, dy, angle, length;
+        switch (type) {
+//            case "ray" -> {
+//                dx = startPoint[0] - point[0]; // change in x
+//                dy = startPoint[1] - point[1]; // change in y
+//                angle = Math.atan2(dy, dx); // angle of line
+//                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 10; // length of line
+//                coordinates[1][0] = startPoint[0] - length * Math.cos(angle);
+//                coordinates[1][1] = startPoint[1] - length * Math.sin(angle);
+//            }
+            case "diagonal" -> {
+                dx = axis[0] - move[0]; // change in x
+                dy = axis[1] - move[1]; // change in y
+                angle = Math.atan2(dy, dx); // angle of line
+                length = Math.max(chartPanel.minMax[2] - chartPanel.minMax[0], chartPanel.minMax[3] - chartPanel.minMax[1]) * 10; // length of line
+                coordinates[1][0] = axis[0] + length * Math.cos(angle);
+                coordinates[1][1] = axis[1] + length * Math.sin(angle);
+                coordinates[0][0] = move[0] - length * Math.cos(angle);
+                coordinates[0][1] = move[1] - length * Math.sin(angle);
+                storeLine.setLine(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
+            }
+            default -> {
+            }
+        }
+    }
+    
+    public void redrawHandles(){
+        for(int i = 0; i < 2; i++){
+            handles[i].changeCoords(handleCoordinates[i]);
+            handles[i].draw();
+        }
     }
     
     @Override

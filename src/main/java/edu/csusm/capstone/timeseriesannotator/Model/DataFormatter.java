@@ -16,9 +16,13 @@ public class DataFormatter {
     public static DataFormatter dF;
     static final long EPOCH = new java.util.Date(2015 - 1900, Calendar.JANUARY, 1).getTime(); // 2015/1/1 in GMT
 
+    boolean time = false;
     
     float[] xData;
     float[] yData;
+    
+    Date[] xDateData;
+    Date[] yDateData;
     
     public DataFormatter(DataReader dR) {
         if (dR instanceof CSVReader) {
@@ -52,6 +56,7 @@ public class DataFormatter {
         
         if(CSVdataSelectMenu.CSV.getTimeStamp()){
             System.out.println("Cody is sexy and hot");
+            time = true;
         }
         
 //        for(float f : xData){
@@ -72,42 +77,35 @@ public class DataFormatter {
             case "INTEGER" -> {
 
                 int[] t = ((HDFReader)dReader).getIntXData();
-                xData = new float[t.length];
-                 System.out.println(EPOCH);
+//                System.out.println(EPOCH);
                 
                 if(HDFdataSelectMenu.HDF.getTimeStamp()){
+                    System.out.println("Formatting");
+                    xDateData = new Date[t.length];
                     for(int x = 0; x < t.length; x++ ){
-                        Date d = new java.util.Date(x * 1000 + EPOCH);
-
-                        int firstPart = d.getMinutes();
-                        int secondPart = d.getSeconds(); // or whatever
-                        float f = secondPart;
-
-                        while (f >= 1) {
-                            f /= 10;
-                        }
-
-                        f += firstPart;
-
-                        xData[x] = f;
-                        System.out.println(d);
-                        System.out.println(xData[x]);
+                        xDateData[x] = new java.util.Date(t[x] * 1000 + EPOCH);
+//                        System.out.println(xDateData[x]);
                     }
+                    time = true;
                 }
                 else{
+                    xData = new float[t.length];
                     for(int x = 0; x < t.length; x++ ){
                         xData[x] = (float)t[x];
                     }
                 }
+                break;
             }
             case "FLOAT" -> {
                 xData = ((HDFReader)dReader).getXData();
+                break;
             }
             case "DOUBLE" -> {
                 double[] t = ((HDFReader)dReader).getDoubleXData();
                 for(int x = 0; x < t.length; x++ ){
                     xData[x] = (float)t[x];
                 }
+                break;
             }
             case "DATE" -> {
                 //have to make the dataset into a TimeSeriesCollection
@@ -119,38 +117,23 @@ public class DataFormatter {
 
                 int[] t2 = ((HDFReader)dReader).getIntYData();
                 yData = new float[t2.length];
+
+                for(int x = 0; x < t2.length; x++){
+                    yData[x] = (float)t2[x];
+                }
                 
-                if(HDFdataSelectMenu.HDF.getTimeStamp()){
-                    for(int x = 0; x < t2.length; x++ ){
-                        Date d = new java.util.Date(x * 1000 + EPOCH);
-
-                        int firstPart = d.getMinutes();
-                        int secondPart = d.getSeconds(); // or whatever
-                        float f = secondPart;
-
-                        while (f >= 1) {
-                            f /= 10;
-                        }
-
-                        f += firstPart;
-
-                        xData[x] = f;
-                    }
-                }
-                else{
-                    for(int x = 0; x < t2.length; x++ ){
-                        yData[x] = (float)t2[x];
-                    }
-                }
+                break;
             }
             case "FLOAT" -> {
                 yData = ((HDFReader)dReader).getYData();
+                break;
             }
             case "DOUBLE" -> {
                 double[] t2 = ((HDFReader)dReader).getDoubleYData();
                 for(int x = 0; x < t2.length; x++ ){
                     yData[x] = (float)t2[x];
                 }
+                break;
             }
             case "DATE" -> {
                 //have to make the dataset into a TimeSeriesCollection
@@ -167,5 +150,13 @@ public class DataFormatter {
     
     public float[] getYDataset() {
         return yData;
+    }
+    
+    public Date[] getXDateDataset() {
+        return xDateData;
+    }
+    
+    public Date[] getYDateDataset() {
+        return yDateData;
     }
 }

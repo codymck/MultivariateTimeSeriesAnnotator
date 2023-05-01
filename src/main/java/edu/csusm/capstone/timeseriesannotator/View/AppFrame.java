@@ -31,7 +31,7 @@ public class AppFrame extends javax.swing.JFrame {
     private boolean ctrlPressed = false;
     MultiSplitPane split = new MultiSplitPane();
     private static String[] textFontArray;
-    public static Color color = Color.BLACK;
+    public static Color color;
     public Color customColor1 = null;
     public Color customColor2 = null;
 
@@ -112,6 +112,8 @@ public class AppFrame extends javax.swing.JFrame {
         importChooser.addChoosableFileFilter(new FileNameExtensionFilter("CSV", "csv"));
         importChooser.addChoosableFileFilter(new FileNameExtensionFilter("HDF5", "hdf5"));
         importChooser.setAcceptAllFileFilterUsed(false);
+        
+        BlackButton.doClick();
     }
 
     // Creates an empty chart on instantiation of program

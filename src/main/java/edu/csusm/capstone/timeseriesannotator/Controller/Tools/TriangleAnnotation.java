@@ -118,8 +118,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
     @Override
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);
-        boolean clicked = false;
-        clicked = storeTriangle.contains(p);
+        boolean clicked = storeTriangle.contains(p);
         if(selected){
             for(int i = 0; i < 3; i++){
                 if(handles[i].contains(mouseX, mouseY)){
@@ -140,7 +139,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
                     new Color(0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
             selected = true;
-            updateCoords();
+            updateHandleCoords();
             for(int i = 0; i < 3; i++){
                 handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
             }
@@ -211,7 +210,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
             redrawTriangle(coordinates);
             dragHandle = false;
         }
-        updateCoords();
+        updateHandleCoords();
         
         for(int i = 0; i < 3; i++){
             handles[i].changeCoords(handleCoordinates[i]);
@@ -230,7 +229,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
         storeTriangle.closePath();
     }
     
-    private void updateCoords(){
+    private void updateHandleCoords(){
         PathIterator iterator = storeTriangle.getPathIterator(null);
         int i = 0;
         double[] coords = new double[2];

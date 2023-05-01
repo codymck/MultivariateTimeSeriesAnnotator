@@ -45,7 +45,6 @@ public class ToolButtonAutomateTest {
         window.toggleButton("BlackButton").click();
         window.toggleButton("RedButton").click();
         window.toggleButton("OrangeButton").click();
-        window.toggleButton("YellowButton").click();
         window.toggleButton("GreenButton").click();
         window.toggleButton("BlueButton").click();
         window.toggleButton("PurpleButton").click();

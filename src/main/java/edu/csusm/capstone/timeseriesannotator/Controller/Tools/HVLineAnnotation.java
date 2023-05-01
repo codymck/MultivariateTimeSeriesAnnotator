@@ -6,7 +6,6 @@ import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import java.awt.BasicStroke;
 import org.jfree.chart.ui.RectangleAnchor;
-import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.axis.ValueAxis;
@@ -64,8 +63,8 @@ public class HVLineAnnotation extends AbstractAnnotation {
             }
             traceMarker = new ValueMarker(point[1]);
             traceMarker.setLabelAnchor(RectangleAnchor.CENTER);
-            traceMarker.setPaint(AppFrame.getAbsoluteColor());
-            traceMarker.setStroke(new BasicStroke(2.0f));
+            traceMarker.setPaint(color);
+            traceMarker.setStroke(new BasicStroke(2));
             plot.addRangeMarker(traceMarker);
         } else if (type.equals("vertical")) {
             if (traceMarker != null) {
@@ -73,7 +72,7 @@ public class HVLineAnnotation extends AbstractAnnotation {
             }
             traceMarker = new ValueMarker(point[0]);
             traceMarker.setLabelAnchor(RectangleAnchor.CENTER);
-            traceMarker.setPaint(AppFrame.getAbsoluteColor());
+            traceMarker.setPaint(color);
             traceMarker.setStroke(new BasicStroke(2));
             plot.addDomainMarker(traceMarker);
         }
@@ -181,6 +180,20 @@ public class HVLineAnnotation extends AbstractAnnotation {
             double lengthY = chartPanel.minMax[3] - chartPanel.minMax[1];
             storeLine = new Line2D.Double(coordinate[0], chartPanel.minMax[1] - lengthY*3, coordinate[0], chartPanel.minMax[3] + lengthY*3);
         }
+    }
+    
+    @Override
+    public void changeColor(Color c){
+        color = c;
+        drawMarker.setPaint(color);
+        if (type.equals("horizontal")) {
+            plot.removeRangeMarker(drawMarker);
+            plot.addRangeMarker(drawMarker);
+        } else if (type.equals("vertical")) {
+            plot.removeDomainMarker(drawMarker);
+            plot.addDomainMarker(drawMarker);
+        }
+        calculateLine();
     }
     
     @Override

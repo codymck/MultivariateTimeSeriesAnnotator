@@ -130,7 +130,7 @@ public class ImportDataAction implements ActionListener {
                 labels.add(cAction.getY());
                 chartStruct.setLabels(labels);
 
-                DataFormatter df = new DataFormatter(dReader);
+                DataFormatter df = new DataFormatter(dReader, chartStruct);
                 df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
             } else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
 //               System.out.println("ImportDataAction: HDF5 File Imported");                
@@ -164,7 +164,7 @@ public class ImportDataAction implements ActionListener {
                 labels.add(tmpY[tmpY.length - 1]);
                 chartStruct.setLabels(labels);
 
-                DataFormatter df = new DataFormatter(dReader);
+                DataFormatter df = new DataFormatter(dReader, chartStruct);
                 df.formatHDF5(HDFReader.xP, HDFReader.yP);
             } else {
                 ErrorDialog.UnsupportedFile();

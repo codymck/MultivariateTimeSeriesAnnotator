@@ -32,7 +32,7 @@ public class XYLineChartDataset implements ChartData {
 
         if (HDFdataSelectMenu.HDF == null) {
             //CSV process
-            if (CSVdataSelectMenu.CSV.getTimeStamp() && dFormat.time) {
+            if (CSVdataSelectMenu.CSV.getTimeStamp()) {
                 timeDataset(name);
             } else {
                 basicDataset(name);
@@ -40,7 +40,7 @@ public class XYLineChartDataset implements ChartData {
 
         } else if (CSVdataSelectMenu.CSV == null) {
             //HDF5 process
-            if (HDFdataSelectMenu.HDF.getTimeStamp() && dFormat.time) {
+            if (HDFdataSelectMenu.HDF.getTimeStamp()) {
                 timeDataset(name);
             } else {
                 basicDataset(name);

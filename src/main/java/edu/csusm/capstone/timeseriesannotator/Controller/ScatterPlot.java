@@ -54,6 +54,7 @@ public class ScatterPlot implements ChartsIF {
                 xAxis = (NumberAxis)Axis;
                 data = xyChart.getDataset();
             }
+            CSVdataSelectMenu.CSV = null;
         }
         else if(CSVdataSelectMenu.CSV == null){
             //HDF process
@@ -68,6 +69,7 @@ public class ScatterPlot implements ChartsIF {
                 xAxis = (NumberAxis)Axis;
                 data = xyChart.getDataset();
             }
+            HDFdataSelectMenu.HDF = null;
         }
         yAxis = new NumberAxis(chartStruct.getLabels().get(2));
         yAxis.setAutoRangeIncludesZero(false);

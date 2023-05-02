@@ -29,7 +29,8 @@ public class HVLineAnnotation extends AbstractAnnotation {
         this.type = t;
         this.chartPanel = cP;
     }
-    public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] point) {
+    public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] point, AnnotateChartPanel cP) {
+        this.chartPanel = cP;
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
         String tempType = t[0];
@@ -203,12 +204,10 @@ public class HVLineAnnotation extends AbstractAnnotation {
     
     @Override
     public String getCoords() {
-        String COORD = String.valueOf(coordinate);
-
         if(type.equals("horizontal")){
-            return "[[ 0, " + COORD + "]]";
+            return "[[ 0, " + coordinate[1] + "]]";
         }else{
-            return "[[" + COORD + ", 0]]";
+            return "[[" + coordinate[0] + ", 0]]";
         }
         
     }

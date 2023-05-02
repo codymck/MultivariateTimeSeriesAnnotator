@@ -34,7 +34,8 @@ public class EllipseAnnotation extends AbstractAnnotation {
         coordinates[0][1] = point[1];
     }
     
-    public EllipseAnnotation(XYPlot p, int[] c, double[][] coords) {
+    public EllipseAnnotation(XYPlot p, int[] c, double[][] coords, AnnotateChartPanel cP) {
+        this.chartPanel = cP;
         this.handles = new ResizeHandle[]{null, null, null, null};
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);

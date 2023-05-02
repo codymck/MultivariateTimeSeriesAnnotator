@@ -39,7 +39,8 @@ public class LineAnnotation extends AbstractAnnotation {
         startPoint[1] = point[1];
     }
 
-    public LineAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
+    public LineAnnotation(XYPlot p, int[] c, double[][] coords, String[] t, AnnotateChartPanel cP) {
+        this.chartPanel = cP;
         this.handles = new ResizeHandle[]{null, null};
         this.plot = p;
         String tempType = t[0];

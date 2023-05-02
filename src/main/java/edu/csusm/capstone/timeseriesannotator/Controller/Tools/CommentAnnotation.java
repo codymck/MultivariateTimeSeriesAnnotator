@@ -29,12 +29,12 @@ public class CommentAnnotation extends AbstractAnnotation {
     private Rectangle2D.Double hitbox = null;
     private String text;
 
-    public CommentAnnotation(XYPlot p, Color c, double[] point, AnnotateChartPanel a, Font f) {
+    public CommentAnnotation(XYPlot p, Color c, double[] point, Font f, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
         this.coordinates[0] = point[0];
         this.coordinates[1] = point[1];
-        this.chartPanel = a;
+        this.chartPanel = cP;
         this.font = f;
 
         CommentMenu cMenu = new CommentMenu(new javax.swing.JFrame(), true);
@@ -51,12 +51,12 @@ public class CommentAnnotation extends AbstractAnnotation {
         chartPanel.addAbstractAnnotation(this);
     }
     
-    public CommentAnnotation(XYPlot p, int[] c, double[][] point, AnnotateChartPanel a, String[] t) {
+    public CommentAnnotation(XYPlot p, int[] c, double[][] point, String[] t, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], 255);
         this.coordinates[0] = point[0][0];
         this.coordinates[1] = point[0][1];
-        this.chartPanel = a;
+        this.chartPanel = cP;
         
         this.text = t[0].substring(1, t[0].length()-1);
         String name = t[1].substring(1, t[1].length()-1);

@@ -38,7 +38,8 @@ public class TriangleAnnotation extends AbstractAnnotation {
         this.chartPanel = cP;
     }
 
-    public TriangleAnnotation(XYPlot p, int[] c, double[][] coords) {
+    public TriangleAnnotation(XYPlot p, int[] c, double[][] coords, AnnotateChartPanel cP) {
+        this.chartPanel = cP;
         this.handles = new ResizeHandle[]{null, null, null};
         this.plot = p;
         this.color = new Color(c[0], c[1], c[2], c[3]);
@@ -50,7 +51,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
         storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
         storeTriangle.closePath();
         triangleAnnotation = new XYShapeAnnotation(storeTriangle,
-                dashed, color);
+                    new BasicStroke(0), new Color(0, 0, 0, 0), color);
         plot.addAnnotation(triangleAnnotation);
     }
 

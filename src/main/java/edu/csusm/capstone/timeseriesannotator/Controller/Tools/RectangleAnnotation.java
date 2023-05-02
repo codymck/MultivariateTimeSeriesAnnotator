@@ -40,7 +40,8 @@ public class RectangleAnnotation extends AbstractAnnotation {
         }
     }
     
-    public RectangleAnnotation(XYPlot p, int[] c, double[][] coords, String[] t) {
+    public RectangleAnnotation(XYPlot p, int[] c, double[][] coords, String[] t, AnnotateChartPanel cP) {
+        this.chartPanel = cP;
         this.plot = p;
         String tempType = t[0];
         this.type = tempType.substring(1, tempType.length() - 1);

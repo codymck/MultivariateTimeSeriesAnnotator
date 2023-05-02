@@ -269,7 +269,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 case COMMENT -> {
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         Font f = new Font(AppFrame.getFontName(), AppFrame.getFontStyle(), AppFrame.getFontSize());
-                        CommentAnnotation comment = new CommentAnnotation(plot, AppFrame.color, point, this, f);
+                        CommentAnnotation comment = new CommentAnnotation(plot, AppFrame.color, point, f, this);
                         shapeIndex = annotations.size();
                     } else if (e.getButton() == MouseEvent.BUTTON3) {
                         deleteAnnotation(point);
@@ -837,22 +837,22 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     AbstractAnnotation ann = null;
                     switch (annotationType) {
                         case "rectangle" -> {
-                            ann = new RectangleAnnotation(plot, rgba, coordinates, data);
+                            ann = new RectangleAnnotation(plot, rgba, coordinates, data, this);
                         }
                         case "ellipse" -> {
-                            ann = new EllipseAnnotation(plot, rgba, coordinates);
+                            ann = new EllipseAnnotation(plot, rgba, coordinates, this);
                         }
                         case "triangle" -> {
-                            ann = new TriangleAnnotation(plot, rgba, coordinates);
+                            ann = new TriangleAnnotation(plot, rgba, coordinates, this);
                         }
                         case "line" -> {
-                            ann = new LineAnnotation(plot, rgba, coordinates, data);
+                            ann = new LineAnnotation(plot, rgba, coordinates, data, this);
                         }
                         case "hvline" -> {
-                            ann = new HVLineAnnotation(plot, rgba, data, coordinates[0]);
+                            ann = new HVLineAnnotation(plot, rgba, data, coordinates[0], this);
                         }
                         case "comment" -> {
-                            ann = new CommentAnnotation(plot, rgba, coordinates, this, data);
+                            ann = new CommentAnnotation(plot, rgba, coordinates, data, this);
                         }
                         default -> {
 

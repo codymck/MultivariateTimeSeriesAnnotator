@@ -12,9 +12,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
@@ -32,8 +34,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jfree.chart.ChartPanel;
@@ -50,7 +57,9 @@ import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.plot.Zoomable;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.Range;
@@ -68,6 +77,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private XYPlot plot;
     final List<XYDataset> originalDatasets;
     private boolean syncing = false;
+    private boolean onChart = false;
 
     private boolean panLimit = false;
     private double initialX;
@@ -218,6 +228,25 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
 
         });
+        
+//        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, 0), "zoomIn");
+//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, 0), "zoomIn");
+//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, 0), "zoomOut");
+//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, 0), "zoomOut");
+//        ActionMap actionMap = getActionMap();
+//        actionMap.put("zoomIn", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                zoomInBoth(0,0);
+//            }
+//        });
+//        actionMap.put("zoomOut", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                zoomOutBoth(0,0);
+//            }
+//        });
     }
 
     @Override
@@ -624,6 +653,11 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
     }
+    
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        onChart = true;
+    }
 
     @Override
     public void mouseExited(MouseEvent e) {
@@ -639,6 +673,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
 //            TriangleAnnotation tempTri = (TriangleAnnotation) annotations.get(shapeIndex);
             tri.delete();
         }
+        onChart = false;
+    }
+    
+    public boolean inChart() {
+        System.out.println(onChart);
+        return onChart;
     }
 
 //    public void removeTextAnnotation() {
@@ -936,4 +976,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
     }
+    
+    
 }

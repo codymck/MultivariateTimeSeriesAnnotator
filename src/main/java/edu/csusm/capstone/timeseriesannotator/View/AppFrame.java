@@ -91,6 +91,20 @@ public class AppFrame extends javax.swing.JFrame {
                                 PanButton.doClick();
                             }
                             break;
+                        case KeyEvent.VK_EQUALS:
+                            for (int i = 0; i < charts.size(); i++) {
+                                if (charts.get(i).getAChartPanel().inChart()) {
+                                    charts.get(i).getAChartPanel().zoomInBoth(0,0);
+                                }
+                            }
+                            break;
+                        case KeyEvent.VK_MINUS:
+                            for (int i = 0; i < charts.size(); i++) {
+                                if (charts.get(i).getAChartPanel().inChart()) {
+                                    charts.get(i).getAChartPanel().zoomOutBoth(0,0);
+                                }
+                            }
+                            break;
                     }
                 }
                 if (e.getID() == KeyEvent.KEY_RELEASED) {

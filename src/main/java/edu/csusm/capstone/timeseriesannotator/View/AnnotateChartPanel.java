@@ -228,25 +228,6 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
 
         });
-        
-//        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, 0), "zoomIn");
-//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, 0), "zoomIn");
-//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, 0), "zoomOut");
-//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, 0), "zoomOut");
-//        ActionMap actionMap = getActionMap();
-//        actionMap.put("zoomIn", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                zoomInBoth(0,0);
-//            }
-//        });
-//        actionMap.put("zoomOut", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                zoomOutBoth(0,0);
-//            }
-//        });
     }
 
     @Override
@@ -680,15 +661,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         System.out.println(onChart);
         return onChart;
     }
-
-//    public void removeTextAnnotation() {
-//        List<XYTextAnnotation> annotations = new ArrayList<>(plot.getAnnotations());
-//        List<XYTextAnnotation> textAnnotations = new ArrayList<>();
-//        for (XYAnnotation annotation : annotations) {
-//            if (annotation instanceof XYTextAnnotation xYTextAnnotation) {
-//                textAnnotations.add(xYTextAnnotation);
-//            }
-//        }
+    
 //
 //        this.addChartMouseListener(new ChartMouseListener() {
 //            @Override

@@ -402,6 +402,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     public boolean synced(){
         return true;
     }
+    
+    public AnnotateChartPanel getAChartPanel() {
+        return aChartPanel;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddSeriesButton;

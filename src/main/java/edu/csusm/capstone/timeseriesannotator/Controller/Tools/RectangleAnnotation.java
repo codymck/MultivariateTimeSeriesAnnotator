@@ -187,14 +187,13 @@ public class RectangleAnnotation extends AbstractAnnotation {
             updateCoords();
         }
         updateHandleCoords();
-        
+        rectAnnotation = new XYShapeAnnotation(storeRect, dashed,
+            new Color(0, 0, 0), color);
+        plot.addAnnotation(rectAnnotation);
         for(int i = 0; i < handles.length; i++){
             handles[i].changeCoords(handleCoordinates[i]);
             handles[i].draw();
         }
-        rectAnnotation = new XYShapeAnnotation(storeRect, dashed,
-            new Color(0, 0, 0), color);
-        plot.addAnnotation(rectAnnotation);
     }
     
     public void redrawRect(double[] p1, double[] p2, boolean set){

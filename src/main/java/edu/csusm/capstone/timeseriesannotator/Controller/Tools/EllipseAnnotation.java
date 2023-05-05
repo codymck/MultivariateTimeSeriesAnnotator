@@ -220,14 +220,13 @@ public class EllipseAnnotation extends AbstractAnnotation {
             dragHandle = false;
         }
         updateCoords();
-        
+        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
+            new Color(0, 0, 0), color);
+        plot.addAnnotation(ellipseAnnotation);
         for(int i = 0; i < 4; i++){
             handles[i].changeCoords(coordinates[i]);
             handles[i].draw();
         }
-        ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
-            new Color(0, 0, 0), color);
-        plot.addAnnotation(ellipseAnnotation);
     }
     
     private void updateCoords(){

@@ -212,14 +212,13 @@ public class TriangleAnnotation extends AbstractAnnotation {
             dragHandle = false;
         }
         updateHandleCoords();
-        
+        triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
+                new Color(0, 0, 0), color);
+        plot.addAnnotation(triangleAnnotation);
         for(int i = 0; i < 3; i++){
             handles[i].changeCoords(handleCoordinates[i]);
             handles[i].draw();
         }
-        triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
-                new Color(0, 0, 0), color);
-        plot.addAnnotation(triangleAnnotation);
     }
     
     private void redrawTriangle(double[][] c){

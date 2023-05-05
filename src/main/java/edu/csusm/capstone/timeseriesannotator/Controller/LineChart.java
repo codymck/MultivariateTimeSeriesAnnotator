@@ -43,7 +43,7 @@ public class LineChart implements ChartsIF {
         
         if(HDFdataSelectMenu.HDF == null){
             //CSV process
-            if(CSVdataSelectMenu.CSV.getTimeStamp()){
+            if(chartStruct.getTimeStamp()){
                 DateAxis Axis = new DateAxis(chartStruct.getLabels().get(1));
                 xAxis = (DateAxis)Axis;
                 data = xyChart.getDateDataset();
@@ -58,7 +58,7 @@ public class LineChart implements ChartsIF {
         }
         else if(CSVdataSelectMenu.CSV == null){
             //HDF process
-            if(HDFdataSelectMenu.HDF.getTimeStamp()){
+            if(chartStruct.getTimeStamp()){
                 DateAxis Axis = new DateAxis(chartStruct.getLabels().get(1));
                 xAxis = (DateAxis)Axis;
                 data = xyChart.getDateDataset();
@@ -151,7 +151,7 @@ public class LineChart implements ChartsIF {
     public void dataSetter(){
         xyChart = chartStruct.getSeries();
         if(chartStruct.getFlag() == 1){
-            xyChart.createDataset(chartStruct.getLabels().get(2));
+            xyChart.createDataset(chartStruct.getLabels().get(2), chartStruct);
             chartStruct.setFlag(2);
         }
         else if (chartStruct.getFlag() >= 2){

@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Model;
 
+import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
 import java.util.Calendar;
@@ -11,54 +12,57 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author Cody McKinney
  */
 public class DataFormatter {
-    
+
     DataReader dReader;
     public static DataFormatter dF;
     static final long EPOCH = new java.util.Date(2015 - 1900, Calendar.JANUARY, 1).getTime(); // 2015/1/1 in GMT
 
-    boolean time = false;
-    
     float[] xData;
     float[] yData;
-    
+
     Date[] xDateData;
     Date[] yDateData;
-    
-    public DataFormatter(DataReader dR) {
+
+    ChartStruct chartStruct;
+
+    public DataFormatter(DataReader dR, ChartStruct cS) {
         if (dR instanceof CSVReader) {
 //            System.out.println("CSV data to be formatted");
-            
-            dReader = (CSVReader)dR;
-        }
-        else if (dR instanceof HDFReader) {
+
+            dReader = (CSVReader) dR;
+        } else if (dR instanceof HDFReader) {
 //            System.out.println("HDF5 data to be formatted");
-            
-            dReader = (HDFReader)dR;
+
+            dReader = (HDFReader) dR;
         }
-        
+
         dF = this;
+        chartStruct = cS;
     }
-    
+
     public static DataFormatter getInstance() {
         return dF;
     }
-    
+
     public void formatCSV(int xIndex, int yIndex) {
 //        System.out.println(xIndex + " " + yIndex);
-        
-        String[] keys = ((CSVReader)dReader).getHeaders();
-        
-        Float[] tempX = ((CSVReader)dReader).getColumn(keys[xIndex]);
-        Float[] tempY = ((CSVReader)dReader).getColumn(keys[yIndex]);
-        
+
+        String[] keys = ((CSVReader) dReader).getHeaders();
+
+        Float[] tempX = ((CSVReader) dReader).getColumn(keys[xIndex]);
+        Float[] tempY = ((CSVReader) dReader).getColumn(keys[yIndex]);
+
         xData = ArrayUtils.toPrimitive(tempX);
         yData = ArrayUtils.toPrimitive(tempY);
-        
-        if(CSVdataSelectMenu.CSV.getTimeStamp()){
-            System.out.println("Cody is sexy and hot");
-            time = true;
+        if (CSVdataSelectMenu.CSV != null) {
+            if (CSVdataSelectMenu.CSV.getTimeStamp()) {
+                System.out.println("Cody is sexy and hot");
+                chartStruct.setTimeStamp(true);
+            }
+        } else if (chartStruct.getTimeStamp()) {
+            //implement CSV timestamp
         }
-        
+
 //        for(float f : xData){
 //            System.out.print(f + " ");
 //        }
@@ -66,44 +70,54 @@ public class DataFormatter {
 //        for(float f : yData){
 //            System.out.print(f + " ");
 //        }
-        
 //        System.out.println("DataFormatted");
     }
-    
+
     public void formatHDF5(String xPath, String yPath) {
 //        System.out.println(xPath+ " " + yPath);
-        
-        switch(((HDFReader)dReader).getXType()){
+
+        switch (((HDFReader) dReader).getXType()) {
             case "INTEGER" -> {
 
-                int[] t = ((HDFReader)dReader).getIntXData();
+                int[] t = ((HDFReader) dReader).getIntXData();
 //                System.out.println(EPOCH);
-                
-                if(HDFdataSelectMenu.HDF.getTimeStamp()){
+
+                if (HDFdataSelectMenu.HDF != null) {
+                    if (HDFdataSelectMenu.HDF.getTimeStamp()) {
+                        System.out.println("Formatting");
+                        xDateData = new Date[t.length];
+                        for (int x = 0; x < t.length; x++) {
+                            xDateData[x] = new java.util.Date(t[x] * 1000 + EPOCH);
+//                        System.out.println(xDateData[x]);
+                        }
+                        chartStruct.setTimeStamp(true);
+                    }
+
+                } else if (chartStruct.getTimeStamp()) {
                     System.out.println("Formatting");
                     xDateData = new Date[t.length];
-                    for(int x = 0; x < t.length; x++ ){
+                    for (int x = 0; x < t.length; x++) {
                         xDateData[x] = new java.util.Date(t[x] * 1000 + EPOCH);
-//                        System.out.println(xDateData[x]);
+
                     }
-                    time = true;
-                }
-                else{
+                } else {
                     xData = new float[t.length];
-                    for(int x = 0; x < t.length; x++ ){
-                        xData[x] = (float)t[x];
+                    for (int x = 0; x < t.length; x++) {
+                        xData[x] = (float) t[x];
                     }
+                    chartStruct.setTimeStamp(false);
                 }
+
                 break;
             }
             case "FLOAT" -> {
-                xData = ((HDFReader)dReader).getXData();
+                xData = ((HDFReader) dReader).getXData();
                 break;
             }
             case "DOUBLE" -> {
-                double[] t = ((HDFReader)dReader).getDoubleXData();
-                for(int x = 0; x < t.length; x++ ){
-                    xData[x] = (float)t[x];
+                double[] t = ((HDFReader) dReader).getDoubleXData();
+                for (int x = 0; x < t.length; x++) {
+                    xData[x] = (float) t[x];
                 }
                 break;
             }
@@ -112,26 +126,26 @@ public class DataFormatter {
                 //https://stackoverflow.com/questions/12837986/how-to-display-date-in-a-x-axis-of-line-graph-using-jfreechart
             }
         }
-        switch(((HDFReader)dReader).getYType()){
+        switch (((HDFReader) dReader).getYType()) {
             case "INTEGER" -> {
 
-                int[] t2 = ((HDFReader)dReader).getIntYData();
+                int[] t2 = ((HDFReader) dReader).getIntYData();
                 yData = new float[t2.length];
 
-                for(int x = 0; x < t2.length; x++){
-                    yData[x] = (float)t2[x];
+                for (int x = 0; x < t2.length; x++) {
+                    yData[x] = (float) t2[x];
                 }
-                
+
                 break;
             }
             case "FLOAT" -> {
-                yData = ((HDFReader)dReader).getYData();
+                yData = ((HDFReader) dReader).getYData();
                 break;
             }
             case "DOUBLE" -> {
-                double[] t2 = ((HDFReader)dReader).getDoubleYData();
-                for(int x = 0; x < t2.length; x++ ){
-                    yData[x] = (float)t2[x];
+                double[] t2 = ((HDFReader) dReader).getDoubleYData();
+                for (int x = 0; x < t2.length; x++) {
+                    yData[x] = (float) t2[x];
                 }
                 break;
             }
@@ -141,21 +155,20 @@ public class DataFormatter {
             }
         }
 
-        
     }
-    
+
     public float[] getXDataset() {
         return xData;
     }
-    
+
     public float[] getYDataset() {
         return yData;
     }
-    
+
     public Date[] getXDateDataset() {
         return xDateData;
     }
-    
+
     public Date[] getYDateDataset() {
         return yDateData;
     }

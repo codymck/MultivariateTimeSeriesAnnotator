@@ -87,7 +87,7 @@ public class AddSeriesAction implements ActionListener {
             //labels.set(0, labels.get(0) + " vs " + cAction.y);
             chartStruct.setLabels(labels);
             
-            DataFormatter df = new DataFormatter(dReader);
+            DataFormatter df = new DataFormatter(dReader, chartStruct);
             df.formatCSV(chartStruct.getXaxis(), cAction.getYAxis());
         }
         else if ("hdf5".equals(chartStruct.getFileType()) || "h5".equals(chartStruct.getFileType())) {
@@ -118,7 +118,7 @@ public class AddSeriesAction implements ActionListener {
             //labels.set(0, labels.get(0) + " vs " + tmpY[tmpY.length - 1]);
             chartStruct.setLabels(labels);
             
-            DataFormatter df = new DataFormatter(dReader);
+            DataFormatter df = new DataFormatter(dReader, chartStruct);
             df.formatHDF5(HDFReader.xP, HDFReader.yP);
         }
         else {

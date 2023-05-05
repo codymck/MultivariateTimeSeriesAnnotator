@@ -24,6 +24,7 @@ public class ChartStruct {
     private ValueAxis rAxis;
     private ArrayList<String> Labels; //0:Title, 1: X, 2: Y, 3+: Yn
     private AnnotateChartPanel aP;
+    boolean timeStamp = false;
     
     //public static ChartStruct Ct;
     
@@ -118,5 +119,13 @@ public class ChartStruct {
     
     public AnnotateChartPanel getAnnotateChartPanel() {
         return aP;
+    }
+    
+    public void setTimeStamp(boolean t) {
+        timeStamp = t;
+    }
+    
+    public boolean getTimeStamp() {
+        return timeStamp;
     }
 }

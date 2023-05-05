@@ -1,5 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.Model;
 
+import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.View.CSVdataSelectMenu;
 import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
@@ -21,18 +22,20 @@ public class XYLineChartDataset implements ChartData {
     public XYSeriesCollection dataset;
     public XYSeriesCollection dataset2;
     DataFormatter dFormat;
+    ChartStruct chartStruct;
 
     public XYLineChartDataset() {
 //        System.out.println("Chart being created");
     }
 
     @Override
-    public void createDataset(String name) {
+    public void createDataset(String name, ChartStruct cS) {
+        chartStruct = cS;
         dFormat = DataFormatter.getInstance();
 
         if (HDFdataSelectMenu.HDF == null) {
             //CSV process
-            if (CSVdataSelectMenu.CSV.getTimeStamp() && dFormat.time) {
+            if (chartStruct.getTimeStamp()) {
                 timeDataset(name);
             } else {
                 basicDataset(name);
@@ -40,7 +43,7 @@ public class XYLineChartDataset implements ChartData {
 
         } else if (CSVdataSelectMenu.CSV == null) {
             //HDF5 process
-            if (HDFdataSelectMenu.HDF.getTimeStamp() && dFormat.time) {
+            if (chartStruct.getTimeStamp()) {
                 timeDataset(name);
             } else {
                 basicDataset(name);
@@ -61,7 +64,7 @@ public class XYLineChartDataset implements ChartData {
 
             for (int i = 0; i < x.length; i++) {
                 try {
-                    series2.addOrUpdate(new Second(x[i]), y[i]);
+                    series2.addOrUpdate(new Minute(x[i]), y[i]);
                 } catch (SeriesException e) {
                     System.err.println("Error adding to series");
                     e.printStackTrace();

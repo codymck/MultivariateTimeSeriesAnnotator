@@ -24,7 +24,7 @@ public class ChartStruct {
     private ValueAxis rAxis;
     private ArrayList<String> Labels; //0:Title, 1: X, 2: Y, 3+: Yn
     private AnnotateChartPanel aP;
-    boolean timeStamp;
+    boolean timeStamp = false;
     
     //public static ChartStruct Ct;
     

@@ -155,7 +155,7 @@ public class ScatterPlot implements ChartsIF {
     public void dataSetter(){
         xyChart = chartStruct.getSeries();
         if(chartStruct.getFlag() == 1){
-            xyChart.createDataset(chartStruct.getLabels().get(2));
+            xyChart.createDataset(chartStruct.getLabels().get(2), chartStruct);
             chartStruct.setFlag(2);
         }
         else if (chartStruct.getFlag() >= 2){

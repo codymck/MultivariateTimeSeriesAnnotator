@@ -105,6 +105,7 @@ public class DataFormatter {
                     for (int x = 0; x < t.length; x++) {
                         xData[x] = (float) t[x];
                     }
+                    chartStruct.setTimeStamp(false);
                 }
 
                 break;

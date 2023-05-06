@@ -8,6 +8,7 @@ import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.ELLIPSE;
 import static edu.csusm.capstone.timeseriesannotator.Model.MarkerType.SQUARE;
 import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import static edu.csusm.capstone.timeseriesannotator.Model.ToolState.SELECT;
+import static edu.csusm.capstone.timeseriesannotator.View.AppFrame.frame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
@@ -74,6 +75,10 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     private ToolState state;
     private JFreeChart chart = null;
     Color color = new Color(0, 0, 0);
+//    private String fontName;
+//    private int fontStyle;
+//    private int fontSize;
+    
     private XYPlot plot;
     final List<XYDataset> originalDatasets;
     private boolean syncing = false;
@@ -278,7 +283,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 }
                 case COMMENT -> {
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        Font f = new Font(AppFrame.getFontName(), AppFrame.getFontStyle(), AppFrame.getFontSize());
+                        Font f = new Font(frame.getFontName(), frame.getFontStyle(), frame.getFontSize());
                         CommentAnnotation comment = new CommentAnnotation(plot, AppFrame.color, point, f, this);
                         shapeIndex = annotations.size();
                     } else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -530,6 +535,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                         if (!moved && alreadySelected) {
                             currentAnnotation.deselect();
                             currentAnnotation = null;
+                            frame.hideColorPanel();
+                            frame.hideFontPanel();
                         }
                         clickedInAnnotation = false;
                         alreadySelected = false;
@@ -717,7 +724,28 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             currentAnnotation.changeColor(color);
         }
     }
-
+    
+    public void setFontName(String fName){
+        if(currentAnnotation != null && state == SELECT && currentAnnotation instanceof CommentAnnotation c){
+            c.changeFontName(fName);
+            c.scale();
+        }
+    }
+    
+    public void setFontStyle(int fStyle){
+        if(currentAnnotation != null && state == SELECT && currentAnnotation instanceof CommentAnnotation c){
+            c.changeFontStyle(fStyle);
+            c.scale();
+        }
+    }
+    
+    public void setFontSize(int fSize){
+        if(currentAnnotation != null && state == SELECT && currentAnnotation instanceof CommentAnnotation c){
+            c.changeFontSize(fSize);
+            c.scale();
+        }
+    }
+    
     public void setSync(boolean s) {
         syncing = s;
     }
@@ -879,6 +907,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
     }
 
     private void selectAnnotation(double mouseX, double mouseY) {
+        boolean changeFont = false;
+        Font tempFont = null;
         if(annotations.size() == 0){
             return;
         }
@@ -886,12 +916,24 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             if (annotations.get(i).clickedOn(mouseX, mouseY)) {
                 if(annotations.get(i) == currentAnnotation){
                     currentAnnotation = null;
+                    frame.hideColorPanel();
+                    frame.hideFontPanel();
                     break;
                 }
                 currentAnnotation = annotations.get(i);
                 clickedInAnnotation = true;
+                if(annotations.get(i) instanceof CommentAnnotation c){
+                    frame.showFontPanel();
+                    changeFont = true;
+                    tempFont = c.getFont();
+                }else{
+                    frame.hideFontPanel();
+                }
+                frame.showColorPanel();
                 break;
             }
+            frame.hideColorPanel();
+            frame.hideFontPanel();
             currentAnnotation = null; // this line should only be reached if no annotation was selected
         }
         for (int i = 0; i < annotations.size(); i++) {
@@ -900,11 +942,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         if(currentAnnotation != null){        
             currentAnnotation.select();
         }
-    }
-    
-    public void deselectAnnotation() {
-        for (int i = 0; i < annotations.size(); i++) {
-            annotations.get(i).deselect();
+        if(changeFont){
+            frame.setFontBoxes(tempFont);
         }
     }
     

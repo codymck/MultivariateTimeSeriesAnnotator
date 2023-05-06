@@ -193,6 +193,32 @@ public class CommentAnnotation extends AbstractAnnotation {
         plot.addAnnotation(commentAnnotation);
     }
     
+    public void changeFontName(String fName){
+        Font f = new Font(fName, font.getStyle(), font.getSize());
+        changeFont(f);
+    }
+    
+    public void changeFontStyle(int fStyle){
+        Font f = new Font(font.getName(), fStyle, font.getSize());
+        changeFont(f);
+    }
+    
+    public void changeFontSize(int fSize){
+        Font f = new Font(font.getName(), font.getStyle(), fSize);
+        changeFont(f);
+    }
+    
+    private void changeFont(Font f){
+        font = f;
+        plot.removeAnnotation(commentAnnotation);
+        commentAnnotation.setFont(font);
+        plot.addAnnotation(commentAnnotation);
+    }
+    
+    public Font getFont(){
+        return font;
+    }
+    
     @Override
     public String getType(){
         return "comment";

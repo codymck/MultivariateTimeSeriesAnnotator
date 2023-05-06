@@ -763,6 +763,17 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
             }
         }
     }
+    
+    public void deleteSelectedAnnotation() {
+        for (int i = annotations.size() - 1; i >= 0; i--) {
+            if (annotations.get(i).isSelected()) {
+                currentAnnotation = null;
+                annotations.get(i).delete();
+                annotations.remove(i);
+                break;
+            }
+        }
+    }
 
     public void exportAnnotations() throws IOException {
         JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);

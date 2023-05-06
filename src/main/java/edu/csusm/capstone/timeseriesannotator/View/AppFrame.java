@@ -105,6 +105,20 @@ public class AppFrame extends javax.swing.JFrame {
                                 }
                             }
                             break;
+                        case KeyEvent.VK_DELETE:
+                            for (int i = 0; i < charts.size(); i++) {
+                                if (charts.get(i).getAChartPanel().inChart()) {
+                                    charts.get(i).getAChartPanel().deleteSelectedAnnotation();
+                                }
+                            }
+                            break;
+                        case KeyEvent.VK_BACK_SPACE:
+                            for (int i = 0; i < charts.size(); i++) {
+                                if (charts.get(i).getAChartPanel().inChart()) {
+                                    charts.get(i).getAChartPanel().deleteSelectedAnnotation();
+                                }
+                            }
+                            break;
                     }
                 }
                 if (e.getID() == KeyEvent.KEY_RELEASED) {

@@ -911,13 +911,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 clickedInAnnotation = true;
                 if(annotations.get(i) instanceof CommentAnnotation c){
                     frame.showFontPanel();
-                    frame.showColorPanel();
                     changeFont = true;
                     tempFont = c.getFont();
                 }else{
                     frame.hideFontPanel();
-                    frame.showColorPanel();
                 }
+                frame.showColorPanel();
                 break;
             }
             frame.hideColorPanel();

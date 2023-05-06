@@ -222,7 +222,6 @@ public class AppFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 1000, 800));
         setLocation(new java.awt.Point(0, 0));
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         ChartPanel.setBackground(new java.awt.Color(255, 255, 255));
         ChartPanel.setPreferredSize(new java.awt.Dimension(900, 800));
@@ -349,7 +348,7 @@ public class AppFrame extends javax.swing.JFrame {
         ToolBarPanel.add(ToolSelectPanel);
 
         TogglePanel.setBackground(new java.awt.Color(255, 255, 255));
-        TogglePanel.setLayout(new java.awt.GridLayout(1, 0));
+        TogglePanel.setLayout(new java.awt.GridLayout());
 
         ColorPanel.setLayout(new java.awt.GridLayout(2, 0));
 
@@ -561,7 +560,10 @@ public class AppFrame extends javax.swing.JFrame {
         jLayeredPane1.add(LinesPanel);
 
         FontPanel.setVisible(false);
-        FontPanel.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout FontPanelLayout = new java.awt.GridBagLayout();
+        new java.awt.GridBagLayout().columnWeights = new double[] {0.0};
+        new java.awt.GridBagLayout().rowWeights = new double[] {0.0};
+        FontPanel.setLayout(FontPanelLayout);
 
         FontSizeLabel.setText("Font Size:");
         gridBagConstraints = new java.awt.GridBagConstraints();

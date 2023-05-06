@@ -756,6 +756,9 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void FontComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontComboBoxActionPerformed
         font = FontComboBox.getSelectedItem().toString();
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).aChartPanel.setFontName(font);
+        }
     }//GEN-LAST:event_FontComboBoxActionPerformed
 
     private void RayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RayButtonActionPerformed
@@ -768,16 +771,22 @@ public class AppFrame extends javax.swing.JFrame {
 
     private void FontSizeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontSizeComboBoxActionPerformed
         fontSize = Integer.parseInt(FontSizeComboBox.getSelectedItem().toString());
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).aChartPanel.setFontSize(fontSize);
+        }
     }//GEN-LAST:event_FontSizeComboBoxActionPerformed
 
     private void FontStyleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontStyleComboBoxActionPerformed
         fontStyle = FontStyleComboBox.getSelectedItem().toString();
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).aChartPanel.setFontStyle(getFontStyle());
+        }
     }//GEN-LAST:event_FontStyleComboBoxActionPerformed
 
     private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
         selectedButton = EditButton;
         setAppState(ToolState.SELECT);
-        ColorPanel.setVisible(true);
+        ColorPanel.setVisible(false);
 
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
@@ -838,6 +847,40 @@ public class AppFrame extends javax.swing.JFrame {
 
     public static String getFontName() {
         return font;
+    }
+    
+    public void showColorPanel(){
+        ColorPanel.setVisible(true);
+    }
+    
+    public void hideColorPanel(){
+        ColorPanel.setVisible(false);
+    }
+    
+    public void showFontPanel(){
+        FontPanel.setVisible(true);
+    }
+    
+    public void hideFontPanel(){
+        FontPanel.setVisible(false);
+    }
+    
+    public void setFontBoxes(Font f){
+        FontComboBox.setSelectedItem(f.getFamily());
+        FontSizeComboBox.setSelectedItem(Integer.toString(f.getSize()));
+        
+        String fStyle = "";
+        switch (f.getStyle()) {
+            case 0 ->
+                fStyle = "Plain";
+            case 2 ->
+                fStyle = "Italic";
+            case 1 ->
+                fStyle = "Bold";
+            default -> {
+            }
+        }
+        FontStyleComboBox.setSelectedItem(fStyle);
     }
 
     private void OpenColorChooserActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HighlightColorActionPerformed

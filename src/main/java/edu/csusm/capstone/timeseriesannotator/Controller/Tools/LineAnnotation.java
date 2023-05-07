@@ -168,6 +168,8 @@ public class LineAnnotation extends AbstractAnnotation {
         if(!set){
             if(!dragHandle){
                 storeLine.setLine(coordinates[0][0] - xOffset, coordinates[0][1] - yOffset, coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
+                lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+                plot.addAnnotation(lineAnnotation);
                 updateHandleCoords();
                 redrawHandles();
             }else{
@@ -178,14 +180,20 @@ public class LineAnnotation extends AbstractAnnotation {
                     if(handleNumber == 1){
                         storeLine.setLine(coordinates[0][0], coordinates[0][1], coordinates[1][0] - xOffset, coordinates[1][1] - yOffset);
                     }
+                    lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+                    plot.addAnnotation(lineAnnotation);
                     updateHandleCoords();
                     redrawHandles();
                 }else{
                     int oppHandle = abs(handleNumber - 1);
                     double[] newPoint = {handleCoordinates[handleNumber][0]-xOffset, handleCoordinates[handleNumber][1]-yOffset};
                     rotateLine(handleCoordinates[oppHandle], newPoint);
+                    lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+                    plot.addAnnotation(lineAnnotation);
                     handles[handleNumber].changeCoords(newPoint);
-                    handles[handleNumber].draw();
+                    for(int i = 0; i < 2; i++){
+                        handles[i].draw();
+                    }
                 }
             }
         }else{
@@ -205,13 +213,12 @@ public class LineAnnotation extends AbstractAnnotation {
                     coordinates[1][1] = storeLine.getY2();
                 }
             }
-
+            lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
+            plot.addAnnotation(lineAnnotation);
             updateHandleCoords();
             redrawHandles();
             dragHandle = false;
         }
-        lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
-        plot.addAnnotation(lineAnnotation);
     }
     
     private void updateHandleCoords(){
@@ -343,11 +350,12 @@ public class LineAnnotation extends AbstractAnnotation {
         plot.removeAnnotation(lineAnnotation);
         lineAnnotation = new XYShapeAnnotation(storeLine, dashed, color);
         plot.addAnnotation(lineAnnotation);
+        redrawHandles();
     }
 
     @Override
     public String getType() {
-        return "line";
+        return "line"; 
     }
 
     @Override

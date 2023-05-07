@@ -13,11 +13,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
@@ -26,41 +24,23 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.json.Json;
 import javax.json.JsonArray;
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.annotations.XYAnnotation;
-import org.jfree.chart.annotations.XYTextAnnotation;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.DateTickUnit;
-import org.jfree.chart.axis.DateTickUnitType;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
-import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.plot.Zoomable;
 import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.Range;
@@ -537,6 +517,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                             currentAnnotation = null;
                             frame.hideColorPanel();
                             frame.hideFontPanel();
+                            frame.hideDeleteButton();
                         }
                         clickedInAnnotation = false;
                         alreadySelected = false;
@@ -929,6 +910,7 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     currentAnnotation = null;
                     frame.hideColorPanel();
                     frame.hideFontPanel();
+                    frame.hideDeleteButton();
                     break;
                 }
                 currentAnnotation = annotations.get(i);
@@ -941,10 +923,12 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                     frame.hideFontPanel();
                 }
                 frame.showColorPanel();
+                frame.showDeleteButton();
                 break;
             }
             frame.hideColorPanel();
             frame.hideFontPanel();
+            frame.hideDeleteButton();
             currentAnnotation = null; // this line should only be reached if no annotation was selected
         }
         for (int i = 0; i < annotations.size(); i++) {
@@ -1000,5 +984,8 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
         }
     }
     
+    public ToolState getToolState(){
+        return state;
+    }
     
 }

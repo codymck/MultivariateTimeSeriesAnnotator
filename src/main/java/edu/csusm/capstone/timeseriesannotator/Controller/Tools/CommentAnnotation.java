@@ -28,6 +28,10 @@ public class CommentAnnotation extends AbstractAnnotation {
     private XYShapeAnnotation selectedRect = null;
     private Rectangle2D.Double hitbox = null;
     private String text;
+    private boolean clickFlag = false;
+    private long startTime = 0;
+    private long endTime = 0;
+    
 
     public CommentAnnotation(XYPlot p, Color c, double[] point, Font f, AnnotateChartPanel cP) {
         this.plot = p;
@@ -37,7 +41,7 @@ public class CommentAnnotation extends AbstractAnnotation {
         this.chartPanel = cP;
         this.font = f;
 
-        CommentMenu cMenu = new CommentMenu(new javax.swing.JFrame(), true);
+        CommentMenu cMenu = new CommentMenu(new javax.swing.JFrame(), true, "Enter text here...");
         cMenu.setVisible(true);
         if (!cMenu.isSubmitted()) {
             return;
@@ -81,7 +85,22 @@ public class CommentAnnotation extends AbstractAnnotation {
         if(!selected){
             this.getBounds(false);
         }
-        return hitbox.contains(click);
+        boolean clicked = hitbox.contains(click);
+        
+        if(clicked){
+            if(!clickFlag){
+                startTime = System.nanoTime();
+                clickFlag = true;
+            }else{
+                endTime = System.nanoTime();
+                double difference = (endTime - startTime) / 1e6;
+                if(difference < 500){
+                    changeText();
+                }
+                clickFlag = false;
+            }
+        }
+        return clicked;
     }
     
     @Override
@@ -191,6 +210,20 @@ public class CommentAnnotation extends AbstractAnnotation {
         plot.removeAnnotation(commentAnnotation);
         commentAnnotation.setPaint(color);
         plot.addAnnotation(commentAnnotation);
+    }
+    
+    private void changeText(){
+        CommentMenu cMenu = new CommentMenu(new javax.swing.JFrame(), true, text);
+        cMenu.setVisible(true);
+        if (!cMenu.isSubmitted()) {
+            return;
+        }
+        text = cMenu.getComment();
+        plot.removeAnnotation(commentAnnotation);
+        commentAnnotation.setText(text);
+        plot.addAnnotation(commentAnnotation);
+        selected = true;
+        getBounds(true);
     }
     
     public void changeFontName(String fName){

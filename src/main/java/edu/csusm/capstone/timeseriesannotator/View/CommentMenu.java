@@ -4,9 +4,6 @@
  */
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import java.awt.Color;
-import java.awt.Font;
-
 /**
  *
  * @author Cody McKinney
@@ -24,10 +21,11 @@ public class CommentMenu extends javax.swing.JDialog {
     /**
      * Creates new form CommentMenu
      */
-    public CommentMenu(java.awt.Frame parent, boolean modal) {
+    public CommentMenu(java.awt.Frame parent, boolean modal, String s) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(AppFrame.frame);
+        TextField.setText(s);
         this.getRootPane().setDefaultButton(SubmitButton);
     }
 
@@ -54,7 +52,6 @@ public class CommentMenu extends javax.swing.JDialog {
             }
         });
 
-        TextField.setText("Enter text here...");
         TextField.setName("Comment");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -85,8 +82,10 @@ public class CommentMenu extends javax.swing.JDialog {
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
         text = TextField.getText();
-        submitted = true;
-        dispose();
+        if(!text.equals("")){
+            submitted = true;
+            dispose();
+        }
     }//GEN-LAST:event_SubmitButtonActionPerformed
     
     public String getComment() {

@@ -4,6 +4,7 @@ import edu.csusm.capstone.timeseriesannotator.Controller.AddSeriesAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.Controller.Controller;
 import edu.csusm.capstone.timeseriesannotator.Controller.ImportDataAction;
+import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import static edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu.color;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -115,9 +116,11 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             @Override
             public void chartMouseClicked(ChartMouseEvent event) {
                 if (event.getTrigger().getClickCount() == 2) {
-                    aChartPanel.restoreAutoBounds();
-                    aChartPanel.setDomainZoomable(true);
-                    aChartPanel.setRangeZoomable(true);
+                    if(aChartPanel.getToolState() != ToolState.SELECT){
+                        aChartPanel.restoreAutoBounds();
+                        aChartPanel.setDomainZoomable(true);
+                        aChartPanel.setRangeZoomable(true);
+                    }
                 }
 //                System.out.println(event.getEntity());
                 if (event.getEntity().toString().contains("AxisEntity") || event.getEntity().toString().contains("TitleEntity")) {

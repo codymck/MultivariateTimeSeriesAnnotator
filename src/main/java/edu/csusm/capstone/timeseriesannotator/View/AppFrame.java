@@ -13,7 +13,6 @@ import javax.swing.AbstractButton;
 import javax.swing.JColorChooser;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.InputEvent;
-import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -206,6 +205,7 @@ public class AppFrame extends javax.swing.JFrame {
         CommentButton = new javax.swing.JToggleButton();
         LineButton = new javax.swing.JToggleButton();
         ShapeButton = new javax.swing.JToggleButton();
+        DeleteButton = new javax.swing.JButton();
         TogglePanel = new javax.swing.JPanel();
         ColorPanel = new java.awt.Panel();
         BlackButton = new javax.swing.JToggleButton();
@@ -362,7 +362,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonGroup1.add(ShapeButton);
         ShapeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-diversity-50.png"))); // NOI18N
         ShapeButton.setText("8");
-        ShapeButton.setToolTipText("Shapes(7)");
+        ShapeButton.setToolTipText("Shapes (7)");
         ShapeButton.setActionCommand("(5)");
         ShapeButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         ShapeButton.setName("ShapeButton");
@@ -373,10 +373,19 @@ public class AppFrame extends javax.swing.JFrame {
         });
         ToolSelectPanel.add(ShapeButton);
 
+        DeleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-trash-24.png"))); // NOI18N
+        DeleteButton.setToolTipText("Delete Annotation (Del)");
+        DeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteButtonActionPerformed(evt);
+            }
+        });
+        ToolSelectPanel.add(DeleteButton);
+
         ToolBarPanel.add(ToolSelectPanel);
 
         TogglePanel.setBackground(new java.awt.Color(255, 255, 255));
-        TogglePanel.setLayout(new java.awt.GridLayout());
+        TogglePanel.setLayout(new java.awt.GridLayout(1, 0));
 
         ColorPanel.setLayout(new java.awt.GridLayout(2, 0));
 
@@ -588,10 +597,7 @@ public class AppFrame extends javax.swing.JFrame {
         jLayeredPane1.add(LinesPanel);
 
         FontPanel.setVisible(false);
-        java.awt.GridBagLayout FontPanelLayout = new java.awt.GridBagLayout();
-        new java.awt.GridBagLayout().columnWeights = new double[] {0.0};
-        new java.awt.GridBagLayout().rowWeights = new double[] {0.0};
-        FontPanel.setLayout(FontPanelLayout);
+        FontPanel.setLayout(new java.awt.GridBagLayout());
 
         FontSizeLabel.setText("Font Size:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -771,6 +777,8 @@ public class AppFrame extends javax.swing.JFrame {
         ShapesPanel.setVisible(true);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(false);
+        DeleteButton.setVisible(false);
+
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.MARK);
@@ -821,6 +829,7 @@ public class AppFrame extends javax.swing.JFrame {
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(false);
+        DeleteButton.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.SELECT);
@@ -852,6 +861,12 @@ public class AppFrame extends javax.swing.JFrame {
             charts.get(i).aChartPanel.setColor(color);
         }
     }//GEN-LAST:event_CustomColorButtonMouseClicked
+
+    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
+        for (int i = 0; i < charts.size(); i++) {
+            charts.get(i).getAChartPanel().deleteSelectedAnnotation();
+        }
+    }//GEN-LAST:event_DeleteButtonActionPerformed
 
     public static int getFontStyle() {
         int style = Font.PLAIN;
@@ -893,6 +908,14 @@ public class AppFrame extends javax.swing.JFrame {
     
     public void hideFontPanel(){
         FontPanel.setVisible(false);
+    }
+    
+    public void showDeleteButton(){
+        DeleteButton.setVisible(true);
+    }
+    
+    public void hideDeleteButton(){
+        DeleteButton.setVisible(false);
     }
     
     public void setFontBoxes(Font f){
@@ -942,6 +965,7 @@ public class AppFrame extends javax.swing.JFrame {
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(false);
+        DeleteButton.setVisible(false);
 
         if (zSelected) {
             for (int i = 0; i < charts.size(); i++) {
@@ -961,6 +985,7 @@ public class AppFrame extends javax.swing.JFrame {
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(false);
+        DeleteButton.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.PAN);
@@ -995,6 +1020,7 @@ public class AppFrame extends javax.swing.JFrame {
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(false);
         FontPanel.setVisible(true);
+        DeleteButton.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.COMMENT);
@@ -1013,6 +1039,7 @@ public class AppFrame extends javax.swing.JFrame {
         ShapesPanel.setVisible(false);
         LinesPanel.setVisible(true);
         FontPanel.setVisible(false);
+        DeleteButton.setVisible(false);
 
         for (int i = 0; i < charts.size(); i++) {
             charts.get(i).aChartPanel.setChartState(ToolState.MARK);
@@ -1046,6 +1073,7 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton CommentButton;
     private javax.swing.JButton CustomColorButton;
     private javax.swing.JToggleButton CustomColorButton2;
+    private javax.swing.JButton DeleteButton;
     private javax.swing.JToggleButton DiagonalButton;
     public javax.swing.JToggleButton EditButton;
     private javax.swing.JToggleButton EllipseButton;

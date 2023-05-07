@@ -22,7 +22,7 @@ public class CommentTest {
 
     @Before
     public void setUp() {
-        commentMenu = GuiActionRunner.execute(() -> new CommentMenu(new javax.swing.JFrame(), true));
+        commentMenu = GuiActionRunner.execute(() -> new CommentMenu(new javax.swing.JFrame(), true,"Enter text here..."));
         dialog = new DialogFixture(commentMenu);
         dialog.show(); // shows the frame to test
     }

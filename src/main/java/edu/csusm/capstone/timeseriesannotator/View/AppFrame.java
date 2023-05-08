@@ -16,10 +16,12 @@ import java.awt.event.InputEvent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jfree.chart.plot.XYPlot;
 
 /**
  *
  * @author Cody McKinney
+ * @author Josef Arevalo
  */
 public class AppFrame extends javax.swing.JFrame {
 
@@ -29,7 +31,6 @@ public class AppFrame extends javax.swing.JFrame {
     public static ArrayList<ChartDisplay> charts;
     private boolean ctrlPressed = false;
     MultiSplitPane split = new MultiSplitPane();
-    private static String[] textFontArray;
     public static Color color;
     public Color customColor1 = null;
     public Color customColor2 = null;
@@ -99,8 +100,14 @@ public class AppFrame extends javax.swing.JFrame {
                             break;
                         case KeyEvent.VK_MINUS:
                             for (int i = 0; i < charts.size(); i++) {
+                                AnnotateChartPanel aChartPanel = charts.get(i).getAChartPanel();
+                                XYPlot plot = aChartPanel.getChart().getXYPlot();
                                 if (charts.get(i).getAChartPanel().inChart()) {
-                                    charts.get(i).getAChartPanel().zoomOutBoth(0,0);
+                                    if (!(plot.getDomainAxis().getUpperBound() > aChartPanel.minMax[2] * 3 || plot.getDomainAxis().getLowerBound() < -aChartPanel.minMax[2] * 3
+                                            || plot.getRangeAxis().getUpperBound() > aChartPanel.minMax[3] * 3 || plot.getRangeAxis().getLowerBound() < -aChartPanel.minMax[3] * 3)) {
+                                        charts.get(i).getAChartPanel().zoomOutBoth(0, 0);
+                                    }
+
                                 }
                             }
                             break;

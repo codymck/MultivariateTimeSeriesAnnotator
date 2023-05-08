@@ -8,11 +8,7 @@ import edu.csusm.capstone.timeseriesannotator.Model.ToolState;
 import static edu.csusm.capstone.timeseriesannotator.View.ChartSelectMenu.color;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -21,26 +17,23 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.Axis;
 import org.jfree.chart.entity.AxisEntity;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.LegendItemEntity;
-import org.jfree.chart.entity.TitleEntity;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
- * @author josef
+ * @author Josef Arevalo
  */
 public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
@@ -54,6 +47,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     /**
      * Creates new form ChartPanel
+     * @param f
      */
     public ChartDisplay(AppFrame f) {
         this.frame = f;
@@ -62,6 +56,9 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     }
 
+    /**
+     * Creates an empty chart as soon as a new chartDisplay is added to the app frame
+     */
     private void startChart() {
         XYSeriesCollection emptyData = new XYSeriesCollection();
 
@@ -80,7 +77,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         JPopupMenu popupMenu = aChartPanel.getPopupMenu();
         popupMenu.setEnabled(false);
 
-        XYPlot plot = chart.getXYPlot();
+        plot = chart.getXYPlot();
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
         plot.setBackgroundPaint(new java.awt.Color(255, 255, 255));
@@ -92,11 +89,18 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         jPanel2.add(aChartPanel);
     }
 
+    /**
+     * @return XYPlot of current ChartDisplay
+     */
     public XYPlot returnPlot() {
         chart = aChartPanel.getChart();
         return chart.getXYPlot();
     }
 
+    /**
+     * Sets a new chart for the current ChartDisplay
+     * @param p
+     */
     public void setChart(AnnotateChartPanel p) {
         if (aChartPanel.getParent() == jPanel2) {
             jPanel2.remove(aChartPanel);
@@ -115,6 +119,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         aChartPanel.addChartMouseListener(new ChartMouseListener() {
             @Override
             public void chartMouseClicked(ChartMouseEvent event) {
+                //Zooms screen to size of data
                 if (event.getTrigger().getClickCount() == 2) {
                     if(aChartPanel.getToolState() != ToolState.SELECT){
                         aChartPanel.restoreAutoBounds();
@@ -122,15 +127,16 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                         aChartPanel.setRangeZoomable(true);
                     }
                 }
-//                System.out.println(event.getEntity());
+                //checks if user is clicking on the axis or title labels
                 if (event.getEntity().toString().contains("AxisEntity") || event.getEntity().toString().contains("TitleEntity")) {
                     LabelsMenu chartTitle = new LabelsMenu(new javax.swing.JFrame(), true);
                     chartTitle.setVisible(true);
 
-                    if (!chartTitle.isSubmitted()) {
+                    if (!chartTitle.isSubmitted()) {//user exits label menu
                         return;
                     }
 
+                    //Axis label has been selected and updates based on user input
                     if (event.getEntity().toString().contains("AxisEntity")) {
                         try {
                             AxisEntity l = (AxisEntity) event.getEntity().clone();
@@ -138,14 +144,14 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                         } catch (CloneNotSupportedException ex) {
                             Logger.getLogger(ChartDisplay.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } else {
+                    } else {//Title label has been selected and updates based on user input
                         aChartPanel.getChart().setTitle(chartTitle.getComment());
                         chartStruct.getLabels().set(0, chartTitle.getComment());
                     }
                 }
+                
+                //checks if the user selected an item in the legend
                 if (event.getEntity().toString().contains("LegendItemEntity")) {
-//                    System.out.println(plot.getDatasetCount());
-
                     ChartEntity e = event.getEntity();
                     LegendItemEntity entity = (LegendItemEntity) e;
                     Comparable seriesKey = entity.getSeriesKey();
@@ -154,25 +160,24 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                     boolean rotate = false;
                     ArrayList<String> labels = chartStruct.getLabels();
                     
-                    
-                    System.out.println(chartStruct.getFlag());
-                    //if(flag == chartStruct.getFlag())flag = 0;
+                    //loops through all datasets on plot
                     for (int i = 0; i < chartStruct.getFlag()-1; i++) {
-//                        System.out.println(plot.getDataset(i));
                         dataset = plot.getDataset(i);
                         renderer = plot.getRenderer(i);
-                        System.out.println(dataset.getSeriesKey(0));
                         
                         if (dataset.getSeriesKey(0).equals(seriesKey)) {
-
+                            //user left clicks Legend
                             if (event.getTrigger().getClickCount() == 1 && event.getTrigger().getButton() == 1) {
                                 color = JColorChooser.showDialog(aChartPanel, "Select a color", new Color(0, 100, 255, 60));
                                 renderer.setSeriesPaint(0, color);
                             }
-                            if (event.getTrigger().getButton() == 3) {
-                                
+                            //user right clicks Legend
+                            if (event.getTrigger().getButton() == 3) {      
                                 //open menu to confirm deletion
+                                int input = JOptionPane.showConfirmDialog(AppFrame.frame, "Are you sure you want to delete this series", "Delete Series", JOptionPane.YES_NO_OPTION);
+                                if(input != 0)break;
                                 
+                                //case for single dataset on plot
                                 if(chartStruct.getFlag() == 2){
                                     frame.removeChart(cD);
                                     frame.initialChart();
@@ -186,17 +191,16 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                                 rotate = true;
                             }
                         }
+                        //moves every dataset after removed one forward
                         if (rotate && i < chartStruct.getFlag() - 1) {
-                            //have to adjust renderers
                             plot.setRenderer(i, plot.getRenderer(i + 1));
                             plot.setDataset(i, plot.getDataset(i + 1));
-                            if(i == chartStruct.getFlag() - 2)
+                            if(i == chartStruct.getFlag() - 2)//sets very last dataset to null
                                 plot.setDataset(i+1, null);
                         }
                     } 
                 }
             }
-
             @Override
             public void chartMouseMoved(ChartMouseEvent event) {
 
@@ -206,11 +210,10 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
         aChartPanel.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent event) {
+                //check if the user is zooming out and enforces a zoom limit
                 if (!event.isShiftDown()) {
                     int k = event.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK;
-                    //System.out.println("Type: " + event.getScrollType() + " Precise: " + event.getPreciseWheelRotation());
                     if (event.getPreciseWheelRotation() > 0 || event.isShiftDown() || k == MouseEvent.CTRL_DOWN_MASK) {
-                        //System.out.println("max x: " + aChartPanel.maxX*3 + " min x: " + aChartPanel.minX*3 + " max y: " + aChartPanel.maxY*3 + " min y: " + aChartPanel.minY*3);
                         if (plot.getDomainAxis().getUpperBound() > aChartPanel.minMax[2] * 3 || plot.getDomainAxis().getLowerBound() < -aChartPanel.minMax[2] * 3
                                 || plot.getRangeAxis().getUpperBound() > aChartPanel.minMax[3] * 3 || plot.getRangeAxis().getLowerBound() < -aChartPanel.minMax[3] * 3) {
                             aChartPanel.setDomainZoomable(false);
@@ -425,7 +428,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             aChartPanel.setSync(true);
             aChartPanel.setMouseZoomable(false);
             aChartPanel.setRangeZoomable(false);
-            control.addSync(aChartPanel.getChart(), aChartPanel);
+            control.addSync(aChartPanel.getChart(), aChartPanel, chartStruct);
         } else if (SyncButton.isSelected()) {
             //Throw error "Can't Sync a empty chart!"
             SyncButton.setSelected(false);

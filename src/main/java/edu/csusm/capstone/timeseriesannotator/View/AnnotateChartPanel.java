@@ -751,6 +751,9 @@ public class AnnotateChartPanel extends ChartPanel implements MouseListener {
                 currentAnnotation = null;
                 annotations.get(i).delete();
                 annotations.remove(i);
+                frame.hideColorPanel();
+                frame.hideFontPanel();
+                frame.hideDeleteButton();
                 break;
             }
         }

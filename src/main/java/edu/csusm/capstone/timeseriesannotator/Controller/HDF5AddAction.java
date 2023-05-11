@@ -11,14 +11,14 @@ import javax.swing.JOptionPane;
  *
  * @author josef
  */
-public class HDF5addAction implements ActionListener {
+public class HDF5AddAction implements ActionListener {
 
     JDialog dialog;
     String yaxis;
 
-    private static HDF5addAction instance;
+    private static HDF5AddAction instance;
 
-    public static HDF5addAction getInstance() {
+    public static HDF5AddAction getInstance() {
         if (instance == null) {
             System.err.println("CSVAction has not been initialized");
         }
@@ -29,10 +29,10 @@ public class HDF5addAction implements ActionListener {
         instance = null;
     }
 
-    public HDF5addAction(JDialog w, javax.swing.JTextField Yaxispath) {
+    public HDF5AddAction(JDialog w, javax.swing.JTextField Yaxispath) {
         this.dialog = w;
         yaxis = Yaxispath.getText();
-        HDF5addAction.instance = this;
+        HDF5AddAction.instance = this;
     }
 
     @Override

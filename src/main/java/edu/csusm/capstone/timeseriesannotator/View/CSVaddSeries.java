@@ -1,6 +1,6 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
-import edu.csusm.capstone.timeseriesannotator.Controller.CSVAddAction;
+import edu.csusm.capstone.timeseriesannotator.Controller.CSVaddAction;
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
@@ -97,7 +97,7 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
     }// </editor-fold>//GEN-END:initComponents
 
     private void csvCoordinateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvCoordinateButtonActionPerformed
-        ActionListener csvAddAction = new CSVAddAction(this, YAxisList, chartStruct);
+        ActionListener csvAddAction = new CSVaddAction(this, YAxisList, chartStruct);
         csvAddAction.actionPerformed(evt);
     }//GEN-LAST:event_csvCoordinateButtonActionPerformed
 

@@ -72,7 +72,7 @@ public class AddSeriesAction implements ActionListener {
             series.setModel(headers);
             series.setVisible(true);
 
-            CSVAddAction cAction = CSVAddAction.getInstance();
+            CSVaddAction cAction = CSVaddAction.getInstance();
             if (!cAction.isSelected()) {
                 return;
             }

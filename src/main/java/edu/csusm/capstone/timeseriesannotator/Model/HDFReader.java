@@ -5,7 +5,7 @@ import ch.systemsx.cisd.hdf5.IHDF5Reader;
 import ch.systemsx.cisd.hdf5.IHDF5SimpleReader;
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
 import edu.csusm.capstone.timeseriesannotator.Controller.HDF5Action;
-import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
+import edu.csusm.capstone.timeseriesannotator.Controller.HDF5AddAction;
 import edu.csusm.capstone.timeseriesannotator.View.ErrorDialog;
 import edu.csusm.capstone.timeseriesannotator.View.HDF5addSeries;
 import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
@@ -100,10 +100,10 @@ public class HDFReader implements DataReader {
                 HDF5Action hAction = HDF5Action.getInstance();
                 this.setPaths(hAction.getXPath(), hAction.getYPath(), 0);
             } else {
-                HDF5addAction.deleteInstance();
+                HDF5AddAction.deleteInstance();
                 HDF5addSeries select = new HDF5addSeries(new javax.swing.JFrame(), true);
                 select.setVisible(true);
-                HDF5addAction hAction = HDF5addAction.getInstance();
+                HDF5AddAction hAction = HDF5AddAction.getInstance();
                 this.setPaths(chartStruct.getXpath(), hAction.getYPath(), 1);
             }
             return;

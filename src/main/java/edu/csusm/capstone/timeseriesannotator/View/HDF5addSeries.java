@@ -1,7 +1,7 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import edu.csusm.capstone.timeseriesannotator.Controller.ChartStruct;
-import edu.csusm.capstone.timeseriesannotator.Controller.HDF5addAction;
+import edu.csusm.capstone.timeseriesannotator.Controller.HDF5AddAction;
 import edu.csusm.capstone.timeseriesannotator.Model.HDFReader;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
@@ -143,7 +143,7 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     }// </editor-fold>//GEN-END:initComponents
 
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HDF5PathButtonActionPerformed
-        ActionListener HDF5addAction = new HDF5addAction(this, Yaxispath);
+        ActionListener HDF5addAction = new HDF5AddAction(this, Yaxispath);
         HDF5addAction.actionPerformed(evt);
         selected = true;
     }//GEN-LAST:event_HDF5PathButtonActionPerformed

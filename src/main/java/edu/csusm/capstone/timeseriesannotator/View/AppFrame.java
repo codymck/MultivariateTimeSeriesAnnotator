@@ -13,6 +13,11 @@ import javax.swing.AbstractButton;
 import javax.swing.JColorChooser;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.InputEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -892,11 +897,21 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_DeleteButtonActionPerformed
 
     private void userManualMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userManualMenuItemActionPerformed
-        // TODO add your handling code here:
+        try {
+            try {
+                Desktop.getDesktop().browse(new URI("https://github.com/codymck/MultivariateTimeSeriesAnnotator"));
+            } catch (IOException ex) {
+                Logger.getLogger(AppFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(AppFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }//GEN-LAST:event_userManualMenuItemActionPerformed
 
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
-        // TODO add your handling code here:
+       AboutMenu menu = new AboutMenu(new javax.swing.JFrame(), true);
+       menu.setVisible(true);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     public static int getFontStyle() {

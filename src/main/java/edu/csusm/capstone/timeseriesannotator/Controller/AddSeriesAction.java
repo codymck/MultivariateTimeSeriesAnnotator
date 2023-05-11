@@ -72,7 +72,7 @@ public class AddSeriesAction implements ActionListener {
             series.setModel(headers);
             series.setVisible(true);
 
-            CSVAddAction cAction = CSVAddAction.getInstance();
+            CSVaddAction cAction = CSVaddAction.getInstance();
             if (!cAction.isSelected()) {
                 return;
             }
@@ -91,7 +91,7 @@ public class AddSeriesAction implements ActionListener {
             select.setModel(headers, h);
             select.setVisible(true);
 
-            HDF5AddAction hAction = HDF5AddAction.getInstance();
+            HDF5addAction hAction = HDF5addAction.getInstance();
 
             if (!select.isSelected()) {
                 return;

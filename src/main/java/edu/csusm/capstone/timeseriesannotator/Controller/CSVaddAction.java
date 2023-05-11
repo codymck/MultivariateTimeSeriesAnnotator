@@ -9,7 +9,8 @@ import javax.swing.JDialog;
  *
  * @author josef
  */
-public class CSVAddAction implements ActionListener {
+public class CSVaddAction implements ActionListener {
+
     JDialog dialog;
     int yaxis;
     int xaxis;
@@ -18,28 +19,26 @@ public class CSVAddAction implements ActionListener {
     private javax.swing.JList<String> YAxisList;
     ChartStruct chartStruct;
 
-    private static CSVAddAction instance;
+    private static CSVaddAction instance;
 
-    public static CSVAddAction getInstance() {
+    public static CSVaddAction getInstance() {
         if (instance == null) {
             System.err.println("CSVAction has not been initialized");
         }
         return instance;
     }
 
-    public CSVAddAction(JDialog w, javax.swing.JList<String> YList, ChartStruct c) {
+    public CSVaddAction(JDialog w, javax.swing.JList<String> YList, ChartStruct c) {
         this.dialog = w;
         this.YAxisList = YList;
         this.chartStruct = c;
-        CSVAddAction.instance = this;
+        CSVaddAction.instance = this;
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
         yaxis = YAxisList.getSelectedIndex();
         y = YAxisList.getSelectedValue();
-        System.out.println("CSVAction: Selected Axis --- Y-Axis: " + yaxis);
         if (yaxis == -1 || yaxis == chartStruct.getXaxis()) {
             ErrorDialog.badIndex();
             selected = false;
@@ -48,17 +47,17 @@ public class CSVAddAction implements ActionListener {
             selected = true;
         }
     }
-    
-    public boolean isSelected(){
+
+    public boolean isSelected() {
         return selected;
     }
-    
-    public void setXAxis(int x){
+
+    public void setXAxis(int x) {
         xaxis = x;
     }
 
     public int getYAxis() {
         return yaxis;
     }
-    
+
 }

@@ -12,5 +12,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({CSVReaderTest.class, HDFReaderTest.class})
 public class ReaderSuite {
-    
+
 }

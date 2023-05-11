@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.csusm.capstone.timeseriesannotator.View;
 
 import org.assertj.swing.edt.GuiActionRunner;
@@ -15,24 +11,26 @@ import org.junit.Test;
  * @author Ramon Duran Rizo
  */
 public class AddSeriesButtonTest {
+
     private FrameFixture window;
     private AppFrame frame;
-    
+
     @Before
     public void setUp() {
-      frame = GuiActionRunner.execute(() -> new AppFrame());
-      window = new FrameFixture(frame);
-      window.show(); // shows the frame to test
+        frame = GuiActionRunner.execute(() -> new AppFrame());
+        window = new FrameFixture(frame);
+        window.show(); // shows the frame to test
     }
+
     @After
-    public void tearDown(){
+    public void tearDown() {
         window.cleanUp();
     }
-    
+
     @Test
-    public void OtherButtonsTest(){
+    public void OtherButtonsTest() {
         window.button("AddSeries").click();
         window.fileChooser().fileNameTextBox().enterText("data.csv");
-        window.fileChooser().approveButton().click();     
+        window.fileChooser().approveButton().click();
     }
 }

@@ -1,6 +1,5 @@
 package edu.csusm.capstone.timeseriesannotator.View;
 
-
 import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
@@ -8,33 +7,31 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author Ramon Duran
  */
 public class ToolButtonAutomateTest {
+
     private FrameFixture window;
     private AppFrame frame;
+
     @Before
     public void setUp() {
-      frame = GuiActionRunner.execute(() -> new AppFrame());
-      window = new FrameFixture(frame);
-      window.show(); // shows the frame to test
+        frame = GuiActionRunner.execute(() -> new AppFrame());
+        window = new FrameFixture(frame);
+        window.show(); // shows the frame to test
     }
+
     @After
-    public void tearDown(){
+    public void tearDown() {
         window.cleanUp();
     }
-    
+
     @Test
-    public void testButtons() throws InterruptedException{
-        
-        for(int i = 0; i < 5;i++){
+    public void testButtons() throws InterruptedException {
+
+        for (int i = 0; i < 5; i++) {
             window.button("AddChartButton").click();
         }
         window.toggleButton("ZoomButton").click();
@@ -50,13 +47,13 @@ public class ToolButtonAutomateTest {
         window.toggleButton("PurpleButton").click();
         //end of color buttons
         window.toggleButton("CommentButton").click();
-        
+
         window.toggleButton("ShapeButton").click();
         Thread.sleep(50);
         window.toggleButton("SquareButton").click();
         window.toggleButton("EllipseButton").click();
         window.toggleButton("TriangleButton").click();
-        
+
         window.toggleButton("LineButton").click();
         Thread.sleep(50);
         window.toggleButton("VerticalButton").click();
@@ -64,6 +61,5 @@ public class ToolButtonAutomateTest {
         window.toggleButton("DiagonalButton").click();
         window.toggleButton("RayButton").click();
         window.toggleButton("SegmentButton").click();
-        //
     }
 }

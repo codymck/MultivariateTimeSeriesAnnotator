@@ -10,7 +10,9 @@ import javax.swing.DefaultComboBoxModel;
  * @author josef
  */
 public class CSVaddSeries extends javax.swing.JDialog implements ActionListener {
-     ChartStruct chartStruct;
+
+    ChartStruct chartStruct;
+
     /**
      * Creates new form CSVaddSeries
      */
@@ -21,7 +23,7 @@ public class CSVaddSeries extends javax.swing.JDialog implements ActionListener 
         this.chartStruct = c;
         this.getRootPane().setDefaultButton(csvCoordinateButton);
     }
-    
+
     public void setModel(String[] h) {
         YAxisList.setModel(new DefaultComboBoxModel<>(h));
     }

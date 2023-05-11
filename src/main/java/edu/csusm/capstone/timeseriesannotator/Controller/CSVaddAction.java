@@ -10,6 +10,7 @@ import javax.swing.JDialog;
  * @author josef
  */
 public class CSVaddAction implements ActionListener {
+
     JDialog dialog;
     int yaxis;
     int xaxis;
@@ -33,13 +34,11 @@ public class CSVaddAction implements ActionListener {
         this.chartStruct = c;
         CSVaddAction.instance = this;
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
         yaxis = YAxisList.getSelectedIndex();
         y = YAxisList.getSelectedValue();
-        System.out.println("CSVAction: Selected Axis --- Y-Axis: " + yaxis);
         if (yaxis == -1 || yaxis == chartStruct.getXaxis()) {
             ErrorDialog.badIndex();
             selected = false;
@@ -48,17 +47,17 @@ public class CSVaddAction implements ActionListener {
             selected = true;
         }
     }
-    
-    public boolean isSelected(){
+
+    public boolean isSelected() {
         return selected;
     }
-    
-    public void setXAxis(int x){
+
+    public void setXAxis(int x) {
         xaxis = x;
     }
 
     public int getYAxis() {
         return yaxis;
     }
-    
+
 }

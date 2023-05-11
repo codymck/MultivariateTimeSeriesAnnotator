@@ -10,9 +10,11 @@ import javax.swing.JColorChooser;
  * @author josef
  */
 public class ChartSelectMenu extends javax.swing.JDialog {
+
     boolean selected = false;
     boolean newColor = false;
     static Color color = Color.red;
+
     /**
      * Creates new form ChartSelectMenu
      */
@@ -120,7 +122,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         ActionListener chartAction = new ChartAction(this, 1);
         chartAction.actionPerformed(evt);
         selected = true;
-        if(!newColor){
+        if (!newColor) {
             color = Color.RED;
             colorSelect.setBackground(Color.RED);
         }
@@ -130,7 +132,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         ActionListener chartAction = new ChartAction(this, 2);
         chartAction.actionPerformed(evt);
         selected = true;
-        if(!newColor){
+        if (!newColor) {
             color = Color.BLUE;
             colorSelect.setBackground(Color.BLUE);
         }
@@ -140,7 +142,7 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         ActionListener chartAction = new ChartAction(this, 3);
         chartAction.actionPerformed(evt);
         selected = true;
-        if(!newColor){
+        if (!newColor) {
             color = Color.GREEN;
             colorSelect.setBackground(Color.GREEN);
         }
@@ -153,11 +155,11 @@ public class ChartSelectMenu extends javax.swing.JDialog {
         newColor = true;
     }//GEN-LAST:event_colorSelectActionPerformed
 
-    public boolean isSelected(){
+    public boolean isSelected() {
         return selected;
     }
-    
-    public static Color getColor(){
+
+    public static Color getColor() {
         return color;
     }
 

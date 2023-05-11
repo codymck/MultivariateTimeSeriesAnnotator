@@ -16,19 +16,21 @@ import org.jfree.chart.axis.ValueAxis;
  * @author Cody McKinney
  */
 public class HVLineAnnotation extends AbstractAnnotation {
+
     private double[] coordinate = {0.0, 0.0};
 
     private ValueMarker drawMarker;
     private ValueMarker traceMarker = null;
     private Line2D.Double storeLine = new Line2D.Double(0.0, 0.0, 0.0, 0.0);
     private Rectangle2D.Double intersectRect;
-    
+
     public HVLineAnnotation(XYPlot p, Color c, String t, AnnotateChartPanel cP) {
         this.plot = p;
         this.color = c;
         this.type = t;
         this.chartPanel = cP;
     }
+
     public HVLineAnnotation(XYPlot p, int[] c, String[] t, double[] point, AnnotateChartPanel cP) {
         this.chartPanel = cP;
         this.plot = p;
@@ -97,27 +99,26 @@ public class HVLineAnnotation extends AbstractAnnotation {
         double plotDomain = domainAxis.getUpperBound() - domainAxis.getLowerBound();
         ValueAxis rangeAxis = plot.getRangeAxis();
         double plotRange = rangeAxis.getUpperBound() - rangeAxis.getLowerBound();
-       
-        
+
         Rectangle2D.Double screenDataArea = (Rectangle2D.Double) chartPanel.getScreenDataArea();
         double screenWidthPx = screenDataArea.getMaxX() - screenDataArea.getMinX();
         double screenHeightPx = screenDataArea.getMaxY() - screenDataArea.getMinY();
 
-        double xSize = plotDomain*10 / screenWidthPx;
-        double ySize = plotRange*10 / screenHeightPx;
+        double xSize = plotDomain * 10 / screenWidthPx;
+        double ySize = plotRange * 10 / screenHeightPx;
 
         double xOffset = xSize / 2.0;
         double yOffset = ySize / 2.0;
-        intersectRect = new Rectangle2D.Double(mouseX-xOffset, mouseY-yOffset, xSize, ySize);
+        intersectRect = new Rectangle2D.Double(mouseX - xOffset, mouseY - yOffset, xSize, ySize);
         //XYShapeAnnotation hitbox = new XYShapeAnnotation(intersectRect, new BasicStroke(0), color, color);
         //plot.addAnnotation(hitbox);
         boolean r = storeLine.intersects(intersectRect);
         return r;
     }
-    
+
     @Override
-    public void select(){
-        if(!selected){
+    public void select() {
+        if (!selected) {
             if (type.equals("horizontal")) {
                 plot.removeRangeMarker(drawMarker);
                 drawMarker.setStroke(dashed);
@@ -130,10 +131,10 @@ public class HVLineAnnotation extends AbstractAnnotation {
             selected = true;
         }
     }
-    
+
     @Override
-    public void deselect(){
-        if(selected){
+    public void deselect() {
+        if (selected) {
             drawMarker.setStroke(new BasicStroke(2));
             selected = false;
         }
@@ -151,10 +152,10 @@ public class HVLineAnnotation extends AbstractAnnotation {
     @Override
     public void move(double xOffset, double yOffset, boolean set) {
         double[] tempLocation = {0.0, 0.0};
-        if(!set){
+        if (!set) {
             tempLocation[0] = coordinate[0] - xOffset;
             tempLocation[1] = coordinate[1] - yOffset;
-        }else{
+        } else {
             tempLocation[0] = coordinate[0] - xOffset;
             tempLocation[1] = coordinate[1] - yOffset;
             coordinate[0] = tempLocation[0];
@@ -172,19 +173,19 @@ public class HVLineAnnotation extends AbstractAnnotation {
         }
 
     }
-    
-    public void calculateLine(){
+
+    public void calculateLine() {
         if (type.equals("horizontal")) {
             double lengthX = chartPanel.minMax[2] - chartPanel.minMax[0];
-            storeLine = new Line2D.Double(chartPanel.minMax[0] + lengthX*3, coordinate[1], chartPanel.minMax[2] - lengthX*3, coordinate[1]);
+            storeLine = new Line2D.Double(chartPanel.minMax[0] + lengthX * 3, coordinate[1], chartPanel.minMax[2] - lengthX * 3, coordinate[1]);
         } else if (type.equals("vertical")) {
             double lengthY = chartPanel.minMax[3] - chartPanel.minMax[1];
-            storeLine = new Line2D.Double(coordinate[0], chartPanel.minMax[1] - lengthY*3, coordinate[0], chartPanel.minMax[3] + lengthY*3);
+            storeLine = new Line2D.Double(coordinate[0], chartPanel.minMax[1] - lengthY * 3, coordinate[0], chartPanel.minMax[3] + lengthY * 3);
         }
     }
-    
+
     @Override
-    public void changeColor(Color c){
+    public void changeColor(Color c) {
         color = c;
         drawMarker.setPaint(color);
         if (type.equals("horizontal")) {
@@ -196,22 +197,21 @@ public class HVLineAnnotation extends AbstractAnnotation {
         }
         calculateLine();
     }
-    
+
     @Override
-    public String getType(){
+    public String getType() {
         return "hvline";
     }
-    
+
     @Override
     public String getCoords() {
-        if(type.equals("horizontal")){
+        if (type.equals("horizontal")) {
             return "[[ 0, " + coordinate[1] + "]]";
-        }else{
+        } else {
             return "[[" + coordinate[0] + ", 0]]";
         }
-        
     }
-    
+
     @Override
     public String getData() {
         return "[\"" + type + "\"]";

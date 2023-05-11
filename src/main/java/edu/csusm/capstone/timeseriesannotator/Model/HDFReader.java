@@ -20,19 +20,18 @@ import java.util.List;
 public class HDFReader implements DataReader {
 
     private ArrayList<String> dataPaths;
-    //String currentPath = "/";
     int[] intmyXdata;
     int[] intmyYdata;
-    
+
     float[] myXdata;
     float[] myYdata;
-    
+
     double[] doublemyXdata;
     double[] doublemyYdata;
-    
+
     Date[] datemyXdata;
     Date[] datemyYdata;
-    
+
     String file;
     String typeX;
     String typeY;
@@ -48,54 +47,49 @@ public class HDFReader implements DataReader {
     public void setPaths(String x, String y, int flag) {
         xP = x;
         yP = y;
-        //IHDF5Reader reader2 = HDF5Factory.openForReading(file);
-        try (IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
-            //List<String> headers = reader2.getGroupMembers("/user1");
-            //System.out.println("Headers: " + headers);
+        try ( IHDF5SimpleReader reader = HDF5Factory.openForReading(file)) {
             typeX = reader.getDataSetInformation(x).getTypeInformation().toString().toUpperCase();
             typeY = reader.getDataSetInformation(y).getTypeInformation().toString().toUpperCase();
-            
-            System.out.println("Headers: " + typeX + " " + typeY);
 
             //X is the only one that will be a timestamp
-            if(typeX.contains("INTEGER")){
+            if (typeX.contains("INTEGER")) {
                 intmyXdata = reader.readIntArray(x);
                 typeX = "INTEGER";
             }
-            if(typeY.contains("INTEGER")){
+            if (typeY.contains("INTEGER")) {
                 intmyYdata = reader.readIntArray(y);
                 typeY = "INTEGER";
             }
-            
-            if(typeX.contains("FLOAT")){
+
+            if (typeX.contains("FLOAT")) {
                 myXdata = reader.readFloatArray(x);
                 typeX = "FLOAT";
             }
-            if(typeY.contains("FLOAT")){
+            if (typeY.contains("FLOAT")) {
                 myYdata = reader.readFloatArray(y);
                 typeY = "FLOAT";
             }
-            
-            if(typeX.contains("DOUBLE")){
+
+            if (typeX.contains("DOUBLE")) {
                 doublemyXdata = reader.readDoubleArray(x);
                 typeX = "DOUBLE";
             }
-            if(typeY.contains("DOUBLE")){
+            if (typeY.contains("DOUBLE")) {
                 doublemyYdata = reader.readDoubleArray(y);
                 typeY = "DOUBLE";
             }
-            
-            if(typeX.contains("DATE")){
+
+            if (typeX.contains("DATE")) {
                 datemyXdata = reader.readDateArray(x);
                 typeX = "DATE";
             }
-            if(typeY.contains("DATE")){
+            if (typeY.contains("DATE")) {
                 datemyYdata = reader.readDateArray(y);
                 typeY = "DATE";
             }
-            
-            
-        } catch (Exception e) {
+
+        }
+        catch (Exception e) {
             System.err.println(e);
             ErrorDialog.wrongData();
 
@@ -112,47 +106,36 @@ public class HDFReader implements DataReader {
                 HDF5addAction hAction = HDF5addAction.getInstance();
                 this.setPaths(chartStruct.getXpath(), hAction.getYPath(), 1);
             }
-
             return;
         }
-
-        // OUTPUT FOR DATA 
-//        System.out.print("X :   ");
-//        for (float d : myXdata) {
-//            System.out.print(d + " , ");
-//        }
-//        System.out.println();
-//        System.out.print("Y :   ");
-//        for (float r : myYdata) {
-//            System.out.print(r + " , ");
-//        }
     }
 
     public List<String> buildPath(String currentPath) {
 
         //dataPaths = new ArrayList<String>();
         //List<String> values;
-
-        try (IHDF5Reader reader2 = HDF5Factory.openForReading(file)) {
+        try ( IHDF5Reader reader2 = HDF5Factory.openForReading(file)) {
             //values =
-            if(currentPath.endsWith("/")){
-               return reader2.getGroupMembers(currentPath);
-            }else{
-               return reader2.getGroupMembers(currentPath + "/");
+            if (currentPath.endsWith("/")) {
+                return reader2.getGroupMembers(currentPath);
+            } else {
+                return reader2.getGroupMembers(currentPath + "/");
             }
-            
-        } catch (Exception e) {
+
+        }
+        catch (Exception e) {
             System.err.println(e);
             //ErrorDialog.wrongData();
         }
         return null;
 
     }
-    
-    public String getXType(){
+
+    public String getXType() {
         return typeX;
     }
-    public String getYType(){
+
+    public String getYType() {
         return typeY;
     }
 
@@ -163,7 +146,7 @@ public class HDFReader implements DataReader {
     public int[] getIntYData() {
         return intmyYdata;
     }
-    
+
     public float[] getXData() {
         return myXdata;
     }
@@ -171,7 +154,7 @@ public class HDFReader implements DataReader {
     public float[] getYData() {
         return myYdata;
     }
-    
+
     public double[] getDoubleXData() {
         return doublemyXdata;
     }
@@ -179,7 +162,7 @@ public class HDFReader implements DataReader {
     public double[] getDoubleYData() {
         return doublemyYdata;
     }
-    
+
     public Date[] getDateXData() {
         return datemyXdata;
     }

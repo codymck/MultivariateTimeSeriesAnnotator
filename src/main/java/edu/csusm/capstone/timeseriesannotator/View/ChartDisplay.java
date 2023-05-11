@@ -47,6 +47,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     /**
      * Creates new form ChartPanel
+     *
      * @param f
      */
     public ChartDisplay(AppFrame f) {
@@ -57,7 +58,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     }
 
     /**
-     * Creates an empty chart as soon as a new chartDisplay is added to the app frame
+     * Creates an empty chart as soon as a new chartDisplay is added to the app
+     * frame
      */
     private void startChart() {
         XYSeriesCollection emptyData = new XYSeriesCollection();
@@ -99,6 +101,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
 
     /**
      * Sets a new chart for the current ChartDisplay
+     *
      * @param p
      */
     public void setChart(AnnotateChartPanel p) {
@@ -121,7 +124,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
             public void chartMouseClicked(ChartMouseEvent event) {
                 //Zooms screen to size of data
                 if (event.getTrigger().getClickCount() == 2) {
-                    if(aChartPanel.getToolState() != ToolState.SELECT){
+                    if (aChartPanel.getToolState() != ToolState.SELECT) {
                         aChartPanel.restoreAutoBounds();
                         aChartPanel.setDomainZoomable(true);
                         aChartPanel.setRangeZoomable(true);
@@ -141,7 +144,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                         try {
                             AxisEntity l = (AxisEntity) event.getEntity().clone();
                             l.getAxis().setLabel(chartTitle.getComment());
-                        } catch (CloneNotSupportedException ex) {
+                        }
+                        catch (CloneNotSupportedException ex) {
                             Logger.getLogger(ChartDisplay.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {//Title label has been selected and updates based on user input
@@ -149,7 +153,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                         chartStruct.getLabels().set(0, chartTitle.getComment());
                     }
                 }
-                
+
                 //checks if the user selected an item in the legend
                 if (event.getEntity().toString().contains("LegendItemEntity")) {
                     ChartEntity e = event.getEntity();
@@ -159,12 +163,12 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                     XYItemRenderer renderer;
                     boolean rotate = false;
                     ArrayList<String> labels = chartStruct.getLabels();
-                    
+
                     //loops through all datasets on plot
-                    for (int i = 0; i < chartStruct.getFlag()-1; i++) {
+                    for (int i = 0; i < chartStruct.getFlag() - 1; i++) {
                         dataset = plot.getDataset(i);
                         renderer = plot.getRenderer(i);
-                        
+
                         if (dataset.getSeriesKey(0).equals(seriesKey)) {
                             //user left clicks Legend
                             if (event.getTrigger().getClickCount() == 1 && event.getTrigger().getButton() == 1) {
@@ -172,18 +176,20 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                                 renderer.setSeriesPaint(0, color);
                             }
                             //user right clicks Legend
-                            if (event.getTrigger().getButton() == 3) {      
+                            if (event.getTrigger().getButton() == 3) {
                                 //open menu to confirm deletion
                                 int input = JOptionPane.showConfirmDialog(AppFrame.frame, "Are you sure you want to delete this series", "Delete Series", JOptionPane.YES_NO_OPTION);
-                                if(input != 0)break;
-                                
+                                if (input != 0) {
+                                    break;
+                                }
+
                                 //case for single dataset on plot
-                                if(chartStruct.getFlag() == 2){
+                                if (chartStruct.getFlag() == 2) {
                                     frame.removeChart(cD);
                                     frame.initialChart();
                                     break;
                                 }
-                                
+
                                 plot.setDataset(i, null);
                                 labels.remove(i);
                                 chartStruct.setLabels(labels);
@@ -195,12 +201,15 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
                         if (rotate && i < chartStruct.getFlag() - 1) {
                             plot.setRenderer(i, plot.getRenderer(i + 1));
                             plot.setDataset(i, plot.getDataset(i + 1));
-                            if(i == chartStruct.getFlag() - 2)//sets very last dataset to null
-                                plot.setDataset(i+1, null);
+                            if (i == chartStruct.getFlag() - 2)//sets very last dataset to null
+                            {
+                                plot.setDataset(i + 1, null);
+                            }
                         }
-                    } 
+                    }
                 }
             }
+
             @Override
             public void chartMouseMoved(ChartMouseEvent event) {
 
@@ -406,7 +415,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     private void ExportAnnotationsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportAnnotationsButtonActionPerformed
         try {
             aChartPanel.exportAnnotations();
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) {
             Logger.getLogger(ChartDisplay.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ExportAnnotationsButtonActionPerformed
@@ -414,7 +424,8 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     private void ImportAnnotationsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportAnnotationsButtonActionPerformed
         try {
             aChartPanel.importAnnotations();
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) {
             Logger.getLogger(ChartDisplay.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ImportAnnotationsButtonActionPerformed
@@ -443,7 +454,7 @@ public class ChartDisplay extends javax.swing.JPanel implements ActionListener {
     public boolean synced() {
         return true;
     }
-    
+
     public AnnotateChartPanel getAChartPanel() {
         return aChartPanel;
     }

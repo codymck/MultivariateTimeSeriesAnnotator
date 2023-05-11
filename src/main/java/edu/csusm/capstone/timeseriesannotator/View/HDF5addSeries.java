@@ -20,12 +20,10 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     HDFReader reader;
     char[] previousYKey;
     List<String> values;
-    
+
     int pathValueIndex;
     int counter;
 
-   // ChartStruct chartStruct;// = ChartStruct.getInstance();
-    //String Xaxis;
     /**
      * Creates new form HDF5addSeries
      */
@@ -33,8 +31,6 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(AppFrame.frame);
-        //Xaxis = chartStruct.getXpath().split("/")[0];
-        //System.out.print(Xaxis);
         this.getRootPane().setDefaultButton(HDF5PathButton);
     }
 
@@ -157,17 +153,17 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
     }//GEN-LAST:event_YaxispathActionPerformed
 
     private void yListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_yListItemStateChanged
-        if(yPath != null){
+        if (yPath != null) {
             yPath = yPath + evt.getItemSelectable().getSelectedObjects()[0].toString();
-        }else{
+        } else {
             yPath = evt.getItemSelectable().getSelectedObjects()[0].toString();
         }
 
         //update yList selection
         pathValueIndex++;
-        if(updateList(yPath, yList)){
+        if (updateList(yPath, yList)) {
             yPath = yPath + "/";
-        }else{
+        } else {
             //full path set
             yList.setVisible(false);
             pack();
@@ -184,33 +180,35 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         boolean valid = false;
         String compare = null;
         String[] sections = Yaxispath.getText().split("/");
-        if(sections.length > 0)compare = sections[sections.length-1];
-        if(compare != null && !values.isEmpty()){
-            
-            for(int x = values.size() - 1; x >= 0; x--){
+        if (sections.length > 0) {
+            compare = sections[sections.length - 1];
+        }
+        if (compare != null && !values.isEmpty()) {
+
+            for (int x = values.size() - 1; x >= 0; x--) {
                 String temp = values.get(x);
-                
-                if(temp.startsWith(compare) && counter <= 20){
-                    for(int t = 0; t < yList.getItemCount(); t++){
-                        if(yList.getItem(t).equals(temp)){
+
+                if (temp.startsWith(compare) && counter <= 20) {
+                    for (int t = 0; t < yList.getItemCount(); t++) {
+                        if (yList.getItem(t).equals(temp)) {
                             yList.remove(t);
                         }
-                    }   
+                    }
                     yList.add(temp, 0);
                     counter++;
                 }
-                if(temp.equals(compare)){
+                if (temp.equals(compare)) {
                     valid = true;
                 }
-            } 
+            }
             counter = 0;
         }
 
         //check for addition of "/"
-        if(valid){
+        if (valid) {
             yList.setVisible(false);
             valid = false;
-            if(evt.getKeyCode() == KeyEvent.VK_SLASH){
+            if (evt.getKeyCode() == KeyEvent.VK_SLASH) {
                 pathValueIndex++;
                 updateList(Yaxispath.getText(), yList);
                 yList.setVisible(true);
@@ -219,67 +217,67 @@ public class HDF5addSeries extends javax.swing.JDialog implements ActionListener
         }
 
         //check for removal of "/" 
-        if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousYKey != null && previousYKey.length > 0){
-            if(previousYKey[previousYKey.length - 1] == '/'){
-                
-                if(sections.length == 1){
+        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousYKey != null && previousYKey.length > 0) {
+            if (previousYKey[previousYKey.length - 1] == '/') {
+
+                if (sections.length == 1) {
                     pathValueIndex = 0;
                     updateList("/", yList);
-                }else if(sections.length > 1){
+                } else if (sections.length > 1) {
                     pathValueIndex--;
                     updateList(sections[sections.length - 2], yList);
                 }
                 yList.setVisible(true);
                 pack();
-                
+
             }
         }
         previousYKey = Yaxispath.getText().toCharArray();
     }//GEN-LAST:event_YaxispathKeyReleased
 
-    public boolean isSelected(){
+    public boolean isSelected() {
         return selected;
     }
-    
-    public boolean updateList(String p, java.awt.List l){
-      try{
-          l.removeAll();
-          if(pathValueIndex == 0){
-            if(values.size() >= 20){
-                for(int x = 0; x < 20; x++){
-                    l.add(values.get(x));
+
+    public boolean updateList(String p, java.awt.List l) {
+        try {
+            l.removeAll();
+            if (pathValueIndex == 0) {
+                if (values.size() >= 20) {
+                    for (int x = 0; x < 20; x++) {
+                        l.add(values.get(x));
+                    }
+                } else {
+                    for (int x = 0; x < values.size(); x++) {
+                        l.add(values.get(x));
+                    }
                 }
-            }else{
-                for(int x = 0; x < values.size(); x++){
-                    l.add(values.get(x));
-              }
+                return true;
+            }
+
+            List<String> temp;
+            temp = reader.buildPath(p);
+
+            for (String t : temp) {
+                l.add(t);
             }
             return true;
-          }
-          
-          List<String> temp;
-          temp = reader.buildPath(p);
-          
-          for(String t : temp){
-                l.add(t);
-          }
-          return true;
-      }catch (Exception e){
-          System.err.println(e);
-          return false;
-      }
+        }
+        catch (Exception e) {
+            System.err.println(e);
+            return false;
+        }
     }
-    
+
     public void setModel(List<String> h, HDFReader hr) {
         reader = hr;
         values = h;
-        if(h.size() >= 20){
-            for(int x = 0; x < 20; x++){
+        if (h.size() >= 20) {
+            for (int x = 0; x < 20; x++) {
                 yList.add(h.get(x));
-                //add ...
             }
-        }else{
-            for(int x = 0; x < h.size(); x++){
+        } else {
+            for (int x = 0; x < h.size(); x++) {
                 yList.add(h.get(x));
             }
         }

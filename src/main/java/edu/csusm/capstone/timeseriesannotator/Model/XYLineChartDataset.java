@@ -25,7 +25,6 @@ public class XYLineChartDataset implements ChartData {
     ChartStruct chartStruct;
 
     public XYLineChartDataset() {
-//        System.out.println("Chart being created");
     }
 
     @Override
@@ -60,7 +59,6 @@ public class XYLineChartDataset implements ChartData {
             TimeSeries series2 = new TimeSeries(name);
             Date[] x = dFormat.getXDateDataset();
             float[] y = dFormat.getYDataset();
-            System.out.println(x[0]);
 
             for (int i = 0; i < x.length; i++) {
                 try {

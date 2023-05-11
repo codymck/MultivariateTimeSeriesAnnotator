@@ -18,7 +18,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     boolean timeStamp = false;
     HDFReader reader;
     public static HDFdataSelectMenu HDF;
-    
+
     List<String> values;
     List<List<String>> pathValues; //List 0: first set of data, List x: proceeding sets of data
     String[] pathT = new String[2]; //0: xPath, 1: yPath
@@ -51,7 +51,7 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
         pathList.add(xList);
         pathList.add(yList);
         setLocationRelativeTo(AppFrame.frame);
-        yList.setVisible(false);        
+        yList.setVisible(false);
         this.HDF = this;
         this.getRootPane().setDefaultButton(HDF5PathButton);
     }
@@ -205,56 +205,60 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void yListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_yListItemStateChanged
-        if(pathT[1] != null && pathT[1].endsWith("/")){
+        if (pathT[1] != null && pathT[1].endsWith("/")) {
             pathT[1] = pathT[1] + evt.getItemSelectable().getSelectedObjects()[0].toString();
-        }else{
+        } else {
             pathT[1] = evt.getItemSelectable().getSelectedObjects()[0].toString();
         }
-        
+
         //update yList selection
         pathValueIndex[1]++;
-        if(updateList(pathT[1], pathList.get(1), pathValueIndex[1])){
-            pathT[1] = pathT[1] + "/"; 
+        if (updateList(pathT[1], pathList.get(1), pathValueIndex[1])) {
+            pathT[1] = pathT[1] + "/";
             finalized[1] = false;
-        }else{
+        } else {
             //full path set
             finalized[1] = true;
             yList.setVisible(false);
             pack();
         }
         axisPath.get(1).setText(pathT[1]);
-        previousKey.set(1,pathT[1].toCharArray());
+        previousKey.set(1, pathT[1].toCharArray());
     }//GEN-LAST:event_yListItemStateChanged
 
     private void xListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_xListItemStateChanged
-        if(pathT[0] != null && pathT[0].endsWith("/")){
+        if (pathT[0] != null && pathT[0].endsWith("/")) {
             pathT[0] = pathT[0] + evt.getItemSelectable().getSelectedObjects()[0].toString();
-        }else{
+        } else {
             pathT[0] = evt.getItemSelectable().getSelectedObjects()[0].toString();
         }
-        
+
         //update xList selection
         pathValueIndex[0]++;
-        if(updateList(pathT[0], pathList.get(0), pathValueIndex[0])){
+        if (updateList(pathT[0], pathList.get(0), pathValueIndex[0])) {
             pathT[0] = pathT[0] + "/";
             finalized[0] = false;
-        }else{
+        } else {
             //full path set
             finalized[0] = true;
             pathList.get(0).setVisible(false);
-            pack();              
+            pack();
         }
         axisPath.get(0).setText(pathT[0]);
-        previousKey.set(0,pathT[0].toCharArray());
+        previousKey.set(0, pathT[0].toCharArray());
     }//GEN-LAST:event_xListItemStateChanged
 
     private void XaxispathFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_XaxispathFocusGained
-        if(xList.getItemCount() > 0)xList.setVisible(true);
+        if (xList.getItemCount() > 0) {
+            xList.setVisible(true);
+        }
         pack();
     }//GEN-LAST:event_XaxispathFocusGained
 
     private void YaxispathFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_YaxispathFocusGained
-        if(yList.getItemCount() > 0)yList.setVisible(true);
+        if (yList.getItemCount() > 0) {
+            yList.setVisible(true);
+        }
         pack();
     }//GEN-LAST:event_YaxispathFocusGained
 
@@ -277,10 +281,10 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     }//GEN-LAST:event_XaxispathKeyReleased
 
     private void HDF5PathButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_HDF5PathButtonActionPerformed
-        if(Xts.getState()){
+        if (Xts.getState()) {
             timeStamp = true;
         }
-        
+
         ActionListener HDF5Action = new HDF5Action(this, Xaxispath, Yaxispath);
         HDF5Action.actionPerformed(evt);
         selected = true;
@@ -289,63 +293,65 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
     public boolean isSelected() {
         return selected;
     }
-    
-    public void updateTyping(KeyEvent e, int v){
+
+    public void updateTyping(KeyEvent e, int v) {
         //update List selection based on current typing
         boolean valid = false;
         boolean equal = false;
         String compare = null;
-        
+
         List<String> tempValues;
         tempValues = pathValues.get(pathValueIndex[v]);
         String[] sections = axisPath.get(v).getText().split("/");
-        
-        if(sections.length > 0)compare = sections[sections.length-1];
-        if(compare != null && tempValues != null){
-            
-            for(int x = tempValues.size() - 1; x >= 0; x--){
+
+        if (sections.length > 0) {
+            compare = sections[sections.length - 1];
+        }
+        if (compare != null && tempValues != null) {
+
+            for (int x = tempValues.size() - 1; x >= 0; x--) {
                 String temp = tempValues.get(x);
-                
-                if(temp.startsWith(compare) && counter <= 20){
-                    for(int t = 0; t < pathList.get(v).getItemCount(); t++){
-                        if(pathList.get(v).getItem(t).equals(temp)){
+
+                if (temp.startsWith(compare) && counter <= 20) {
+                    for (int t = 0; t < pathList.get(v).getItemCount(); t++) {
+                        if (pathList.get(v).getItem(t).equals(temp)) {
                             pathList.get(v).remove(t);
                         }
-                    }   
+                    }
                     pathList.get(v).add(temp, 0);
                     counter++;
                 }
-                if(temp.equals(compare)){
+                if (temp.equals(compare)) {
                     valid = true;
                 }
-            } 
+            }
             counter = 0;
         }
-        
+
         //check for addition of "/"
-        if(valid){
+        if (valid) {
             pathList.get(v).setVisible(false);
             valid = false;
-            if(e.getKeyCode() == KeyEvent.VK_SLASH){
+            if (e.getKeyCode() == KeyEvent.VK_SLASH) {
                 pathValueIndex[v]++;
-                if(updateList(axisPath.get(v).getText(), pathList.get(v), pathValueIndex[v]))
+                if (updateList(axisPath.get(v).getText(), pathList.get(v), pathValueIndex[v])) {
                     pathList.get(v).setVisible(true);
-                else{
+                } else {
                     finalized[v] = true;
                 }
                 pathT[v] = axisPath.get(v).getText();
             }
             pack();
         }
-        
+
         //check for removal of "/" 
-        if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousKey.get(v) != null && previousKey.get(v).length > 0){
-            if(previousKey.get(v)[previousKey.get(v).length - 1] == '/'){
-                
-                if(sections.length == 1){
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && previousKey.get(v) != null && previousKey.get(v).length > 0) {
+            if (previousKey.get(v)[previousKey.get(v).length - 1] == '/') {
+
+                if (sections.length == 1) {
                     pathValueIndex[v] = 0;
                     updateList("/", pathList.get(v), pathValueIndex[v]);
-                }else if(sections.length > 1){
+                } else if (sections.length > 1) {
                     pathValueIndex[v]--;
                     updateList(sections[sections.length - 2], pathList.get(v), pathValueIndex[v]);
                 }
@@ -354,58 +360,59 @@ public class HDFdataSelectMenu extends javax.swing.JDialog {
             pathList.get(v).setVisible(true);
             pack();
         }
-        previousKey.set(v,axisPath.get(v).getText().toCharArray());
+        previousKey.set(v, axisPath.get(v).getText().toCharArray());
     }
-        
-    public boolean updateList(String p, java.awt.List l, int pathValueIndex){
-      try{
-          l.removeAll();
-          if(pathValueIndex == 0){
-            if(values.size() >= 20){
-                for(int x = 0; x < 20; x++){
-                    l.add(values.get(x));
+
+    public boolean updateList(String p, java.awt.List l, int pathValueIndex) {
+        try {
+            l.removeAll();
+            if (pathValueIndex == 0) {
+                if (values.size() >= 20) {
+                    for (int x = 0; x < 20; x++) {
+                        l.add(values.get(x));
+                    }
+                } else {
+                    for (int x = 0; x < values.size(); x++) {
+                        l.add(values.get(x));
+                    }
                 }
-            }else{
-                for(int x = 0; x < values.size(); x++){
-                    l.add(values.get(x));
-              }
+                return true;
+            }
+
+            List<String> temp;
+            temp = reader.buildPath(p);
+            pathValues.add(pathValueIndex, temp);
+
+            for (String t : temp) {
+                l.add(t);
             }
             return true;
-          }
-          
-          List<String> temp;
-          temp = reader.buildPath(p);
-          pathValues.add(pathValueIndex, temp);
-          
-          for(String t : temp){
-                l.add(t);
-          }
-          return true;
-      }catch (Exception e){
-          System.err.println(e);
-          return false;
-      }
+        }
+        catch (Exception e) {
+            System.err.println(e);
+            return false;
+        }
     }
-    
+
     public void setModel(List<String> h, HDFReader hr) {
         reader = hr;
         pathValues.add(0, h);
         values = pathValues.get(0);
-        if(values.size() >= 20){
-            for(int x = 0; x < 20; x++){
+        if (values.size() >= 20) {
+            for (int x = 0; x < 20; x++) {
                 yList.add(values.get(x));
                 xList.add(values.get(x));
                 //add ...
             }
-        }else{
-            for(int x = 0; x < values.size(); x++){
+        } else {
+            for (int x = 0; x < values.size(); x++) {
                 yList.add(values.get(x));
                 xList.add(values.get(x));
             }
         }
     }
-    
-    public boolean getTimeStamp(){
+
+    public boolean getTimeStamp() {
         return timeStamp;
     }
 

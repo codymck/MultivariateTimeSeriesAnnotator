@@ -17,8 +17,8 @@ import org.jfree.chart.plot.XYPlot;
 public class EllipseAnnotation extends AbstractAnnotation {
 
     private Ellipse2D.Double storeEllipse = null;
-    
-    private double[][] coordinates = { { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
+
+    private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
     private boolean dragHandle = false;
     private int handleNumber = 0;
     private double x, y, width, height;
@@ -33,7 +33,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
         coordinates[0][0] = point[0];
         coordinates[0][1] = point[1];
     }
-    
+
     public EllipseAnnotation(XYPlot p, int[] c, double[][] coords, AnnotateChartPanel cP) {
         this.chartPanel = cP;
         this.handles = new ResizeHandle[]{null, null, null, null};
@@ -50,7 +50,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
     }
 
     public void drawEllipse(double[] point) {
-        if (ellipseAnnotation != null){
+        if (ellipseAnnotation != null) {
             plot.removeAnnotation(ellipseAnnotation);
             chartPanel.removeAbstractAnnotation(this);
         }
@@ -72,9 +72,9 @@ public class EllipseAnnotation extends AbstractAnnotation {
         Point2D p = new Point2D.Double(mouseX, mouseY);
         boolean clicked = storeEllipse.contains(p);
         clicked = storeEllipse.contains(p);
-        if(selected){
-            for(int i = 0; i < 4; i++){
-                if(handles[i].contains(mouseX, mouseY)){
+        if (selected) {
+            for (int i = 0; i < 4; i++) {
+                if (handles[i].contains(mouseX, mouseY)) {
                     dragHandle = true;
                     handleNumber = i;
                     return true;
@@ -83,132 +83,132 @@ public class EllipseAnnotation extends AbstractAnnotation {
         }
         return clicked;
     }
-    
+
     @Override
-    public void select(){
-        if(!selected){
+    public void select() {
+        if (!selected) {
             plot.removeAnnotation(ellipseAnnotation);
             ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
-                new Color(0, 0, 0), color);
+                    new Color(0, 0, 0), color);
             plot.addAnnotation(ellipseAnnotation);
             selected = true;
             updateCoords();
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
             }
         }
     }
-    
+
     @Override
-    public void deselect(){
-        if(selected){
+    public void deselect() {
+        if (selected) {
             plot.removeAnnotation(ellipseAnnotation);
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 handles[i].remove();
             }
             ellipseAnnotation = new XYShapeAnnotation(storeEllipse, new BasicStroke(0),
-                new Color(0, 0, 0, 0), color);
+                    new Color(0, 0, 0, 0), color);
             plot.addAnnotation(ellipseAnnotation);
             selected = false;
         }
     }
-    
+
     @Override
     public void delete() {
         plot.removeAnnotation(ellipseAnnotation);
-        if(selected){
-            for(int i = 0; i < 4; i++){
+        if (selected) {
+            for (int i = 0; i < 4; i++) {
                 handles[i].remove();
             }
         }
     }
-    
+
     @Override
     public void move(double xOffset, double yOffset, boolean set) {
         plot.removeAnnotation(ellipseAnnotation);
         double tempWidth, tempHeight;
-        if(!set){
-            if(!dragHandle){
-                storeEllipse.setFrame(x-xOffset, y-yOffset, width, height);
-            }else{
+        if (!set) {
+            if (!dragHandle) {
+                storeEllipse.setFrame(x - xOffset, y - yOffset, width, height);
+            } else {
                 switch (handleNumber) {
                     case 0 -> {
-                        tempWidth = width+xOffset;
-                        if(tempWidth > 0){
-                            storeEllipse.setFrame(x-xOffset, y, width+xOffset, height);
-                        }else{
-                            storeEllipse.setFrame(x-xOffset+tempWidth, y, abs(tempWidth), height);
+                        tempWidth = width + xOffset;
+                        if (tempWidth > 0) {
+                            storeEllipse.setFrame(x - xOffset, y, width + xOffset, height);
+                        } else {
+                            storeEllipse.setFrame(x - xOffset + tempWidth, y, abs(tempWidth), height);
                         }
                     }
                     case 2 -> {
-                        tempWidth = width-xOffset;
-                        if(tempWidth > 0){
-                            storeEllipse.setFrame(x, y, width-xOffset, height);
-                        }else{
-                            storeEllipse.setFrame(x-xOffset+width, y, abs(tempWidth), height);
+                        tempWidth = width - xOffset;
+                        if (tempWidth > 0) {
+                            storeEllipse.setFrame(x, y, width - xOffset, height);
+                        } else {
+                            storeEllipse.setFrame(x - xOffset + width, y, abs(tempWidth), height);
                         }
                     }
                     case 1 -> {
-                        tempHeight = height-yOffset;
-                        if(tempHeight > 0){
-                            storeEllipse.setFrame(x, y, width, height-yOffset);
-                        }else{
-                            storeEllipse.setFrame(x, y-yOffset+height, width, abs(tempHeight));
+                        tempHeight = height - yOffset;
+                        if (tempHeight > 0) {
+                            storeEllipse.setFrame(x, y, width, height - yOffset);
+                        } else {
+                            storeEllipse.setFrame(x, y - yOffset + height, width, abs(tempHeight));
                         }
                     }
                     case 3 -> {
-                        tempHeight = height+yOffset;
-                        if(tempHeight > 0){
-                            storeEllipse.setFrame(x, y-yOffset, width, height+yOffset);
-                        }else{
-                            storeEllipse.setFrame(x, y-yOffset+tempHeight, width, abs(tempHeight));
+                        tempHeight = height + yOffset;
+                        if (tempHeight > 0) {
+                            storeEllipse.setFrame(x, y - yOffset, width, height + yOffset);
+                        } else {
+                            storeEllipse.setFrame(x, y - yOffset + tempHeight, width, abs(tempHeight));
                         }
                     }
                     default -> {
                     }
                 }
             }
-        }else{
-            if(!dragHandle){
+        } else {
+            if (!dragHandle) {
                 x -= xOffset;
                 y -= yOffset;
-            }else{
+            } else {
                 switch (handleNumber) {
                     case 0 -> {
-                        tempWidth = width+xOffset;
-                        if(tempWidth > 0){
+                        tempWidth = width + xOffset;
+                        if (tempWidth > 0) {
                             x -= xOffset;
                             width += xOffset;
-                        }else{
-                            x = x-xOffset+tempWidth;
+                        } else {
+                            x = x - xOffset + tempWidth;
                             width = abs(tempWidth);
                         }
                     }
                     case 2 -> {
-                        tempWidth = width-xOffset;
-                        if(tempWidth > 0){
+                        tempWidth = width - xOffset;
+                        if (tempWidth > 0) {
                             width -= xOffset;
-                        }else{
-                            x = x-xOffset+width;
+                        } else {
+                            x = x - xOffset + width;
                             width = abs(tempWidth);
                         }
                     }
                     case 1 -> {
-                        tempHeight = height-yOffset;
-                        if(tempHeight > 0){
+                        tempHeight = height - yOffset;
+                        if (tempHeight > 0) {
                             height -= yOffset;
-                        }else{
-                            y = y-yOffset+height;
+                        } else {
+                            y = y - yOffset + height;
                             height = abs(tempHeight);
                         }
                     }
                     case 3 -> {
-                        tempHeight = height+yOffset;
-                        if(tempHeight > 0){
+                        tempHeight = height + yOffset;
+                        if (tempHeight > 0) {
                             y -= yOffset;
                             height += yOffset;
-                        }else{
-                            y = y-yOffset+tempHeight;
+                        } else {
+                            y = y - yOffset + tempHeight;
                             height = abs(tempHeight);
                         }
                     }
@@ -221,42 +221,42 @@ public class EllipseAnnotation extends AbstractAnnotation {
         }
         updateCoords();
         ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
-            new Color(0, 0, 0), color);
+                new Color(0, 0, 0), color);
         plot.addAnnotation(ellipseAnnotation);
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             handles[i].changeCoords(coordinates[i]);
             handles[i].draw();
         }
     }
-    
-    private void updateCoords(){
-        coordinates[0][0] = storeEllipse.getX();
-        coordinates[0][1] = storeEllipse.getY() + storeEllipse.getHeight()/2;
 
-        coordinates[1][0] = storeEllipse.getX() + storeEllipse.getWidth()/2;
+    private void updateCoords() {
+        coordinates[0][0] = storeEllipse.getX();
+        coordinates[0][1] = storeEllipse.getY() + storeEllipse.getHeight() / 2;
+
+        coordinates[1][0] = storeEllipse.getX() + storeEllipse.getWidth() / 2;
         coordinates[1][1] = storeEllipse.getY() + storeEllipse.getHeight();
 
         coordinates[2][0] = storeEllipse.getX() + storeEllipse.getWidth();
-        coordinates[2][1] = storeEllipse.getY() + storeEllipse.getHeight()/2;
+        coordinates[2][1] = storeEllipse.getY() + storeEllipse.getHeight() / 2;
 
-        coordinates[3][0] = storeEllipse.getX() + storeEllipse.getWidth()/2;
+        coordinates[3][0] = storeEllipse.getX() + storeEllipse.getWidth() / 2;
         coordinates[3][1] = storeEllipse.getY();
     }
-    
+
     @Override
-    public void changeColor(Color c){
+    public void changeColor(Color c) {
         color = new Color(c.getRed(), c.getGreen(), c.getBlue(), fillAlpha);
         plot.removeAnnotation(ellipseAnnotation);
         ellipseAnnotation = new XYShapeAnnotation(storeEllipse, dashed,
-                    new Color(0, 0, 0), color);
+                new Color(0, 0, 0), color);
         plot.addAnnotation(ellipseAnnotation);
     }
-    
+
     @Override
-    public String getType(){
+    public String getType() {
         return "ellipse";
     }
-    
+
     @Override
     public String getCoords() {
         String X = String.valueOf(x);
@@ -266,7 +266,7 @@ public class EllipseAnnotation extends AbstractAnnotation {
 
         return "[[" + X + ", " + Y + ", " + WIDTH + ", " + HEIGHT + "]]";
     }
-    
+
     @Override
     public String getData() {
         return "[\" \"]";

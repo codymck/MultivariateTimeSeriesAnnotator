@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
  * @author josef
  */
 public class HDF5addAction implements ActionListener {
+
     JDialog dialog;
     String yaxis;
 
@@ -23,7 +24,7 @@ public class HDF5addAction implements ActionListener {
         }
         return instance;
     }
-    
+
     public static void deleteInstance() {
         instance = null;
     }
@@ -33,26 +34,23 @@ public class HDF5addAction implements ActionListener {
         yaxis = Yaxispath.getText();
         HDF5addAction.instance = this;
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        System.out.println("HDF5Action: Selected Axis --- Y-Axis: " + yaxis);
-        if(yaxis.isBlank()) {
+        if (yaxis.isBlank()) {
             badPath();
-        }else{
+        } else {
             dialog.dispose();
         }
     }
 
-    public void badPath(){
+    public void badPath() {
         JFrame bFrame = new JFrame();
         JOptionPane.showMessageDialog(bFrame, "Enter Valid Path", "Error", HEIGHT);
     }
-   
 
     public String getYPath() {
         return yaxis;
     }
-    
+
 }

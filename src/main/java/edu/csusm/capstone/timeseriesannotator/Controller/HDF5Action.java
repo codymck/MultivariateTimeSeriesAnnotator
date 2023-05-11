@@ -1,8 +1,5 @@
 package edu.csusm.capstone.timeseriesannotator.Controller;
 
-import edu.csusm.capstone.timeseriesannotator.View.AppFrame;
-import edu.csusm.capstone.timeseriesannotator.View.HDFdataSelectMenu;
-import java.awt.ComponentOrientation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.awt.image.ImageObserver.HEIGHT;
@@ -43,26 +40,20 @@ public class HDF5Action implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        System.out.println("HDF5Action: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
         if (yaxis.isBlank() || xaxis.isBlank()) {
             badPath();
-        }else{
+        } else {
             dialog.dispose();
         }
     }
-    
-
-    
-    
 
     public void badPath() {
         JFrame bFrame = new JFrame();
         bFrame.setAlwaysOnTop(true);
         JOptionPane.showMessageDialog(bFrame, "Enter Valid Path", "Error", HEIGHT);
-        
+
     }
 
-    
     public String getXPath() {
         return xaxis;
     }
@@ -70,5 +61,4 @@ public class HDF5Action implements ActionListener {
     public String getYPath() {
         return yaxis;
     }
-
 }

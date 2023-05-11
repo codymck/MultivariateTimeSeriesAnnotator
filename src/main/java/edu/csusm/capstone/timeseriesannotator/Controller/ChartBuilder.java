@@ -7,14 +7,13 @@ import edu.csusm.capstone.timeseriesannotator.View.AnnotateChartPanel;
  * @author Cody McKinney
  */
 public class ChartBuilder {
-    
+
     public enum ChartTypes {
-        LineChart, 
-        ScatterPlot, 
+        LineChart,
+        ScatterPlot,
         StepChart;
     }
-    
-    
+
     public static AnnotateChartPanel buildCharts(ChartTypes c, ChartStruct cS) {
         switch (c) {
             case LineChart -> {
@@ -29,10 +28,11 @@ public class ChartBuilder {
                 ScatterPlot sP = new ScatterPlot();
                 return (AnnotateChartPanel) sP.createChartPanel(cS);
             }
-            default -> throw new IllegalArgumentException("Invalid Chart");
+            default ->
+                throw new IllegalArgumentException("Invalid Chart");
         }
     }
-    
+
     public static AnnotateChartPanel addSeries(ChartTypes c, ChartStruct cS) {
         AnnotateChartPanel cp;
         switch (c) {
@@ -50,7 +50,8 @@ public class ChartBuilder {
                 cp = sP.addSeries(cS);
 
             }
-            default -> throw new IllegalArgumentException("Invalid Chart");
+            default ->
+                throw new IllegalArgumentException("Invalid Chart");
         }
         return cp;
     }

@@ -30,10 +30,8 @@ public class DataFormatter {
 
     public DataFormatter(DataReader dR, ChartStruct cS) {
         if (dR instanceof CSVReader) {
-//            System.out.println("CSV data to be formatted");
             dReader = (CSVReader) dR;
         } else if (dR instanceof HDFReader) {
-//            System.out.println("HDF5 data to be formatted");
             dReader = (HDFReader) dR;
         }
         dF = this;
@@ -49,9 +47,8 @@ public class DataFormatter {
     Gets index of the x and y headers from user input then uses it to format
     the data into proper float values. If use selects the button to indicate
     that the x-axis is timestampdata then x-values are converted into Date values.
-    */
+     */
     public void formatCSV(int xIndex, int yIndex) {
-//        System.out.println(xIndex + " " + yIndex);
         String[] keys = ((CSVReader) dReader).getHeaders();
 
         Float[] tempX = ((CSVReader) dReader).getColumn(keys[xIndex]);
@@ -59,10 +56,9 @@ public class DataFormatter {
 
         xData = ArrayUtils.toPrimitive(tempX);
         yData = ArrayUtils.toPrimitive(tempY);
-        
+
         if (CSVdataSelectMenu.CSV != null) {
             if (CSVdataSelectMenu.CSV.getTimeStamp()) {
-                System.out.println("Cody is sexy and hot");
                 xDateData = new Date[tempX.length];
                 for (int x = 0; x < tempX.length; x++) {
                     int t = (int) xData[x];
@@ -77,15 +73,6 @@ public class DataFormatter {
                 xDateData[x] = new java.util.Date(t * 1000 + EPOCH);
             }
         }
-
-//        for(float f : xData){
-//            System.out.print(f + " ");
-//        }
-//        System.out.println();
-//        for(float f : yData){
-//            System.out.print(f + " ");
-//        }
-//        System.out.println("DataFormatted");
     }
 
     /*
@@ -93,7 +80,7 @@ public class DataFormatter {
     the data into float values based on file data type. If use selects the button to 
     indicate that the x-axis is timestampdata and the values are of integer value
     then x-values are converted into Date values.
-    */
+     */
     public void formatHDF5(String xPath, String yPath) {
         switch (((HDFReader) dReader).getXType()) {
             case "INTEGER" -> {
@@ -110,7 +97,6 @@ public class DataFormatter {
                     }
 
                 } else if (chartStruct.getTimeStamp()) {
-//                    System.out.println("Formatting");
                     xDateData = new Date[t.length];
                     for (int x = 0; x < t.length; x++) {
                         xDateData[x] = new java.util.Date(t[x] * 1000 + EPOCH);
@@ -172,7 +158,7 @@ public class DataFormatter {
     public float[] getYDataset() {
         return yData;
     }
-    
+
     //returns Date array of X-Axis
     public Date[] getXDateDataset() {
         return xDateData;

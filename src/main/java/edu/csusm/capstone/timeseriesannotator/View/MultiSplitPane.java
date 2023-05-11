@@ -34,14 +34,14 @@ public class MultiSplitPane extends JPanel {
         validate();
         repaint();
     }
-    
+
     /**
      * @param orientation - orientation of the split pane
      * @param pane1 - what goes in the top/left pane
      * @param pane2 - what goes in the right/bottom pane
      * @param resizeWeight - how to divide the weight between the split panes
      */
-    private JSplitPane createSplitPane(int orientation, Component pane1, Component pane2, double resizeWeight){
+    private JSplitPane createSplitPane(int orientation, Component pane1, Component pane2, double resizeWeight) {
         JSplitPane container = new JSplitPane();
         container.setOrientation(orientation);
         container.setTopComponent(pane1);
@@ -49,7 +49,7 @@ public class MultiSplitPane extends JPanel {
         container.setDividerSize(division);
         container.setBorder(null);
         container.setResizeWeight(resizeWeight);
-        
+
         return container;
     }
 
@@ -93,7 +93,7 @@ public class MultiSplitPane extends JPanel {
                         chartList.get(1),
                         chartList.get(3),
                         0.5);
-                
+
                 // 2 charts on the left
                 JSplitPane containerLeft = createSplitPane(
                         JSplitPane.VERTICAL_SPLIT,
@@ -117,7 +117,7 @@ public class MultiSplitPane extends JPanel {
                         chartList.get(1),
                         chartList.get(3),
                         0.5);
-                
+
                 // 2 charts on the left
                 JSplitPane containerLeft = createSplitPane(
                         JSplitPane.VERTICAL_SPLIT,
@@ -142,29 +142,28 @@ public class MultiSplitPane extends JPanel {
                 this.add(containerMain);
             }
             case 6 -> {
-                
+
                 // 2 charts nested on the right
                 JSplitPane containerRightNest = createSplitPane(
                         JSplitPane.VERTICAL_SPLIT,
                         chartList.get(3),
                         chartList.get(5),
                         0.5);
-                
+
                 // chart and nested on the right
                 JSplitPane containerRight = createSplitPane(
                         JSplitPane.VERTICAL_SPLIT,
                         chartList.get(1),
                         containerRightNest,
                         0.3);
-                
-                
+
                 // 2 charts nested on the left
                 JSplitPane containerLeftNest = createSplitPane(
                         JSplitPane.VERTICAL_SPLIT,
                         chartList.get(2),
                         chartList.get(4),
                         0.5);
-                
+
                 // chart and nested on the left
                 JSplitPane containerLeft = createSplitPane(
                         JSplitPane.VERTICAL_SPLIT,
@@ -178,7 +177,7 @@ public class MultiSplitPane extends JPanel {
                         containerLeft,
                         containerRight,
                         0.5);
-                
+
                 this.add(containerMain);
             }
             default -> {
@@ -191,7 +190,7 @@ public class MultiSplitPane extends JPanel {
      */
     public void removeComponent(ChartDisplay c) {
         for (int i = 0; i < chartList.size(); i++) {
-            if(chartList.get(i) == c){
+            if (chartList.get(i) == c) {
                 chartList.remove(i);
             }
         }

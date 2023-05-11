@@ -34,7 +34,6 @@ public class CSVAction implements ActionListener {
         this.YAxisList = YList;
         CSVAction.instance = this;
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -43,7 +42,6 @@ public class CSVAction implements ActionListener {
         xaxis = XAxisList.getSelectedIndex();
         yaxis = YAxisList.getSelectedIndex();
 
-//        System.out.println("CSVAction: Selected Axis --- X-Axis: " + xaxis + "   Y-Axis: " + yaxis);
         if (yaxis == -1 || xaxis == -1 || xaxis == yaxis) {
             ErrorDialog.badIndex();
             selected = false;
@@ -52,11 +50,10 @@ public class CSVAction implements ActionListener {
             selected = true;
         }
     }
-    
-    public boolean isSelected(){
+
+    public boolean isSelected() {
         return selected;
     }
-
 
     public int getXAxis() {
         return xaxis;
@@ -65,7 +62,7 @@ public class CSVAction implements ActionListener {
     public int getYAxis() {
         return yaxis;
     }
-    
+
     public String getX() {
         return Sx;
     }

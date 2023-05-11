@@ -13,33 +13,32 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class CSVReaderTest {
 
-    private String data1, data2, data3,data4;
+    private String data1, data2, data3, data4;
 
     public CSVReaderTest() {
     }
 
     /**
-     * Test of buildDataList method, of class CSVReader.
-     * calls buildTestData() to generate test file with set keys and random data
-     * tests if data file creates file with appropriate keys
-     * checks if the data generated can be grabbed with the correct key
+     * Test of buildDataList method, of class CSVReader. calls buildTestData()
+     * to generate test file with set keys and random data tests if data file
+     * creates file with appropriate keys checks if the data generated can be
+     * grabbed with the correct key
      */
     @Test
     public void testBuildDataList() {
-//        System.out.println("buildDataList");
         String fileName = buildTestData();
         CSVReader instance = new CSVReader();
         instance.buildDataList(fileName);
         // TODO review the generated test code and remove the default call to fail.
         assertEquals("dataFiles/test.csv", fileName);
-        
+
         String[] keys = {"A", "null", "C", "D"};
-        
-        assertArrayEquals(keys, instance.getHeaders() );
-        assertEquals("NaN", instance.getColumn(keys[0])[0].toString() );
-        assertEquals(data2, instance.getColumn(keys[1])[0].toString() );
-        assertEquals("NaN", instance.getColumn(keys[2])[0].toString() );
-        assertEquals("NaN", instance.getColumn(keys[3])[0].toString() );
+
+        assertArrayEquals(keys, instance.getHeaders());
+        assertEquals("NaN", instance.getColumn(keys[0])[0].toString());
+        assertEquals(data2, instance.getColumn(keys[1])[0].toString());
+        assertEquals("NaN", instance.getColumn(keys[2])[0].toString());
+        assertEquals("NaN", instance.getColumn(keys[3])[0].toString());
     }
 
     public String buildTestData() {
@@ -71,10 +70,10 @@ public class CSVReaderTest {
                 sb.append("\n");
                 fileWriter.write(sb.toString());
             }
-            
+
             fileWriter.close();
-        } catch (IOException e) {//IO
-//            System.out.println("Exception occured "+ e);
+        }
+        catch (IOException e) {//IO
         }
 
         return fileName;

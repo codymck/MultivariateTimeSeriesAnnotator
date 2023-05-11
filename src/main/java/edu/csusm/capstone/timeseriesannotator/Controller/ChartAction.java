@@ -12,7 +12,7 @@ public class ChartAction implements ActionListener {
 
     JDialog dialog;
     int select;
-    
+
     private static ChartAction instance;
 
     public static ChartAction getInstance() {
@@ -21,8 +21,8 @@ public class ChartAction implements ActionListener {
         }
         return instance;
     }
-    
-    public ChartAction(JDialog w ,int s) {
+
+    public ChartAction(JDialog w, int s) {
         this.dialog = w;
         this.select = s;
         ChartAction.instance = this;
@@ -32,10 +32,9 @@ public class ChartAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         dialog.dispose();
     }
-    
-    public int getType(){
+
+    public int getType() {
         return select;
     }
-    
-    
+
 }

@@ -20,12 +20,11 @@ public class TriangleAnnotation extends AbstractAnnotation {
     private Path2D.Double storeTriangle = null;
 
     private double[][] coordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
-    
+
     private double[][] handleCoordinates = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
     private boolean dragHandle = false;
     private int handleNumber = 0;
 
-    
     private XYShapeAnnotation triangleAnnotation = null;
     private XYLineAnnotation line = null;
 
@@ -51,7 +50,7 @@ public class TriangleAnnotation extends AbstractAnnotation {
         storeTriangle.lineTo(coordinates[2][0], coordinates[2][1]);
         storeTriangle.closePath();
         triangleAnnotation = new XYShapeAnnotation(storeTriangle,
-                    new BasicStroke(0), new Color(0, 0, 0, 0), color);
+                new BasicStroke(0), new Color(0, 0, 0, 0), color);
         plot.addAnnotation(triangleAnnotation);
     }
 
@@ -120,9 +119,9 @@ public class TriangleAnnotation extends AbstractAnnotation {
     public boolean clickedOn(double mouseX, double mouseY) {
         Point2D p = new Point2D.Double(mouseX, mouseY);
         boolean clicked = storeTriangle.contains(p);
-        if(selected){
-            for(int i = 0; i < 3; i++){
-                if(handles[i].contains(mouseX, mouseY)){
+        if (selected) {
+            for (int i = 0; i < 3; i++) {
+                if (handles[i].contains(mouseX, mouseY)) {
                     dragHandle = true;
                     handleNumber = i;
                     return true;
@@ -131,27 +130,27 @@ public class TriangleAnnotation extends AbstractAnnotation {
         }
         return clicked;
     }
-    
+
     @Override
-    public void select(){
-        if(!selected){
+    public void select() {
+        if (!selected) {
             plot.removeAnnotation(triangleAnnotation);
             triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
                     new Color(0, 0, 0), color);
             plot.addAnnotation(triangleAnnotation);
             selected = true;
             updateHandleCoords();
-            for(int i = 0; i < 3; i++){
+            for (int i = 0; i < 3; i++) {
                 handles[i] = new ResizeHandle(plot, coordinates[i], chartPanel);
             }
         }
     }
-    
+
     @Override
-    public void deselect(){
-        if(selected){
+    public void deselect() {
+        if (selected) {
             plot.removeAnnotation(triangleAnnotation);
-            for(int i = 0; i < 3; i++){
+            for (int i = 0; i < 3; i++) {
                 handles[i].remove();
             }
             triangleAnnotation = new XYShapeAnnotation(storeTriangle, new BasicStroke(0),
@@ -163,16 +162,15 @@ public class TriangleAnnotation extends AbstractAnnotation {
 
     @Override
     public void delete() {
-//        System.out.println("TriClick: " + triClick);
         if (line != null) {
             plot.removeAnnotation(line);
             line = null;
         }
-        if(triangleAnnotation != null){
+        if (triangleAnnotation != null) {
             plot.removeAnnotation(triangleAnnotation);
         }
-        if(selected){
-            for(int i = 0; i < 3; i++){
+        if (selected) {
+            for (int i = 0; i < 3; i++) {
                 handles[i].remove();
             }
         }
@@ -184,14 +182,14 @@ public class TriangleAnnotation extends AbstractAnnotation {
         plot.removeAnnotation(triangleAnnotation);
         if (!set) {
             double[][] tempCoords = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
-            for(int i = 0; i < 3; i++){
-                if(!dragHandle){
+            for (int i = 0; i < 3; i++) {
+                if (!dragHandle) {
                     tempCoords[i][0] = coordinates[i][0] - xOffset;
                     tempCoords[i][1] = coordinates[i][1] - yOffset;
-                }else{
+                } else {
                     tempCoords[i][0] = coordinates[i][0];
                     tempCoords[i][1] = coordinates[i][1];
-                    if(i == handleNumber){
+                    if (i == handleNumber) {
                         tempCoords[i][0] = coordinates[i][0] - xOffset;
                         tempCoords[i][1] = coordinates[i][1] - yOffset;
                     }
@@ -199,12 +197,12 @@ public class TriangleAnnotation extends AbstractAnnotation {
             }
             redrawTriangle(tempCoords);
         } else {
-            if(!dragHandle){
+            if (!dragHandle) {
                 for (int i = 0; i < 3; i++) {
                     coordinates[i][0] -= xOffset;
                     coordinates[i][1] -= yOffset;
                 }
-            }else{
+            } else {
                 coordinates[handleNumber][0] -= xOffset;
                 coordinates[handleNumber][1] -= yOffset;
             }
@@ -215,21 +213,21 @@ public class TriangleAnnotation extends AbstractAnnotation {
         triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
                 new Color(0, 0, 0), color);
         plot.addAnnotation(triangleAnnotation);
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             handles[i].changeCoords(handleCoordinates[i]);
             handles[i].draw();
         }
     }
-    
-    private void redrawTriangle(double[][] c){
+
+    private void redrawTriangle(double[][] c) {
         storeTriangle = new Path2D.Double();
         storeTriangle.moveTo(c[0][0], c[0][1]);
         storeTriangle.lineTo(c[1][0], c[1][1]);
         storeTriangle.lineTo(c[2][0], c[2][1]);
         storeTriangle.closePath();
     }
-    
-    private void updateHandleCoords(){
+
+    private void updateHandleCoords() {
         PathIterator iterator = storeTriangle.getPathIterator(null);
         int i = 0;
         double[] coords = new double[2];
@@ -245,13 +243,13 @@ public class TriangleAnnotation extends AbstractAnnotation {
             iterator.next();
         }
     }
-    
+
     @Override
-    public void changeColor(Color c){
+    public void changeColor(Color c) {
         color = new Color(c.getRed(), c.getGreen(), c.getBlue(), fillAlpha);
         plot.removeAnnotation(triangleAnnotation);
         triangleAnnotation = new XYShapeAnnotation(storeTriangle, dashed,
-                    new Color(0, 0, 0), color);
+                new Color(0, 0, 0), color);
         plot.addAnnotation(triangleAnnotation);
     }
 

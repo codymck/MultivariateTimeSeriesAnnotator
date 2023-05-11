@@ -23,75 +23,74 @@ import org.jfree.data.xy.XYDataset;
  * @author Cody McKinney
  */
 public class StepChart implements ChartsIF {
-    
+
     XYLineChartDataset xyChart;
     ChartStruct chartStruct;// = ChartStruct.getInstance();
     XYStepRenderer stepRenderer = new XYStepRenderer();
     ValueAxis xAxis;
     NumberAxis yAxis;
     XYDataset data;
-    
+
     StepChart() {
-        
+
     }
 
     @Override
-    public AnnotateChartPanel createChartPanel(ChartStruct c){
-        
+    public AnnotateChartPanel createChartPanel(ChartStruct c) {
+
         chartStruct = c;
         dataSetter();
-        
-        if(HDFdataSelectMenu.HDF == null){
+
+        if (HDFdataSelectMenu.HDF == null) {
             //CSV process
-            if(CSVdataSelectMenu.CSV.getTimeStamp()){
+            if (CSVdataSelectMenu.CSV.getTimeStamp()) {
                 DateAxis Axis = new DateAxis(chartStruct.getLabels().get(1));
-                xAxis = (DateAxis)Axis;
+                xAxis = (DateAxis) Axis;
                 data = xyChart.getDateDataset();
-            }else{
+            } else {
                 NumberAxis Axis = new NumberAxis(chartStruct.getLabels().get(1));
                 Axis.setAutoRangeIncludesZero(false);
                 Axis.setAutoRange(true);
-                xAxis = (NumberAxis)Axis;
+                xAxis = (NumberAxis) Axis;
                 data = xyChart.getDataset();
             }
             CSVdataSelectMenu.CSV = null;
-        }
-        else if(CSVdataSelectMenu.CSV == null){
+        } else if (CSVdataSelectMenu.CSV == null) {
             //HDF process
-            if(HDFdataSelectMenu.HDF.getTimeStamp()){
+            if (HDFdataSelectMenu.HDF.getTimeStamp()) {
                 DateAxis Axis = new DateAxis(chartStruct.getLabels().get(1));
-                xAxis = (DateAxis)Axis;
+                xAxis = (DateAxis) Axis;
                 data = xyChart.getDateDataset();
-            }else{
+            } else {
                 NumberAxis Axis = new NumberAxis(chartStruct.getLabels().get(1));
                 Axis.setAutoRangeIncludesZero(false);
                 Axis.setAutoRange(true);
-                xAxis = (NumberAxis)Axis;
+                xAxis = (NumberAxis) Axis;
                 data = xyChart.getDataset();
             }
             HDFdataSelectMenu.HDF = null;
         }
         yAxis = new NumberAxis(chartStruct.getLabels().get(2));
         yAxis.setAutoRangeIncludesZero(false);
-        yAxis.setAutoRange(true);  
-        
+        yAxis.setAutoRange(true);
+
         String chartTitle = chartStruct.getLabels().get(0);
-        
+
         stepRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
-        stepRenderer.setSeriesShapesVisible(0,  false);
-        
+        stepRenderer.setSeriesShapesVisible(0, false);
+
         XYPlot plot = new XYPlot(data, xAxis, yAxis, stepRenderer);
         chartStruct.setPlot(plot);
-        
+
         plot.setDataset(0, data);
         plot.setBackgroundPaint(new java.awt.Color(255, 255, 255));
         plot.setDomainGridlinePaint(new java.awt.Color(0, 0, 0, 70));
         plot.setRangeGridlinePaint(new java.awt.Color(0, 0, 0, 70));
         plot.setOutlinePaint(Color.LIGHT_GRAY);
         plot.setOutlineStroke(new BasicStroke(3));
-        
+
         JFreeChart chart = new JFreeChart(chartTitle, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
-        
+
         AnnotateChartPanel cP = new AnnotateChartPanel(chart);
         chartStruct.setAnnotateChartPanel(cP);
         cP.setMouseZoomable(true);
@@ -99,40 +98,39 @@ public class StepChart implements ChartsIF {
         cP.setRangeZoomable(true);
         cP.setMouseWheelEnabled(true);
         cP.redrawNewMM();
-        
+
         plot.setRangePannable(true);
         plot.setDomainPannable(true);
         return cP;
     }
-    
+
     @Override
-    public AnnotateChartPanel addSeries(ChartStruct c){
-        
+    public AnnotateChartPanel addSeries(ChartStruct c) {
+
         chartStruct = c;
         dataSetter();
-        
+
         XYPlot plotter = chartStruct.getPlot();
         XYDataset data2;
-        if(xyChart.getDataset2() == null){
+        if (xyChart.getDataset2() == null) {
             data2 = xyChart.getDateDataset2();
-        }else{
+        } else {
             data2 = xyChart.getDataset2();
         }
-        
+
         stepRenderer.setSeriesPaint(0, ChartSelectMenu.getColor());
-        
-        plotter.setDataset(chartStruct.getFlag()-2, data2);
-        plotter.setRenderer(chartStruct.getFlag()-2,stepRenderer);
+
+        plotter.setDataset(chartStruct.getFlag() - 2, data2);
+        plotter.setRenderer(chartStruct.getFlag() - 2, stepRenderer);
         plotter.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
-        //plotter.getRangeAxis().setAttributedLabel(chartStruct.getLabels().get(2) + " & " + chartStruct.getLabels().get(chartStruct.getFlag()+1));
-        
+
         JFreeChart chart = new JFreeChart(chartStruct.getLabels().get(0), JFreeChart.DEFAULT_TITLE_FONT, plotter, true);
         AnnotateChartPanel cP = chartStruct.getAnnotateChartPanel();
         EventListener[] t = cP.getListeners(ChartMouseListener.class);
-        for(EventListener x : t){
+        for (EventListener x : t) {
             cP.removeChartMouseListener((ChartMouseListener) x);
-        } 
-        
+        }
+
         cP.setChart(chart);
         cP.setMouseZoomable(true);
         cP.setDomainZoomable(true);
@@ -140,22 +138,21 @@ public class StepChart implements ChartsIF {
         cP.setMouseWheelEnabled(true);
         cP.redrawNewMM();
         cP.restoreAutoBounds();
-        
+
         plotter.setRangePannable(true);
         plotter.setDomainPannable(true);
         return cP;
     }
-    
-    public void dataSetter(){
+
+    public void dataSetter() {
         xyChart = chartStruct.getSeries();
-        if(chartStruct.getFlag() == 1){
+        if (chartStruct.getFlag() == 1) {
             xyChart.createDataset(chartStruct.getLabels().get(2), chartStruct);
             chartStruct.setFlag(2);
-        }
-        else if (chartStruct.getFlag() >= 2){
-            String name =chartStruct.getLabels().get(chartStruct.getFlag()+1);
+        } else if (chartStruct.getFlag() >= 2) {
+            String name = chartStruct.getLabels().get(chartStruct.getFlag() + 1);
             xyChart.addDataset(name);
-            chartStruct.setFlag(chartStruct.getFlag()+1);
+            chartStruct.setFlag(chartStruct.getFlag() + 1);
         }
     }
 }

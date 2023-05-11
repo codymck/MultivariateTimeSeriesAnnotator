@@ -12,10 +12,11 @@ import org.jfree.chart.plot.XYPlot;
  * @author josef
  */
 public class ChartStruct {
+
     private String fileName;
     private String fileType;
     private ChartTypes chartType;
-    private int Xaxis; 
+    private int Xaxis;
     private String Xpath;
     private XYLineChartDataset series;
     private int flag;
@@ -25,106 +26,103 @@ public class ChartStruct {
     private ArrayList<String> Labels; //0:Title, 1: X, 2: Y, 3+: Yn
     private AnnotateChartPanel aP;
     boolean timeStamp = false;
-    
-    //public static ChartStruct Ct;
-    
-    
-    public ChartStruct(String f, String t, ChartTypes c, XYLineChartDataset d){
+
+    public ChartStruct(String f, String t, ChartTypes c, XYLineChartDataset d) {
         fileName = f;
         fileType = t;
         chartType = c;
         series = d;
         flag = 1;
-        //Ct = this;
     }
-    
-//    public static ChartStruct getInstance() {
-//        return Ct;
-//    }
-    
-    public void setXaxis(int x){
+
+    public void setXaxis(int x) {
         Xaxis = x;
     }
-    
-    public int getXaxis(){
+
+    public int getXaxis() {
         return Xaxis;
     }
-    
-    public void setXpath(String x){
+
+    public void setXpath(String x) {
         Xpath = x;
     }
-    
-    public String getXpath(){
+
+    public String getXpath() {
         return Xpath;
     }
-    
-    public String getFileName(){
+
+    public String getFileName() {
         return fileName;
     }
-    
-    public String getFileType(){
+
+    public String getFileType() {
         return fileType;
     }
-        
-    public ChartTypes getChartType(){
+
+    public ChartTypes getChartType() {
         return chartType;
     }
-    
-    public void setChartType(ChartTypes cT){
+
+    public void setChartType(ChartTypes cT) {
         chartType = cT;
     }
-    
-    public XYLineChartDataset getSeries(){
+
+    public XYLineChartDataset getSeries() {
         return series;
     }
-    
-    public int getFlag(){
+
+    public int getFlag() {
         return flag;
     }
-    public void setFlag(int f){
+
+    public void setFlag(int f) {
         flag = f;
     }
-    
-    public XYPlot getPlot(){
+
+    public XYPlot getPlot() {
         return plot;
     }
-    public void setPlot(XYPlot p){
+
+    public void setPlot(XYPlot p) {
         plot = p;
     }
-    
-    public ValueAxis getDomainAxis(){
+
+    public ValueAxis getDomainAxis() {
         return dAxis;
     }
-    public void setDomainAxis(ValueAxis a){
+
+    public void setDomainAxis(ValueAxis a) {
         dAxis = a;
     }
-    
-    public ValueAxis getRangeAxis(){
+
+    public ValueAxis getRangeAxis() {
         return rAxis;
     }
-    public void setRangeAxis(ValueAxis r){
+
+    public void setRangeAxis(ValueAxis r) {
         rAxis = r;
     }
-    
-    public void setLabels(ArrayList<String> l){
+
+    public void setLabels(ArrayList<String> l) {
         Labels = l;
     }
-    public ArrayList<String> getLabels(){
+
+    public ArrayList<String> getLabels() {
         return Labels;
     }
-    
+
     public void setAnnotateChartPanel(AnnotateChartPanel a) {
         aP = a;
     }
-    
+
     public AnnotateChartPanel getAnnotateChartPanel() {
         return aP;
     }
-    
+
     public void setTimeStamp(boolean t) {
         timeStamp = t;
     }
-    
+
     public boolean getTimeStamp() {
         return timeStamp;
     }

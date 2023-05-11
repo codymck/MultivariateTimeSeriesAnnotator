@@ -66,7 +66,7 @@ public class ImportDataAction implements ActionListener {
         JFrame frame = AppFrame.frame;
         int x = frame.getX() + (frame.getWidth() - importChooser.getWidth()) / 2;
         int y = frame.getY() + (frame.getHeight() - importChooser.getHeight()) / 2;
-        importChooser.setLocation(x,y);
+        importChooser.setLocation(x, y);
         File importFile = null;
         DataReader dReader;
         if (importChooser.showOpenDialog(frame) != JFileChooser.CANCEL_OPTION) {
@@ -75,7 +75,6 @@ public class ImportDataAction implements ActionListener {
         if (importFile != null) {
 
             String fileName = importFile.getAbsolutePath();
-//           System.out.println(fileName);
 
             String fileType = findFileType(fileName);
 
@@ -107,7 +106,6 @@ public class ImportDataAction implements ActionListener {
 
             //Select menu features
             if ("csv".equals(fileType)) {
-//               System.out.println("ImportDataAction: CSV File Imported");
                 dReader = new CSVReader();
                 dReader.buildDataList(fileName);
 
@@ -122,7 +120,7 @@ public class ImportDataAction implements ActionListener {
                 if (!cAction.isSelected()) {
                     return;
                 }
-                
+
                 chartStruct.setXaxis(cAction.getXAxis());
                 ArrayList<String> labels = new ArrayList<>();
                 labels.add(cAction.getY() + " vs " + cAction.getX());
@@ -133,16 +131,13 @@ public class ImportDataAction implements ActionListener {
                 DataFormatter df = new DataFormatter(dReader, chartStruct);
                 df.formatCSV(cAction.getXAxis(), cAction.getYAxis());
             } else if ("hdf5".equals(fileType) || "h5".equals(fileType)) {
-//               System.out.println("ImportDataAction: HDF5 File Imported");                
                 dReader = new HDFReader();
                 dReader.buildDataList(fileName);//sets file name
                 HDFReader h = (HDFReader) dReader;
-                
+
                 long startTime = System.currentTimeMillis();
                 List<String> headers = h.buildPath("/");//get initial list of headers
                 long endTime = System.currentTimeMillis();
-                
-//                System.out.println("Time to load: " + (endTime - startTime));
 
                 HDFdataSelectMenu select = new HDFdataSelectMenu(new javax.swing.JFrame(), true);
                 select.setModel(headers, h);
@@ -151,8 +146,8 @@ public class ImportDataAction implements ActionListener {
                 HDF5Action hAction = HDF5Action.getInstance();
                 if (!select.isSelected()) {
                     return;
-                }                
-                
+                }
+
                 h.setPaths(hAction.getXPath(), hAction.getYPath(), 0);
                 chartStruct.setXpath(hAction.getXPath());
                 String[] tmpX = hAction.getXPath().split("/");
@@ -176,7 +171,5 @@ public class ImportDataAction implements ActionListener {
 
             dis.setChart(cP);
         }
-
     }
-
 }

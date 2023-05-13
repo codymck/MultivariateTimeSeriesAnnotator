@@ -94,19 +94,18 @@ public class DataFormatter {
                             xDateData[x] = new java.util.Date(t[x] * 1000 + EPOCH);
                         }
                         chartStruct.setTimeStamp(true);
+                    } else if (chartStruct.getTimeStamp()) {
+                        xDateData = new Date[t.length];
+                        for (int x = 0; x < t.length; x++) {
+                            xDateData[x] = new java.util.Date(t[x] * 1000 + EPOCH);
+                        }
+                    } else {
+                        xData = new float[t.length];
+                        for (int x = 0; x < t.length; x++) {
+                            xData[x] = (float) t[x];
+                        }
+                        chartStruct.setTimeStamp(false);
                     }
-
-                } else if (chartStruct.getTimeStamp()) {
-                    xDateData = new Date[t.length];
-                    for (int x = 0; x < t.length; x++) {
-                        xDateData[x] = new java.util.Date(t[x] * 1000 + EPOCH);
-                    }
-                } else {
-                    xData = new float[t.length];
-                    for (int x = 0; x < t.length; x++) {
-                        xData[x] = (float) t[x];
-                    }
-                    chartStruct.setTimeStamp(false);
                 }
 
                 break;

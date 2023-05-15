@@ -15,8 +15,8 @@ This application is cross-platform for Windows and MacOS.
 This application is bundled with the JDK environment as well as all the dependencies needed so there is no need for users to download Java into their local computers.
 
 1. MacOS (Choose your appropriate chip installer)
-- Apple Chip: link here
-- INTEL chip: link here
+- Apple Chip: [link here](https://drive.google.com/drive/u/0/folders/1AfKzyaGZc4A0kmKQ0qHNzQ2Fm1_dJhek)
+- INTEL chip: [link here](https://drive.google.com/drive/u/0/folders/1AfKzyaGZc4A0kmKQ0qHNzQ2Fm1_dJhek)
     
     Steps to install:
     
@@ -27,7 +27,7 @@ This application is bundled with the JDK environment as well as all the dependen
     5. Click the Open Anyway button.
     6. Continue with normal installation.
 2. Windows
-- link here
+- [link here](https://drive.google.com/drive/u/0/folders/1AfKzyaGZc4A0kmKQ0qHNzQ2Fm1_dJhek)
 ## Features
 
 - Importing CSV/HDF5 files
